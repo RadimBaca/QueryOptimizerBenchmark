@@ -24,6 +24,19 @@ All tests use one table with the following structure:
 
 ### 01
 
-The most simple test using SQL syntax without the following constructs: join, subqueries,aggregates, row goals (Top X), ordering, window functions. 
+The most simple tests using SQL syntax without the following constructs: join, subqueries,aggregates, row goals (Top X), ordering, window functions. 
 
 **Search arguments** in the queries are using attributes `local_search`, `global_search`. 
+
+### 02
+
+Tests do not contain any join between different attributes. Few tests use a self join according to the same attribute. Tests use other advanced techniques, such as subqueries, grouping and row goals.
+
+**Search arguments** in the queries are using attributes `local_search`, `groupby`. 
+
+### 03
+
+Tests use equi-join with the `local_search = id` condition. It also contains many different advanced techniques.
+
+**Search arguments** in the queries are using attributes `global_search`, `groupby`. 
+
