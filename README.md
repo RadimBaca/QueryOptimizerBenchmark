@@ -26,4 +26,4 @@ All tests use one table with the following structure:
 
 The most simple test using SQL syntax without the following constructs: join, subqueries,aggregates, row goals (Top X), ordering, window functions. 
 
-*Search arguments* in the queries are using attributes `local_search`, `global_search`. 
+**Search arguments** in the queries are using attributes `local_search`, `global_search`. 
