@@ -1,6 +1,6 @@
 /******************************************************/
-/****************** DROP TABLES ***********************/
+/****************** DROP CONSTRAINTS ***********************/
 /******************************************************/
 
 
-DROP TABLE IF EXISTS dbo.TestTable
+alter table TestTable drop constraint pk_TestTable_id

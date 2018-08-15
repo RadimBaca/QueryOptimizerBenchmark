@@ -1,21 +1,29 @@
 # Query Optimizer Benchmark
 
-There will be a subdir for each database system supported. Let us call such subdir as a database system benchmark directory. Currently we support just MS SQL Server.
+There will be a subdir for each database system supported.
 
-## Purpose of the benchmark
-The main aim of the benchmark is to test a database system ability to compile same query plans for equivalent SQL commands (with different syntax). In other words, we test database system ability to find the same query plan despite the syntactic approach. 
+## Purpose of the Benchmark
+The main aim of the benchmark is to test a database system ability to compile same query plans for equivalent SQL commands (with different syntax). In other words, we examine database system capability to find the same query plan despite the syntactic approach. 
 
-## Database system benchmark directory (DSBD) structure
+## Structure of a Database System Benchmark
 
-Each DSBD contains a set of directories and each directory contains simple tests. Each test contains at least two equivalent SQL queries written with differenct SQL syntax. The tests in one directory share two things: (1) the same table structure and the same data, and (2) SQL queries have the same access paths to the tables. 
+Each subdir contains a set of directories, and each directory contains a set of tests. Each test includes at least two equivalent SQL queries written with different SQL syntax. The tests in one directory share two things: (1) the same physical design of the database, and (2) SQL queries have the same access paths to the tables. 
 
-Let us start with description of the tables used accross all tests.
-- `MainTable(id, groupby, orderby, local_search, global_search, padding)` - 1M rows
-- `GroupByTable(groupby, local_search, padding)` - 100 rows
+All tests use one table with the following structure:
+- `TestTable(id, groupby, orderby, local_search, global_search, padding)` - 1M rows
 
-`MainTable` attribute description:
-- `id` - has unique values. If the directory has PK in the suffix of its name, then `id` is defined as a primary key
+`TestTable` attribute description:
+- `id` - has unique values. If a directory has PK in the suffix of its name, then `id` is defined as a primary key and a primary index is created on it.
 - `groupby` - counted as `id % 100`.
-- `orderby` - has unique value per `groupby`. Idealy are values generated using row_number().
-- `local_search` - values per `groupby` may repeat. It is counted as `orderby % groupby`.
-- `global_search` - it is counted as `id % 1000`.
+- `orderby` - has unique value per `groupby`. Ideally are values generated using row_number().
+- `local_search` - values per `groupby` may repeat; counted as `orderby % groupby`.
+- `global_search` - counted as `id % 10000`.
+- `padding` - synthetic fill with 1000 characters.
+
+## Description of the Benchmark Directories 
+
+### 01
+
+The most simple test using SQL syntax without the following constructs: join, subqueries,aggregates, row goals (Top X), ordering, window functions. 
+
+*Search arguments* in the queries are using attributes `local_search`, `global_search`. 
