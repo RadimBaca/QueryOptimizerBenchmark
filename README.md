@@ -42,19 +42,19 @@ Tests use equi-join with the `local_search = id` condition. It also contains man
 
 ### 04_PK
 
-Tests do not use join. The `id` attribute is a primary key of the `TestTable` and a clustered index is created. 
+Tests do not use join. The `id` attribute is a primary key of the `TestTable` and a primary index is created. 
 
 **Search arguments** in the queries are using attributes `local_search` or `id`. 
 
 ### 05_PK
 
-Tests use equi-join with the `local_search = id` condition. The `id` attribute is a primary key of the `TestTable` and a clustered index is created. 
+Tests use equi-join with the `local_search = id` condition. The `id` attribute is a primary key of the `TestTable` and a primary index is created. 
 
 **Search arguments** in the queries are using attributes `global_search` or `groupby`. 
 
 
 ### 06_PK_FK
 
-Tests use equi-join with the `local_search = id` condition. The `id` attribute is a primary key of the `TestTable` and a clustered index is created. The `local_search` attribute is a foreign key pointing to the `id` attribute.
+Tests use equi-join with the `local_search = id` condition. The `id` attribute is a primary key of the `TestTable` and a primary index is created. The `local_search` attribute is a foreign key pointing to the `id` attribute and a secondary index is created on `local_search`. 
 
 **Search arguments** in the queries are using attribute `local_search`
