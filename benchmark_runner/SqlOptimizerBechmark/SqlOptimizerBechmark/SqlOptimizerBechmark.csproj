@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{08D2FBC2-0D63-4510-87EF-FFFC9323C15F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SqlOptimizerBechmark</RootNamespace>
+    <AssemblyName>SqlOptimizerBechmark</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>SqlOptimizerBenchmark.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FastColoredTextBox, Version=2.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\FastColoredTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Benchmark\Benchmark.cs" />
+    <Compile Include="Benchmark\Configuration.cs" />
+    <Compile Include="Benchmark\BenchmarkObject.cs" />
+    <Compile Include="Benchmark\ConnectionSettings.cs" />
+    <Compile Include="Benchmark\CsvExportOptions.cs" />
+    <Compile Include="Benchmark\IBenchmarkObject.cs" />
+    <Compile Include="Benchmark\IDescribedBenchmarkObject.cs" />
+    <Compile Include="Benchmark\IIdentifiedBenchmarkObject.cs" />
+    <Compile Include="Benchmark\INamedBenchmarkObject.cs" />
+    <Compile Include="Benchmark\BenchmarkXmlSerializer.cs" />
+    <Compile Include="Benchmark\PlanEquivalenceTestResult.cs" />
+    <Compile Include="Benchmark\QueryVariantResult.cs" />
+    <Compile Include="Benchmark\ConfigurationResult.cs" />
+    <Compile Include="Benchmark\TestGroup.cs" />
+    <Compile Include="Benchmark\PlanEquivalenceTest.cs" />
+    <Compile Include="Benchmark\Test.cs" />
+    <Compile Include="Benchmark\Script.cs" />
+    <Compile Include="Benchmark\Statement.cs" />
+    <Compile Include="Benchmark\QueryVariant.cs" />
+    <Compile Include="Benchmark\TestGroupResult.cs" />
+    <Compile Include="Benchmark\TestResult.cs" />
+    <Compile Include="Benchmark\TestResultStatus.cs" />
+    <Compile Include="Benchmark\TestRun.cs" />
+    <Compile Include="Benchmark\TestType.cs" />
+    <Compile Include="Controls\BenchmarkListView\ConfigurationsListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkListView\QueryVariantsListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkListView\TestsListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\BenchmarkDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\BenchmarkDetail.Designer.cs">
+      <DependentUpon>BenchmarkDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkListView\BenchmarkObjectListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkListView\BenchmarkObjectListView.Designer.cs">
+      <DependentUpon>BenchmarkObjectListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkListView\BenchmarkObjectListViewItem.cs" />
+    <Compile Include="Controls\BenchmarkListView\TestGroupsListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\BenchmarkObjectDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\BenchmarkObjectDetail.Designer.cs">
+      <DependentUpon>BenchmarkObjectDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\BenchmarkObjectEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\BenchmarkObjectEditor.Designer.cs">
+      <DependentUpon>BenchmarkObjectEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\ConfigurationDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\ConfigurationDetail.Designer.cs">
+      <DependentUpon>ConfigurationDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\ConnectionSettingsDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\ConnectionSettingsDetail.Designer.cs">
+      <DependentUpon>ConnectionSettingsDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\PlanEquivalenceTestDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\PlanEquivalenceTestDetail.Designer.cs">
+      <DependentUpon>PlanEquivalenceTestDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\QueryVariantDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\QueryVariantDetail.Designer.cs">
+      <DependentUpon>QueryVariantDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\ScriptDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\ScriptDetail.Designer.cs">
+      <DependentUpon>ScriptDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\TestGroupDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\TestGroupDetail.Designer.cs">
+      <DependentUpon>TestGroupDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\TestRunDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectControls\TestRunDetail.Designer.cs">
+      <DependentUpon>TestRunDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkObjectEventArgs.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\BenchmarkTreeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BenchmarkTreeView\BenchmarkTreeView.Designer.cs">
+      <DependentUpon>BenchmarkTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkTreeView\ConnectionSettingsNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\FakeTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\TestRunsTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\TestRunTreeNode.cs" />
+    <Compile Include="Controls\CsvExportSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\CsvExportSettingsDialog.Designer.cs">
+      <DependentUpon>CsvExportSettingsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Helpers.cs" />
+    <Compile Include="Controls\NewTestRunDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\NewTestRunDialog.Designer.cs">
+      <DependentUpon>NewTestRunDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScriptEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ScriptEditor.Designer.cs">
+      <DependentUpon>ScriptEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BenchmarkTreeView\BenchmarkObjectTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\BenchmarkTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\ConfigurationTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\FolderTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\PlanEquivalenceTestTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\QueryVariantTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\ScriptTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\StatementTreeNode.cs" />
+    <Compile Include="Controls\BenchmarkTreeView\TestGroupTreeNode.cs" />
+    <Compile Include="Controls\TestResultBrowser\BenchmarkDataGridViewCell.cs" />
+    <Compile Include="Controls\TestResultBrowser\DistinctPlansDataGridViewCell.cs" />
+    <Compile Include="Controls\TestResultBrowser\PlanEquivalenceTestGridViewCell.cs" />
+    <Compile Include="Controls\TestResultBrowser\QueryVariantDataGridViewCell.cs" />
+    <Compile Include="Controls\TestResultBrowser\TestResultBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DbProviders\DbProvider.cs" />
+    <Compile Include="DbProviders\DbProviderSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbProviders\DbProviderSettingsControl.Designer.cs">
+      <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DbProviders\QueryStatistics.cs" />
+    <Compile Include="DbProviders\SqlServer\SqlServerProvider.cs" />
+    <Compile Include="DbProviders\SqlServer\SqlServerProviderResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SqlServerProviderResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DbProviders\SqlServer\SqlServerSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbProviders\SqlServer\SqlServerSettingsControl.Designer.cs">
+      <DependentUpon>SqlServerSettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Executor\Executor.cs" />
+    <Compile Include="Executor\ExecutorMessageEventArgs.cs" />
+    <Compile Include="Executor\ExecutorMessageType.cs" />
+    <Compile Include="FormAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\BenchmarkDetail.resx">
+      <DependentUpon>BenchmarkDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkListView\BenchmarkObjectListView.resx">
+      <DependentUpon>BenchmarkObjectListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\BenchmarkObjectDetail.resx">
+      <DependentUpon>BenchmarkObjectDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\BenchmarkObjectEditor.resx">
+      <DependentUpon>BenchmarkObjectEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\ConfigurationDetail.resx">
+      <DependentUpon>ConfigurationDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\ConnectionSettingsDetail.resx">
+      <DependentUpon>ConnectionSettingsDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\PlanEquivalenceTestDetail.resx">
+      <DependentUpon>PlanEquivalenceTestDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\QueryVariantDetail.resx">
+      <DependentUpon>QueryVariantDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\ScriptDetail.resx">
+      <DependentUpon>ScriptDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\TestGroupDetail.resx">
+      <DependentUpon>TestGroupDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkObjectControls\TestRunDetail.resx">
+      <DependentUpon>TestRunDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\BenchmarkTreeView\BenchmarkTreeView.resx">
+      <DependentUpon>BenchmarkTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CsvExportSettingsDialog.resx">
+      <DependentUpon>CsvExportSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NewTestRunDialog.resx">
+      <DependentUpon>NewTestRunDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ScriptEditor.resx">
+      <DependentUpon>ScriptEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TestResultBrowser\TestResultBrowser.resx">
+      <DependentUpon>TestResultBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\DbProviderSettingsControl.resx">
+      <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\SqlServer\SqlServerProviderResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SqlServerProviderResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\SqlServer\SqlServerSettingsControl.resx">
+      <DependentUpon>SqlServerSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Remove_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Benchmark_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InitScript_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CleanUpScript_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TestGroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Properties.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sql2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UpBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DownBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OtevřítSQL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Nový.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DbConnection_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SqlServerSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TestInactive.png" />
+    <None Include="Resources\UnCheckAll.png" />
+    <None Include="Resources\CheckAll.png" />
+    <None Include="Resources\StopRed_16.png" />
+    <None Include="Resources\Delete.png" />
+    <None Include="Resources\07336.png" />
+    <None Include="Resources\Play.png" />
+    <None Include="Resources\Clear.png" />
+    <None Include="Resources\ErrorFlat_16.png" />
+    <None Include="Resources\WarningFlat_16.png" />
+    <None Include="Resources\OkBlueFlat_16.png" />
+    <None Include="Resources\OkGreenFlat_16.png" />
+    <None Include="Resources\RunningBlue_16.png" />
+    <None Include="Resources\InterruptRed.png" />
+    <None Include="Resources\TestRun_16.png" />
+    <None Include="Resources\TestRuns_16.png" />
+    <None Include="Resources\BenchmarkInitScript.sql" />
+    <None Include="Resources\SqlTestScript.sql" />
+    <None Include="Resources\SqlVariantScript.sql" />
+    <None Include="Resources\ExportToFileSystem_16.png" />
+    <None Include="Resources\ExportToSql_16.png" />
+    <None Include="Resources\ExcelFile_16.png" />
+    <Content Include="SqlOptimizerBenchmark.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
+{
+    public class ScriptTreeNode : BenchmarkObjectTreeNode
+    {
+        public ScriptTreeNode(Benchmark.Script script, BenchmarkTreeView benchmarkTreeView)
+            : base(script, benchmarkTreeView)
+        {
+        }
+
+        public override void BindNode()
+        {
+        }
+
+        public override void BindChildren()
+        {
+        }
+
+        public override bool HasChildren()
+        {
+            return false;
+        }
+    }
+}
