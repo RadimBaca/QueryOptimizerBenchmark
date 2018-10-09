@@ -20,6 +20,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
 
         public override void BindChildren()
         {
+            ChildrenBound = true;
         }
 
         public override bool HasChildren()

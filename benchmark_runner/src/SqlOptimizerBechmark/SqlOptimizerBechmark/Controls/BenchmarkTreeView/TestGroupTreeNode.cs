@@ -66,6 +66,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             testsContextMenu.Items.Add("Deactivate all tests in group", Properties.Resources.UncheckAll_16, DeactivateAllTests_Click);
 
             testsNode.ContextMenuStrip = testsContextMenu;
+
+            ChildrenBound = true;
         }
 
         public override bool HasChildren()

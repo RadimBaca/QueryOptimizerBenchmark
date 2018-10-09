@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\benchmark_runner",
+    "\\benchmark_runner\\bin",
+    "\\benchmark_runner\\src",
+    "\\benchmark_runner\\src\\SqlOptimizerBechmark"
+  ],
+  "SelectedNode": "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark.sln",
+  "PreviewInSolutionExplorer": false
+}

@@ -48,6 +48,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             cleanUpScriptNode.ImageKey = "CleanUpScript";
             cleanUpScriptNode.SelectedImageKey = "CleanUpScript";
             this.Nodes.Add(cleanUpScriptNode);
+
+            ChildrenBound = true;
         }
 
         public override bool HasChildren()

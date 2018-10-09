@@ -36,6 +36,15 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             this.ContextMenuStrip = planEquivalenceTestContextMenu;
 
             planEquivalenceTest.PropertyChanged += PlanEquivalenceTest_PropertyChanged;
+            planEquivalenceTest.Variants.CollectionChanged += Variants_CollectionChanged;
+        }
+
+        private void Variants_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (!ChildrenBound)
+            {
+                BindChildren();
+            }
         }
 
         public override void BindChildren()
@@ -44,6 +53,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             this.Nodes.Clear();
 
             BindCollection<Benchmark.QueryVariant>(this, planEquivalenceTest.Variants);
+            ChildrenBound = true;
         }
 
         public override bool HasChildren()

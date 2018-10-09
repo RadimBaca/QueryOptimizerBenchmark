@@ -77,6 +77,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             testGroupsContextMenu = new ContextMenuStrip();
             testGroupsContextMenu.Items.Add("Add", Properties.Resources.Add_16, AddTestGroup_Click);
             testGroupsNode.ContextMenuStrip = testGroupsContextMenu;
+
+            ChildrenBound = true;
         }
 
         public override bool HasChildren()

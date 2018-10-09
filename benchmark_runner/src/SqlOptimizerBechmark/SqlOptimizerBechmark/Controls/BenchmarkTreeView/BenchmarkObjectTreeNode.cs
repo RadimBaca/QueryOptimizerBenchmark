@@ -13,6 +13,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
     {
         private Benchmark.IBenchmarkObject benchmarkObject;
         private BenchmarkTreeView benchmarkTreeView;
+        private bool childrenBound = false;
 
         public Benchmark.IBenchmarkObject BenchmarkObject
         {
@@ -22,6 +23,12 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         public BenchmarkTreeView BenchmarkTreeView
         {
             get => benchmarkTreeView;
+        }
+
+        public bool ChildrenBound
+        {
+            get => childrenBound;
+            set => childrenBound = true;
         }
 
         public BenchmarkObjectTreeNode(Benchmark.IBenchmarkObject benchmarkObject, BenchmarkTreeView benchmarkTreeView)
