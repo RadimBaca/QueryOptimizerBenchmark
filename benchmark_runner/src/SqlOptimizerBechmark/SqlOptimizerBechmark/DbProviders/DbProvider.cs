@@ -9,6 +9,9 @@ namespace SqlOptimizerBechmark.DbProviders
 {
     public abstract class DbProvider
     {
+        private DbProviderSettingsControl settingsControl = null;
+
+
         public abstract string Name
         {
             get;
@@ -23,8 +26,7 @@ namespace SqlOptimizerBechmark.DbProviders
         public abstract void LoadFromXml(XElement element);
 
         public abstract DbProviderSettingsControl CreateSettingsControl();
-        
-        private DbProviderSettingsControl settingsControl = null;
+      
 
 
 
@@ -46,6 +48,8 @@ namespace SqlOptimizerBechmark.DbProviders
                 settingsControl.Provider = this;
             }
 
+            settingsControl.BindSettings();
+
             return settingsControl;
         }
 
@@ -57,12 +61,14 @@ namespace SqlOptimizerBechmark.DbProviders
         // TODO - dynamic loading of providers.
 
         private static SqlServer.SqlServerProvider sqlServerProvider = new SqlServer.SqlServerProvider();
+        private static Oracle.OracleProvider oracleProvider = new Oracle.OracleProvider();
 
         public static IEnumerable<DbProvider> Providers
         {
             get
             {
                 yield return sqlServerProvider;
+                yield return oracleProvider;
             }
         }
 

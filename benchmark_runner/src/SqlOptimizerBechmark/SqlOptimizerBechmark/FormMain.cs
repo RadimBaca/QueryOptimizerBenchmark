@@ -98,6 +98,7 @@ namespace SqlOptimizerBechmark
             {
                 Cursor = Cursors.WaitCursor;
                 benchmark.Save(dialog.FileName);
+                fileName = dialog.FileName;
                 changed = false;
                 UpdateUI();
                 Cursor = Cursors.Default;

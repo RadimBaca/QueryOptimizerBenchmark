@@ -273,6 +273,16 @@ namespace SqlOptimizerBechmark.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap OracleSmall {
+            get {
+                object obj = ResourceManager.GetObject("OracleSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Play_16 {
             get {
                 object obj = ResourceManager.GetObject("Play_16", resourceCulture);

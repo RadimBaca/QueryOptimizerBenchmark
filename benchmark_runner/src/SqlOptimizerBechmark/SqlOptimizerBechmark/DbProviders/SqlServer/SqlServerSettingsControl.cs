@@ -32,6 +32,7 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
         {
             if (Provider == null)
             {
+                Enabled = false;
                 return;
             }
             
@@ -53,9 +54,10 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             txtPassword.Enabled = !provider.UseConnectionString && !provider.IntegratedSecurity;
 
             txtConnectionString.Enabled = provider.UseConnectionString;
+            Enabled = true;
         }
 
-        protected override void BindControls()
+        public override void BindSettings()
         {
             if (Provider == null)
             {

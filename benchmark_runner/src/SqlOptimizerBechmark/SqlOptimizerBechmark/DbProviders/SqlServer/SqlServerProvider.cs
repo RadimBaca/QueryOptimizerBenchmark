@@ -24,8 +24,6 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
         private SqlConnection connection;
 
-        volatile bool cancel = false;
-
         #endregion
 
         #region Properties

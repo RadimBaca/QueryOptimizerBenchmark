@@ -19,11 +19,7 @@ namespace SqlOptimizerBechmark.DbProviders
         public DbProvider Provider
         {
             get => provider;
-            set
-            {
-                this.provider = value;
-                BindControls();
-            }
+            set => provider = value;
         }
 
         public event EventHandler Changed;
@@ -41,7 +37,7 @@ namespace SqlOptimizerBechmark.DbProviders
             InitializeComponent();
         }
 
-        protected virtual void BindControls()
+        public virtual void BindSettings()
         {
 
         }

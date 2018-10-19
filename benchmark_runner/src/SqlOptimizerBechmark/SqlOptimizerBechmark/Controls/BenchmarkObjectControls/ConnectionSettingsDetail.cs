@@ -13,6 +13,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
     public partial class ConnectionSettingsDetail : BenchmarkObjectDetail
     {
         private DbProviders.DbProviderSettingsControl activeSettingsControl;
+        private bool ready = true;
 
         private Benchmark.ConnectionSettings ConnectionSettings
         {
@@ -38,10 +39,13 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
             comboProviders.EndUpdate();
 
+            ready = false;
             comboProviders.SelectedItem = connectionSettings.DbProvider;
+            ready = true;
+            SetSettingsControl();
         }
 
-        private void comboProviders_SelectedIndexChanged(object sender, EventArgs e)
+        private void SetSettingsControl()
         {
             Benchmark.ConnectionSettings connectionSettings = ConnectionSettings;
 
@@ -66,6 +70,14 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 gpxProviderSettings.Controls.Clear();
                 connectionSettings.DbProvider = null;
+            }
+        }
+
+        private void comboProviders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                SetSettingsControl();
             }
         }
 

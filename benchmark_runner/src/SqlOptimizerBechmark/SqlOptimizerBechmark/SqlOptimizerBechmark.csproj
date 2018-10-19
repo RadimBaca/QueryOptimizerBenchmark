@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\FastColoredTextBox.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -207,6 +210,18 @@
     <Compile Include="DbProviders\DbProviderSettingsControl.Designer.cs">
       <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DbProviders\Oracle\OracleProvider.cs" />
+    <Compile Include="DbProviders\Oracle\OracleResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OracleResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DbProviders\Oracle\OracleSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbProviders\Oracle\OracleSettingsControl.Designer.cs">
+      <DependentUpon>OracleSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DbProviders\QueryStatistics.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProvider.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProviderResources.Designer.cs">
@@ -288,6 +303,13 @@
     <EmbeddedResource Include="DbProviders\DbProviderSettingsControl.resx">
       <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\Oracle\OracleResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OracleResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\Oracle\OracleSettingsControl.resx">
+      <DependentUpon>OracleSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbProviders\SqlServer\SqlServerProviderResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SqlServerProviderResources.Designer.cs</LastGenOutput>
@@ -311,6 +333,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -407,6 +430,7 @@
     <None Include="Resources\ExportToFileSystem_16.png" />
     <None Include="Resources\ExportToSql_16.png" />
     <None Include="Resources\ExcelFile_16.png" />
+    <None Include="Resources\OracleSmall.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

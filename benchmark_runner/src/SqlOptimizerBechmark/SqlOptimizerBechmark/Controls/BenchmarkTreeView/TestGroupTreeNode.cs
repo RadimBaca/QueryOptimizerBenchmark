@@ -28,6 +28,11 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
 
             this.ImageKey = "TestGroup";
             this.SelectedImageKey = "TestGroup";
+
+            testGroupContextMenu = new ContextMenuStrip();
+            testGroupContextMenu.Items.Add("Rename", Properties.Resources.Rename_16, Rename_Click);
+            testGroupContextMenu.Items.Add("Remove", Properties.Resources.Remove_16, Remove_Click);
+            this.ContextMenuStrip = testGroupContextMenu;
         }
 
         public override void BindChildren()
@@ -49,11 +54,6 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             testsNode.SelectedImageKey = "Folder";
             BindCollection<Benchmark.Test>(testsNode, testGroup.Tests);
             this.Nodes.Add(testsNode);
-
-            testGroupContextMenu = new ContextMenuStrip();
-            testGroupContextMenu.Items.Add("Rename", Properties.Resources.Rename_16, Rename_Click);
-            testGroupContextMenu.Items.Add("Remove", Properties.Resources.Remove_16, Remove_Click);
-            this.ContextMenuStrip = testGroupContextMenu;
 
             configurationsContextMenu = new ContextMenuStrip();
             configurationsContextMenu.Items.Add("Add", Properties.Resources.Add_16, AddConfiguration_Click);
