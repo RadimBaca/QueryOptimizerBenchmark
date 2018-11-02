@@ -8,11 +8,8 @@ namespace SqlOptimizerBechmark.Executor
 {
     public enum ExecutorMessageType
     {
-        StatementCompleted = 0,
-        QueryExecuted = 1,
-        Error = 2,
-        UserCancelled = 3,
-        UserInterrupt = 4,
-        TestCompleted = 5
+        Info = 0,
+        Warning = 1,
+        Error = 2
     }
 }

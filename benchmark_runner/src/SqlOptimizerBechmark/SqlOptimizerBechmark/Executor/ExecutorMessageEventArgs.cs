@@ -8,23 +8,17 @@ namespace SqlOptimizerBechmark.Executor
 {
     public class ExecutorMessageEventArgs: EventArgs
     {
-        private string message;
-        ExecutorMessageType messageType;
+        private ExecutorMessage message;
 
-        public string Message
+        public ExecutorMessage Message
         {
             get => message;
+            set => message = value;
         }
 
-        public ExecutorMessageType MessageType
-        {
-            get => messageType;
-        }
-
-        public ExecutorMessageEventArgs(string message, ExecutorMessageType messageType)
+        public ExecutorMessageEventArgs(ExecutorMessage message)
         {
             this.message = message;
-            this.messageType = messageType;
         }
     }
 }

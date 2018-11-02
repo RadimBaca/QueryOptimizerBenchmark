@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SqlOptimizerBechmark.Controls.TestResultBrowser
 {
-    public class TestResultsBrowser: DataGridView
+    public class TestResultsBrowser: DataGridViewEx
     {
         private TestRun testRun;
         private DataGridViewColumn nameColumn;
@@ -44,7 +44,6 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
 
         public TestResultsBrowser()
         {
-            DoubleBuffered = true;
             BorderStyle = BorderStyle.None;
             CellBorderStyle = DataGridViewCellBorderStyle.None;
             AllowUserToAddRows = false;
@@ -186,7 +185,10 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
                 }
                 if (prevConfigurationId != testResult.ConfigurationId)
                 {
-                    this[nameColumn.Index, rowIndex].Value = testRun.GetConfigurationResult(testResult.ConfigurationId).ConfigurationName;
+                    ConfigurationDataGridViewCell cell = new ConfigurationDataGridViewCell();
+                    cell.ConfigurationResult = testRun.GetConfigurationResult(testResult.ConfigurationId);
+                    this[nameColumn.Index, rowIndex] = cell;
+
                     SetConfigurationRowStyle(Rows[rowIndex]);
                     rowIndex++;
                     if (rowIndex >= RowCount)

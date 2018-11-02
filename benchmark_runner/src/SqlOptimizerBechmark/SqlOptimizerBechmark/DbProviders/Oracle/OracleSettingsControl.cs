@@ -75,6 +75,8 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             rbtnUseConnectionString.Checked = provider.UseConnectionString;
             txtConnectionString.Text = provider.ConnectionString;
 
+            txtCommandTimeout.Text = Convert.ToString(provider.CommandTimeout);
+
             UpdateUI();
 
             ready = true;
@@ -103,6 +105,15 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             if (ready)
             {
                 OracleProvider.HostName = txtHostName.Text;
+                NotifyChanged();
+            }
+        }
+
+        private void txtConnectionString_TextChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                OracleProvider.ConnectionString = txtConnectionString.Text;
                 NotifyChanged();
             }
         }
@@ -164,6 +175,17 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
                 Cursor = Cursors.Default;
                 MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void txtCommandTimeout_Validating(object sender, CancelEventArgs e)
+        {
+            OracleProvider provider = OracleProvider;
+            int i;
+            if (int.TryParse(txtCommandTimeout.Text, out i))
+            {
+                provider.CommandTimeout = i;
+            }
+            txtCommandTimeout.Text = Convert.ToString(provider.CommandTimeout);
         }
     }
 }

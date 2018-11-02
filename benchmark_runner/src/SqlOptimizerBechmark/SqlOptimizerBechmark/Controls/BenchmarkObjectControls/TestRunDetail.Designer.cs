@@ -43,11 +43,11 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
             this.lblErrors = new System.Windows.Forms.Label();
-            this.gpxLog = new System.Windows.Forms.GroupBox();
-            this.rtbMessages = new System.Windows.Forms.RichTextBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExportToCsv = new System.Windows.Forms.Button();
+            this.gpxLog = new System.Windows.Forms.GroupBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnClearLog = new System.Windows.Forms.ToolStripButton();
+            this.logBrowser = new SqlOptimizerBechmark.Controls.LogBrowser();
             ((System.ComponentModel.ISupportInitialize)(this.testResultsBrowser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -57,6 +57,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.gpxLog.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logBrowser)).BeginInit();
             this.SuspendLayout();
             // 
             // testResultsBrowser
@@ -71,7 +72,7 @@
             this.testResultsBrowser.Location = new System.Drawing.Point(0, 0);
             this.testResultsBrowser.Name = "testResultsBrowser";
             this.testResultsBrowser.ReadOnly = true;
-            this.testResultsBrowser.Size = new System.Drawing.Size(840, 406);
+            this.testResultsBrowser.Size = new System.Drawing.Size(840, 310);
             this.testResultsBrowser.TabIndex = 0;
             this.testResultsBrowser.NavigateBenchmarkObject += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.testResultsBrowser_NavigateBenchmarkObject);
             // 
@@ -92,14 +93,14 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gpxLog);
             this.splitContainer1.Size = new System.Drawing.Size(840, 614);
-            this.splitContainer1.SplitterDistance = 473;
+            this.splitContainer1.SplitterDistance = 377;
             this.splitContainer1.TabIndex = 1;
             // 
             // gpxSummary
             // 
             this.gpxSummary.Controls.Add(this.tableLayoutPanel1);
             this.gpxSummary.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gpxSummary.Location = new System.Drawing.Point(0, 406);
+            this.gpxSummary.Location = new System.Drawing.Point(0, 310);
             this.gpxSummary.Name = "gpxSummary";
             this.gpxSummary.Size = new System.Drawing.Size(840, 67);
             this.gpxSummary.TabIndex = 1;
@@ -256,41 +257,6 @@
             this.lblErrors.TabIndex = 2;
             this.lblErrors.Text = "0";
             // 
-            // gpxLog
-            // 
-            this.gpxLog.Controls.Add(this.rtbMessages);
-            this.gpxLog.Controls.Add(this.toolStrip1);
-            this.gpxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gpxLog.Location = new System.Drawing.Point(0, 0);
-            this.gpxLog.Name = "gpxLog";
-            this.gpxLog.Size = new System.Drawing.Size(840, 137);
-            this.gpxLog.TabIndex = 2;
-            this.gpxLog.TabStop = false;
-            this.gpxLog.Text = "Log";
-            // 
-            // rtbMessages
-            // 
-            this.rtbMessages.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbMessages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbMessages.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rtbMessages.Location = new System.Drawing.Point(3, 40);
-            this.rtbMessages.Name = "rtbMessages";
-            this.rtbMessages.ReadOnly = true;
-            this.rtbMessages.Size = new System.Drawing.Size(834, 94);
-            this.rtbMessages.TabIndex = 0;
-            this.rtbMessages.Text = "";
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnClearLog});
-            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.toolStrip1.Location = new System.Drawing.Point(3, 17);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(834, 23);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
             // btnExportToCsv
             // 
             this.btnExportToCsv.Dock = System.Windows.Forms.DockStyle.Right;
@@ -306,6 +272,29 @@
             this.btnExportToCsv.UseVisualStyleBackColor = true;
             this.btnExportToCsv.Click += new System.EventHandler(this.btnExportToCsv_Click);
             // 
+            // gpxLog
+            // 
+            this.gpxLog.Controls.Add(this.logBrowser);
+            this.gpxLog.Controls.Add(this.toolStrip1);
+            this.gpxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpxLog.Location = new System.Drawing.Point(0, 0);
+            this.gpxLog.Name = "gpxLog";
+            this.gpxLog.Size = new System.Drawing.Size(840, 233);
+            this.gpxLog.TabIndex = 2;
+            this.gpxLog.TabStop = false;
+            this.gpxLog.Text = "Log";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnClearLog});
+            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.toolStrip1.Location = new System.Drawing.Point(3, 17);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(834, 23);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // btnClearLog
             // 
             this.btnClearLog.Image = global::SqlOptimizerBechmark.Properties.Resources.Clear_16;
@@ -314,6 +303,15 @@
             this.btnClearLog.Size = new System.Drawing.Size(74, 20);
             this.btnClearLog.Text = "Clear log";
             this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
+            // 
+            // logBrowser
+            // 
+            this.logBrowser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.logBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logBrowser.Location = new System.Drawing.Point(3, 40);
+            this.logBrowser.Name = "logBrowser";
+            this.logBrowser.Size = new System.Drawing.Size(834, 190);
+            this.logBrowser.TabIndex = 2;
             // 
             // TestRunDetail
             // 
@@ -334,6 +332,7 @@
             this.gpxLog.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logBrowser)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -342,7 +341,6 @@
 
         private TestResultBrowser.TestResultsBrowser testResultsBrowser;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.RichTextBox rtbMessages;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnClearLog;
         private System.Windows.Forms.GroupBox gpxSummary;
@@ -360,5 +358,6 @@
         private System.Windows.Forms.Label lblErrors;
         private System.Windows.Forms.GroupBox gpxLog;
         private System.Windows.Forms.Button btnExportToCsv;
+        private LogBrowser logBrowser;
     }
 }

@@ -18,67 +18,67 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             Executor.Executor.Instance.Message += Instance_Message;
         }
 
-        private delegate void AppendTextDelegate(string text, Color color);
 
-        private void AppendText(string text, Color color)
+        private delegate void AddMessageDelegate(Executor.ExecutorMessage message);
+
+        private void AddMessage(Executor.ExecutorMessage message)
         {
-            rtbMessages.SelectionStart = rtbMessages.Text.Length;
-            rtbMessages.SelectionColor = color;
-            rtbMessages.AppendText(text + Environment.NewLine + Environment.NewLine);
-            rtbMessages.SelectionStart = rtbMessages.Text.Length;
-            rtbMessages.ScrollToCaret();
+            logBrowser.AddMessage(message);
         }
 
         private void Instance_Message(object sender, Executor.ExecutorMessageEventArgs e)
         {
-            DateTime now = DateTime.Now;
-            Color color = SystemColors.WindowText;
+            Invoke(new AddMessageDelegate(AddMessage), e.Message);
+            Invoke(new MethodInvoker(UpdateSummary));
 
-            string messageTypeStr = string.Empty;
-            switch (e.MessageType)
-            {
-                case Executor.ExecutorMessageType.Error:
-                    messageTypeStr = "ERROR";
-                    color = Color.Red;
-                    break;
+            //DateTime now = DateTime.Now;
+            //Color color = SystemColors.WindowText;
 
-                case Executor.ExecutorMessageType.StatementCompleted:
-                    messageTypeStr = "STATEMENT COMPLETED";
-                    color = Color.Blue;
-                    break;
+            //string messageTypeStr = string.Empty;
+            //switch (e.MessageType)
+            //{
+            //    case Executor.ExecutorMessageType.Error:
+            //        messageTypeStr = "ERROR";
+            //        color = Color.Red;
+            //        break;
 
-                case Executor.ExecutorMessageType.QueryExecuted:
-                    messageTypeStr = "QUERY EXECUTED";
-                    color = Color.Blue;
-                    break;
+            //    case Executor.ExecutorMessageType.StatementCompleted:
+            //        messageTypeStr = "STATEMENT COMPLETED";
+            //        color = Color.Blue;
+            //        break;
 
-                case Executor.ExecutorMessageType.UserCancelled:
-                    messageTypeStr = "USER CANCELLED TESTING";
-                    color = Color.Red;
-                    break;
+            //    case Executor.ExecutorMessageType.QueryExecuted:
+            //        messageTypeStr = "QUERY EXECUTED";
+            //        color = Color.Blue;
+            //        break;
 
-                case Executor.ExecutorMessageType.UserInterrupt:
-                    messageTypeStr = "USER INTERRUPT TESTING";
-                    color = Color.Red;
-                    break;
+            //    case Executor.ExecutorMessageType.UserCancelled:
+            //        messageTypeStr = "USER CANCELLED TESTING";
+            //        color = Color.Red;
+            //        break;
 
-                case Executor.ExecutorMessageType.TestCompleted:
-                    messageTypeStr = "TEST COMPLETED";
-                    color = Color.Blue;
-                    break;
-            }
+            //    case Executor.ExecutorMessageType.UserInterrupt:
+            //        messageTypeStr = "USER INTERRUPT TESTING";
+            //        color = Color.Red;
+            //        break;
 
-            string str = string.Format("{0}: {1}\r\n{2}",
-                now.ToString("HH:mm:ss"),
-                messageTypeStr,
-                e.Message);
+            //    case Executor.ExecutorMessageType.TestCompleted:
+            //        messageTypeStr = "TEST COMPLETED";
+            //        color = Color.Blue;
+            //        break;
+            //}
 
-            Invoke(new AppendTextDelegate(AppendText), str, color);
+            //string str = string.Format("{0}: {1}\r\n{2}",
+            //    now.ToString("HH:mm:ss"),
+            //    messageTypeStr,
+            //    e.Message);
 
-            if (e.MessageType == Executor.ExecutorMessageType.TestCompleted)
-            {
-                Invoke(new MethodInvoker(UpdateSummary));
-            }
+            //Invoke(new AppendTextDelegate(AppendText), str, color);
+
+            //if (e.MessageType == Executor.ExecutorMessageType.TestCompleted)
+            //{
+            //    Invoke(new MethodInvoker(UpdateSummary));
+            //}
         }
 
         private Benchmark.TestRun TestRun => (Benchmark.TestRun)BenchmarkObject;
@@ -171,7 +171,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
         private void btnClearLog_Click(object sender, EventArgs e)
         {
-            rtbMessages.Clear();
+            logBrowser.Clear();
         }
 
         private void testResultsBrowser_NavigateBenchmarkObject(object sender, BenchmarkObjectEventArgs e)

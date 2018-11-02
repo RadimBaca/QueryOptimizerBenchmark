@@ -20,6 +20,7 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
         private int port = 1521;
         private string sID = string.Empty;
         private string connectionString = string.Empty;
+        private int commandTimeout = 60;
 
         private OracleConnection connection;
 
@@ -69,6 +70,12 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
         {
             get => connectionString;
             set => connectionString = value;
+        }
+        
+        public int CommandTimeout
+        {
+            get => commandTimeout;
+            set => commandTimeout = value;
         }
 
         #endregion
@@ -203,6 +210,8 @@ ORDER BY id";
 
                 OracleCommand cmdQuery = connection.CreateCommand();
                 cmdQuery.CommandText = query;
+                cmdQuery.CommandTimeout = commandTimeout;
+
                 int resultSize = 0;
                 reader = cmdQuery.ExecuteReader();
                 while (reader.Read())
@@ -261,6 +270,15 @@ ORDER BY id";
             port = Convert.ToInt32(element.Attribute("port").Value);
             sID = element.Attribute("s_id").Value;
             connectionString = element.Attribute("connection_string").Value;
+
+            if (element.Attribute("command_timeout") != null)
+            {
+                commandTimeout = Convert.ToInt32(element.Attribute("command_timeout").Value);
+            }
+            else
+            {
+                commandTimeout = 60;
+            }
         }
 
         public override void SaveToXml(XElement element)
@@ -272,6 +290,7 @@ ORDER BY id";
             element.Add(new XAttribute("port", port));
             element.Add(new XAttribute("s_id", sID));
             element.Add(new XAttribute("connection_string", connectionString));
+            element.Add(new XAttribute("command_timeout", commandTimeout));
         }
     }
 }

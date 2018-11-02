@@ -36,7 +36,6 @@
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.txtConnectionString = new System.Windows.Forms.TextBox();
             this.btnTestConnection = new System.Windows.Forms.Button();
-            this.pbxSqlServer = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblHostName = new System.Windows.Forms.Label();
@@ -45,7 +44,14 @@
             this.txtPort = new System.Windows.Forms.TextBox();
             this.lblSID = new System.Windows.Forms.Label();
             this.txtSID = new System.Windows.Forms.TextBox();
+            this.gpxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtCommandTimeout = new System.Windows.Forms.TextBox();
+            this.pbxSqlServer = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
+            this.gpxOtherSettings.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSqlServer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +70,6 @@
             this.tableLayoutPanel1.Controls.Add(this.txtUserName, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtConnectionString, 1, 8);
             this.tableLayoutPanel1.Controls.Add(this.btnTestConnection, 2, 9);
-            this.tableLayoutPanel1.Controls.Add(this.pbxSqlServer, 4, 10);
             this.tableLayoutPanel1.Controls.Add(this.label6, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.txtPassword, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.lblHostName, 1, 3);
@@ -73,10 +78,12 @@
             this.tableLayoutPanel1.Controls.Add(this.txtPort, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.lblSID, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.txtSID, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.gpxOtherSettings, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.pbxSqlServer, 4, 13);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 12;
+            this.tableLayoutPanel1.RowCount = 14;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
@@ -88,6 +95,8 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(697, 480);
             this.tableLayoutPanel1.TabIndex = 1;
@@ -158,6 +167,7 @@
             this.txtConnectionString.Name = "txtConnectionString";
             this.txtConnectionString.Size = new System.Drawing.Size(660, 44);
             this.txtConnectionString.TabIndex = 11;
+            this.txtConnectionString.TextChanged += new System.EventHandler(this.txtConnectionString_TextChanged);
             // 
             // btnTestConnection
             // 
@@ -169,18 +179,6 @@
             this.btnTestConnection.Text = "Test connection";
             this.btnTestConnection.UseVisualStyleBackColor = true;
             this.btnTestConnection.Click += new System.EventHandler(this.btnTestConnection_Click);
-            // 
-            // pbxSqlServer
-            // 
-            this.pbxSqlServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbxSqlServer.Image = global::SqlOptimizerBechmark.Properties.Resources.OracleSmall;
-            this.pbxSqlServer.Location = new System.Drawing.Point(530, 416);
-            this.pbxSqlServer.Name = "pbxSqlServer";
-            this.tableLayoutPanel1.SetRowSpan(this.pbxSqlServer, 2);
-            this.pbxSqlServer.Size = new System.Drawing.Size(164, 61);
-            this.pbxSqlServer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbxSqlServer.TabIndex = 13;
-            this.pbxSqlServer.TabStop = false;
             // 
             // label6
             // 
@@ -262,6 +260,64 @@
             this.txtSID.TabIndex = 5;
             this.txtSID.TextChanged += new System.EventHandler(this.txtSID_TextChanged);
             // 
+            // gpxOtherSettings
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.gpxOtherSettings, 4);
+            this.gpxOtherSettings.Controls.Add(this.tableLayoutPanel2);
+            this.gpxOtherSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpxOtherSettings.Location = new System.Drawing.Point(3, 323);
+            this.gpxOtherSettings.Name = "gpxOtherSettings";
+            this.gpxOtherSettings.Size = new System.Drawing.Size(332, 52);
+            this.gpxOtherSettings.TabIndex = 14;
+            this.gpxOtherSettings.TabStop = false;
+            this.gpxOtherSettings.Text = "Other settings";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 126F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.txtCommandTimeout, 1, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 17);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(326, 32);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Command timeout [s]:";
+            // 
+            // txtCommandTimeout
+            // 
+            this.txtCommandTimeout.Location = new System.Drawing.Point(129, 6);
+            this.txtCommandTimeout.Name = "txtCommandTimeout";
+            this.txtCommandTimeout.Size = new System.Drawing.Size(76, 21);
+            this.txtCommandTimeout.TabIndex = 1;
+            this.txtCommandTimeout.Validating += new System.ComponentModel.CancelEventHandler(this.txtCommandTimeout_Validating);
+            // 
+            // pbxSqlServer
+            // 
+            this.pbxSqlServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbxSqlServer.Image = global::SqlOptimizerBechmark.Properties.Resources.OracleSmall;
+            this.pbxSqlServer.Location = new System.Drawing.Point(530, 416);
+            this.pbxSqlServer.Name = "pbxSqlServer";
+            this.pbxSqlServer.Size = new System.Drawing.Size(164, 61);
+            this.pbxSqlServer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbxSqlServer.TabIndex = 13;
+            this.pbxSqlServer.TabStop = false;
+            // 
             // OracleSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,6 +327,9 @@
             this.Size = new System.Drawing.Size(697, 480);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.gpxOtherSettings.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxSqlServer)).EndInit();
             this.ResumeLayout(false);
 
@@ -295,5 +354,9 @@
         private System.Windows.Forms.TextBox txtPort;
         private System.Windows.Forms.Label lblSID;
         private System.Windows.Forms.TextBox txtSID;
+        private System.Windows.Forms.GroupBox gpxOtherSettings;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtCommandTimeout;
     }
 }

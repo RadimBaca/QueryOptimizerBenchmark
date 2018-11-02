@@ -33,3 +33,5 @@ C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptim
 C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\SqlOptimizerBechmark\bin\Release\Oracle.ManagedDataAccess.dll
 C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\SqlOptimizerBechmark\obj\Release\SqlOptimizerBechmark.DbProviders.Oracle.OracleResources.resources
 C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\SqlOptimizerBechmark\obj\Release\SqlOptimizerBechmark.DbProviders.Oracle.OracleSettingsControl.resources
+C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\SqlOptimizerBechmark\obj\Release\SqlOptimizerBechmark.Controls.LogBrowser.resources
+C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\SqlOptimizerBechmark\obj\Release\SqlOptimizerBechmark.Controls.StatementPreviewDialog.resources

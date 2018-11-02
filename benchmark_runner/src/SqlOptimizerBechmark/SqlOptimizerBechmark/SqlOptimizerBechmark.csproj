@@ -174,7 +174,13 @@
     <Compile Include="Controls\CsvExportSettingsDialog.Designer.cs">
       <DependentUpon>CsvExportSettingsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataGridViewEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Helpers.cs" />
+    <Compile Include="Controls\LogBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\NewTestRunDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,7 +202,14 @@
     <Compile Include="Controls\BenchmarkTreeView\ScriptTreeNode.cs" />
     <Compile Include="Controls\BenchmarkTreeView\StatementTreeNode.cs" />
     <Compile Include="Controls\BenchmarkTreeView\TestGroupTreeNode.cs" />
+    <Compile Include="Controls\StatementPreviewDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\StatementPreviewDialog.Designer.cs">
+      <DependentUpon>StatementPreviewDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TestResultBrowser\BenchmarkDataGridViewCell.cs" />
+    <Compile Include="Controls\TestResultBrowser\ConfigurationDataGridViewCell.cs" />
     <Compile Include="Controls\TestResultBrowser\DistinctPlansDataGridViewCell.cs" />
     <Compile Include="Controls\TestResultBrowser\PlanEquivalenceTestGridViewCell.cs" />
     <Compile Include="Controls\TestResultBrowser\QueryVariantDataGridViewCell.cs" />
@@ -236,6 +249,7 @@
       <DependentUpon>SqlServerSettingsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Executor\Executor.cs" />
+    <Compile Include="Executor\ExecutorMessage.cs" />
     <Compile Include="Executor\ExecutorMessageEventArgs.cs" />
     <Compile Include="Executor\ExecutorMessageType.cs" />
     <Compile Include="FormAbout.cs">
@@ -291,11 +305,17 @@
     <EmbeddedResource Include="Controls\CsvExportSettingsDialog.resx">
       <DependentUpon>CsvExportSettingsDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LogBrowser.resx">
+      <DependentUpon>LogBrowser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\NewTestRunDialog.resx">
       <DependentUpon>NewTestRunDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ScriptEditor.resx">
       <DependentUpon>ScriptEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StatementPreviewDialog.resx">
+      <DependentUpon>StatementPreviewDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TestResultBrowser\TestResultBrowser.resx">
       <DependentUpon>TestResultBrowser.cs</DependentUpon>
