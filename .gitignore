@@ -4,6 +4,6 @@
 
 /benchmark_runner/xoracle.xml
 /benchmark_runner/_oracle.xml
-/benchmark_runner/src/SqlOptimizerBechmark/.vs
-/benchmark_runner/src/SqlOptimizerBechmark/SqlOptimizerBechmark/bin
-/benchmark_runner/src/SqlOptimizerBechmark/SqlOptimizerBechmark/obj
+benchmark_runner/src/SqlOptimizerBechmark/.vs
+benchmark_runner/src/SqlOptimizerBechmark/SqlOptimizerBechmark/bin
+benchmark_runner/src/SqlOptimizerBechmark/SqlOptimizerBechmark/obj
