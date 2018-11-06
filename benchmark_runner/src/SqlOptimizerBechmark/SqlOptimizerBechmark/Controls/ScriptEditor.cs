@@ -52,7 +52,7 @@ namespace SqlOptimizerBechmark.Controls
 
         private bool IsSeparatorLine(string text)
         {
-            return text == statementSeparator;
+            return string.Compare(text, statementSeparator, true) == 0;
         }
 
         private void UpdateScript()
@@ -109,6 +109,7 @@ namespace SqlOptimizerBechmark.Controls
                 {
                     str += Environment.NewLine;
                     str += statementSeparator;
+                    str += Environment.NewLine;
                     str += Environment.NewLine;
                 }
 

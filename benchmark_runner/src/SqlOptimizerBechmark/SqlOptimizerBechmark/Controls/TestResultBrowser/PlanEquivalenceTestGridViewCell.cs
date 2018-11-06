@@ -117,11 +117,11 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             {
                 icon = Properties.Resources.RunningBlue_16;
             }
-            else if (planEquivalenceTestResult.Completed && planEquivalenceTestResult.DistinctQueryPlans == 1)
+            else if (planEquivalenceTestResult.Success)
             {
                 icon = Properties.Resources.OkGreenFlat_16;
             }
-            else if (planEquivalenceTestResult.Completed && planEquivalenceTestResult.DistinctQueryPlans > 1)
+            else if (planEquivalenceTestResult.Completed)
             {
                 icon = Properties.Resources.ErrorFlat_16;
             }

@@ -11,6 +11,7 @@ namespace SqlOptimizerBechmark.Benchmark
     public class PlanEquivalenceTestResult : TestResult
     {
         private int distinctQueryPlans = 0;
+        private int successfullyCompletedVariants = 0;
         private ObservableCollection<QueryVariantResult> queryVariantResults = new ObservableCollection<QueryVariantResult>();
         private bool started = false;
         private bool completed = false;
@@ -36,6 +37,27 @@ namespace SqlOptimizerBechmark.Benchmark
                     distinctQueryPlans = value;
                     OnPropertyChanged("DistinctQueryPlans");
                 }
+            }
+        }
+
+        public int SuccessfullyCompletedVariants
+        {
+            get => successfullyCompletedVariants;
+            set
+            {
+                if (successfullyCompletedVariants != value)
+                {
+                    successfullyCompletedVariants = value;
+                    OnPropertyChanged("SuccessfullyCompletedVariants");
+                }
+            }
+        }
+
+        public bool Success
+        {
+            get
+            {
+                return completed && distinctQueryPlans == 1 && successfullyCompletedVariants > 1;
             }
         }
 
@@ -77,6 +99,7 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             base.LoadFromXml(serializer);
             serializer.ReadInt("distinct_query_plans", ref distinctQueryPlans);
+            serializer.ReadInt("successfully_completed_variants", ref successfullyCompletedVariants);
             serializer.ReadCollection<QueryVariantResult>("query_variant_results", "query_variant_result", queryVariantResults,
                 delegate () { return new QueryVariantResult(this); });
             serializer.ReadBool("started", ref started);
@@ -87,6 +110,7 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             base.SaveToXml(serializer);
             serializer.WriteInt("distinct_query_plans", distinctQueryPlans);
+            serializer.WriteInt("successfully_completed_variants", successfullyCompletedVariants);
             serializer.WriteCollection<QueryVariantResult>("query_variant_results", "query_variant_result", queryVariantResults);
             serializer.WriteBool("started", started);
             serializer.WriteBool("completed", completed);
