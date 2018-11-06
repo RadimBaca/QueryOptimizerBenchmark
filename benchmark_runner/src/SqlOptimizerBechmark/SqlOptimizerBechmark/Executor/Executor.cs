@@ -325,6 +325,10 @@ namespace SqlOptimizerBechmark.Executor
                                                             queryVariantResult.ResultSize = stats.ResultSize;
                                                             queryVariantResult.QueryPlan = plan;
 
+                                                            //// TODO - remove.
+                                                            //planEquivalenceTest.ExpectedResultSize = stats.ResultSize;
+                                                            //break;
+
                                                             if (!distinctPlans.Contains(plan))
                                                             {
                                                                 distinctPlans.Add(plan);
@@ -421,6 +425,9 @@ namespace SqlOptimizerBechmark.Executor
                                     message.Statement = string.Empty;
                                     OnMessage(message);
                                 }
+
+                                //// TODO - remove.
+                                //break;
                             }
                         }
                     }
