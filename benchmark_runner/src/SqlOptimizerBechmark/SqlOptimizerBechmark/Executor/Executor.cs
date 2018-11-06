@@ -16,6 +16,7 @@ namespace SqlOptimizerBechmark.Executor
         private Thread testingThread = null;
         private bool runInitScript = true;
         private bool runCleanUpScript = true;
+        private bool checkResultSizes = true;
 
         private volatile bool stopTesting = false;
         private volatile bool interruptTesting = false;
@@ -124,38 +125,41 @@ namespace SqlOptimizerBechmark.Executor
                 db.Connect();
 
                 // Init script.
-                foreach (Benchmark.Statement statement in benchmark.InitScript.Statements)
+                if (runInitScript)
                 {
-                    if (interruptTesting)
+                    foreach (Benchmark.Statement statement in benchmark.InitScript.Statements)
                     {
-                        testingThread = null;
-                        OnTestingEnded();
-                        return;
-                    }
+                        if (interruptTesting)
+                        {
+                            testingThread = null;
+                            OnTestingEnded();
+                            return;
+                        }
 
-                    string commandText = statement.CommandText;
-                    try
-                    {
-                        db.Execute(commandText);
+                        string commandText = statement.CommandText;
+                        try
+                        {
+                            db.Execute(commandText);
 
-                        ExecutorMessage message = new ExecutorMessage();
-                        message.Message = "Statement completed";
-                        message.MessageType = ExecutorMessageType.Info;
-                        message.Statement = commandText;
+                            ExecutorMessage message = new ExecutorMessage();
+                            message.Message = "Statement completed";
+                            message.MessageType = ExecutorMessageType.Info;
+                            message.Statement = commandText;
 
-                        OnMessage(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        ExecutorMessage message = new ExecutorMessage();
-                        message.Message = ex.Message;
-                        message.MessageType = ExecutorMessageType.Error;
-                        message.Statement = commandText;
+                            OnMessage(message);
+                        }
+                        catch (Exception ex)
+                        {
+                            ExecutorMessage message = new ExecutorMessage();
+                            message.Message = ex.Message;
+                            message.MessageType = ExecutorMessageType.Error;
+                            message.Statement = commandText;
 
-                        OnMessage(message);
-                        testingThread = null;
-                        OnTestingEnded();
-                        return;
+                            OnMessage(message);
+                            testingThread = null;
+                            OnTestingEnded();
+                            return;
+                        }
                     }
                 }
 
@@ -288,6 +292,9 @@ namespace SqlOptimizerBechmark.Executor
                                                 {
                                                     planEquivalenceTestResult.Started = true;
                                                     HashSet<string> distinctPlans = new HashSet<string>();
+                                                    planEquivalenceTestResult.SuccessfullyCompletedVariants = 0;
+
+                                                    Benchmark.PlanEquivalenceTest planEquivalenceTest = (Benchmark.PlanEquivalenceTest)test;
 
                                                     foreach (Benchmark.QueryVariantResult queryVariantResult in planEquivalenceTestResult.QueryVariantResults)
                                                     {
@@ -309,6 +316,11 @@ namespace SqlOptimizerBechmark.Executor
                                                             DbProviders.QueryStatistics stats = db.GetQueryStatistics(queryVariantResult.Query);
                                                             string plan = db.GetQueryPlan(queryVariantResult.Query);
 
+                                                            if (checkResultSizes && stats.ResultSize != planEquivalenceTest.ExpectedResultSize)
+                                                            {
+                                                                throw new Exception(string.Format("Unexpected result size ({0} instead of {1}).", stats.ResultSize, planEquivalenceTest.ExpectedResultSize));
+                                                            }
+
                                                             queryVariantResult.QueryProcessingTime = stats.QueryProcessingTime;
                                                             queryVariantResult.ResultSize = stats.ResultSize;
                                                             queryVariantResult.QueryPlan = plan;
@@ -322,6 +334,7 @@ namespace SqlOptimizerBechmark.Executor
                                                             message.Message = "Query executed";
                                                             message.MessageType = ExecutorMessageType.Info;
                                                             message.Statement = queryVariantResult.Query;
+                                                            planEquivalenceTestResult.SuccessfullyCompletedVariants++;
 
                                                             OnMessage(message);
                                                         }
@@ -422,38 +435,41 @@ namespace SqlOptimizerBechmark.Executor
                 }
 
                 // Clean up script.
-                foreach (Benchmark.Statement statement in benchmark.CleanUpScript.Statements)
+                if (runCleanUpScript)
                 {
-                    if (interruptTesting)
+                    foreach (Benchmark.Statement statement in benchmark.CleanUpScript.Statements)
                     {
-                        testingThread = null;
-                        OnTestingEnded();
-                        return;
-                    }
+                        if (interruptTesting)
+                        {
+                            testingThread = null;
+                            OnTestingEnded();
+                            return;
+                        }
 
-                    string commandText = statement.CommandText;
-                    try
-                    {
-                        db.Execute(commandText);
+                        string commandText = statement.CommandText;
+                        try
+                        {
+                            db.Execute(commandText);
 
-                        ExecutorMessage message = new ExecutorMessage();
-                        message.Message = "Statement completed";
-                        message.MessageType = ExecutorMessageType.Info;
-                        message.Statement = commandText;
+                            ExecutorMessage message = new ExecutorMessage();
+                            message.Message = "Statement completed";
+                            message.MessageType = ExecutorMessageType.Info;
+                            message.Statement = commandText;
 
-                        OnMessage(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        ExecutorMessage message = new ExecutorMessage();
-                        message.Message = ex.Message;
-                        message.MessageType = ExecutorMessageType.Error;
-                        message.Statement = commandText;
+                            OnMessage(message);
+                        }
+                        catch (Exception ex)
+                        {
+                            ExecutorMessage message = new ExecutorMessage();
+                            message.Message = ex.Message;
+                            message.MessageType = ExecutorMessageType.Error;
+                            message.Statement = commandText;
 
-                        OnMessage(message);
-                        testingThread = null;
-                        OnTestingEnded();
-                        return;
+                            OnMessage(message);
+                            testingThread = null;
+                            OnTestingEnded();
+                            return;
+                        }
                     }
                 }
 
@@ -518,12 +534,14 @@ namespace SqlOptimizerBechmark.Executor
             dialog.TestRunName = now.ToString("yyyy-MM-dd HH:mm:ss");
             dialog.RunInitScript = runInitScript;
             dialog.RunCleanUpScript = runCleanUpScript;
+            dialog.CheckResultSizes = checkResultSizes;
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Prepare(dialog.TestRunName);
                 runInitScript = dialog.RunInitScript;
                 runCleanUpScript = dialog.RunCleanUpScript;
+                checkResultSizes = dialog.CheckResultSizes;
 
                 StartTesting();
             }

@@ -113,8 +113,98 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             return ctl;
         }
 
+        private static string RemoveComments(string statement)
+        {
+            bool readingString = false;
+            string stringClosingStr = string.Empty;
+
+            bool readingComment = false;
+            string commentClosingStr = string.Empty;
+
+            string ret = string.Empty;
+            
+            int position = 0;
+            while (position < statement.Length)
+            {
+                if (!readingComment && !readingString)
+                {
+                    if (statement[position] == '\'')
+                    {
+                        readingString = true;
+                        stringClosingStr = "'";
+                        ret += statement[position++];
+                    }
+                    else if (statement[position] == '"')
+                    {
+                        readingString = true;
+                        stringClosingStr = "\"";
+                        ret += statement[position++];
+                    }
+                }
+
+                if (readingString && statement.Substring(position).StartsWith(stringClosingStr))
+                {
+                    readingString = false;
+                }
+
+                if (!readingString && !readingComment)
+                {
+                    if (statement.Substring(position).StartsWith("--"))
+                    {
+                        readingComment = true;
+                        commentClosingStr = Environment.NewLine;
+                    }
+                    else if (statement.Substring(position).StartsWith("/*"))
+                    {
+                        readingComment = true;
+                        commentClosingStr = "*/";
+                    }
+                }
+
+                if (readingComment && statement.Substring(position).StartsWith(commentClosingStr))
+                {
+                    readingComment = false;
+                    position += commentClosingStr.Length;
+                    continue;
+                }
+
+                if (!readingComment)
+                {
+                    ret += statement[position];
+                }
+
+                position++;
+            }
+
+            return ret;
+        }
+
+        private bool IsAnonymousBlock(string statement)
+        {
+            statement = RemoveComments(statement);
+            statement = statement.Trim();
+            statement = statement.TrimEnd(';');
+            statement = statement.TrimEnd();
+            if (statement.StartsWith("begin", true, System.Globalization.CultureInfo.CurrentCulture) &&
+                statement.EndsWith("end", true, System.Globalization.CultureInfo.CurrentCulture))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public override void Execute(string statement)
         {
+            // Odstranit zbytecne bile znaky a strednik z konce prikazu.
+            statement = statement.Trim();
+            if (!IsAnonymousBlock(statement))
+            {
+                statement = statement.TrimEnd(';');
+            }
+
             OracleCommand command = connection.CreateCommand();
             command.CommandText = "BEGIN EXECUTE IMMEDIATE :cmd; END;";
             command.Parameters.Add("cmd", statement);
@@ -127,6 +217,13 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
 
         public override string GetQueryPlan(string query)
         {
+            // Odstranit zbytecne bile znaky a strednik z konce prikazu.
+            query = query.Trim();
+            if (!IsAnonymousBlock(query))
+            {
+                query = query.TrimEnd(';');
+            }
+
             OracleDataReader reader = null;
             try
             {
@@ -185,32 +282,41 @@ ORDER BY id";
 
         public override QueryStatistics GetQueryStatistics(string query)
         {
+            // Odstranit zbytecne bile znaky a strednik z konce prikazu.
+            query = query.Trim();
+            if (!IsAnonymousBlock(query))
+            {
+                query = query.TrimEnd(';');
+            }
+
             OracleDataReader reader = null;
             try
             {
                 QueryStatistics ret = new QueryStatistics();
 
-                long t0 = 0;
+                //long t0 = 0;
 
-                OracleCommand cmdGetSqlId = connection.CreateCommand();
-                cmdGetSqlId.CommandText = "SELECT SQL_ID FROM V$SQL WHERE dbms_lob.compare(SQL_FULLTEXT, :sql) = 0";
-                cmdGetSqlId.Parameters.Add("sql", query);
+                //OracleCommand cmdGetSqlId = connection.CreateCommand();
+                //cmdGetSqlId.CommandText = "SELECT SQL_ID FROM V$SQL WHERE dbms_lob.compare(SQL_FULLTEXT, :sql) = 0";
+                //cmdGetSqlId.Parameters.Add("sql", query);
 
-                object sqlIdObj = cmdGetSqlId.ExecuteScalar();
-                string sqlId = null;
-                if (sqlIdObj != null)
-                {
-                    sqlId = Convert.ToString(sqlIdObj);
-                    OracleCommand cmdGetT0 = connection.CreateCommand();
-                    cmdGetT0.CommandText = "SELECT CPU_TIME FROM V$SQL WHERE SQL_ID = :sqlid";
-                    cmdGetT0.Parameters.Add("sqlid", sqlId);
-                    object t0obj = cmdGetT0.ExecuteScalar();
-                    t0 = Convert.ToInt64(t0obj);
-                }
+                //object sqlIdObj = cmdGetSqlId.ExecuteScalar();
+                //string sqlId = null;
+                //if (sqlIdObj != null)
+                //{
+                //    sqlId = Convert.ToString(sqlIdObj);
+                //    OracleCommand cmdGetT0 = connection.CreateCommand();
+                //    cmdGetT0.CommandText = "SELECT CPU_TIME FROM V$SQL WHERE SQL_ID = :sqlid";
+                //    cmdGetT0.Parameters.Add("sqlid", sqlId);
+                //    object t0obj = cmdGetT0.ExecuteScalar();
+                //    t0 = Convert.ToInt64(t0obj);
+                //}
 
                 OracleCommand cmdQuery = connection.CreateCommand();
                 cmdQuery.CommandText = query;
                 cmdQuery.CommandTimeout = commandTimeout;
+
+                DateTime t0 = DateTime.Now;
 
                 int resultSize = 0;
                 reader = cmdQuery.ExecuteReader();
@@ -221,23 +327,25 @@ ORDER BY id";
                 reader.Close();
                 reader = null;
 
-                if (sqlIdObj is null)
-                {
-                    sqlIdObj = cmdGetSqlId.ExecuteScalar();
-                    if (sqlIdObj is null)
-                    {
-                        throw new Exception("Unexpected exception. Cannot retrieve SQL_ID of the query.");
-                    }
-                    sqlId = Convert.ToString(sqlIdObj);
-                }
+                DateTime t1 = DateTime.Now;
 
-                OracleCommand cmdGetT1 = connection.CreateCommand();
-                cmdGetT1.CommandText = "SELECT CPU_TIME FROM V$SQL WHERE SQL_ID = :sqlid";
-                cmdGetT1.Parameters.Add("sqlid", sqlId);
-                object t1Obj = cmdGetT1.ExecuteScalar();
-                long t1 = Convert.ToInt64(t1Obj);
+                //if (sqlIdObj is null)
+                //{
+                //    sqlIdObj = cmdGetSqlId.ExecuteScalar();
+                //    if (sqlIdObj is null)
+                //    {
+                //        throw new Exception("Unexpected exception. Cannot retrieve SQL_ID of the query.");
+                //    }
+                //    sqlId = Convert.ToString(sqlIdObj);
+                //}
 
-                ret.QueryProcessingTime = TimeSpan.FromMilliseconds((t1 - t0) / 1000.0);
+                //OracleCommand cmdGetT1 = connection.CreateCommand();
+                //cmdGetT1.CommandText = "SELECT CPU_TIME FROM V$SQL WHERE SQL_ID = :sqlid";
+                //cmdGetT1.Parameters.Add("sqlid", sqlId);
+                //object t1Obj = cmdGetT1.ExecuteScalar();
+                //long t1 = Convert.ToInt64(t1Obj);
+
+                ret.QueryProcessingTime = t1 - t0;
                 ret.ResultSize = resultSize;
 
                 return ret;

@@ -31,6 +31,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
             txtName.Text = PlanEquivalenceTest.Name;
             txtDescription.Text = PlanEquivalenceTest.Description;
+            txtExpectedResultSize.Text = Convert.ToString(PlanEquivalenceTest.ExpectedResultSize);
             cbxActive.Checked = PlanEquivalenceTest.Active;
 
             PlanEquivalenceTest.PropertyChanged -= PlanEquivalenceTest_PropertyChanged;
@@ -50,12 +51,16 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 txtDescription.Text = PlanEquivalenceTest.Description;
             }
+            else if (e.PropertyName == "ExpectedResultSize")
+            {
+                txtExpectedResultSize.Text = Convert.ToString(PlanEquivalenceTest.ExpectedResultSize);
+            }
             else if (e.PropertyName == "Active")
             {
                 cbxActive.Checked = PlanEquivalenceTest.Active;
-            }
+            }            
         }
-
+        
         protected override void UpdateUI()
         {
             if (PlanEquivalenceTest == null)
@@ -65,6 +70,45 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             else
             {
                 Enabled = true;
+            }
+        }
+
+        private void SetResultSizeByFirstVariant()
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                DbProviders.DbProvider provider = PlanEquivalenceTest.Owner.ConnectionSettings.DbProvider;
+
+                if (provider == null)
+                {
+                    MessageBox.Show("Database connection is not set.",
+                        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (PlanEquivalenceTest.Variants.Count == 0)
+                {
+                    MessageBox.Show("At leas one query variant has to be defined.",
+                        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Benchmark.QueryVariant variant = PlanEquivalenceTest.Variants[0];
+
+                provider.Connect();
+                DbProviders.QueryStatistics stats = provider.GetQueryStatistics(variant.Statement.CommandText);
+                provider.Close();
+
+                PlanEquivalenceTest.ExpectedResultSize = stats.ResultSize;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 
@@ -91,6 +135,21 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         private void lblBenchmark_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OnNavigateBenchmarkObject(PlanEquivalenceTest.TestGroup);
+        }
+
+        private void txtExpectedResultSize_Validating(object sender, CancelEventArgs e)
+        {
+            int i;
+            if (int.TryParse(txtExpectedResultSize.Text, out i))
+            {
+                PlanEquivalenceTest.ExpectedResultSize = i;
+            }
+            txtExpectedResultSize.Text = Convert.ToString(PlanEquivalenceTest.ExpectedResultSize);
+        }
+
+        private void btnSetByFirstVariant_Click(object sender, EventArgs e)
+        {
+            SetResultSizeByFirstVariant();
         }
     }
 }

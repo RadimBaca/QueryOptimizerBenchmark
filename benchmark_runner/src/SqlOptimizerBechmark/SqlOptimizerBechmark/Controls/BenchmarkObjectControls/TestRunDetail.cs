@@ -143,7 +143,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                         }
                         else
                         {
-                            if (planEquivalenceTestResult.Completed && planEquivalenceTestResult.DistinctQueryPlans == 1)
+                            if (planEquivalenceTestResult.Success)
                             {
                                 passed++;
                             }

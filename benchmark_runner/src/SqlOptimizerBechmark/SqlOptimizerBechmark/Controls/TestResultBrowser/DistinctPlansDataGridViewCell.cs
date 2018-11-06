@@ -110,11 +110,11 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
                 foreColor = Color.SteelBlue;
                 text = "Running ...";
             }
-            else if (planEquivalenceTestResult.Completed && planEquivalenceTestResult.DistinctQueryPlans == 1)
+            else if (planEquivalenceTestResult.Success)
             {
                 text = "Passed";
             }
-            else if (planEquivalenceTestResult.Completed && planEquivalenceTestResult.DistinctQueryPlans > 1)
+            else if (planEquivalenceTestResult.Completed)
             {
                 text = "Failed";
             }

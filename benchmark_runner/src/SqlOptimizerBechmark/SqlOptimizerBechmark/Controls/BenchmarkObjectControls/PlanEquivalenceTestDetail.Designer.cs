@@ -37,9 +37,12 @@
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.cbxActive = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtExpectedResultSize = new System.Windows.Forms.TextBox();
+            this.btnSetByFirstVariant = new System.Windows.Forms.Button();
             this.gpxVariants = new System.Windows.Forms.GroupBox();
             this.queryVariantsListView = new SqlOptimizerBechmark.Controls.BenchmarkListView.QueryVariantsListView();
-            this.cbxActive = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -94,7 +97,7 @@
             // 
             this.splitContainer.Panel2.Controls.Add(this.gpxVariants);
             this.splitContainer.Size = new System.Drawing.Size(679, 441);
-            this.splitContainer.SplitterDistance = 170;
+            this.splitContainer.SplitterDistance = 196;
             this.splitContainer.TabIndex = 0;
             // 
             // gpxPlanEquivalenceTest
@@ -103,7 +106,7 @@
             this.gpxPlanEquivalenceTest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpxPlanEquivalenceTest.Location = new System.Drawing.Point(0, 0);
             this.gpxPlanEquivalenceTest.Name = "gpxPlanEquivalenceTest";
-            this.gpxPlanEquivalenceTest.Size = new System.Drawing.Size(679, 170);
+            this.gpxPlanEquivalenceTest.Size = new System.Drawing.Size(679, 196);
             this.gpxPlanEquivalenceTest.TabIndex = 0;
             this.gpxPlanEquivalenceTest.TabStop = false;
             this.gpxPlanEquivalenceTest.Text = "Plan equivalence test";
@@ -111,29 +114,33 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 121F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.txtName, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.txtDescription, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.cbxActive, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.cbxActive, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.txtExpectedResultSize, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.btnSetByFirstVariant, 2, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowCount = 5;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(673, 150);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(673, 176);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // txtName
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.txtName, 2);
-            this.txtName.Location = new System.Drawing.Point(77, 3);
+            this.txtName.Location = new System.Drawing.Point(120, 3);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(230, 21);
             this.txtName.TabIndex = 0;
@@ -143,12 +150,12 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.txtDescription, 2);
             this.txtDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDescription.Location = new System.Drawing.Point(77, 28);
+            this.txtDescription.Location = new System.Drawing.Point(120, 28);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.tableLayoutPanel2.SetRowSpan(this.txtDescription, 2);
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(593, 94);
+            this.txtDescription.Size = new System.Drawing.Size(550, 95);
             this.txtDescription.TabIndex = 2;
             this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
@@ -172,13 +179,56 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Description:";
             // 
+            // cbxActive
+            // 
+            this.cbxActive.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbxActive.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.cbxActive, 2);
+            this.cbxActive.Location = new System.Drawing.Point(120, 155);
+            this.cbxActive.Name = "cbxActive";
+            this.cbxActive.Size = new System.Drawing.Size(56, 17);
+            this.cbxActive.TabIndex = 5;
+            this.cbxActive.Text = "Active";
+            this.cbxActive.UseVisualStyleBackColor = true;
+            this.cbxActive.CheckedChanged += new System.EventHandler(this.cbxActive_CheckedChanged);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 132);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(107, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Expected result size:";
+            // 
+            // txtExpectedResultSize
+            // 
+            this.txtExpectedResultSize.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtExpectedResultSize.Location = new System.Drawing.Point(120, 129);
+            this.txtExpectedResultSize.Name = "txtExpectedResultSize";
+            this.txtExpectedResultSize.Size = new System.Drawing.Size(115, 21);
+            this.txtExpectedResultSize.TabIndex = 3;
+            this.txtExpectedResultSize.Validating += new System.ComponentModel.CancelEventHandler(this.txtExpectedResultSize_Validating);
+            // 
+            // btnSetByFirstVariant
+            // 
+            this.btnSetByFirstVariant.Location = new System.Drawing.Point(238, 128);
+            this.btnSetByFirstVariant.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.btnSetByFirstVariant.Name = "btnSetByFirstVariant";
+            this.btnSetByFirstVariant.Size = new System.Drawing.Size(141, 23);
+            this.btnSetByFirstVariant.TabIndex = 4;
+            this.btnSetByFirstVariant.Text = "Query by first variant";
+            this.btnSetByFirstVariant.UseVisualStyleBackColor = true;
+            this.btnSetByFirstVariant.Click += new System.EventHandler(this.btnSetByFirstVariant_Click);
+            // 
             // gpxVariants
             // 
             this.gpxVariants.Controls.Add(this.queryVariantsListView);
             this.gpxVariants.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpxVariants.Location = new System.Drawing.Point(0, 0);
             this.gpxVariants.Name = "gpxVariants";
-            this.gpxVariants.Size = new System.Drawing.Size(679, 267);
+            this.gpxVariants.Size = new System.Drawing.Size(679, 241);
             this.gpxVariants.TabIndex = 1;
             this.gpxVariants.TabStop = false;
             this.gpxVariants.Text = "Variants";
@@ -189,22 +239,9 @@
             this.queryVariantsListView.Location = new System.Drawing.Point(3, 17);
             this.queryVariantsListView.Name = "queryVariantsListView";
             this.queryVariantsListView.PlanEquivalenceTest = null;
-            this.queryVariantsListView.Size = new System.Drawing.Size(673, 247);
+            this.queryVariantsListView.Size = new System.Drawing.Size(673, 221);
             this.queryVariantsListView.TabIndex = 0;
             this.queryVariantsListView.BenchmarkObjectDoubleClick += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.queryVariantsListView_BenchmarkObjectDoubleClick);
-            // 
-            // cbxActive
-            // 
-            this.cbxActive.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.cbxActive.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.cbxActive, 2);
-            this.cbxActive.Location = new System.Drawing.Point(77, 129);
-            this.cbxActive.Name = "cbxActive";
-            this.cbxActive.Size = new System.Drawing.Size(56, 17);
-            this.cbxActive.TabIndex = 3;
-            this.cbxActive.Text = "Active";
-            this.cbxActive.UseVisualStyleBackColor = true;
-            this.cbxActive.CheckedChanged += new System.EventHandler(this.cbxActive_CheckedChanged);
             // 
             // PlanEquivalenceTestDetail
             // 
@@ -241,5 +278,8 @@
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.LinkLabel lblBenchmark;
         private System.Windows.Forms.CheckBox cbxActive;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtExpectedResultSize;
+        private System.Windows.Forms.Button btnSetByFirstVariant;
     }
 }

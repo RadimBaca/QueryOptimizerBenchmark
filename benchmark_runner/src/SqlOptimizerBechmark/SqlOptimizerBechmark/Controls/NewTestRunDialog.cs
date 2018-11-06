@@ -30,6 +30,12 @@ namespace SqlOptimizerBechmark.Controls
             set => cbxRunCleanUpScript.Checked = value;
         }
 
+        public bool CheckResultSizes
+        {
+            get => cbxCheckResultSizes.Checked;
+            set => cbxCheckResultSizes.Checked = value;
+        }
+
         public NewTestRunDialog()
         {
             InitializeComponent();

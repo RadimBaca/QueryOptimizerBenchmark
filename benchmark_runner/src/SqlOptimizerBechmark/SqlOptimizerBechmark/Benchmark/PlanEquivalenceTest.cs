@@ -11,6 +11,7 @@ namespace SqlOptimizerBechmark.Benchmark
     public class PlanEquivalenceTest: Test
     {
         private ObservableCollection<QueryVariant> variants = new ObservableCollection<QueryVariant>();
+        private int expectedResultSize = 0;
 
         public override IEnumerable<IBenchmarkObject> ChildObjects
         {
@@ -30,6 +31,19 @@ namespace SqlOptimizerBechmark.Benchmark
             get => variants;
         }
 
+        public int ExpectedResultSize
+        {
+            get => expectedResultSize;
+            set
+            {
+                if (value != expectedResultSize)
+                {
+                    expectedResultSize = value;
+                    OnPropertyChanged("ExpectedResultSize");
+                }
+            }
+        }
+
         public PlanEquivalenceTest(TestGroup testGroup)
             : base(testGroup)
         {
@@ -45,6 +59,7 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             base.SaveToXml(serializer);
             serializer.WriteCollection<QueryVariant>("variants", "variant", variants);
+            serializer.WriteInt("expected_result_size", expectedResultSize);
         }
 
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
@@ -52,6 +67,7 @@ namespace SqlOptimizerBechmark.Benchmark
             base.LoadFromXml(serializer);
             serializer.ReadCollection<QueryVariant>("variants", "variant", variants,
                 delegate () { return new QueryVariant(this); });
+            serializer.ReadInt("expected_result_size", ref expectedResultSize);
         }
     }
 }
