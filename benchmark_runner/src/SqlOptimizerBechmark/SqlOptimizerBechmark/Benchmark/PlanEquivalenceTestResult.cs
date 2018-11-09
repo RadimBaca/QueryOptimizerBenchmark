@@ -123,19 +123,20 @@ namespace SqlOptimizerBechmark.Benchmark
                 return;
             }
 
-            if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
+            if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
             {
                 TestGroupResult testGroupResult = TestRun.GetTestGroupResult(TestGroupId);
                 ConfigurationResult configurationResult = TestRun.GetConfigurationResult(ConfigurationId);
 
-                writer.Write("{0};{1};{2};{3}",
+                writer.WriteLine("{0};{1};{2};{3};{4}",
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),
                     TestRun.GetCsvStr(this.TestName),
-                    TestRun.GetCsvStr(Convert.ToString(this.distinctQueryPlans)));
+                    TestRun.GetCsvStr(Convert.ToString(this.distinctQueryPlans)),
+                    TestRun.GetCsvStr(Convert.ToString(this.successfullyCompletedVariants)));
             }
 
-            if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
+            if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
             {
                 foreach (QueryVariantResult variantResult in queryVariantResults)
                 {

@@ -171,7 +171,7 @@ namespace SqlOptimizerBechmark.Benchmark
 
         public void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
         {
-            if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
+            if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
             {
                 TestGroupResult testGroupResult = planEquivalenceTestResult.TestRun.GetTestGroupResult(planEquivalenceTestResult.TestGroupId);
                 ConfigurationResult configurationResult = planEquivalenceTestResult.TestRun.GetConfigurationResult(planEquivalenceTestResult.ConfigurationId);

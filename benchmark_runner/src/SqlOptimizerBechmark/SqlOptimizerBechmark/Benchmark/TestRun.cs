@@ -144,12 +144,12 @@ namespace SqlOptimizerBechmark.Benchmark
 
         public void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
         {
-            if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
+            if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
             {
-                writer.WriteLine("group;configuration;test;distinct plans");
+                writer.WriteLine("group;configuration;test;distinct plans;completed variants");
             }
 
-            if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
+            if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
             {
                 writer.WriteLine("group;configuration;test;variant;result size;processing time;query plan");
             }
