@@ -38,11 +38,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\FastColoredTextBox.dll</HintPath>
     </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\References\Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\References\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>..\References\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -235,6 +248,18 @@
     <Compile Include="DbProviders\Oracle\OracleSettingsControl.Designer.cs">
       <DependentUpon>OracleSettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DbProviders\PostgreSql\PostgreSqlProvider.cs" />
+    <Compile Include="DbProviders\PostgreSql\PostgreSqlResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PostgreSqlResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DbProviders\PostgreSql\PostgreSqlSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbProviders\PostgreSql\PostgreSqlSettingsControl.Designer.cs">
+      <DependentUpon>PostgreSqlSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DbProviders\QueryStatistics.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProvider.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProviderResources.Designer.cs">
@@ -330,6 +355,13 @@
     <EmbeddedResource Include="DbProviders\Oracle\OracleSettingsControl.resx">
       <DependentUpon>OracleSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\PostgreSql\PostgreSqlResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PostgreSqlResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\PostgreSql\PostgreSqlSettingsControl.resx">
+      <DependentUpon>PostgreSqlSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbProviders\SqlServer\SqlServerProviderResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SqlServerProviderResources.Designer.cs</LastGenOutput>
@@ -353,6 +385,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -451,6 +484,7 @@
     <None Include="Resources\ExportToSql_16.png" />
     <None Include="Resources\ExcelFile_16.png" />
     <None Include="Resources\OracleSmall.png" />
+    <None Include="Resources\PostgreSqlSmall.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
