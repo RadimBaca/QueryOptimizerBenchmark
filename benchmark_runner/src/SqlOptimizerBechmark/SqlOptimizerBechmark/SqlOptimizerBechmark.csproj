@@ -77,6 +77,7 @@
     <Compile Include="Benchmark\IIdentifiedBenchmarkObject.cs" />
     <Compile Include="Benchmark\INamedBenchmarkObject.cs" />
     <Compile Include="Benchmark\BenchmarkXmlSerializer.cs" />
+    <Compile Include="Benchmark\INumberedBenchmarkObject.cs" />
     <Compile Include="Benchmark\PlanEquivalenceTestResult.cs" />
     <Compile Include="Benchmark\QueryVariantResult.cs" />
     <Compile Include="Benchmark\ConfigurationResult.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Controls\NewTestRunDialog.Designer.cs">
       <DependentUpon>NewTestRunDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\NumeralStyle.cs" />
     <Compile Include="Controls\ScriptEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

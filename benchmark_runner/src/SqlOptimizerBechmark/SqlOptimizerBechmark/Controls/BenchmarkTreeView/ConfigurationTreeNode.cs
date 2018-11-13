@@ -72,11 +72,5 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         {
             return true;
         }
-
-        public override void AfterLabelEdit(string newLabel)
-        {
-            Benchmark.Configuration configuration = (Benchmark.Configuration)BenchmarkObject;
-            configuration.Name = newLabel;
-        }
     }
 }

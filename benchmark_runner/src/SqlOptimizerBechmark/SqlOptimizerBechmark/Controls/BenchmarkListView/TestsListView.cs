@@ -25,7 +25,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
         protected override Test CreateInstance()
         {
             Benchmark.PlanEquivalenceTest ret = new PlanEquivalenceTest(testGroup);
-            ret.Name = Helpers.GuessNewName(Collection.Select(t => t.Name), "new test");
+            ret.Name = Helpers.GetNewName(Collection.Select(t => t.Name), "new test", NumeralStyle.Guess);
+            ret.Number = Helpers.GetNewName(Collection.Select(t => t.Number), null, NumeralStyle.Arabic);
             return ret;
         }
     }

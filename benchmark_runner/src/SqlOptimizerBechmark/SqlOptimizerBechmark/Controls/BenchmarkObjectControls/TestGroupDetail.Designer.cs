@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestGroupDetail));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblBenchmark = new System.Windows.Forms.LinkLabel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
@@ -37,11 +39,14 @@
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtNumber = new System.Windows.Forms.TextBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabConfigurations = new System.Windows.Forms.TabPage();
             this.configurationsListView = new SqlOptimizerBechmark.Controls.BenchmarkListView.ConfigurationsListView();
             this.tabTests = new System.Windows.Forms.TabPage();
             this.testsListView = new SqlOptimizerBechmark.Controls.BenchmarkListView.TestsListView();
+            this.warningProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -52,6 +57,7 @@
             this.tabControl.SuspendLayout();
             this.tabConfigurations.SuspendLayout();
             this.tabTests.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -76,7 +82,7 @@
             this.lblBenchmark.LinkColor = System.Drawing.Color.RoyalBlue;
             this.lblBenchmark.Location = new System.Drawing.Point(3, 470);
             this.lblBenchmark.Name = "lblBenchmark";
-            this.lblBenchmark.Size = new System.Drawing.Size(73, 13);
+            this.lblBenchmark.Size = new System.Drawing.Size(74, 13);
             this.lblBenchmark.TabIndex = 4;
             this.lblBenchmark.TabStop = true;
             this.lblBenchmark.Text = "Benchmark ...";
@@ -116,42 +122,44 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.txtName, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.txtDescription, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.txtName, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.txtDescription, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.txtNumber, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(693, 151);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(693, 150);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // txtName
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.txtName, 2);
-            this.txtName.Location = new System.Drawing.Point(77, 3);
+            this.txtName.Location = new System.Drawing.Point(77, 28);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(230, 20);
-            this.txtName.TabIndex = 0;
+            this.txtName.Size = new System.Drawing.Size(230, 21);
+            this.txtName.TabIndex = 1;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // txtDescription
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.txtDescription, 2);
             this.txtDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDescription.Location = new System.Drawing.Point(77, 28);
+            this.txtDescription.Location = new System.Drawing.Point(77, 53);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.tableLayoutPanel2.SetRowSpan(this.txtDescription, 2);
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(613, 120);
+            this.txtDescription.Size = new System.Drawing.Size(613, 94);
             this.txtDescription.TabIndex = 2;
             this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
@@ -159,7 +167,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Location = new System.Drawing.Point(3, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 2;
@@ -169,11 +177,30 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 31);
+            this.label2.Location = new System.Drawing.Point(3, 56);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.Size = new System.Drawing.Size(64, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Description:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 6);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Number:";
+            // 
+            // txtNumber
+            // 
+            this.txtNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtNumber.Location = new System.Drawing.Point(77, 3);
+            this.txtNumber.Name = "txtNumber";
+            this.txtNumber.Size = new System.Drawing.Size(114, 21);
+            this.txtNumber.TabIndex = 0;
+            this.txtNumber.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
             // tabControl
             // 
@@ -228,6 +255,11 @@
             this.testsListView.TestGroup = null;
             this.testsListView.BenchmarkObjectDoubleClick += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.testsListView_BenchmarkObjectDoubleClick);
             // 
+            // warningProvider
+            // 
+            this.warningProvider.ContainerControl = this;
+            this.warningProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("warningProvider.Icon")));
+            // 
             // TestGroupDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -247,6 +279,7 @@
             this.tabControl.ResumeLayout(false);
             this.tabConfigurations.ResumeLayout(false);
             this.tabTests.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -267,5 +300,8 @@
         private BenchmarkListView.TestsListView testsListView;
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.LinkLabel lblBenchmark;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtNumber;
+        private System.Windows.Forms.ErrorProvider warningProvider;
     }
 }

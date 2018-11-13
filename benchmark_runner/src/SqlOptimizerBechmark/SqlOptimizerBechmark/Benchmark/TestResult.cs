@@ -12,7 +12,8 @@ namespace SqlOptimizerBechmark.Benchmark
         private TestRun testRun;
 
         private int testId;
-        private string testName;
+        private string testNumber = string.Empty;
+        private string testName = string.Empty;
         private int testGroupId;
         private int configurationId;
         
@@ -29,6 +30,19 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     testId = value;
                     OnPropertyChanged("TestId");
+                }
+            }
+        }
+        
+        public string TestNumber
+        {
+            get => testNumber;
+            set
+            {
+                if (testNumber != value)
+                {
+                    testNumber = value;
+                    OnPropertyChanged("TestNumber");
                 }
             }
         }
@@ -80,6 +94,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadInt("test_id", ref testId);
+            serializer.ReadString("test_number", ref testNumber);
             serializer.ReadString("test_name", ref testName);
             serializer.ReadInt("test_group_id", ref testGroupId);
             serializer.ReadInt("configuration_id", ref configurationId);
@@ -88,6 +103,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("test_id", testId);
+            serializer.WriteString("test_number", testNumber);
             serializer.WriteString("test_name", testName);
             serializer.WriteInt("test_group_id", testGroupId);
             serializer.WriteInt("configuration_id", configurationId);

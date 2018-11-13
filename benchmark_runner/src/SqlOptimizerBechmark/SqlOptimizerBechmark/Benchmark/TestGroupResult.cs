@@ -9,8 +9,9 @@ namespace SqlOptimizerBechmark.Benchmark
     public class TestGroupResult : BenchmarkObject
     {
         private TestRun testRun;
-        private int testGroupId;
-        private string testGroupName;
+        private int testGroupId = 0;
+        private string testGroupNumber = string.Empty;
+        private string testGroupName = string.Empty;
 
         public override IBenchmarkObject ParentObject => testRun;
 
@@ -23,6 +24,19 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     testGroupId = value;
                     OnPropertyChanged("TestGroupId");
+                }
+            }
+        }
+
+        public string TestGroupNumber
+        {
+            get => testGroupNumber;
+            set
+            {
+                if (testGroupNumber != value)
+                {
+                    testGroupNumber = value;
+                    OnPropertyChanged("TestGroupNumber");
                 }
             }
         }
@@ -48,12 +62,14 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadInt("test_group_id", ref testGroupId);
+            serializer.ReadString("test_group_number", ref testGroupNumber);
             serializer.ReadString("test_group_name", ref testGroupName);
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("test_group_id", testGroupId);
+            serializer.WriteString("test_group_number", testGroupNumber);
             serializer.WriteString("test_group_name", testGroupName);
         }
     }

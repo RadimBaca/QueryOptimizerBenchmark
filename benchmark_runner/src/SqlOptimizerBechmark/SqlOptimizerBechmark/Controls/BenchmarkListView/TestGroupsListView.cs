@@ -26,7 +26,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
         protected override TestGroup CreateInstance()
         {
             TestGroup ret = new TestGroup(benchmark);
-            ret.Name = Helpers.GuessNewName(Collection.Select(g => g.Name), "new test group");
+            ret.Name = Helpers.GetNewName(Collection.Select(g => g.Name), "new test group", NumeralStyle.Guess);
+            ret.Number = Helpers.GetNewName(Collection.Select(g => g.Number), null, NumeralStyle.RomanUpper);
             return ret;
         }
     }

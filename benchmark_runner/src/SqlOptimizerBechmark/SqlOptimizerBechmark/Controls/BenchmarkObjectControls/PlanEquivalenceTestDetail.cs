@@ -29,6 +29,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 return;
             }
 
+            txtNumber.Text = PlanEquivalenceTest.Number;
             txtName.Text = PlanEquivalenceTest.Name;
             txtDescription.Text = PlanEquivalenceTest.Description;
             txtExpectedResultSize.Text = Convert.ToString(PlanEquivalenceTest.ExpectedResultSize);
@@ -39,11 +40,36 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
             queryVariantsListView.PlanEquivalenceTest = PlanEquivalenceTest;
             queryVariantsListView.Collection = PlanEquivalenceTest.Variants;
+
+            CheckUniqueNumber();
         }
 
+        private void CheckUniqueNumber()
+        {
+            bool notUnique = false;
+
+            foreach (Benchmark.Test test in PlanEquivalenceTest.TestGroup.Tests)
+            {
+                if (test != PlanEquivalenceTest && test.Number == PlanEquivalenceTest.Number)
+                {
+                    notUnique = true;
+                    break;
+                }
+            }
+
+            warningProvider.Clear();
+            if (notUnique)
+            {
+                warningProvider.SetError(txtNumber, "The test number is not unique within the test group!");
+            }
+        }
         private void PlanEquivalenceTest_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Name")
+            if (e.PropertyName == "Number")
+            {
+                txtNumber.Text = PlanEquivalenceTest.Number;
+            }
+            else if (e.PropertyName == "Name")
             {
                 txtName.Text = PlanEquivalenceTest.Name;
             }
@@ -110,6 +136,12 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void txtNumber_TextChanged(object sender, EventArgs e)
+        {
+            PlanEquivalenceTest.Number = txtNumber.Text;
+            CheckUniqueNumber();
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)

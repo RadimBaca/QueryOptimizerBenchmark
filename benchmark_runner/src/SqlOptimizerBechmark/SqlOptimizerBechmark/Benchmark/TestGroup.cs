@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace SqlOptimizerBechmark.Benchmark
 {
-    public class TestGroup : BenchmarkObject, IIdentifiedBenchmarkObject, INamedBenchmarkObject, IDescribedBenchmarkObject
+    public class TestGroup : BenchmarkObject, IIdentifiedBenchmarkObject, INumberedBenchmarkObject, INamedBenchmarkObject, IDescribedBenchmarkObject
     {
         private Benchmark benchmark;
         private int id = 0;
+        private string number = string.Empty;
         private string name = string.Empty;
         private string description = string.Empty;
         private ObservableCollection<Test> tests = new ObservableCollection<Test>();
@@ -44,6 +45,18 @@ namespace SqlOptimizerBechmark.Benchmark
             get => id;
         }
 
+        public string Number
+        {
+            get => number;
+            set
+            {
+                if (number != value)
+                {
+                    number = value;
+                    OnPropertyChanged("Number");
+                }
+            }
+        }
         public string Name
         {
             get => name;
@@ -127,6 +140,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("id", id);
+            serializer.WriteString("number", number);
             serializer.WriteString("name", name);
             serializer.WriteString("description", description);
             serializer.WriteCollection<Test>("tests", "test", tests);
@@ -139,6 +153,7 @@ namespace SqlOptimizerBechmark.Benchmark
             {
                 id = benchmark.GenerateId();
             }
+            serializer.ReadString("number", ref number);
             serializer.ReadString("name", ref name);
             serializer.ReadString("description", ref description);
 

@@ -140,7 +140,8 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
 
             Brush foreBrush = new SolidBrush(foreColor);
 
-            graphics.DrawString(queryVariantResult.QueryVariantName, fontBold, foreBrush, areaQueryVariantName, format);
+            string title = Helpers.GetTitle(queryVariantResult.QueryVariantNumber, queryVariantResult.QueryVariantName);
+            graphics.DrawString(title, fontBold, foreBrush, areaQueryVariantName, format);
 
             if (queryVariantResult.Completed)
             {

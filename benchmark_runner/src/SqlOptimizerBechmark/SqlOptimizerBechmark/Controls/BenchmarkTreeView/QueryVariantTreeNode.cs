@@ -55,11 +55,5 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         {
             return true;
         }
-
-        public override void AfterLabelEdit(string newLabel)
-        {
-            Benchmark.QueryVariant queryVariant = (Benchmark.QueryVariant)BenchmarkObject;
-            queryVariant.Name = newLabel;
-        }
     }
 }

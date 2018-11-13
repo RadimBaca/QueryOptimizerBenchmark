@@ -12,6 +12,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private PlanEquivalenceTestResult planEquivalenceTestResult;
         private string query = string.Empty;
         private int queryVariantId = 0;
+        private string queryVariantNumber = string.Empty;
         private string queryVariantName = string.Empty;
         private TimeSpan queryProcessingTime = TimeSpan.Zero;
         private int resultSize = 0;
@@ -43,6 +44,19 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     queryVariantId = value;
                     OnPropertyChanged("QueryVariantId");
+                }
+            }
+        }
+
+        public string QueryVariantNumber
+        {
+            get => queryVariantNumber;
+            set
+            {
+                if (queryVariantNumber != value)
+                {
+                    queryVariantNumber = value;
+                    OnPropertyChanged("QueryVariantNumber");
                 }
             }
         }
@@ -147,6 +161,7 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             serializer.ReadString("query", ref query);
             serializer.ReadInt("query_variant_id", ref queryVariantId);
+            serializer.ReadString("query_variant_number", ref queryVariantNumber);
             serializer.ReadString("query_variant_name", ref queryVariantName);
             serializer.ReadTimeSpan("query_processing_time", ref queryProcessingTime);
             serializer.ReadInt("result_size", ref resultSize);
@@ -160,6 +175,7 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             serializer.WriteString("query", query);
             serializer.WriteInt("query_variant_id", queryVariantId);
+            serializer.WriteString("query_variant_number", queryVariantNumber);
             serializer.WriteString("query_variant_name", queryVariantName);
             serializer.WriteTimeSpan("query_processing_time", queryProcessingTime);
             serializer.WriteInt("result_size", resultSize);
@@ -176,7 +192,12 @@ namespace SqlOptimizerBechmark.Benchmark
                 TestGroupResult testGroupResult = planEquivalenceTestResult.TestRun.GetTestGroupResult(planEquivalenceTestResult.TestGroupId);
                 ConfigurationResult configurationResult = planEquivalenceTestResult.TestRun.GetConfigurationResult(planEquivalenceTestResult.ConfigurationId);
 
-                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6}",
+                string code = string.Format("{0}-{1}-{2}-{3}",
+                    testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
+                    planEquivalenceTestResult.TestNumber, queryVariantNumber);
+
+                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7}",
+                    TestRun.GetCsvStr(code),
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),
                     TestRun.GetCsvStr(planEquivalenceTestResult.TestName),

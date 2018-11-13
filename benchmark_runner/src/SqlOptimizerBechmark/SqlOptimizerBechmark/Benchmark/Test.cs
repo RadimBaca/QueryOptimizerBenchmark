@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace SqlOptimizerBechmark.Benchmark
 {
-    public abstract class Test : BenchmarkObject, IIdentifiedBenchmarkObject, INamedBenchmarkObject, IDescribedBenchmarkObject
+    public abstract class Test : BenchmarkObject, IIdentifiedBenchmarkObject, INumberedBenchmarkObject, INamedBenchmarkObject, IDescribedBenchmarkObject
     {
         private TestGroup testGroup;
         private int id = 0;
+        private string number = string.Empty;
         private string name = string.Empty;
         private string description = string.Empty;
         private bool active = true;
@@ -25,6 +26,19 @@ namespace SqlOptimizerBechmark.Benchmark
         public int Id
         {
             get => id;
+        }
+
+        public string Number
+        {
+            get => number;
+            set
+            {
+                if (number != value)
+                {
+                    number = value;
+                    OnPropertyChanged("Number");
+                }
+            }
         }
 
         public string Name
@@ -80,6 +94,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("id", id);
+            serializer.WriteString("number", number);
             serializer.WriteString("name", name);
             serializer.WriteString("description", description);
             serializer.WriteBool("active", active);            
@@ -90,6 +105,7 @@ namespace SqlOptimizerBechmark.Benchmark
             {
                 id = testGroup.Benchmark.GenerateId();
             }
+            serializer.ReadString("number", ref number);
             serializer.ReadString("name", ref name);
             serializer.ReadString("description", ref description);
             serializer.ReadBool("Active", ref active);

@@ -51,10 +51,16 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
 
         protected void BindNamedObjectText()
         {
-            if (benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject)
+            if (benchmarkObject is Benchmark.INumberedBenchmarkObject numberedBenchmarkObject1 &&
+                benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject1)
             {
-                this.Text = namedBenchmarkObject.Name;
-                namedBenchmarkObject.PropertyChanged += NamedBenchmarkObject_PropertyChanged;
+                this.Text = Helpers.GetTitle(numberedBenchmarkObject1, namedBenchmarkObject1);
+                benchmarkObject.PropertyChanged += BenchmarkObject_PropertyChanged;
+            }
+            else if (benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject2)
+            {
+                this.Text = namedBenchmarkObject2.Name;
+                namedBenchmarkObject2.PropertyChanged += BenchmarkObject_PropertyChanged;
             }
             else
             {
@@ -62,12 +68,22 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             }
         }
 
-        private void NamedBenchmarkObject_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void BenchmarkObject_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Name" &&
-                benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject)
+            if (benchmarkObject is Benchmark.INumberedBenchmarkObject numberedBenchmarkObject &&
+                benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject1)
             {
-                this.Text = namedBenchmarkObject.Name;
+                if (e.PropertyName == "Number" || e.PropertyName == "Name")
+                {
+                    this.Text = Helpers.GetTitle(numberedBenchmarkObject, namedBenchmarkObject1);
+                }
+            }
+            else if (benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject)
+            {
+                if (e.PropertyName == "Name")
+                {
+                    this.Text = namedBenchmarkObject.Name;
+                }
             }
         }
 
@@ -132,6 +148,16 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
 
         public virtual void AfterLabelEdit(string newLabel)
         {
+            if (benchmarkObject is Benchmark.INumberedBenchmarkObject numberedBenchmarkObject &&
+                benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject1)
+            {
+                Helpers.ParseTitle(numberedBenchmarkObject, namedBenchmarkObject1, newLabel);
+                this.Text = Helpers.GetTitle(numberedBenchmarkObject, namedBenchmarkObject1);
+            }
+            else if (benchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject)
+            {
+                namedBenchmarkObject.Name = newLabel;
+            }
         }
     }
 }

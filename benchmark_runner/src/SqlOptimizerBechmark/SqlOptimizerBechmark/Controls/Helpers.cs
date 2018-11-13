@@ -63,41 +63,101 @@ namespace SqlOptimizerBechmark.Controls
             }
         }
 
-        public static string GuessNewName(IEnumerable<string> names, string defaultName)
+        private static string ToRomanNumber(int number)
         {
-            string name1 = string.Empty;
-            string name2 = string.Empty;
-            foreach (string name in names)
+            StringBuilder result = new StringBuilder();
+            int[] digitsValues = { 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000 };
+            string[] romanDigits = { "I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M" };
+            while (number > 0)
             {
-                name1 = name2;
-                name2 = name;
+                for (int i = digitsValues.Count() - 1; i >= 0; i--)
+                    if (number / digitsValues[i] >= 1)
+                    {
+                        number -= digitsValues[i];
+                        result.Append(romanDigits[i]);
+                        break;
+                    }
             }
+            return result.ToString();
+        }
 
-            int n1 = ExtractTrailingNumber(name1);
-            int n2 = ExtractTrailingNumber(name2);
-
-            if (n1 >= 0 && n2 >= 0 && n2 == n1 + 1)
+        private static string GetNumber(int order, NumeralStyle style)
+        {
+            if (style == NumeralStyle.Arabic)
             {
-                string str1 = ExtractStrWithoutTrailingNumber(name1);
-                string str2 = ExtractStrWithoutTrailingNumber(name2);
+                return order.ToString();
+            }
+            else if (style == NumeralStyle.RomanUpper)
+            {
+                return ToRomanNumber(order).ToUpper();
+            }
+            else if (style == NumeralStyle.RomanLower)
+            {
+                return ToRomanNumber(order).ToLower();
+            }
+            else if (style == NumeralStyle.AlphabeticUpper)
+            {
+                return ((char)((int)'A' + order - 1)).ToString();
+            }
+            else if (style == NumeralStyle.AlphabeticLower)
+            {
+                return ((char)((int)'a' + order - 1)).ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
 
-                if (str1 == str2)
+        public static string GetNewName(IEnumerable<string> names, string defaultName, NumeralStyle style)
+        {
+            if (style == NumeralStyle.Guess)
+            {
+                string name1 = string.Empty;
+                string name2 = string.Empty;
+                foreach (string name in names)
+                {
+                    name1 = name2;
+                    name2 = name;
+                }
+
+                int n1 = ExtractTrailingNumber(name1);
+                int n2 = ExtractTrailingNumber(name2);
+
+                if (n1 >= 0 && n2 >= 0 && n2 == n1 + 1)
+                {
+                    string str1 = ExtractStrWithoutTrailingNumber(name1);
+                    string str2 = ExtractStrWithoutTrailingNumber(name2);
+
+                    if (str1 == str2)
+                    {
+                        int n3 = n2 + 1;
+                        string ret = str1 + n3.ToString();
+                        return ret;
+                    }
+                }
+
+                if (n2 >= 0)
                 {
                     int n3 = n2 + 1;
-                    string ret = str1 + n3.ToString();
+                    string str = ExtractStrWithoutTrailingNumber(name2);
+                    string ret = str + n3.ToString();
                     return ret;
                 }
-            }
 
-            if (n2 >= 0)
+                return defaultName;
+            }
+            else
             {
-                int n3 = n2 + 1;
-                string str = ExtractStrWithoutTrailingNumber(name2);
-                string ret = str + n3.ToString();
-                return ret;
+                int order = names.Count() + 1;
+                string newName = GetNumber(order, style);
+                while (names.Contains(newName))
+                {
+                    order++;
+                    newName = GetNumber(order, style);
+                }
+                return newName;
             }
-
-            return defaultName;
         }
 
         public static ImageList CreateBenchmarkImageList()
@@ -120,6 +180,41 @@ namespace SqlOptimizerBechmark.Controls
             ret.Images.Add("TestRuns", Properties.Resources.TestRuns_16);
             
             return ret;
+        }
+
+        public static string GetTitle(string number, string name)
+        {
+            if (!string.IsNullOrWhiteSpace(number))
+            {
+                return string.Format("[{0}] {1}", number, name).Trim();
+            }
+            else
+            {
+                return name;
+            }
+        }
+
+        public static string GetTitle(Benchmark.INumberedBenchmarkObject numberedObject, Benchmark.INamedBenchmarkObject namedBenchmarkObject)
+        {
+            return GetTitle(numberedObject.Number, namedBenchmarkObject.Name);
+        }
+
+        public static void ParseTitle(Benchmark.INumberedBenchmarkObject numberedBenchmarkObject, Benchmark.INamedBenchmarkObject namedBenchmarkObject, string title)
+        {
+            int index1 = title.IndexOf("[");
+            int index2 = title.IndexOf("]");
+
+            if (index1 >= 0 && index2 > index1)
+            {
+                string number = title.Substring(index1 + 1, index2 - index1 - 1).Trim();
+                string name = title.Substring(index2 + 1).Trim();
+                numberedBenchmarkObject.Number = number;
+                namedBenchmarkObject.Name = name;
+            }
+            else
+            {
+                namedBenchmarkObject.Name = title.Trim();
+            }
         }
     }
 }

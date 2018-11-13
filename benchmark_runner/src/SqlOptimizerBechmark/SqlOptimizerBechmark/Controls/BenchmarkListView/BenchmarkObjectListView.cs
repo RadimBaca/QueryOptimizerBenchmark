@@ -238,14 +238,26 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
         {
             item.ImageKey = GetImageKey();
 
-            if (item.BenchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject)
+            if (item.BenchmarkObject is Benchmark.INumberedBenchmarkObject numberedBenchmarkObject &&
+                item.BenchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject1)
             {
-                item.Text = namedBenchmarkObject.Name;
-                namedBenchmarkObject.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+                item.Text = Helpers.GetTitle(numberedBenchmarkObject, namedBenchmarkObject1);
+                numberedBenchmarkObject.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName == "Number" || e.PropertyName == "Name")
+                    {
+                        item.Text = Helpers.GetTitle(numberedBenchmarkObject, namedBenchmarkObject1);
+                    }
+                };
+            }
+            else if (item.BenchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject2)
+            {
+                item.Text = namedBenchmarkObject2.Name;
+                namedBenchmarkObject2.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
                 {
                     if (e.PropertyName == "Name")
                     {
-                        item.Text = namedBenchmarkObject.Name;
+                        item.Text = namedBenchmarkObject2.Name;
                     }
                 };
             }
@@ -257,7 +269,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
                 {
                     if (e.PropertyName == "Description")
                     {
-                        item.SubItems[1].Text = describedBenchmarkObject.Description;
+                        item.SubItems[2].Text = describedBenchmarkObject.Description;
                     }
                 };
             }
@@ -271,12 +283,15 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
 
         protected virtual void AfterLabelEdit(BenchmarkObjectListViewItem item, string label)
         {
-            if (label != null)
+            if (item.BenchmarkObject is Benchmark.INumberedBenchmarkObject numberedBenchmarkObject &&
+                item.BenchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject1)
             {
-                if (item.BenchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject)
-                {
-                    namedBenchmarkObject.Name = label;
-                }
+                Helpers.ParseTitle(numberedBenchmarkObject, namedBenchmarkObject1, label);
+                item.Text = Helpers.GetTitle(numberedBenchmarkObject, namedBenchmarkObject1);
+            }
+            else if (item.BenchmarkObject is Benchmark.INamedBenchmarkObject namedBenchmarkObject2)
+            {
+                namedBenchmarkObject2.Name = label;
             }
         }
 
@@ -424,7 +439,12 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
             ListViewItem item = listView.Items[e.Item];
             if (item is BenchmarkObjectListViewItem benchmarkObjectListViewItem)
             {
-                AfterLabelEdit(benchmarkObjectListViewItem, e.Label);
+                if (e.Label != null)
+                {
+                    item.Text = e.Label;
+                    AfterLabelEdit(benchmarkObjectListViewItem, e.Label);
+                    e.CancelEdit = true;
+                }
             }
         }
 

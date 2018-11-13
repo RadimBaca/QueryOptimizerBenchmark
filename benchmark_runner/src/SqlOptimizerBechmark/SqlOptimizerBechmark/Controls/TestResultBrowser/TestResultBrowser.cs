@@ -174,7 +174,11 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             {
                 if (prevTestGroupId != testResult.TestGroupId)
                 {
-                    this[nameColumn.Index, rowIndex].Value = testRun.GetTestGroupResult(testResult.TestGroupId).TestGroupName;
+                    TestGroupResult testGroupResult = testRun.GetTestGroupResult(testResult.TestGroupId);
+
+                    this[nameColumn.Index, rowIndex].Value =
+                        Helpers.GetTitle(testGroupResult.TestGroupNumber, testGroupResult.TestGroupName);
+
                     SetTestGroupRowStyle(Rows[rowIndex]);
                     rowIndex++;
                     if (rowIndex >= RowCount)

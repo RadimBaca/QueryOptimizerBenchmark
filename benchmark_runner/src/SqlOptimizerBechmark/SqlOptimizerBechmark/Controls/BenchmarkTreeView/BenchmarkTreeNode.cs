@@ -95,7 +95,10 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         {
             Benchmark.Benchmark benchmark = (Benchmark.Benchmark)BenchmarkObject;
             Benchmark.TestGroup testGroup = new Benchmark.TestGroup(benchmark);
-            testGroup.Name = Helpers.GuessNewName(benchmark.TestGroups.Select(g => g.Name), "new test group");
+
+            testGroup.Name = Helpers.GetNewName(benchmark.TestGroups.Select(g => g.Name), "new test group", NumeralStyle.Guess);
+            testGroup.Number = Helpers.GetNewName(benchmark.TestGroups.Select(g => g.Number), null, NumeralStyle.RomanUpper);
+
             benchmark.TestGroups.Add(testGroup);
 
             TreeNode newNode = BenchmarkTreeView.GetTreeNode(testGroup);
@@ -109,12 +112,6 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         public override bool IsLabelEditable()
         {
             return true;
-        }
-
-        public override void AfterLabelEdit(string newLabel)
-        {
-            Benchmark.Benchmark benchmark = (Benchmark.Benchmark)BenchmarkObject;
-            benchmark.Name = newLabel;
         }
     }
 }

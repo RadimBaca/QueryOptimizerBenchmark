@@ -11,6 +11,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private TestRun testRun;
 
         private int configurationId = 0;
+        private string configurationNumber = string.Empty;
         private string configurationName = string.Empty;
         private bool initScriptStarted = false;
         private bool initScriptCompleted = false;
@@ -31,6 +32,19 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     configurationId = value;
                     OnPropertyChanged("ConfigurationId");
+                }
+            }
+        }
+
+        public string ConfigurationNumber
+        {
+            get => configurationNumber;
+            set
+            {
+                if (configurationNumber != value)
+                {
+                    configurationNumber = value;
+                    OnPropertyChanged("ConfigurationNumber");
                 }
             }
         }
@@ -134,6 +148,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadInt("configuration_id", ref configurationId);
+            serializer.ReadString("configuration_number", ref configurationNumber);
             serializer.ReadString("configuration_name", ref configurationName);
 
             serializer.ReadBool("init_script_started", ref initScriptStarted);
@@ -147,6 +162,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteInt("configuration_id", configurationId);
+            serializer.WriteString("configuration_number", configurationNumber);
             serializer.WriteString("configuration_name", configurationName);
 
             serializer.WriteBool("init_script_started", initScriptStarted);

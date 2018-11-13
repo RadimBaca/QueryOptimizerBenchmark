@@ -74,6 +74,7 @@ namespace SqlOptimizerBechmark.Executor
             {
                 Benchmark.TestGroupResult testGroupResult = new Benchmark.TestGroupResult(testRun);
                 testGroupResult.TestGroupId = testGroup.Id;
+                testGroupResult.TestGroupNumber = testGroup.Number;
                 testGroupResult.TestGroupName = testGroup.Name;
                 testRun.TestGroupResults.Add(testGroupResult);
 
@@ -81,6 +82,7 @@ namespace SqlOptimizerBechmark.Executor
                 {
                     Benchmark.ConfigurationResult configurationResult = new Benchmark.ConfigurationResult(testRun);
                     configurationResult.ConfigurationId = configuration.Id;
+                    configurationResult.ConfigurationNumber = configuration.Number;
                     configurationResult.ConfigurationName = configuration.Name;
                     testRun.ConfigurationResults.Add(configurationResult);
 
@@ -95,6 +97,7 @@ namespace SqlOptimizerBechmark.Executor
                         {
                             Benchmark.PlanEquivalenceTestResult planEquivalenceTestResult = new Benchmark.PlanEquivalenceTestResult(testRun);
                             planEquivalenceTestResult.TestId = test.Id;
+                            planEquivalenceTestResult.TestNumber = test.Number;
                             planEquivalenceTestResult.TestName = test.Name;
                             planEquivalenceTestResult.TestGroupId = testGroup.Id;
                             planEquivalenceTestResult.ConfigurationId = configuration.Id;
@@ -105,6 +108,7 @@ namespace SqlOptimizerBechmark.Executor
                                 Benchmark.QueryVariantResult queryVariantResult = new Benchmark.QueryVariantResult(planEquivalenceTestResult);
                                 queryVariantResult.Query = variant.Statement.CommandText;
                                 queryVariantResult.QueryVariantId = variant.Id;
+                                queryVariantResult.QueryVariantNumber = variant.Number;
                                 queryVariantResult.QueryVariantName = variant.Name;
                                 planEquivalenceTestResult.QueryVariantResults.Add(queryVariantResult);
                             }

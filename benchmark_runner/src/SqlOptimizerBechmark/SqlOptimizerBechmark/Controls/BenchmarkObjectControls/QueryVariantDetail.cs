@@ -29,6 +29,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 return;
             }
 
+            txtNumber.Text = QueryVariant.Number;
             txtName.Text = QueryVariant.Name;
             txtDescription.Text = QueryVariant.Description;
             fctbStatement.Text = QueryVariant.Statement.CommandText;
@@ -38,11 +39,36 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
             QueryVariant.Statement.PropertyChanged -= Statement_PropertyChanged;
             QueryVariant.Statement.PropertyChanged += Statement_PropertyChanged;
+
+            CheckUniqueNumber();
         }
 
+        private void CheckUniqueNumber()
+        {
+            bool notUnique = false;
+
+            foreach (Benchmark.QueryVariant variant in QueryVariant.PlanEquivalenceTest.Variants)
+            {
+                if (variant != QueryVariant && variant.Number == QueryVariant.Number)
+                {
+                    notUnique = true;
+                    break;
+                }
+            }
+
+            warningProvider.Clear();
+            if (notUnique)
+            {
+                warningProvider.SetError(txtNumber, "The query variant number is not unique within the test!");
+            }
+        }
         private void QueryVariant_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Name")
+            if (e.PropertyName == "Number")
+            {
+                txtNumber.Text = QueryVariant.Number;
+            }
+            else if (e.PropertyName == "Name")
             {
                 txtName.Text = QueryVariant.Name;   
             }
@@ -58,6 +84,12 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 fctbStatement.Text = QueryVariant.Statement.CommandText;
             }
+        }
+
+        private void txtNumber_TextChanged(object sender, EventArgs e)
+        {
+            QueryVariant.Number = txtNumber.Text;
+            CheckUniqueNumber();
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)
@@ -116,6 +148,5 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         {
             OnNavigateBenchmarkObject(QueryVariant.PlanEquivalenceTest);
         }
-
     }
 }

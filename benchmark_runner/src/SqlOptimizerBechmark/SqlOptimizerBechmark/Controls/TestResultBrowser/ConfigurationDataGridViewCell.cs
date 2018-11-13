@@ -162,7 +162,9 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
 
             Brush foreBrush = new SolidBrush(foreColor);
 
-            graphics.DrawString(configurationResult.ConfigurationName, fontBold, foreBrush, areaName, format);
+            string title = Helpers.GetTitle(configurationResult.ConfigurationNumber, configurationResult.ConfigurationName);
+
+            graphics.DrawString(title, fontBold, foreBrush, areaName, format);
 
             graphics.Restore(state);
         }

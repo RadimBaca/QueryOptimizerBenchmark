@@ -24,7 +24,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
         protected override Benchmark.QueryVariant CreateInstance()
         {
             Benchmark.QueryVariant ret = new Benchmark.QueryVariant(planEquivalenceTest);
-            ret.Name = Helpers.GuessNewName(Collection.Select(v => v.Name), "new variant");
+            ret.Name = Helpers.GetNewName(Collection.Select(v => v.Name), "new variant", NumeralStyle.Guess);
+            ret.Number = Helpers.GetNewName(Collection.Select(v => v.Number), null, NumeralStyle.AlphabeticLower);
             return ret;
         }
     }

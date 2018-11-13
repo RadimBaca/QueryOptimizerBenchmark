@@ -90,7 +90,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         {
             Benchmark.TestGroup testGroup = (Benchmark.TestGroup)BenchmarkObject;
             Benchmark.Configuration configuration = new Benchmark.Configuration(testGroup);
-            configuration.Name = Helpers.GuessNewName(testGroup.Configurations.Select(c => c.Name), "new configuration");
+            configuration.Name = Helpers.GetNewName(testGroup.Configurations.Select(c => c.Name), "new configuration", NumeralStyle.Guess);
+            configuration.Number = Helpers.GetNewName(testGroup.Configurations.Select(c => c.Number), null, NumeralStyle.AlphabeticUpper);
             testGroup.Configurations.Add(configuration);
 
             TreeNode newNode = BenchmarkTreeView.GetTreeNode(configuration);
@@ -106,7 +107,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             Benchmark.TestGroup testGroup = (Benchmark.TestGroup)BenchmarkObject;
             Benchmark.PlanEquivalenceTest planEquivalenceTest =
                 new Benchmark.PlanEquivalenceTest(testGroup);
-            planEquivalenceTest.Name = Helpers.GuessNewName(testGroup.Tests.Select(t => t.Name), "new test");
+            planEquivalenceTest.Name = Helpers.GetNewName(testGroup.Tests.Select(t => t.Name), "new test", NumeralStyle.Guess);
+            planEquivalenceTest.Number = Helpers.GetNewName(testGroup.Tests.Select(t => t.Number), null, NumeralStyle.Arabic);
             testGroup.Tests.Add(planEquivalenceTest);
 
             TreeNode newNode = BenchmarkTreeView.GetTreeNode(planEquivalenceTest);
@@ -138,12 +140,6 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         public override bool IsLabelEditable()
         {
             return true;
-        }
-
-        public override void AfterLabelEdit(string newLabel)
-        {
-            Benchmark.TestGroup testGroup = (Benchmark.TestGroup)BenchmarkObject;
-            testGroup.Name = newLabel;
         }
     }
 }

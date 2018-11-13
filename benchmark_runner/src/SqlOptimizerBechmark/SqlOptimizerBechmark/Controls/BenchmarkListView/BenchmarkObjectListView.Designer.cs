@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.listView = new System.Windows.Forms.ListView();
-            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
@@ -45,7 +45,7 @@
             // listView
             // 
             this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colName,
+            this.colTitle,
             this.colDescription});
             this.listView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView.LabelEdit = true;
@@ -60,10 +60,10 @@
             this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
             this.listView.DoubleClick += new System.EventHandler(this.listView_DoubleClick);
             // 
-            // colName
+            // colTitle
             // 
-            this.colName.Text = "Name";
-            this.colName.Width = 154;
+            this.colTitle.Text = "[Number] Name";
+            this.colTitle.Width = 154;
             // 
             // colDescription
             // 
@@ -166,7 +166,7 @@
         #endregion
 
         private System.Windows.Forms.ListView listView;
-        private System.Windows.Forms.ColumnHeader colName;
+        private System.Windows.Forms.ColumnHeader colTitle;
         private System.Windows.Forms.ColumnHeader colDescription;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnAdd;

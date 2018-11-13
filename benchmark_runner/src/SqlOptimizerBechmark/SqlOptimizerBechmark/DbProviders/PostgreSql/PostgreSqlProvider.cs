@@ -132,6 +132,12 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
         {
             if (connection != null && connection.State != System.Data.ConnectionState.Open)
             {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                    connection = null;
+                }
+
                 Connect();
             }
         }

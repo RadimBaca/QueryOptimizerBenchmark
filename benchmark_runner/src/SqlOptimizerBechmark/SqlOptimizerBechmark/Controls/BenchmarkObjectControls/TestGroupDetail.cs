@@ -29,10 +29,10 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 return;
             }
 
+            txtNumber.Text = TestGroup.Number;
             txtName.Text = TestGroup.Name;
             txtDescription.Text = TestGroup.Description;
-
-
+            
             TestGroup.PropertyChanged -= TestGroup_PropertyChanged;
             TestGroup.PropertyChanged += TestGroup_PropertyChanged;
 
@@ -41,11 +41,37 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
             configurationsListView.TestGroup = TestGroup;
             configurationsListView.Collection = TestGroup.Configurations;
+
+            CheckUniqueNumber();
+        }
+
+        private void CheckUniqueNumber()
+        {
+            bool notUnique = false;
+
+            foreach (Benchmark.TestGroup testGroup in TestGroup.Owner.TestGroups)
+            {
+                if (testGroup != TestGroup && testGroup.Number == TestGroup.Number)
+                {
+                    notUnique = true;
+                    break;
+                }
+            }
+
+            warningProvider.Clear();
+            if (notUnique)
+            {
+                warningProvider.SetError(txtNumber, "The group number is not unique!");
+            }
         }
 
         private void TestGroup_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Name")
+            if (e.PropertyName == "Number")
+            {
+                txtNumber.Text = TestGroup.Number;
+            }
+            else if (e.PropertyName == "Name")
             {
                 txtName.Text = TestGroup.Name;
             }
@@ -65,6 +91,12 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 Enabled = true;
             }
+        }
+
+        private void txtNumber_TextChanged(object sender, EventArgs e)
+        {
+            TestGroup.Number = txtNumber.Text;
+            CheckUniqueNumber();
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)

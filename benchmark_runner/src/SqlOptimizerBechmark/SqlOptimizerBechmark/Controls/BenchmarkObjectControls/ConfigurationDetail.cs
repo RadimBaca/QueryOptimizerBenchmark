@@ -29,16 +29,43 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 return;
             }
 
+            txtNumber.Text = Configuration.Number;
             txtName.Text = Configuration.Name;
             txtDescription.Text = Configuration.Description;
 
             Configuration.PropertyChanged -= Configuration_PropertyChanged;
             Configuration.PropertyChanged += Configuration_PropertyChanged;
+
+            CheckUniqueNumber();
+        }
+
+        private void CheckUniqueNumber()
+        {
+            bool notUnique = false;
+
+            foreach (Benchmark.Configuration configuration in Configuration.TestGroup.Configurations)
+            {
+                if (configuration != Configuration && configuration.Number == Configuration.Number)
+                {
+                    notUnique = true;
+                    break;
+                }
+            }
+
+            warningProvider.Clear();
+            if (notUnique)
+            {
+                warningProvider.SetError(txtNumber, "The configuration number is not unique within the test group!");
+            }
         }
 
         private void Configuration_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Name")
+            if (e.PropertyName == "Number")
+            {
+                txtNumber.Text = Configuration.Number;
+            }
+            else if (e.PropertyName == "Name")
             {
                 txtName.Text = Configuration.Name;
             }
@@ -58,6 +85,12 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 Enabled = true;
             }
+        }
+
+        private void txtNumber_TextChanged(object sender, EventArgs e)
+        {
+            Configuration.Number = txtNumber.Text;
+            CheckUniqueNumber();
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)

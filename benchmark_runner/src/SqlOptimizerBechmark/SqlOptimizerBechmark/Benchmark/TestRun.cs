@@ -146,12 +146,12 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
             {
-                writer.WriteLine("group;configuration;test;distinct plans;completed variants");
+                writer.WriteLine("code;group;configuration;test;distinct plans;completed variants");
             }
 
             if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
             {
-                writer.WriteLine("group;configuration;test;variant;result size;processing time;query plan");
+                writer.WriteLine("code;group;configuration;test;variant;result size;processing time;query plan");
             }
 
             foreach (TestResult testResult in testResults)

@@ -233,7 +233,9 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
             if (e.Node is BenchmarkObjectTreeNode benchmarkObjectTreeNode &&
                 e.Label != null)
             {
+                e.Node.Text = e.Label;
                 benchmarkObjectTreeNode.AfterLabelEdit(e.Label);
+                e.CancelEdit = true;
             }
         }
 

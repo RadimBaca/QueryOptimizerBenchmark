@@ -114,7 +114,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         {
             Benchmark.PlanEquivalenceTest planEquivalenceTest = (Benchmark.PlanEquivalenceTest)BenchmarkObject;
             Benchmark.QueryVariant queryVariant = new Benchmark.QueryVariant(planEquivalenceTest);
-            queryVariant.Name = Helpers.GuessNewName(planEquivalenceTest.Variants.Select(v => v.Name), "new variant");
+            queryVariant.Name = Helpers.GetNewName(planEquivalenceTest.Variants.Select(v => v.Name), "new variant", NumeralStyle.Guess);
+            queryVariant.Number = Helpers.GetNewName(planEquivalenceTest.Variants.Select(v => v.Number), null, NumeralStyle.AlphabeticLower);
             planEquivalenceTest.Variants.Add(queryVariant);
 
             TreeNode newNode = BenchmarkTreeView.GetTreeNode(queryVariant);
@@ -134,12 +135,6 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkTreeView
         public override bool IsLabelEditable()
         {
             return true;
-        }
-
-        public override void AfterLabelEdit(string newLabel)
-        {
-            Benchmark.PlanEquivalenceTest planEquivalenceTest = (Benchmark.PlanEquivalenceTest)BenchmarkObject;
-            planEquivalenceTest.Name = newLabel;
         }
     }
 }

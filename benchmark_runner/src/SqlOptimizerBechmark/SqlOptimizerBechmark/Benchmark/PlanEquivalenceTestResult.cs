@@ -128,7 +128,11 @@ namespace SqlOptimizerBechmark.Benchmark
                 TestGroupResult testGroupResult = TestRun.GetTestGroupResult(TestGroupId);
                 ConfigurationResult configurationResult = TestRun.GetConfigurationResult(ConfigurationId);
 
-                writer.WriteLine("{0};{1};{2};{3};{4}",
+                string code = string.Format("{0}-{1}-{2}", testGroupResult.TestGroupNumber,
+                    configurationResult.ConfigurationNumber, this.TestNumber);
+
+                writer.WriteLine("{0};{1};{2};{3};{4};{5}",
+                    TestRun.GetCsvStr(code),
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),
                     TestRun.GetCsvStr(this.TestName),

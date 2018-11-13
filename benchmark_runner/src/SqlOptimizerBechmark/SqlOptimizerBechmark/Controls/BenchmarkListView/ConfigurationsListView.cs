@@ -24,7 +24,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
         protected override Benchmark.Configuration CreateInstance()
         {
             Benchmark.Configuration ret = new Benchmark.Configuration(testGroup);
-            ret.Name = Helpers.GuessNewName(Collection.Select(c => c.Name), "new configuration");
+            ret.Name = Helpers.GetNewName(Collection.Select(c => c.Name), "new configuration", NumeralStyle.Guess);
+            ret.Number = Helpers.GetNewName(Collection.Select(c => c.Number), null, NumeralStyle.AlphabeticUpper);
             return ret;
         }
     }
