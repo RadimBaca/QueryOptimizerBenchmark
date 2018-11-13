@@ -81,7 +81,7 @@ namespace SqlOptimizerBechmark.Controls
             return result.ToString();
         }
 
-        private static string GetNumber(int order, NumeralStyle style)
+        public static string GetNumber(int order, NumeralStyle style)
         {
             if (style == NumeralStyle.Arabic)
             {

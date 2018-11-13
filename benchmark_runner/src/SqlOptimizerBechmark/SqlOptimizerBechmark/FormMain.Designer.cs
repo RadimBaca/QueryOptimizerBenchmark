@@ -30,45 +30,46 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnNew = new System.Windows.Forms.ToolStripButton();
+            this.btnSave = new System.Windows.Forms.ToolStripButton();
+            this.btnOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnNavigateBack = new System.Windows.Forms.ToolStripButton();
+            this.btnNavigateForward = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnActivateAll = new System.Windows.Forms.ToolStripButton();
+            this.btnDeactivateAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnLaunchTest = new System.Windows.Forms.ToolStripButton();
+            this.btnStop = new System.Windows.Forms.ToolStripButton();
+            this.btnInterrupt = new System.Windows.Forms.ToolStripButton();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.benchmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mbtnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.testingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mbtnExportTestingScript = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mbtnAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.mbtnExportToFileSystem = new System.Windows.Forms.ToolStripMenuItem();
-            this.benchmarkTreeView = new SqlOptimizerBechmark.Controls.BenchmarkTreeView.BenchmarkTreeView();
-            this.benchmarkObjectEditor = new SqlOptimizerBechmark.Controls.BenchmarkObjectControls.BenchmarkObjectEditor();
-            this.btnNew = new System.Windows.Forms.ToolStripButton();
-            this.btnSave = new System.Windows.Forms.ToolStripButton();
-            this.btnOpen = new System.Windows.Forms.ToolStripButton();
-            this.btnNavigateBack = new System.Windows.Forms.ToolStripButton();
-            this.btnNavigateForward = new System.Windows.Forms.ToolStripButton();
-            this.btnActivateAll = new System.Windows.Forms.ToolStripButton();
-            this.btnDeactivateAll = new System.Windows.Forms.ToolStripButton();
-            this.btnLaunchTest = new System.Windows.Forms.ToolStripButton();
-            this.btnStop = new System.Windows.Forms.ToolStripButton();
-            this.btnInterrupt = new System.Windows.Forms.ToolStripButton();
-            this.mbtnNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.mbtnOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.mbtnSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnNavigateBack = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnNavigateForward = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mbtnActivateAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnDeactivateAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.testingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnLaunchTest = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnStop = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnInterrupt = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mbtnExportTestingScript = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnExportToFileSystem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mbtnAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.benchmarkTreeView = new SqlOptimizerBechmark.Controls.BenchmarkTreeView.BenchmarkTreeView();
+            this.benchmarkObjectEditor = new SqlOptimizerBechmark.Controls.BenchmarkObjectControls.BenchmarkObjectEditor();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -99,20 +100,119 @@
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // btnNew
+            // 
+            this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnNew.Image = global::SqlOptimizerBechmark.Properties.Resources.New_16;
+            this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(23, 22);
+            this.btnNew.Text = "New benchmark";
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSave.Image = global::SqlOptimizerBechmark.Properties.Resources.Save_16;
+            this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(23, 22);
+            this.btnSave.Text = "toolStripButton1";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnOpen.Image = global::SqlOptimizerBechmark.Properties.Resources.Open_16;
+            this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(23, 22);
+            this.btnOpen.Text = "toolStripButton2";
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnNavigateBack
+            // 
+            this.btnNavigateBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnNavigateBack.Image = global::SqlOptimizerBechmark.Properties.Resources.Left_16;
+            this.btnNavigateBack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNavigateBack.Name = "btnNavigateBack";
+            this.btnNavigateBack.Size = new System.Drawing.Size(23, 22);
+            this.btnNavigateBack.Text = "Navigate backward";
+            this.btnNavigateBack.Click += new System.EventHandler(this.btnNavigateBack_Click);
+            // 
+            // btnNavigateForward
+            // 
+            this.btnNavigateForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnNavigateForward.Image = global::SqlOptimizerBechmark.Properties.Resources.Right_16;
+            this.btnNavigateForward.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNavigateForward.Name = "btnNavigateForward";
+            this.btnNavigateForward.Size = new System.Drawing.Size(23, 22);
+            this.btnNavigateForward.Text = "Navigate forward";
+            this.btnNavigateForward.Click += new System.EventHandler(this.btnNavigateForward_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // btnActivateAll
+            // 
+            this.btnActivateAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnActivateAll.Image = global::SqlOptimizerBechmark.Properties.Resources.CheckAll_16;
+            this.btnActivateAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnActivateAll.Name = "btnActivateAll";
+            this.btnActivateAll.Size = new System.Drawing.Size(23, 22);
+            this.btnActivateAll.Text = "Activate all tests";
+            this.btnActivateAll.Click += new System.EventHandler(this.btnActivateAll_Click);
+            // 
+            // btnDeactivateAll
+            // 
+            this.btnDeactivateAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDeactivateAll.Image = global::SqlOptimizerBechmark.Properties.Resources.UncheckAll_16;
+            this.btnDeactivateAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDeactivateAll.Name = "btnDeactivateAll";
+            this.btnDeactivateAll.Size = new System.Drawing.Size(23, 22);
+            this.btnDeactivateAll.Text = "Deactivate all tests";
+            this.btnDeactivateAll.Click += new System.EventHandler(this.btnDeactivateAll_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnLaunchTest
+            // 
+            this.btnLaunchTest.Image = global::SqlOptimizerBechmark.Properties.Resources.Play_16;
+            this.btnLaunchTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLaunchTest.Name = "btnLaunchTest";
+            this.btnLaunchTest.Size = new System.Drawing.Size(78, 22);
+            this.btnLaunchTest.Text = "Launch ...";
+            this.btnLaunchTest.Click += new System.EventHandler(this.btnLaunchTest_Click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.Image = global::SqlOptimizerBechmark.Properties.Resources.StopRed_16;
+            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(51, 22);
+            this.btnStop.Text = "Stop";
+            this.btnStop.ToolTipText = "Breaks the executing of the tests and runs the clean-up scripts.";
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // btnInterrupt
+            // 
+            this.btnInterrupt.Image = global::SqlOptimizerBechmark.Properties.Resources.InterruptRed;
+            this.btnInterrupt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnInterrupt.Name = "btnInterrupt";
+            this.btnInterrupt.Size = new System.Drawing.Size(73, 22);
+            this.btnInterrupt.Text = "Interrupt";
+            this.btnInterrupt.ToolTipText = "Breaks the executing of the test, does not run any clean-up scripts.";
+            this.btnInterrupt.Click += new System.EventHandler(this.btnInterrupt_Click);
             // 
             // splitContainer
             // 
@@ -159,6 +259,33 @@
             this.benchmarkToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.benchmarkToolStripMenuItem.Text = "Benchmark";
             // 
+            // mbtnNew
+            // 
+            this.mbtnNew.Image = global::SqlOptimizerBechmark.Properties.Resources.New_16;
+            this.mbtnNew.Name = "mbtnNew";
+            this.mbtnNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.mbtnNew.Size = new System.Drawing.Size(158, 22);
+            this.mbtnNew.Text = "New";
+            this.mbtnNew.Click += new System.EventHandler(this.mbtnNew_Click);
+            // 
+            // mbtnOpen
+            // 
+            this.mbtnOpen.Image = global::SqlOptimizerBechmark.Properties.Resources.Open_16;
+            this.mbtnOpen.Name = "mbtnOpen";
+            this.mbtnOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.mbtnOpen.Size = new System.Drawing.Size(158, 22);
+            this.mbtnOpen.Text = "Open ...";
+            this.mbtnOpen.Click += new System.EventHandler(this.mbtnOpen_Click);
+            // 
+            // mbtnSave
+            // 
+            this.mbtnSave.Image = global::SqlOptimizerBechmark.Properties.Resources.Save_16;
+            this.mbtnSave.Name = "mbtnSave";
+            this.mbtnSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.mbtnSave.Size = new System.Drawing.Size(158, 22);
+            this.mbtnSave.Text = "Save";
+            this.mbtnSave.Click += new System.EventHandler(this.mbtnSave_Click);
+            // 
             // mbtnSaveAs
             // 
             this.mbtnSaveAs.Name = "mbtnSaveAs";
@@ -191,205 +318,6 @@
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(172, 6);
-            // 
-            // testingToolStripMenuItem
-            // 
-            this.testingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mbtnLaunchTest,
-            this.mbtnStop,
-            this.mbtnInterrupt,
-            this.toolStripMenuItem3,
-            this.mbtnExportTestingScript,
-            this.mbtnExportToFileSystem});
-            this.testingToolStripMenuItem.Name = "testingToolStripMenuItem";
-            this.testingToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
-            this.testingToolStripMenuItem.Text = "Testing";
-            // 
-            // mbtnExportTestingScript
-            // 
-            this.mbtnExportTestingScript.Image = global::SqlOptimizerBechmark.Properties.Resources.ExportToSql_16;
-            this.mbtnExportTestingScript.Name = "mbtnExportTestingScript";
-            this.mbtnExportTestingScript.Size = new System.Drawing.Size(180, 22);
-            this.mbtnExportTestingScript.Text = "Export testing script";
-            this.mbtnExportTestingScript.Click += new System.EventHandler(this.mbtnExportTestingScript_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mbtnAbout});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // mbtnAbout
-            // 
-            this.mbtnAbout.Name = "mbtnAbout";
-            this.mbtnAbout.Size = new System.Drawing.Size(119, 22);
-            this.mbtnAbout.Text = "About ...";
-            this.mbtnAbout.Click += new System.EventHandler(this.mbtnAbout_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
-            // 
-            // mbtnExportToFileSystem
-            // 
-            this.mbtnExportToFileSystem.Image = global::SqlOptimizerBechmark.Properties.Resources.ExportToFileSystem_16;
-            this.mbtnExportToFileSystem.Name = "mbtnExportToFileSystem";
-            this.mbtnExportToFileSystem.Size = new System.Drawing.Size(180, 22);
-            this.mbtnExportToFileSystem.Text = "Export to file system";
-            this.mbtnExportToFileSystem.Click += new System.EventHandler(this.exportToFileSystemToolStripMenuItem_Click);
-            // 
-            // benchmarkTreeView
-            // 
-            this.benchmarkTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.benchmarkTreeView.Location = new System.Drawing.Point(0, 0);
-            this.benchmarkTreeView.Name = "benchmarkTreeView";
-            this.benchmarkTreeView.Size = new System.Drawing.Size(280, 405);
-            this.benchmarkTreeView.TabIndex = 1;
-            this.benchmarkTreeView.SelectionChanged += new System.EventHandler(this.benchmarkTreeView_SelectionChanged);
-            // 
-            // benchmarkObjectEditor
-            // 
-            this.benchmarkObjectEditor.Benchmark = null;
-            this.benchmarkObjectEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.benchmarkObjectEditor.Location = new System.Drawing.Point(0, 0);
-            this.benchmarkObjectEditor.Name = "benchmarkObjectEditor";
-            this.benchmarkObjectEditor.Size = new System.Drawing.Size(565, 405);
-            this.benchmarkObjectEditor.TabIndex = 0;
-            this.benchmarkObjectEditor.NavigateBenchmarkObject += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.benchmarkObjectEditor_NavigateBenchmarkObject);
-            // 
-            // btnNew
-            // 
-            this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNew.Image = global::SqlOptimizerBechmark.Properties.Resources.New_16;
-            this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(23, 22);
-            this.btnNew.Text = "New benchmark";
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = global::SqlOptimizerBechmark.Properties.Resources.Save_16;
-            this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(23, 22);
-            this.btnSave.Text = "toolStripButton1";
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnOpen
-            // 
-            this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpen.Image = global::SqlOptimizerBechmark.Properties.Resources.Open_16;
-            this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(23, 22);
-            this.btnOpen.Text = "toolStripButton2";
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
-            // 
-            // btnNavigateBack
-            // 
-            this.btnNavigateBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNavigateBack.Image = global::SqlOptimizerBechmark.Properties.Resources.Left_16;
-            this.btnNavigateBack.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNavigateBack.Name = "btnNavigateBack";
-            this.btnNavigateBack.Size = new System.Drawing.Size(23, 22);
-            this.btnNavigateBack.Text = "Navigate backward";
-            this.btnNavigateBack.Click += new System.EventHandler(this.btnNavigateBack_Click);
-            // 
-            // btnNavigateForward
-            // 
-            this.btnNavigateForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNavigateForward.Image = global::SqlOptimizerBechmark.Properties.Resources.Right_16;
-            this.btnNavigateForward.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNavigateForward.Name = "btnNavigateForward";
-            this.btnNavigateForward.Size = new System.Drawing.Size(23, 22);
-            this.btnNavigateForward.Text = "Navigate forward";
-            this.btnNavigateForward.Click += new System.EventHandler(this.btnNavigateForward_Click);
-            // 
-            // btnActivateAll
-            // 
-            this.btnActivateAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnActivateAll.Image = global::SqlOptimizerBechmark.Properties.Resources.CheckAll_16;
-            this.btnActivateAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnActivateAll.Name = "btnActivateAll";
-            this.btnActivateAll.Size = new System.Drawing.Size(23, 22);
-            this.btnActivateAll.Text = "Activate all tests";
-            this.btnActivateAll.Click += new System.EventHandler(this.btnActivateAll_Click);
-            // 
-            // btnDeactivateAll
-            // 
-            this.btnDeactivateAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeactivateAll.Image = global::SqlOptimizerBechmark.Properties.Resources.UncheckAll_16;
-            this.btnDeactivateAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDeactivateAll.Name = "btnDeactivateAll";
-            this.btnDeactivateAll.Size = new System.Drawing.Size(23, 22);
-            this.btnDeactivateAll.Text = "Deactivate all tests";
-            this.btnDeactivateAll.Click += new System.EventHandler(this.btnDeactivateAll_Click);
-            // 
-            // btnLaunchTest
-            // 
-            this.btnLaunchTest.Image = global::SqlOptimizerBechmark.Properties.Resources.Play_16;
-            this.btnLaunchTest.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLaunchTest.Name = "btnLaunchTest";
-            this.btnLaunchTest.Size = new System.Drawing.Size(78, 22);
-            this.btnLaunchTest.Text = "Launch ...";
-            this.btnLaunchTest.Click += new System.EventHandler(this.btnLaunchTest_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Image = global::SqlOptimizerBechmark.Properties.Resources.StopRed_16;
-            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(51, 22);
-            this.btnStop.Text = "Stop";
-            this.btnStop.ToolTipText = "Breaks the executing of the tests and runs the clean-up scripts.";
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // btnInterrupt
-            // 
-            this.btnInterrupt.Image = global::SqlOptimizerBechmark.Properties.Resources.InterruptRed;
-            this.btnInterrupt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnInterrupt.Name = "btnInterrupt";
-            this.btnInterrupt.Size = new System.Drawing.Size(73, 22);
-            this.btnInterrupt.Text = "Interrupt";
-            this.btnInterrupt.ToolTipText = "Breaks the executing of the test, does not run any clean-up scripts.";
-            this.btnInterrupt.Click += new System.EventHandler(this.btnInterrupt_Click);
-            // 
-            // mbtnNew
-            // 
-            this.mbtnNew.Image = global::SqlOptimizerBechmark.Properties.Resources.New_16;
-            this.mbtnNew.Name = "mbtnNew";
-            this.mbtnNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.mbtnNew.Size = new System.Drawing.Size(158, 22);
-            this.mbtnNew.Text = "New";
-            this.mbtnNew.Click += new System.EventHandler(this.mbtnNew_Click);
-            // 
-            // mbtnOpen
-            // 
-            this.mbtnOpen.Image = global::SqlOptimizerBechmark.Properties.Resources.Open_16;
-            this.mbtnOpen.Name = "mbtnOpen";
-            this.mbtnOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mbtnOpen.Size = new System.Drawing.Size(158, 22);
-            this.mbtnOpen.Text = "Open ...";
-            this.mbtnOpen.Click += new System.EventHandler(this.mbtnOpen_Click);
-            // 
-            // mbtnSave
-            // 
-            this.mbtnSave.Image = global::SqlOptimizerBechmark.Properties.Resources.Save_16;
-            this.mbtnSave.Name = "mbtnSave";
-            this.mbtnSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mbtnSave.Size = new System.Drawing.Size(158, 22);
-            this.mbtnSave.Text = "Save";
-            this.mbtnSave.Click += new System.EventHandler(this.mbtnSave_Click);
-            // 
             // mbtnNavigateBack
             // 
             this.mbtnNavigateBack.Image = global::SqlOptimizerBechmark.Properties.Resources.Left_16;
@@ -406,6 +334,11 @@
             this.mbtnNavigateForward.Text = "Navigate forward";
             this.mbtnNavigateForward.Click += new System.EventHandler(this.mbtnNavigateForward_Click);
             // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(172, 6);
+            // 
             // mbtnActivateAll
             // 
             this.mbtnActivateAll.Image = global::SqlOptimizerBechmark.Properties.Resources.CheckAll_16;
@@ -421,6 +354,19 @@
             this.mbtnDeactivateAll.Size = new System.Drawing.Size(175, 22);
             this.mbtnDeactivateAll.Text = "Deactivate all tests";
             this.mbtnDeactivateAll.Click += new System.EventHandler(this.mbtnDeactivateAll_Click);
+            // 
+            // testingToolStripMenuItem
+            // 
+            this.testingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mbtnLaunchTest,
+            this.mbtnStop,
+            this.mbtnInterrupt,
+            this.toolStripMenuItem3,
+            this.mbtnExportTestingScript,
+            this.mbtnExportToFileSystem});
+            this.testingToolStripMenuItem.Name = "testingToolStripMenuItem";
+            this.testingToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.testingToolStripMenuItem.Text = "Testing";
             // 
             // mbtnLaunchTest
             // 
@@ -445,6 +391,70 @@
             this.mbtnInterrupt.Size = new System.Drawing.Size(180, 22);
             this.mbtnInterrupt.Text = "Interrupt";
             this.mbtnInterrupt.Click += new System.EventHandler(this.mbtnInterrupt_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // mbtnExportTestingScript
+            // 
+            this.mbtnExportTestingScript.Image = global::SqlOptimizerBechmark.Properties.Resources.ExportToSql_16;
+            this.mbtnExportTestingScript.Name = "mbtnExportTestingScript";
+            this.mbtnExportTestingScript.Size = new System.Drawing.Size(180, 22);
+            this.mbtnExportTestingScript.Text = "Export testing script";
+            this.mbtnExportTestingScript.Click += new System.EventHandler(this.mbtnExportTestingScript_Click);
+            // 
+            // mbtnExportToFileSystem
+            // 
+            this.mbtnExportToFileSystem.Image = global::SqlOptimizerBechmark.Properties.Resources.ExportToFileSystem_16;
+            this.mbtnExportToFileSystem.Name = "mbtnExportToFileSystem";
+            this.mbtnExportToFileSystem.Size = new System.Drawing.Size(180, 22);
+            this.mbtnExportToFileSystem.Text = "Export to file system";
+            this.mbtnExportToFileSystem.Click += new System.EventHandler(this.exportToFileSystemToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mbtnAbout,
+            this.btnTest});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // mbtnAbout
+            // 
+            this.mbtnAbout.Name = "mbtnAbout";
+            this.mbtnAbout.Size = new System.Drawing.Size(180, 22);
+            this.mbtnAbout.Text = "About ...";
+            this.mbtnAbout.Click += new System.EventHandler(this.mbtnAbout_Click);
+            // 
+            // btnTest
+            // 
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(180, 22);
+            this.btnTest.Text = "TEST Debug";
+            this.btnTest.Visible = false;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // benchmarkTreeView
+            // 
+            this.benchmarkTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.benchmarkTreeView.Location = new System.Drawing.Point(0, 0);
+            this.benchmarkTreeView.Name = "benchmarkTreeView";
+            this.benchmarkTreeView.Size = new System.Drawing.Size(280, 405);
+            this.benchmarkTreeView.TabIndex = 1;
+            this.benchmarkTreeView.SelectionChanged += new System.EventHandler(this.benchmarkTreeView_SelectionChanged);
+            // 
+            // benchmarkObjectEditor
+            // 
+            this.benchmarkObjectEditor.Benchmark = null;
+            this.benchmarkObjectEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.benchmarkObjectEditor.Location = new System.Drawing.Point(0, 0);
+            this.benchmarkObjectEditor.Name = "benchmarkObjectEditor";
+            this.benchmarkObjectEditor.Size = new System.Drawing.Size(565, 405);
+            this.benchmarkObjectEditor.TabIndex = 0;
+            this.benchmarkObjectEditor.NavigateBenchmarkObject += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.benchmarkObjectEditor_NavigateBenchmarkObject);
             // 
             // FormMain
             // 
@@ -515,6 +525,7 @@
         private System.Windows.Forms.ToolStripMenuItem mbtnExportTestingScript;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem mbtnExportToFileSystem;
+        private System.Windows.Forms.ToolStripMenuItem btnTest;
     }
 }
 

@@ -429,5 +429,39 @@ namespace SqlOptimizerBechmark
         {
             ExportToFileSystem();
         }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            foreach (Benchmark.TestGroup group in benchmark.TestGroups)
+            {
+                group.Number = global::SqlOptimizerBechmark.Controls.Helpers.GetNumber(++i, SqlOptimizerBechmark.Controls.NumeralStyle.RomanUpper);
+
+                int j = 0;
+
+                foreach (Benchmark.Configuration config in group.Configurations)
+                {
+                    config.Number = global::SqlOptimizerBechmark.Controls.Helpers.GetNumber(++j, SqlOptimizerBechmark.Controls.NumeralStyle.AlphabeticUpper);
+                }
+
+                j = 0;
+
+                foreach (Benchmark.Test test in group.Tests)
+                {
+                    test.Number = global::SqlOptimizerBechmark.Controls.Helpers.GetNumber(++j, SqlOptimizerBechmark.Controls.NumeralStyle.Arabic);
+
+                    if (test is Benchmark.PlanEquivalenceTest planEquivalenceTest)
+                    {
+                        int k = 0;
+
+                        foreach (Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
+                        {
+                            variant.Number = global::SqlOptimizerBechmark.Controls.Helpers.GetNumber(++k, SqlOptimizerBechmark.Controls.NumeralStyle.AlphabeticLower);
+
+                        }
+                    }
+                }
+            }
+        }
     }
 }
