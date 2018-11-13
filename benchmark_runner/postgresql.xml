@@ -874,31 +874,6 @@ where t.maxLocalSearch = t.local_search
               </statement>
             </variant>
             <variant>
-              <id>73</id>
-              <name>CROSS JOIN and TOP 1 with ties</name>
-              <description></description>
-              <statement>
-                <command_text>select t.id, t.groupby, t.local_search, t.padding
-from (
-  select groupby
-  from TestTable
-  where groupby &gt; 25
-  group by groupby
-) t1
-cross apply
-(
-    SELECT t2.id, t2.groupby, t2.local_search, t2.padding
-    from TestTable t2
-    where t1.groupby = t2.groupby and 
-          t2.local_search is not null
-    order by t2.local_search desc
-    fetch first 1 row with ties
-) t 
-where t.local_search is not null
-</command_text>
-              </statement>
-            </variant>
-            <variant>
               <id>74</id>
               <name>GROUP BY</name>
               <description></description>
@@ -963,20 +938,6 @@ left join TestTable t2 on t2.groupby = t.groupby and
 where t.groupby &gt; 25 and
       t.local_search is not null and
       t2.groupby is null
-</command_text>
-              </statement>
-            </variant>
-            <variant>
-              <id>78</id>
-              <name>TOP 1 with ties</name>
-              <description></description>
-              <statement>
-                <command_text>select t.id, t.groupby, t.local_search, t.padding
-from TestTable t
-where t.groupby &gt; 25 and
-      t.local_search is not null
-order by dense_rank() over (partition by groupby order by local_search desc)
-fetch first 1 row with ties
 </command_text>
               </statement>
             </variant>
