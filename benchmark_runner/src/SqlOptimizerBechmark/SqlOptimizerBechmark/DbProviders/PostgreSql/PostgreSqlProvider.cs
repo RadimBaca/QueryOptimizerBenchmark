@@ -110,8 +110,8 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             }
             else
             {
-                string format = "Host={0};Username={1};Password={2};Database={3};Command timeout={4}";
-                string ret = string.Format(format, host, userName, password, database, commandTimeout);
+                string format = "Host={0};Username={1};Password={2};Database={3};Command timeout=0";
+                string ret = string.Format(format, host, userName, password, database);
                 return ret;
             }
         }
@@ -121,6 +121,10 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             connection = new NpgsqlConnection();
             connection.ConnectionString = GetConnectionString();
             connection.Open();
+
+            NpgsqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "SET statement_timeout = " + (this.commandTimeout * 1000);
+            cmd.ExecuteNonQuery();
         }
 
         public override void Close()
