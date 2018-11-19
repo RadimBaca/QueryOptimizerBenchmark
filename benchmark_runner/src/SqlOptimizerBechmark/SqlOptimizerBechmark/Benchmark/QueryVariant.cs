@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,9 @@ namespace SqlOptimizerBechmark.Benchmark
         private string number = string.Empty;
         private string name = string.Empty;
         private string description = string.Empty;
-        private Statement statement;
+
+        private Statement defaultStatement;
+        private ObservableCollection<SpecificStatement> specificStatements;
 
         public override IBenchmarkObject ParentObject => planEquivalenceTest;
 
@@ -22,7 +25,12 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             get
             {
-                yield return statement;
+                yield return defaultStatement;
+
+                foreach (SpecificStatement specificStatement in specificStatements)
+                {
+                    yield return specificStatement;
+                }
             }
         }
 
@@ -75,16 +83,47 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
-        public Statement Statement
+        public Statement DefaultStatement
         {
-            get => statement;
+            get => defaultStatement;
+        }
+        
+        public ObservableCollection<SpecificStatement> SpecificStatements
+        {
+            get => specificStatements;
         }
 
         public QueryVariant(PlanEquivalenceTest planEquivalenceTest)
         {
             this.id = planEquivalenceTest.Owner.GenerateId();
             this.planEquivalenceTest = planEquivalenceTest;
-            statement = new Statement(this);
+            defaultStatement = new Statement(this);
+            specificStatements = new ObservableCollection<SpecificStatement>();
+        }
+
+        public Statement GetStatement(string providerName)
+        {
+            foreach (SpecificStatement specificStatement in specificStatements)
+            {
+                if (specificStatement.ProviderName == providerName)
+                {
+                    return specificStatement;
+                }
+            }
+
+            return defaultStatement;
+        }
+
+        public bool HasSpecificStatement(string providerName)
+        {
+            foreach (SpecificStatement specificStatement in specificStatements)
+            {
+                if (specificStatement.ProviderName == providerName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
@@ -93,7 +132,8 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("number", number);
             serializer.WriteString("name", name);
             serializer.WriteString("description", description);
-            serializer.WriteObject("statement", statement);
+            serializer.WriteObject("default_statement", defaultStatement);
+            serializer.WriteCollection<SpecificStatement>("specific_statements", "specific_statement", specificStatements);
         }
 
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
@@ -105,7 +145,13 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("number", ref number);
             serializer.ReadString("name", ref name);
             serializer.ReadString("description", ref description);
-            serializer.ReadObject("statement", statement);
+            // Zpetna kompatibilita.
+            if (!serializer.ReadObject("default_statement", defaultStatement))
+            {
+                serializer.ReadObject("statement", defaultStatement);
+            }
+            serializer.ReadCollection<SpecificStatement>("specific_statements", "specific_statement", specificStatements,
+                delegate () { return new SpecificStatement(this); });
         }
     }
 }

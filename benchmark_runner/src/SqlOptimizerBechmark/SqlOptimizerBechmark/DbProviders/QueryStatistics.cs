@@ -16,7 +16,7 @@ namespace SqlOptimizerBechmark.DbProviders
             get => queryProcessingTime;
             set => queryProcessingTime = value;
         }
-
+        
         public int ResultSize
         {
             get => resultSize;

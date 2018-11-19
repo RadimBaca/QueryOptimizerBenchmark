@@ -12,6 +12,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 {
     public partial class QueryVariantDetail : BenchmarkObjectDetail
     {
+        private bool ready = true;
+
         public QueryVariantDetail()
         {
             InitializeComponent();
@@ -29,18 +31,84 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 return;
             }
 
+            ready = false;
+
+            dbProviderComboBox.LoadProviders();
+
+            DbProviders.DbProvider dbProvider = QueryVariant.Owner.ConnectionSettings.DbProvider;
+            if (dbProvider != null && QueryVariant.HasSpecificStatement(dbProvider.Name))
+            {
+                dbProviderComboBox.SelectedDbProvider = dbProvider;
+            }
+            else
+            {
+                dbProviderComboBox.SelectedDbProvider = null;
+            }
+
             txtNumber.Text = QueryVariant.Number;
             txtName.Text = QueryVariant.Name;
             txtDescription.Text = QueryVariant.Description;
-            fctbStatement.Text = QueryVariant.Statement.CommandText;
+
+            BindStatement();
 
             QueryVariant.PropertyChanged -= QueryVariant_PropertyChanged;
             QueryVariant.PropertyChanged += QueryVariant_PropertyChanged;
 
-            QueryVariant.Statement.PropertyChanged -= Statement_PropertyChanged;
-            QueryVariant.Statement.PropertyChanged += Statement_PropertyChanged;
+            QueryVariant.DefaultStatement.PropertyChanged -= Statement_PropertyChanged;
+            QueryVariant.DefaultStatement.PropertyChanged += Statement_PropertyChanged;
 
             CheckUniqueNumber();
+
+            ready = true;
+        }
+
+        private void BindStatement()
+        {
+            DbProviders.DbProvider dbProvider = dbProviderComboBox.SelectedDbProvider;
+            if (dbProvider == null)
+            {
+                fctbStatement.Text = QueryVariant.DefaultStatement.CommandText;
+                fctbStatement.Enabled = true;
+                btnChangeImplementation.Enabled = false;
+            }
+            else
+            {
+                if (QueryVariant.HasSpecificStatement(dbProvider.Name))
+                {
+                    fctbStatement.Text = QueryVariant.GetStatement(dbProvider.Name).CommandText;
+                    fctbStatement.Enabled = true;
+
+                    btnChangeImplementation.Text = "Remove";
+                    btnChangeImplementation.Enabled = true;
+                }
+                else
+                {
+                    fctbStatement.Text = string.Empty;
+                    fctbStatement.Enabled = false;
+
+                    btnChangeImplementation.Text = "Implement";
+                    btnChangeImplementation.Enabled = true;
+                }
+            }
+        }
+
+        private void CreateImplementation(DbProviders.DbProvider dbProvider)
+        {
+            Benchmark.SpecificStatement specificStatement = new Benchmark.SpecificStatement(QueryVariant);
+            specificStatement.ProviderName = dbProvider.Name;
+            QueryVariant.SpecificStatements.Add(specificStatement);
+            BindStatement();
+            dbProviderComboBox.Invalidate();
+        }
+
+        private void RemoveImplementation(DbProviders.DbProvider dbProvider)
+        {
+            Benchmark.Statement statement = QueryVariant.GetStatement(dbProvider.Name);
+            if (statement is Benchmark.SpecificStatement specificStatement)
+            {
+                QueryVariant.SpecificStatements.Remove(specificStatement);
+            }
+            dbProviderComboBox.SelectedDbProvider = null;
         }
 
         private void CheckUniqueNumber()
@@ -82,7 +150,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         {
             if (e.PropertyName == "CommandText")
             {
-                fctbStatement.Text = QueryVariant.Statement.CommandText;
+                fctbStatement.Text = QueryVariant.DefaultStatement.CommandText;
             }
         }
 
@@ -122,7 +190,16 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         {
             if (QueryVariant != null)
             {
-                QueryVariant.Statement.CommandText = fctbStatement.Text;
+                DbProviders.DbProvider dbProvider = dbProviderComboBox.SelectedDbProvider;
+
+                if (dbProvider == null)
+                {
+                    QueryVariant.DefaultStatement.CommandText = fctbStatement.Text;
+                }
+                else if (QueryVariant.HasSpecificStatement(dbProvider.Name))
+                {
+                    QueryVariant.GetStatement(dbProvider.Name).CommandText = fctbStatement.Text;
+                }
             }
         }
 
@@ -147,6 +224,46 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         private void lblTest_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OnNavigateBenchmarkObject(QueryVariant.PlanEquivalenceTest);
+        }
+
+        private void btnChangeImplementation_Click(object sender, EventArgs e)
+        {
+            DbProviders.DbProvider dbProvider = dbProviderComboBox.SelectedDbProvider;
+            if (dbProvider != null)
+            {
+                if (QueryVariant.HasSpecificStatement(dbProvider.Name))
+                {
+                    RemoveImplementation(dbProvider);
+                }
+                else
+                {
+                    CreateImplementation(dbProvider);
+                }
+            }
+        }
+
+        private void dbProviderComboBox_ProviderImplemented(object sender, DbProviderComboBox.ProviderImplementedEventArgs e)
+        {
+            if (QueryVariant != null)
+            {
+                if (e.DbProvider != null)
+                {
+                    e.IsImplemented = QueryVariant.HasSpecificStatement(e.DbProvider.Name);
+                }
+                else
+                {
+                    // Default implementation.
+                    e.IsImplemented = true;
+                }
+            }
+        }
+
+        private void dbProviderComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                BindStatement();
+            }
         }
     }
 }

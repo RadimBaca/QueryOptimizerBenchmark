@@ -81,10 +81,13 @@
     <Compile Include="Benchmark\PlanEquivalenceTestResult.cs" />
     <Compile Include="Benchmark\QueryVariantResult.cs" />
     <Compile Include="Benchmark\ConfigurationResult.cs" />
+    <Compile Include="Benchmark\Script.cs" />
+    <Compile Include="Benchmark\SpecificStatement.cs" />
+    <Compile Include="Benchmark\SpecificStatementList.cs" />
     <Compile Include="Benchmark\TestGroup.cs" />
     <Compile Include="Benchmark\PlanEquivalenceTest.cs" />
     <Compile Include="Benchmark\Test.cs" />
-    <Compile Include="Benchmark\Script.cs" />
+    <Compile Include="Benchmark\StatementList.cs" />
     <Compile Include="Benchmark\Statement.cs" />
     <Compile Include="Benchmark\QueryVariant.cs" />
     <Compile Include="Benchmark\TestGroupResult.cs" />
@@ -191,6 +194,9 @@
     <Compile Include="Controls\DataGridViewEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\DbProviderComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Helpers.cs" />
     <Compile Include="Controls\LogBrowser.cs">
       <SubType>Component</SubType>
@@ -202,11 +208,11 @@
       <DependentUpon>NewTestRunDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\NumeralStyle.cs" />
-    <Compile Include="Controls\ScriptEditor.cs">
+    <Compile Include="Controls\StatementListEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ScriptEditor.Designer.cs">
-      <DependentUpon>ScriptEditor.cs</DependentUpon>
+    <Compile Include="Controls\StatementListEditor.Designer.cs">
+      <DependentUpon>StatementListEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\BenchmarkTreeView\BenchmarkObjectTreeNode.cs" />
     <Compile Include="Controls\BenchmarkTreeView\BenchmarkTreeNode.cs" />
@@ -332,14 +338,17 @@
     <EmbeddedResource Include="Controls\CsvExportSettingsDialog.resx">
       <DependentUpon>CsvExportSettingsDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DbProviderComboBox.resx">
+      <DependentUpon>DbProviderComboBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\LogBrowser.resx">
       <DependentUpon>LogBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NewTestRunDialog.resx">
       <DependentUpon>NewTestRunDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ScriptEditor.resx">
-      <DependentUpon>ScriptEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\StatementListEditor.resx">
+      <DependentUpon>StatementListEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StatementPreviewDialog.resx">
       <DependentUpon>StatementPreviewDialog.cs</DependentUpon>

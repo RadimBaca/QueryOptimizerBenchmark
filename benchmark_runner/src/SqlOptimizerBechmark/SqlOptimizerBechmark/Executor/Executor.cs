@@ -67,6 +67,8 @@ namespace SqlOptimizerBechmark.Executor
                 throw new Exception("Benchmark is not set.");
             }
 
+            DbProviders.DbProvider db = benchmark.ConnectionSettings.DbProvider;
+            
             testRun = new Benchmark.TestRun(benchmark);
             testRun.Name = name;
 
@@ -106,7 +108,7 @@ namespace SqlOptimizerBechmark.Executor
                             foreach (Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
                             {
                                 Benchmark.QueryVariantResult queryVariantResult = new Benchmark.QueryVariantResult(planEquivalenceTestResult);
-                                queryVariantResult.Query = variant.Statement.CommandText;
+                                queryVariantResult.Query = variant.GetStatement(db.Name).CommandText;
                                 queryVariantResult.QueryVariantId = variant.Id;
                                 queryVariantResult.QueryVariantNumber = variant.Number;
                                 queryVariantResult.QueryVariantName = variant.Name;
@@ -131,7 +133,8 @@ namespace SqlOptimizerBechmark.Executor
                 // Init script.
                 if (runInitScript)
                 {
-                    foreach (Benchmark.Statement statement in benchmark.InitScript.Statements)
+                    Benchmark.StatementList initScriptStatements = benchmark.InitScript.GetStatementList(db.Name);
+                    foreach (Benchmark.Statement statement in initScriptStatements.Statements)
                     {
                         if (interruptTesting)
                         {
@@ -221,7 +224,9 @@ namespace SqlOptimizerBechmark.Executor
                                 {
                                     // Init script.
                                     currentConfigurationResult.InitScriptStarted = true;
-                                    foreach (Benchmark.Statement statement in configuration.InitScript.Statements)
+
+                                    Benchmark.StatementList configurationInitScriptStatements = configuration.InitScript.GetStatementList(db.Name);
+                                    foreach (Benchmark.Statement statement in configurationInitScriptStatements.Statements)
                                     {
                                         if (interruptTesting)
                                         {
@@ -383,7 +388,9 @@ namespace SqlOptimizerBechmark.Executor
 
                                     // Clean up script.
                                     currentConfigurationResult.CleanUpScriptStarted = true;
-                                    foreach (Benchmark.Statement statement in configuration.CleanUpScript.Statements)
+
+                                    Benchmark.StatementList configurationCleanUpScriptStatements = configuration.CleanUpScript.GetStatementList(db.Name);
+                                    foreach (Benchmark.Statement statement in configurationCleanUpScriptStatements.Statements)
                                     {
                                         if (interruptTesting)
                                         {
@@ -448,7 +455,8 @@ namespace SqlOptimizerBechmark.Executor
                 // Clean up script.
                 if (runCleanUpScript)
                 {
-                    foreach (Benchmark.Statement statement in benchmark.CleanUpScript.Statements)
+                    Benchmark.StatementList cleanUpScriptStatements = benchmark.CleanUpScript.GetStatementList(db.Name);
+                    foreach (Benchmark.Statement statement in cleanUpScriptStatements.Statements)
                     {
                         if (interruptTesting)
                         {

@@ -42,6 +42,10 @@
             this.txtNumber = new System.Windows.Forms.TextBox();
             this.gpxStatement = new System.Windows.Forms.GroupBox();
             this.fctbStatement = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.dbProviderComboBox = new SqlOptimizerBechmark.Controls.DbProviderComboBox();
+            this.btnChangeImplementation = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.lblNextVariant = new System.Windows.Forms.LinkLabel();
             this.lblPreviousVariant = new System.Windows.Forms.LinkLabel();
             this.lblTest = new System.Windows.Forms.LinkLabel();
@@ -55,6 +59,7 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.gpxStatement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fctbStatement)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -196,6 +201,7 @@
             // gpxStatement
             // 
             this.gpxStatement.Controls.Add(this.fctbStatement);
+            this.gpxStatement.Controls.Add(this.tableLayoutPanel3);
             this.gpxStatement.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpxStatement.Location = new System.Drawing.Point(0, 0);
             this.gpxStatement.Name = "gpxStatement";
@@ -229,16 +235,72 @@
             this.fctbStatement.IsReplaceMode = false;
             this.fctbStatement.Language = FastColoredTextBoxNS.Language.SQL;
             this.fctbStatement.LeftBracket = '(';
-            this.fctbStatement.Location = new System.Drawing.Point(3, 17);
+            this.fctbStatement.Location = new System.Drawing.Point(3, 46);
             this.fctbStatement.Name = "fctbStatement";
             this.fctbStatement.Paddings = new System.Windows.Forms.Padding(0);
             this.fctbStatement.RightBracket = ')';
             this.fctbStatement.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.fctbStatement.Size = new System.Drawing.Size(777, 317);
-            this.fctbStatement.TabIndex = 0;
+            this.fctbStatement.Size = new System.Drawing.Size(777, 288);
+            this.fctbStatement.TabIndex = 1;
             this.fctbStatement.Text = "fastColoredTextBox1";
             this.fctbStatement.Zoom = 100;
             this.fctbStatement.TextChangedDelayed += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fctbStatement_TextChangedDelayed);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 236F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.dbProviderComboBox, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnChangeImplementation, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 17);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(777, 29);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // dbProviderComboBox
+            // 
+            this.dbProviderComboBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.dbProviderComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.dbProviderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dbProviderComboBox.FormattingEnabled = true;
+            this.dbProviderComboBox.Location = new System.Drawing.Point(77, 3);
+            this.dbProviderComboBox.Name = "dbProviderComboBox";
+            this.dbProviderComboBox.SelectedDbProvider = null;
+            this.dbProviderComboBox.Size = new System.Drawing.Size(230, 22);
+            this.dbProviderComboBox.TabIndex = 0;
+            this.dbProviderComboBox.ProviderImplemented += new SqlOptimizerBechmark.Controls.DbProviderComboBox.ProviderImplementedEventHandler(this.dbProviderComboBox_ProviderImplemented);
+            this.dbProviderComboBox.SelectedIndexChanged += new System.EventHandler(this.dbProviderComboBox_SelectedIndexChanged);
+            // 
+            // btnChangeImplementation
+            // 
+            this.btnChangeImplementation.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnChangeImplementation.Location = new System.Drawing.Point(310, 2);
+            this.btnChangeImplementation.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.btnChangeImplementation.Name = "btnChangeImplementation";
+            this.btnChangeImplementation.Size = new System.Drawing.Size(74, 23);
+            this.btnChangeImplementation.TabIndex = 1;
+            this.btnChangeImplementation.Text = "Implement";
+            this.btnChangeImplementation.UseVisualStyleBackColor = true;
+            this.btnChangeImplementation.Click += new System.EventHandler(this.btnChangeImplementation_Click);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Provider:";
             // 
             // lblNextVariant
             // 
@@ -302,6 +364,8 @@
             this.tableLayoutPanel2.PerformLayout();
             this.gpxStatement.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fctbStatement)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -325,5 +389,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtNumber;
         private System.Windows.Forms.ErrorProvider warningProvider;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private DbProviderComboBox dbProviderComboBox;
+        private System.Windows.Forms.Button btnChangeImplementation;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -289,7 +289,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
             writer.WriteLine("GO");
 
-            foreach (Benchmark.Statement statement in benchmark.InitScript.Statements)
+            Benchmark.StatementList initScriptStatements = benchmark.InitScript.GetStatementList(this.Name);
+            foreach (Benchmark.Statement statement in initScriptStatements.Statements)
             {
                 writer.WriteLine(statement.CommandText);
                 writer.WriteLine("GO");
@@ -332,7 +333,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
                     writer.WriteLine("PRINT '    CONFIGURATION: {0}'", GetSqlString(configuration.Name));
 
-                    foreach (Benchmark.Statement statement in configuration.InitScript.Statements)
+                    Benchmark.StatementList configurationInitScriptStatements = configuration.InitScript.GetStatementList(this.Name);
+                    foreach (Benchmark.Statement statement in configurationInitScriptStatements.Statements)
                     {
                         writer.WriteLine(statement.CommandText);
                         writer.WriteLine("GO");
@@ -365,7 +367,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                                     sqlVariantsScript += Environment.NewLine;
                                 }
 
-                                sqlVariantsScript += string.Format(SqlServerProviderResources.SqlVariantScript, GetSqlString(variant.Statement.CommandText));
+                                string commandText = variant.GetStatement(this.Name).CommandText;
+                                sqlVariantsScript += string.Format(SqlServerProviderResources.SqlVariantScript, GetSqlString(commandText));
                             }
 
                             string sqlTestScript = string.Format(SqlServerProviderResources.SqlTestScript,
@@ -376,7 +379,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                         }
                     }
 
-                    foreach (Benchmark.Statement statement in configuration.CleanUpScript.Statements)
+                    Benchmark.StatementList configurationCleanUpScriptStatements = configuration.CleanUpScript.GetStatementList(this.Name);
+                    foreach (Benchmark.Statement statement in configurationCleanUpScriptStatements.Statements)
                     {
                         writer.WriteLine(statement.CommandText);
                         writer.WriteLine("GO");
@@ -384,8 +388,9 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                 }
                 writer.WriteLine("---------------------------------------------------------------------------------------------------------------");
             }
-
-            foreach (Benchmark.Statement statement in benchmark.CleanUpScript.Statements)
+                        
+            Benchmark.StatementList cleanUpScriptStatements = benchmark.CleanUpScript.GetStatementList(this.Name);
+            foreach (Benchmark.Statement statement in cleanUpScriptStatements.Statements)
             {
                 writer.WriteLine(statement.CommandText);
                 writer.WriteLine("GO");
@@ -412,7 +417,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
             // Init script.
             writer = new StringWriter();
-            foreach (Benchmark.Statement statement in benchmark.InitScript.Statements)
+            Benchmark.StatementList initScriptStatements = benchmark.InitScript.GetStatementList(this.Name);
+            foreach (Benchmark.Statement statement in initScriptStatements.Statements)
             {
                 writer.WriteLine(statement.CommandText);
                 writer.WriteLine("GO");
@@ -480,7 +486,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
                     // Init script.
                     writer = new StringWriter();
-                    foreach (Benchmark.Statement statement in configuration.InitScript.Statements)
+                    Benchmark.StatementList configurationInitScriptStatements = configuration.InitScript.GetStatementList(this.Name);
+                    foreach (Benchmark.Statement statement in configurationInitScriptStatements.Statements)
                     {
                         writer.WriteLine(statement.CommandText);
                         writer.WriteLine("GO");
@@ -491,7 +498,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
                     // Init script.
                     writer = new StringWriter();
-                    foreach (Benchmark.Statement statement in configuration.CleanUpScript.Statements)
+                    Benchmark.StatementList configurationCleanUpScriptStatements = configuration.CleanUpScript.GetStatementList(this.Name);
+                    foreach (Benchmark.Statement statement in configurationCleanUpScriptStatements.Statements)
                     {
                         writer.WriteLine(statement.CommandText);
                         writer.WriteLine("GO");
@@ -536,7 +544,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                         foreach (Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
                         {
                             writer = new StringWriter();
-                            writer.WriteLine(variant.Statement.CommandText);
+                            string commandText = variant.GetStatement(this.Name).CommandText;
+                            writer.WriteLine(commandText);
                             writer.Close();
 
                             fileName = Path.Combine(testDirectory, variant.Name + ".sql");
@@ -547,7 +556,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
                 // Clean-up script.
                 writer = new StringWriter();
-                foreach (Benchmark.Statement statement in benchmark.CleanUpScript.Statements)
+                Benchmark.StatementList cleanUpScriptStatements = benchmark.CleanUpScript.GetStatementList(this.Name);
+                foreach (Benchmark.Statement statement in cleanUpScriptStatements.Statements)
                 {
                     writer.WriteLine(statement.CommandText);
                     writer.WriteLine("GO");

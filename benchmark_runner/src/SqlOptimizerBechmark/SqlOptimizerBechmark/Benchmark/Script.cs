@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,46 +9,82 @@ namespace SqlOptimizerBechmark.Benchmark
 {
     public class Script : BenchmarkObject
     {
-        private BenchmarkObject parentObject;
-        private ObservableCollection<Statement> statements = new ObservableCollection<Statement>();
+        private IBenchmarkObject parentObject;
+
+        private StatementList defaultStatementList;
+        private ObservableCollection<SpecificStatementList> specificStatementLists;
+        
         public override IBenchmarkObject ParentObject => parentObject;
 
         public override IEnumerable<IBenchmarkObject> ChildObjects
         {
             get
             {
-                foreach (Statement statement in statements)
+                yield return defaultStatementList;
+                foreach (SpecificStatementList specificStatementList in specificStatementLists)
                 {
-                    yield return statement;
+                    yield return specificStatementList;
                 }
             }
         }
 
-        public ObservableCollection<Statement> Statements
+        public StatementList DefaultStatementList
         {
-            get => statements;
+            get => defaultStatementList;
         }
 
-        public Script(BenchmarkObject parentObject)
+        public ObservableCollection<SpecificStatementList> SpecificStatementLists
+        {
+            get => specificStatementLists;
+        }
+
+        public Script(IBenchmarkObject parentObject)
         {
             this.parentObject = parentObject;
-            statements.CollectionChanged += Statements_CollectionChanged;
+            this.defaultStatementList = new StatementList(this);
+            this.specificStatementLists = new ObservableCollection<SpecificStatementList>();
         }
 
-        private void Statements_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        public StatementList GetStatementList(string providerName)
         {
-            NotifyChange();
+            foreach (SpecificStatementList specificStatementList in specificStatementLists)
+            {
+                if (specificStatementList.ProviderName == providerName)
+                {
+                    return specificStatementList;
+                }
+            }
+
+            return defaultStatementList;
         }
 
-        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        public bool HasSpecificStatementList(string providerName)
         {
-            serializer.WriteCollection<Statement>("statements", "statement", statements);
+            foreach (SpecificStatementList specificStatementList in specificStatementLists)
+            {
+                if (specificStatementList.ProviderName == providerName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            serializer.ReadCollection<Statement>("statements", "statement", statements,
-                delegate () { return new Statement(this); });
+            // Zpetna kompatibilita.
+            if (!serializer.ReadObject("default_statement_list", defaultStatementList))
+            {
+                defaultStatementList.LoadFromXml(serializer);
+            }
+            serializer.ReadCollection<SpecificStatementList>("specific_statement_lists", "specific_statement_list", specificStatementLists,
+                delegate () { return new SpecificStatementList(this); });
+        }
+
+        public override void SaveToXml(BenchmarkXmlSerializer serializer)
+        {
+            serializer.WriteObject("default_statement_list", defaultStatementList);
+            serializer.WriteCollection<SpecificStatementList>("specific_statement_lists", "specific_statement_list", specificStatementLists);
         }
     }
 }
