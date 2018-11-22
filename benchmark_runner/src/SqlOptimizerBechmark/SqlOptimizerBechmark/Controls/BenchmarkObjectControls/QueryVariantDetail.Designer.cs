@@ -46,6 +46,7 @@
             this.dbProviderComboBox = new SqlOptimizerBechmark.Controls.DbProviderComboBox();
             this.btnChangeImplementation = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.cbxNotSupported = new System.Windows.Forms.CheckBox();
             this.lblNextVariant = new System.Windows.Forms.LinkLabel();
             this.lblPreviousVariant = new System.Windows.Forms.LinkLabel();
             this.lblTest = new System.Windows.Forms.LinkLabel();
@@ -241,28 +242,29 @@
             this.fctbStatement.RightBracket = ')';
             this.fctbStatement.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.fctbStatement.Size = new System.Drawing.Size(777, 288);
-            this.fctbStatement.TabIndex = 1;
+            this.fctbStatement.TabIndex = 3;
             this.fctbStatement.Text = "fastColoredTextBox1";
             this.fctbStatement.Zoom = 100;
             this.fctbStatement.TextChangedDelayed += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fctbStatement_TextChangedDelayed);
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnCount = 5;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 236F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Controls.Add(this.dbProviderComboBox, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.btnChangeImplementation, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.cbxNotSupported, 4, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(777, 29);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
@@ -301,6 +303,19 @@
             this.label4.Size = new System.Drawing.Size(51, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Provider:";
+            // 
+            // cbxNotSupported
+            // 
+            this.cbxNotSupported.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbxNotSupported.AutoSize = true;
+            this.cbxNotSupported.Location = new System.Drawing.Point(408, 5);
+            this.cbxNotSupported.Margin = new System.Windows.Forms.Padding(3, 3, 3, 1);
+            this.cbxNotSupported.Name = "cbxNotSupported";
+            this.cbxNotSupported.Size = new System.Drawing.Size(215, 17);
+            this.cbxNotSupported.TabIndex = 2;
+            this.cbxNotSupported.Text = "Not supported by the selected provider";
+            this.cbxNotSupported.UseVisualStyleBackColor = true;
+            this.cbxNotSupported.CheckedChanged += new System.EventHandler(this.cbxNotSupported_CheckedChanged);
             // 
             // lblNextVariant
             // 
@@ -393,5 +408,6 @@
         private DbProviderComboBox dbProviderComboBox;
         private System.Windows.Forms.Button btnChangeImplementation;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox cbxNotSupported;
     }
 }

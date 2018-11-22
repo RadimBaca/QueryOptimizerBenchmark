@@ -68,28 +68,24 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             if (dbProvider == null)
             {
                 fctbStatement.Text = QueryVariant.DefaultStatement.CommandText;
-                fctbStatement.Enabled = true;
-                btnChangeImplementation.Enabled = false;
+                cbxNotSupported.Checked = false;
             }
             else
             {
                 if (QueryVariant.HasSpecificStatement(dbProvider.Name))
                 {
-                    fctbStatement.Text = QueryVariant.GetStatement(dbProvider.Name).CommandText;
-                    fctbStatement.Enabled = true;
-
-                    btnChangeImplementation.Text = "Remove";
-                    btnChangeImplementation.Enabled = true;
+                    Benchmark.SpecificStatement specificStatement = (Benchmark.SpecificStatement)QueryVariant.GetStatement(dbProvider.Name);
+                    fctbStatement.Text = specificStatement.CommandText;
+                    cbxNotSupported.Checked = specificStatement.NotSupported;
                 }
                 else
                 {
                     fctbStatement.Text = string.Empty;
-                    fctbStatement.Enabled = false;
-
-                    btnChangeImplementation.Text = "Implement";
-                    btnChangeImplementation.Enabled = true;
+                    cbxNotSupported.Checked = false;
                 }
             }
+
+            UpdateUI();
         }
 
         private void CreateImplementation(DbProviders.DbProvider dbProvider)
@@ -178,6 +174,33 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 int index = QueryVariant.PlanEquivalenceTest.Variants.IndexOf(QueryVariant);
                 lblPreviousVariant.Enabled = index > 0;
                 lblNextVariant.Enabled = index < QueryVariant.PlanEquivalenceTest.Variants.Count - 1;
+
+
+                DbProviders.DbProvider dbProvider = dbProviderComboBox.SelectedDbProvider;
+                if (dbProvider == null)
+                {
+                    btnChangeImplementation.Enabled = false;
+                    cbxNotSupported.Enabled = false;
+                    fctbStatement.Enabled = true;
+                }
+                else
+                {
+                    if (QueryVariant.HasSpecificStatement(dbProvider.Name))
+                    {
+                        Benchmark.SpecificStatement specificStatement = (Benchmark.SpecificStatement)QueryVariant.GetStatement(dbProvider.Name);
+                        btnChangeImplementation.Enabled = true;
+                        cbxNotSupported.Enabled = true;
+                        btnChangeImplementation.Text = "Remove";
+                        fctbStatement.Enabled = !specificStatement.NotSupported;
+                    }
+                    else
+                    {
+                        btnChangeImplementation.Text = "Implement";
+                        btnChangeImplementation.Enabled = true;
+                        cbxNotSupported.Enabled = false;
+                        fctbStatement.Enabled = false;
+                    }
+                }
             }
         }
 
@@ -263,6 +286,23 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             if (ready)
             {
                 BindStatement();
+            }
+        }
+
+        private void cbxNotSupported_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                DbProviders.DbProvider dbProvider = dbProviderComboBox.SelectedDbProvider;
+                if (dbProvider != null)
+                {
+                    if (QueryVariant.HasSpecificStatement(dbProvider.Name))
+                    {
+                        Benchmark.SpecificStatement specificStatement = (Benchmark.SpecificStatement)QueryVariant.GetStatement(dbProvider.Name);
+                        specificStatement.NotSupported = cbxNotSupported.Checked;
+                        UpdateUI();
+                    }
+                }
             }
         }
     }

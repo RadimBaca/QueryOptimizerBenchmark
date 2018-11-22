@@ -103,16 +103,31 @@ namespace SqlOptimizerBechmark.Executor
                             planEquivalenceTestResult.TestName = test.Name;
                             planEquivalenceTestResult.TestGroupId = testGroup.Id;
                             planEquivalenceTestResult.ConfigurationId = configuration.Id;
-                            testRun.TestResults.Add(planEquivalenceTestResult);
 
                             foreach (Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
                             {
                                 Benchmark.QueryVariantResult queryVariantResult = new Benchmark.QueryVariantResult(planEquivalenceTestResult);
-                                queryVariantResult.Query = variant.GetStatement(db.Name).CommandText;
+                                Benchmark.Statement statement = variant.GetStatement(db.Name);
+
+                                // Skip not supported variants.
+                                if (statement is Benchmark.SpecificStatement specificStatement)
+                                {
+                                    if (specificStatement.NotSupported)
+                                    {
+                                        continue;
+                                    }
+                                }
+
+                                queryVariantResult.Query = statement.CommandText;
                                 queryVariantResult.QueryVariantId = variant.Id;
                                 queryVariantResult.QueryVariantNumber = variant.Number;
                                 queryVariantResult.QueryVariantName = variant.Name;
                                 planEquivalenceTestResult.QueryVariantResults.Add(queryVariantResult);
+                            }
+
+                            if (planEquivalenceTestResult.QueryVariantResults.Count > 0)
+                            {
+                                testRun.TestResults.Add(planEquivalenceTestResult);
                             }
                         }
                         // TODO - other test types.
