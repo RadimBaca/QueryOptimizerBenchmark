@@ -315,7 +315,7 @@ namespace SqlOptimizerBechmark.Executor
                                                 if (currentTestResult is Benchmark.PlanEquivalenceTestResult planEquivalenceTestResult)
                                                 {
                                                     planEquivalenceTestResult.Started = true;
-                                                    HashSet<string> distinctPlans = new HashSet<string>();
+                                                    HashSet<DbProviders.QueryPlan> distinctPlans = new HashSet<DbProviders.QueryPlan>();
                                                     planEquivalenceTestResult.SuccessfullyCompletedVariants = 0;
 
                                                     Benchmark.PlanEquivalenceTest planEquivalenceTest = (Benchmark.PlanEquivalenceTest)test;
@@ -338,7 +338,7 @@ namespace SqlOptimizerBechmark.Executor
                                                             queryVariantResult.Started = true;
 
                                                             DbProviders.QueryStatistics stats = db.GetQueryStatistics(queryVariantResult.Query);
-                                                            string plan = db.GetQueryPlan(queryVariantResult.Query);
+                                                            DbProviders.QueryPlan plan = db.GetQueryPlan(queryVariantResult.Query);
 
                                                             if (checkResultSizes && stats.ResultSize != planEquivalenceTest.ExpectedResultSize)
                                                             {

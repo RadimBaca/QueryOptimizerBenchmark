@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,6 +101,11 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             connection = new OracleConnection();
             connection.ConnectionString = GetConnectionString();
             connection.Open();
+
+            // Set capturing statistics on.
+            OracleCommand cmdCaptureStatsOn = connection.CreateCommand();
+            cmdCaptureStatsOn.CommandText = "ALTER SESSION SET STATISTICS_LEVEL = 'ALL'";
+            cmdCaptureStatsOn.ExecuteNonQuery();
         }
 
         public override void Close()
@@ -215,9 +222,164 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
         {
         }
 
-        public override string GetQueryPlan(string query)
+        private static void ParsePlanOutput(string planOutput, DataTable table)
         {
-            // Odstranit zbytecne bile znaky a strednik z konce prikazu.
+            using (var reader = new StringReader(planOutput))
+            {
+                string line;
+                bool readingContent = false;
+                bool parseHeader = false;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.StartsWith("| Id", true, System.Globalization.CultureInfo.InvariantCulture))
+                    {
+                        readingContent = true;
+                        parseHeader = true;
+                    }
+                    if (readingContent)
+                    {
+                        if (!line.StartsWith("|") && !line.StartsWith("-"))
+                        {
+                            readingContent = false;
+                            break;
+                        }
+
+                        if (line.StartsWith("-"))
+                        {
+                            continue;
+                        }
+
+                        if (parseHeader)
+                        {
+                            string[] fields = line.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray();
+                            foreach (string field in fields)
+                            {
+                                table.Columns.Add(new DataColumn(field, typeof(string)));
+                            }
+                            parseHeader = false;
+                        }
+                        else
+                        {
+                            string[] values = line.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+                            DataRow row = table.NewRow();
+
+                            for (int columnIndex = 0; columnIndex < values.Length && columnIndex <= table.Columns.Count; columnIndex++)
+                            {
+                                row[columnIndex] = values[columnIndex];
+                            }
+
+                            table.Rows.Add(row);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static int ParseInt(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return -1;
+            }
+
+            int multiplier = 1;
+            str = str.Trim();
+
+            if (str.EndsWith("K", true, System.Globalization.CultureInfo.InvariantCulture))
+            {
+                multiplier = 1000;
+                str = str.TrimEnd('K', 'k');
+            }
+            else if (str.EndsWith("M", true, System.Globalization.CultureInfo.InvariantCulture))
+            {
+                multiplier = 1000000;
+                str = str.TrimEnd('M', 'm');
+            }
+            else if (str.EndsWith("G", true, System.Globalization.CultureInfo.InvariantCulture))
+            {
+                multiplier = 1000000000;
+                str = str.TrimEnd('G', 'g');
+            }
+
+            return Convert.ToInt32(str) * multiplier;
+        }
+
+        private QueryPlan CompleteQueryPlan(DataTable actualStatsTable, DataTable estimatedStatsTable)
+        {
+            // Verify whether the both tables have the same number of rows.
+            bool collectEstimatedStats = actualStatsTable.Rows.Count == estimatedStatsTable.Rows.Count;
+
+            QueryPlan ret = new QueryPlan();
+
+            Stack<QueryPlanNode> stack = new Stack<QueryPlanNode>();
+            int rowIndex = 0;
+            int prevLevel = -1;
+            foreach (DataRow actualRow in actualStatsTable.Rows)
+            {
+                DataRow estimatedRow = collectEstimatedStats ? estimatedStatsTable.Rows[rowIndex] : null;
+
+                string operatorNameRaw = Convert.ToString(actualRow["Operation"]);
+                string idRaw = Convert.ToString(actualRow["Id"]);
+                string actualRowsRaw = Convert.ToString(actualRow["A-Rows"]);
+                string estimatedRowsRaw1 = Convert.ToString(actualRow["E-Rows"]);
+                string estimatedRowsRaw2 = estimatedRow != null ? Convert.ToString(estimatedRow["Rows"]) : string.Empty;
+                string costRaw = estimatedRow != null ? Convert.ToString(estimatedRow["Cost (%CPU)"]) : string.Empty;
+                string actualTimeRaw = Convert.ToString(actualRow["A-Time"]);
+                
+                string operatorName = Convert.ToString(operatorNameRaw).Trim();
+                int id = Convert.ToInt32(idRaw.Replace("*", string.Empty).Trim());
+                int actualRows = ParseInt(actualRowsRaw);
+                int estimatedRows = !string.IsNullOrWhiteSpace(estimatedRowsRaw1) ? ParseInt(estimatedRowsRaw1) : ParseInt(estimatedRowsRaw2);
+                int cost = costRaw.Contains("(") ? ParseInt(costRaw.Remove(costRaw.IndexOf('('))) : ParseInt(costRaw);
+                TimeSpan actualTime = TimeSpan.Parse(actualTimeRaw);
+
+                // Count tree level (number of initial spaces).
+                int level = 0;
+                while (level < operatorNameRaw.Length && operatorNameRaw[level] == ' ')
+                {
+                    level++;
+                }
+                level--; // The first character is always a space.
+
+                if (level <= prevLevel)
+                {
+                    for (int i = level; i <= prevLevel; i++)
+                    {
+                        stack.Pop();
+                    }
+                }
+                prevLevel = level;
+
+                QueryPlanNode parent = stack.Count > 0 ? stack.Peek() : null;
+
+                QueryPlanNode node = new QueryPlanNode();
+                node.OpName = operatorName;
+                node.ActualRows = actualRows;
+                node.EstimatedRows = estimatedRows;
+                node.EstimatedCost = cost;
+                node.ActualTime = actualTime;
+                
+                if (parent != null)
+                {
+                    parent.ChildNodes.Add(node);
+                    node.Parent = parent;
+                }
+
+                if (ret.Root == null)
+                {
+                    ret.Root = node;
+                }
+
+                stack.Push(node);
+
+                rowIndex++;
+            }
+
+            return ret;
+        }
+
+        public override QueryPlan GetQueryPlan(string query)
+        {
             query = query.Trim();
             if (!IsAnonymousBlock(query))
             {
@@ -227,43 +389,49 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             OracleDataReader reader = null;
             try
             {
-                OracleCommand cmdDelete = connection.CreateCommand();
-                cmdDelete.CommandText = "DELETE FROM PLAN_TABLE";
-                cmdDelete.ExecuteNonQuery();
+                // Execute the query.
+                OracleCommand cmdExecute = connection.CreateCommand();
+                cmdExecute.CommandText = query;
+                cmdExecute.ExecuteNonQuery();
 
-                OracleCommand cmdExplain = connection.CreateCommand();
-                cmdExplain.CommandText = "EXPLAIN PLAN FOR " + query;
-                cmdExplain.ExecuteNonQuery();
-
-                OracleCommand cmdGetPlan = connection.CreateCommand();
-                cmdGetPlan.CommandText = @"
-SELECT depth, operation
-FROM PLAN_TABLE
-ORDER BY id";
-                string ret = string.Empty;
-
-                reader = cmdGetPlan.ExecuteReader();
+                // Gather actual statistics.
+                OracleCommand cmdGetActualStats = connection.CreateCommand();
+                cmdGetActualStats.CommandText = @"
+SELECT PLAN_TABLE_OUTPUT 
+FROM TABLE(DBMS_XPLAN.DISPLAY_CURSOR(FORMAT=>'ALLSTATS LAST'))";
+                reader = cmdGetActualStats.ExecuteReader();
+                StringWriter actualStatsWriter = new StringWriter();
                 while (reader.Read())
                 {
-                    if (ret != string.Empty)
-                    {
-                        ret += Environment.NewLine;
-                    }
-
-                    int depth = Convert.ToInt32(reader["depth"]);
-                    string operation = Convert.ToString(reader["operation"]);
-
-                    string line = string.Empty;
-                    for (int i = 0; i < depth; i++)
-                    {
-                        line += "    ";
-                    }
-                    line += "|--" + operation;
-                    ret += line;
+                    actualStatsWriter.WriteLine(reader.GetString(0));
                 }
                 reader.Close();
                 reader = null;
+                DataTable actualStatsTable = new DataTable();
+                ParsePlanOutput(actualStatsWriter.ToString(), actualStatsTable);
 
+                // Gather estimated statistics.
+                OracleCommand cmdEstimate = connection.CreateCommand();
+                cmdEstimate.CommandText = "EXPLAIN PLAN FOR " + query;
+                cmdEstimate.ExecuteNonQuery();
+
+                OracleCommand cmdGetEstimatedStats = connection.CreateCommand();
+                cmdGetEstimatedStats.CommandText = @"
+SELECT PLAN_TABLE_OUTPUT
+FROM TABLE(DBMS_XPLAN.DISPLAY)";
+                reader = cmdGetEstimatedStats.ExecuteReader();
+                StringWriter estimatedStatsWriter = new StringWriter();
+                while (reader.Read())
+                {
+                    estimatedStatsWriter.WriteLine(reader.GetString(0));
+                }
+                reader.Close();
+                reader = null;
+                DataTable estimatedStatsTable = new DataTable();
+                ParsePlanOutput(estimatedStatsWriter.ToString(), estimatedStatsTable);
+                
+                // Complete actual and estimated statistics into a query plan.
+                QueryPlan ret = CompleteQueryPlan(actualStatsTable, estimatedStatsTable);
                 return ret;
             }
             catch

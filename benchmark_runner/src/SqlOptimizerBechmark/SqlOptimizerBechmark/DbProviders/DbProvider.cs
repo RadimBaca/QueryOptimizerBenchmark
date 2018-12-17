@@ -34,7 +34,7 @@ namespace SqlOptimizerBechmark.DbProviders
 
         public abstract QueryStatistics GetQueryStatistics(string query);
 
-        public abstract string GetQueryPlan(string query);
+        public abstract QueryPlan GetQueryPlan(string query);
 
         public abstract string GetTestingScript(Benchmark.Benchmark benchmark);
 

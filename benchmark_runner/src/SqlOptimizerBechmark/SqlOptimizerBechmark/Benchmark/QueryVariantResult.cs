@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SqlOptimizerBechmark.Benchmark
 {
@@ -16,7 +17,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private string queryVariantName = string.Empty;
         private TimeSpan queryProcessingTime = TimeSpan.Zero;
         private int resultSize = 0;
-        private string queryPlan = string.Empty;
+        private DbProviders.QueryPlan queryPlan = null;
         private bool started = false;
         private bool completed = false;
         private string errorMessage = string.Empty;
@@ -100,7 +101,7 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
-        public string QueryPlan
+        public DbProviders.QueryPlan QueryPlan
         {
             get => queryPlan;
             set
@@ -165,10 +166,20 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("query_variant_name", ref queryVariantName);
             serializer.ReadTimeSpan("query_processing_time", ref queryProcessingTime);
             serializer.ReadInt("result_size", ref resultSize);
-            serializer.ReadString("query_plan", ref queryPlan);
             serializer.ReadBool("started", ref completed);
             serializer.ReadBool("completed", ref completed);
             serializer.ReadString("error_message", ref errorMessage);
+
+            XElement eQueryPlan = serializer.ReadXml("query_plan");
+            if (eQueryPlan != null)
+            {
+                queryPlan = new DbProviders.QueryPlan();
+                queryPlan.LoadFromXml(eQueryPlan);
+            }
+            else
+            {
+                queryPlan = null;
+            }
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
@@ -179,10 +190,16 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("query_variant_name", queryVariantName);
             serializer.WriteTimeSpan("query_processing_time", queryProcessingTime);
             serializer.WriteInt("result_size", resultSize);
-            serializer.WriteString("query_plan", queryPlan);
             serializer.WriteBool("started", completed);
             serializer.WriteBool("completed", completed);
             serializer.WriteString("error_message", errorMessage);
+
+            if (queryPlan != null)
+            {
+                XElement eQueryPlan = new XElement("query_plan");
+                queryPlan.SaveToXml(eQueryPlan);
+                serializer.WriteXml(eQueryPlan);
+            }
         }
 
         public void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
@@ -196,7 +213,7 @@ namespace SqlOptimizerBechmark.Benchmark
                     testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
                     planEquivalenceTestResult.TestNumber, queryVariantNumber);
 
-                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7}",
+                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10}",
                     TestRun.GetCsvStr(code),
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),
@@ -204,7 +221,11 @@ namespace SqlOptimizerBechmark.Benchmark
                     TestRun.GetCsvStr(this.QueryVariantName),
                     TestRun.GetCsvStr(Convert.ToString(this.resultSize)),
                     TestRun.GetCsvStr(Convert.ToString(this.queryProcessingTime)),
-                    TestRun.GetCsvStr(Convert.ToString(this.queryPlan)));
+                    TestRun.GetCsvStr(Convert.ToString(this.queryPlan)),
+                    queryPlan != null && queryPlan.Root != null ? Convert.ToString(queryPlan.Root.EstimatedCost) : string.Empty,
+                    queryPlan != null && queryPlan.Root != null ? Convert.ToString(queryPlan.Root.EstimatedRows) : string.Empty,
+                    queryPlan != null && queryPlan.Root != null ? Convert.ToString(queryPlan.Root.ActualRows) : string.Empty
+                    );
             }
         }
     }

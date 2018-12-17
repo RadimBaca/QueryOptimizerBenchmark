@@ -151,7 +151,7 @@ namespace SqlOptimizerBechmark.Benchmark
 
             if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
             {
-                writer.WriteLine("code;group;configuration;test;variant;result size;processing time;query plan");
+                writer.WriteLine("code;group;configuration;test;variant;result size;processing time;query plan;root cost;root estimated rows;root actual rows");
             }
 
             foreach (TestResult testResult in testResults)

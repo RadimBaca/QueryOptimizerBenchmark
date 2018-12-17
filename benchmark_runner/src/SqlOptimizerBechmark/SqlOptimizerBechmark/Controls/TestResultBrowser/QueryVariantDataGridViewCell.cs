@@ -13,6 +13,8 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
     public class QueryVariantDataGridViewCell : BenchmarkDataGridViewCell
     {
         private QueryVariantResult queryVariantResult;
+        private ContextMenuStrip contextMenuStrip;
+
 
         public QueryVariantResult QueryVariantResult
         {
@@ -23,6 +25,57 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
                 queryVariantResult.PropertyChanged += QueryVariantResult_PropertyChanged;
                 UpdateCell();
             }
+        }
+
+        private void InitContextMenu()
+        {
+            contextMenuStrip = new ContextMenuStrip();
+            contextMenuStrip.Opening += ContextMenuStrip_Opening;
+            contextMenuStrip.Items.Add("Go to definition", null, goToDefinition_Click);
+            contextMenuStrip.Items.Add("Show query and plan", null, showQueryAndPlan_Click);
+            this.ContextMenuStrip = contextMenuStrip;
+        }
+
+        private void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataGridView != null)
+            {
+                DataGridView.ClearSelection();
+            }
+            this.Selected = true;
+        }
+
+        private void goToDefinition_Click(object sender, EventArgs e)
+        {
+            GoToDefinition();
+        }
+
+        private void showQueryAndPlan_Click(object sender, EventArgs e)
+        {
+            ShowQueryAndPlan();
+        }
+
+        private void GoToDefinition()
+        {
+            DataGridView.Cursor = Cursors.WaitCursor;
+            if (queryVariantResult != null)
+            {
+                Benchmark.QueryVariant queryVariant =
+                    queryVariantResult.Owner.FindObjectById(queryVariantResult.QueryVariantId) as Benchmark.QueryVariant;
+                if (queryVariant != null)
+                {
+                    NavigateBenchmarkObject(queryVariant);
+                }
+            }
+            DataGridView.Cursor = Cursors.Default;
+        }
+
+        private void ShowQueryAndPlan()
+        {
+            StatementPreviewDialog dialog = new StatementPreviewDialog();
+            dialog.Statement = queryVariantResult.Query;
+            dialog.QueryPlan = queryVariantResult.QueryPlan;
+            dialog.Show(DataGridView);
         }
 
         private void UpdateCell()
@@ -73,18 +126,24 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
 
         protected override void OnDoubleClick(DataGridViewCellEventArgs e)
         {
-            DataGridView.Cursor = Cursors.WaitCursor;
             base.OnDoubleClick(e);
-            if (queryVariantResult != null)
+            GoToDefinition();
+        }
+
+        protected override void OnMouseUp(DataGridViewCellMouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+
+            if (e.Button == MouseButtons.Right)
             {
-                Benchmark.QueryVariant queryVariant =
-                    queryVariantResult.Owner.FindObjectById(queryVariantResult.QueryVariantId) as Benchmark.QueryVariant;
-                if (queryVariant != null)
+                if (contextMenuStrip == null)
                 {
-                    NavigateBenchmarkObject(queryVariant);
+                    InitContextMenu();
                 }
+
+                Point pt = Cursor.Position;
+                contextMenuStrip.Show(pt);
             }
-            DataGridView.Cursor = Cursors.Default;
         }
 
         protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)

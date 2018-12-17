@@ -192,30 +192,90 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             }
         }
 
-        private string ParsePlanLine(string line)
+        private IEnumerable<XElement> FindNearestDescendants(XElement element, string name)
         {
-            int index1 = line.IndexOf("(");
-            if (index1 > 0)
+            foreach (XElement child in element.Elements())
             {
-                string opName = line.Substring(0, index1);
-                return opName;
-            }
-            else
-            {
-                return null;
+                if (child.Name.LocalName == name)
+                {
+                    yield return child;
+                }
+                else
+                {
+                    foreach (XElement ret in FindNearestDescendants(child, name))
+                    {
+                        yield return ret;
+                    }
+                }
             }
         }
+
+        private void ParseQueryPlanNode(QueryPlanNode node, XElement element)
+        {
+            XAttribute aOpName = element.Attribute("PhysicalOp");
+            node.OpName = aOpName.Value;
+
+            XAttribute aEstimatedRows = element.Attribute("EstimateRows");
+            if (aEstimatedRows != null)
+            {
+                node.EstimatedRows = Convert.ToDouble(aEstimatedRows.Value, System.Globalization.CultureInfo.InvariantCulture);
+            }
+
+            XAttribute aCost = element.Attribute("EstimatedTotalSubtreeCost");
+            if (aCost != null)
+            {
+                node.EstimatedCost = Convert.ToDouble(aCost.Value, System.Globalization.CultureInfo.InvariantCulture);
+            }
+
+            XElement eRunTimeInformation = element.Element(XName.Get("RunTimeInformation", element.Name.NamespaceName));
+            if (eRunTimeInformation != null)
+            {
+                int actualRowsTotal = 0;
+                int msTotal = 0;
+                foreach (XElement eRunTimeCountersPerThread in eRunTimeInformation.Elements(XName.Get("RunTimeCountersPerThread", element.Name.NamespaceName)))
+                {
+                    int actualRows = Convert.ToInt32(eRunTimeCountersPerThread.Attribute("ActualRows").Value);
+                    actualRowsTotal += actualRows;
+
+                    XAttribute aActualElapsedMs = eRunTimeCountersPerThread.Attribute("ActualElapsedms");
+                    if (aActualElapsedMs != null)
+                    {
+                        int ms = Convert.ToInt32(aActualElapsedMs.Value);
+                        msTotal += ms;
+                    }
+                }
+                node.ActualRows = actualRowsTotal;
+                node.ActualTime = TimeSpan.FromMilliseconds(msTotal);
+            }
+
+            foreach (XElement eChildNode in FindNearestDescendants(element, "RelOp"))
+            {
+                QueryPlanNode child = new QueryPlanNode();
+                ParseQueryPlanNode(child, eChildNode);
+
+                node.ChildNodes.Add(child);
+                child.Parent = node;
+            }
+        }
+
+        private void ParsePlan(QueryPlan plan, XDocument document)
+        {
+            XElement root = document.Root;
+            XElement rootOpElement = FindNearestDescendants(root, "RelOp").First();
+            QueryPlanNode rootNode = new QueryPlanNode();
+            ParseQueryPlanNode(rootNode, rootOpElement);
+            plan.Root = rootNode;
+        }
         
-        public override string GetQueryPlan(string query)
+        public override QueryPlan GetQueryPlan(string query)
         {
             SqlDataReader reader = null;
+            QueryPlan ret = new QueryPlan();
 
             try
             {
-                string ret = string.Empty;
-
                 SqlCommand cmdEnableShowPlan = connection.CreateCommand();
-                cmdEnableShowPlan.CommandText = "SET SHOWPLAN_TEXT ON";
+                cmdEnableShowPlan.CommandText = "SET STATISTICS XML ON";
                 cmdEnableShowPlan.ExecuteNonQuery();
 
                 SqlCommand cmdGetPlan = connection.CreateCommand();
@@ -225,19 +285,12 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                 // Skip the first result (command text).
                 if (reader.NextResult())
                 {
-                    ret = string.Empty;
-                    while (reader.Read())
+                    if (reader.Read())
                     {
-                        if (ret != string.Empty)
-                        {
-                            ret += Environment.NewLine;
-                        }
-
-                        string line = Convert.ToString(reader[0]);
-                        if (line != null)
-                        {
-                            ret += ParsePlanLine(line);
-                        }
+                        string xml = reader.GetString(0);
+                        XDocument doc = new XDocument();
+                        doc = XDocument.Parse(xml);
+                        ParsePlan(ret, doc);
                     }
                 }
 
@@ -245,7 +298,7 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                 reader = null;
 
                 SqlCommand cmdDisableShowPlan = connection.CreateCommand();
-                cmdDisableShowPlan.CommandText = "SET SHOWPLAN_TEXT OFF";
+                cmdDisableShowPlan.CommandText = "SET STATISTICS XML OFF";
                 cmdDisableShowPlan.ExecuteNonQuery();
 
                 return ret;

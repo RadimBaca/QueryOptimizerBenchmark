@@ -154,29 +154,6 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             command.CommandText = statement;
             command.ExecuteNonQuery();
         }
-
-        private void GetPlanStr(ref string destStr, XElement element, int level = 0)
-        {
-            XNamespace ns = "http://www.postgresql.org/2009/explain";
-
-            for (int i = 0; i < level; i++)
-            {
-                destStr += "    ";
-            }
-
-            if (element.Element(ns + "Node-Type") != null)
-            {
-                destStr += "|--" + element.Element(ns + "Node-Type").Value + Environment.NewLine;
-            }
-
-            if (element.Element(ns + "Plans") != null)
-            {
-                foreach (XElement child in element.Element(ns + "Plans").Elements(ns + "Plan"))
-                {
-                    GetPlanStr(ref destStr, child, level + 1);
-                }
-            }
-        }
         
         public override QueryStatistics GetQueryStatistics(string query)
         {
@@ -206,25 +183,68 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
         }
 
 
-        public override string GetQueryPlan(string query)
+        private QueryPlanNode ParseElement(XElement element)
         {
-            CheckConnection();
+            QueryPlanNode node = new QueryPlanNode();
+            string xn = element.GetDefaultNamespace().NamespaceName;
 
-            string sql = "EXPLAIN (FORMAT XML) " + query;
+            node.OpName = element.Element(XName.Get("Node-Type", xn)).Value;
+            node.EstimatedCost = Convert.ToDouble(element.Element(XName.Get("Total-Cost", xn)).Value,
+                System.Globalization.CultureInfo.InvariantCulture);
+            node.EstimatedRows = Convert.ToDouble(element.Element(XName.Get("Plan-Rows", xn)).Value,
+                System.Globalization.CultureInfo.InvariantCulture);
+            node.ActualRows = Convert.ToInt32(element.Element(XName.Get("Actual-Rows", xn)).Value);
+            node.ActualTime = TimeSpan.FromMilliseconds(Convert.ToDouble(element.Element(XName.Get("Actual-Total-Time", xn)).Value,
+                System.Globalization.CultureInfo.InvariantCulture));
 
-            NpgsqlCommand command = connection.CreateCommand();
-            command.CommandText = sql;
-            object obj = command.ExecuteScalar();
+            XElement ePlans = element.Element(XName.Get("Plans", xn));
+            if (ePlans != null)
+            {
+                foreach (XElement ePlan in ePlans.Elements(XName.Get("Plan", xn)))
+                {
+                    QueryPlanNode child = ParseElement(ePlan);
 
-            string xmlStr = Convert.ToString(obj);
-            XDocument document = XDocument.Parse(xmlStr);
+                    node.ChildNodes.Add(child);
+                    child.Parent = node;
+                }
+            }
 
-            XNamespace ns = "http://www.postgresql.org/2009/explain";
+            return node;
+        }
 
-            string ret = string.Empty;
-            GetPlanStr(ref ret, document.Element(ns + "explain").Element(ns + "Query").Element(ns + "Plan"));
+        public override QueryPlan GetQueryPlan(string query)
+        {
+            NpgsqlDataReader reader = null;
+            try
+            {
+                NpgsqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "EXPLAIN (analyze, FORMAT XML) " + query;
+                object o = cmd.ExecuteScalar();
+                string xml = Convert.ToString(o);
+                XDocument document = XDocument.Parse(xml);
+                
+                XElement eExplain = document.Root;
+                string xn = eExplain.GetDefaultNamespace().NamespaceName;
+                XElement eQuery = eExplain.Element(XName.Get("Query", xn));
+                XElement ePlan = eQuery.Element(XName.Get("Plan", xn));
 
-            return ret;
+                QueryPlanNode rootNode = ParseElement(ePlan);
+                QueryPlan ret = new QueryPlan();
+                ret.Root = rootNode;
+                return ret;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                    reader = null;
+                }
+            }
         }
 
         public override string GetTestingScript(Benchmark.Benchmark benchmark)
