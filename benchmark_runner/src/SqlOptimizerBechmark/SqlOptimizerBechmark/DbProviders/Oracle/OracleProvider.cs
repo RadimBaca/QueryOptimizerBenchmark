@@ -501,7 +501,7 @@ FROM TABLE(DBMS_XPLAN.DISPLAY)";
                 {
                     ret.Result = new DataTable();
                     ret.Result.Load(cmdQuery.ExecuteReader());
-                    ret.ResultSize = ret.Result.Rows.Count;
+                    resultSize = ret.Result.Rows.Count;
                 }
 
                 DateTime t1 = DateTime.Now;
