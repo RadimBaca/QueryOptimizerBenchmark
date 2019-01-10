@@ -38,6 +38,7 @@
             this.cbxRunCleanUpScript = new System.Windows.Forms.CheckBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.cbxCheckResultSizes = new System.Windows.Forms.CheckBox();
+            this.cbxCompareResults = new System.Windows.Forms.CheckBox();
             this.gpxSettings.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +47,7 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(185, 157);
+            this.btnOk.Location = new System.Drawing.Point(185, 177);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
@@ -57,7 +58,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(266, 157);
+            this.btnCancel.Location = new System.Drawing.Point(266, 177);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -72,7 +73,7 @@
             this.gpxSettings.Controls.Add(this.tableLayoutPanel1);
             this.gpxSettings.Location = new System.Drawing.Point(12, 12);
             this.gpxSettings.Name = "gpxSettings";
-            this.gpxSettings.Size = new System.Drawing.Size(329, 139);
+            this.gpxSettings.Size = new System.Drawing.Size(329, 159);
             this.gpxSettings.TabIndex = 0;
             this.gpxSettings.TabStop = false;
             this.gpxSettings.Text = "Settings";
@@ -87,17 +88,19 @@
             this.tableLayoutPanel1.Controls.Add(this.cbxRunCleanUpScript, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.txtName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.cbxCheckResultSizes, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.cbxCompareResults, 1, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(323, 119);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(323, 139);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label1
@@ -151,13 +154,24 @@
             this.cbxCheckResultSizes.Text = "Check result sizes";
             this.cbxCheckResultSizes.UseVisualStyleBackColor = true;
             // 
+            // cbxCompareResults
+            // 
+            this.cbxCompareResults.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbxCompareResults.AutoSize = true;
+            this.cbxCompareResults.Location = new System.Drawing.Point(60, 114);
+            this.cbxCompareResults.Name = "cbxCompareResults";
+            this.cbxCompareResults.Size = new System.Drawing.Size(104, 17);
+            this.cbxCompareResults.TabIndex = 4;
+            this.cbxCompareResults.Text = "Compare results";
+            this.cbxCompareResults.UseVisualStyleBackColor = true;
+            // 
             // NewTestRunDialog
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(353, 192);
+            this.ClientSize = new System.Drawing.Size(353, 212);
             this.Controls.Add(this.gpxSettings);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -188,5 +202,6 @@
         private System.Windows.Forms.CheckBox cbxRunCleanUpScript;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.CheckBox cbxCheckResultSizes;
+        private System.Windows.Forms.CheckBox cbxCompareResults;
     }
 }

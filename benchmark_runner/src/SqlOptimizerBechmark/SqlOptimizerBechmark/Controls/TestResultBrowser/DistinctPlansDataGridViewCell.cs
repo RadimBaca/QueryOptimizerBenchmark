@@ -58,6 +58,13 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             }
         }
 
+        private void InvalidateCell()
+        {
+            if (DataGridView != null)
+            {
+                DataGridView.InvalidateCell(this);
+            }
+        }
 
         private void PlanEquivalenceTestResult_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -70,6 +77,12 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             if (e.PropertyName == "Started" || e.PropertyName == "Completed")
             {
                 DataGridView.Invoke(new MethodInvoker(UpdateCell));
+            }
+
+            if (e.PropertyName == "ErrorMessage")
+            {
+                this.ToolTipText = planEquivalenceTestResult.ErrorMessage;
+                DataGridView.Invoke(new MethodInvoker(InvalidateCell));
             }
         }
 

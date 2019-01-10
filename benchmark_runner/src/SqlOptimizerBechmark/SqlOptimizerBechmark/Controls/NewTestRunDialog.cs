@@ -36,6 +36,12 @@ namespace SqlOptimizerBechmark.Controls
             set => cbxCheckResultSizes.Checked = value;
         }
 
+        public bool CompareResults
+        {
+            get => cbxCompareResults.Checked;
+            set => cbxCompareResults.Checked = value;
+        }
+
         public NewTestRunDialog()
         {
             InitializeComponent();

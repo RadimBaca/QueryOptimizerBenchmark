@@ -147,7 +147,7 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             command.ExecuteNonQuery();
         }
 
-        public override QueryStatistics GetQueryStatistics(string query)
+        public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)
         {
             SqlDataReader reader = null;
             try
@@ -156,15 +156,25 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
                 SqlCommand cmd1 = connection.CreateCommand();
                 cmd1.CommandText = query;
-                reader = cmd1.ExecuteReader();
-                int resultSize = 0;
-                while (reader.Read())
+
+                if (!retrieveWholeResult)
                 {
-                    resultSize++;
+                    reader = cmd1.ExecuteReader();
+                    int resultSize = 0;
+                    while (reader.Read())
+                    {
+                        resultSize++;
+                    }
+                    reader.Close();
+                    reader = null;
+                    ret.ResultSize = resultSize;
                 }
-                reader.Close();
-                reader = null;
-                ret.ResultSize = resultSize;
+                else
+                {
+                    ret.Result = new System.Data.DataTable();
+                    ret.Result.Load(cmd1.ExecuteReader());
+                    ret.ResultSize = ret.Result.Rows.Count;
+                }
 
                 connection.ResetStatistics();
                 connection.StatisticsEnabled = true;

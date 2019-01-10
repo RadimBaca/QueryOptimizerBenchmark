@@ -16,6 +16,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private string testName = string.Empty;
         private int testGroupId;
         private int configurationId;
+        private string errorMessage = string.Empty;
         
         public override IBenchmarkObject ParentObject => testRun;
 
@@ -86,6 +87,19 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        public string ErrorMessage
+        {
+            get => errorMessage;
+            set
+            {
+                if (errorMessage != value)
+                {
+                    errorMessage = value;
+                    OnPropertyChanged("ErrorMessage");
+                }
+            }
+        }
+
         public TestResult(TestRun testRun)
         {
             this.testRun = testRun;
@@ -98,6 +112,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("test_name", ref testName);
             serializer.ReadInt("test_group_id", ref testGroupId);
             serializer.ReadInt("configuration_id", ref configurationId);
+            serializer.ReadString("error_message", ref errorMessage);
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
@@ -107,6 +122,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("test_name", testName);
             serializer.WriteInt("test_group_id", testGroupId);
             serializer.WriteInt("configuration_id", configurationId);
+            serializer.WriteString("error_message", errorMessage);
         }
 
         public virtual void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)

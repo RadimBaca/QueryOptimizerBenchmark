@@ -57,7 +57,7 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             get
             {
-                return completed && distinctQueryPlans == 1 && successfullyCompletedVariants > 1;
+                return completed && distinctQueryPlans == 1 && successfullyCompletedVariants > 1 && string.IsNullOrEmpty(ErrorMessage);
             }
         }
 

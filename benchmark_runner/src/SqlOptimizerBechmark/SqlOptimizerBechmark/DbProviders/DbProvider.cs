@@ -32,7 +32,7 @@ namespace SqlOptimizerBechmark.DbProviders
 
         public abstract void Execute(string statement);
 
-        public abstract QueryStatistics GetQueryStatistics(string query);
+        public abstract QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult);
 
         public abstract QueryPlan GetQueryPlan(string query);
 

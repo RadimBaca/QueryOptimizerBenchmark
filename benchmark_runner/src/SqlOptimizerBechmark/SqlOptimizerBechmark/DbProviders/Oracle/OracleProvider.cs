@@ -448,7 +448,7 @@ FROM TABLE(DBMS_XPLAN.DISPLAY)";
             }
         }
 
-        public override QueryStatistics GetQueryStatistics(string query)
+        public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)
         {
             // Odstranit zbytecne bile znaky a strednik z konce prikazu.
             query = query.Trim();
@@ -487,13 +487,22 @@ FROM TABLE(DBMS_XPLAN.DISPLAY)";
                 DateTime t0 = DateTime.Now;
 
                 int resultSize = 0;
-                reader = cmdQuery.ExecuteReader();
-                while (reader.Read())
+                if (!retrieveWholeResult)
                 {
-                    resultSize++;
+                    reader = cmdQuery.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        resultSize++;
+                    }
+                    reader.Close();
+                    reader = null;
                 }
-                reader.Close();
-                reader = null;
+                else
+                {
+                    ret.Result = new DataTable();
+                    ret.Result.Load(cmdQuery.ExecuteReader());
+                    ret.ResultSize = ret.Result.Rows.Count;
+                }
 
                 DateTime t1 = DateTime.Now;
 

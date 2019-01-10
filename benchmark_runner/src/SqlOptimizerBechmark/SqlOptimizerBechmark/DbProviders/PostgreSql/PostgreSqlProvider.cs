@@ -155,7 +155,7 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             command.ExecuteNonQuery();
         }
         
-        public override QueryStatistics GetQueryStatistics(string query)
+        public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)
         {
             CheckConnection();
 
@@ -178,6 +178,14 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             string executionTime = document.Element(ns + "explain").Element(ns + "Query").Element(ns + "Execution-Time").Value;
             double milliseconds = double.Parse(executionTime, System.Globalization.CultureInfo.InvariantCulture);
             ret.QueryProcessingTime = TimeSpan.FromMilliseconds(milliseconds);
+
+            if (retrieveWholeResult)
+            {
+                NpgsqlCommand cmdGetResult = connection.CreateCommand();
+                cmdGetResult.CommandText = query;
+                ret.Result = new System.Data.DataTable();
+                ret.Result.Load(cmdGetResult.ExecuteReader());
+            }
 
             return ret;
         }

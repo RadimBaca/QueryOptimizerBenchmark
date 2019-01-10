@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace SqlOptimizerBechmark.DbProviders
     {
         private TimeSpan queryProcessingTime;
         private int resultSize;
+        private DataTable result;
 
         public TimeSpan QueryProcessingTime
         {
@@ -21,6 +23,12 @@ namespace SqlOptimizerBechmark.DbProviders
         {
             get => resultSize;
             set => resultSize = value;
+        }
+
+        public DataTable Result
+        {
+            get => result;
+            set => result = value;
         }
     }
 }

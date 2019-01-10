@@ -123,7 +123,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 Benchmark.QueryVariant variant = PlanEquivalenceTest.Variants[0];
 
                 provider.Connect();
-                DbProviders.QueryStatistics stats = provider.GetQueryStatistics(variant.DefaultStatement.CommandText);
+                DbProviders.QueryStatistics stats = provider.GetQueryStatistics(variant.DefaultStatement.CommandText, false);
                 provider.Close();
 
                 PlanEquivalenceTest.ExpectedResultSize = stats.ResultSize;

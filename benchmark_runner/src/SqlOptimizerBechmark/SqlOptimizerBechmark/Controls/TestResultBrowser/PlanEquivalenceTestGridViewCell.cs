@@ -58,6 +58,13 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             }
         }
 
+        private void InvalidateCell()
+        {
+            if (DataGridView != null)
+            {
+                DataGridView.InvalidateCell(this);
+            }
+        }
 
         private void PlanEquivalenceTestResult_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -70,6 +77,12 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             if (e.PropertyName == "Started" || e.PropertyName == "Completed")
             {
                 DataGridView.Invoke(new MethodInvoker(UpdateCell));
+            }
+
+            if (e.PropertyName == "ErrorMessage")
+            {
+                this.ToolTipText = planEquivalenceTestResult.ErrorMessage;
+                DataGridView.Invoke(new MethodInvoker(InvalidateCell));
             }
         }
 
@@ -113,7 +126,11 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
 
             Image icon = null;
 
-            if (planEquivalenceTestResult.Started && !planEquivalenceTestResult.Completed)
+            if (!string.IsNullOrEmpty(planEquivalenceTestResult.ErrorMessage))
+            {
+                icon = Properties.Resources.WarningFlat_16;
+            }
+            else if (planEquivalenceTestResult.Started && !planEquivalenceTestResult.Completed)
             {
                 icon = Properties.Resources.RunningBlue_16;
             }
