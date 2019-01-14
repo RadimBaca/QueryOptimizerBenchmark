@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.gpxBenchmark = new System.Windows.Forms.GroupBox();
@@ -38,8 +40,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtAuthor = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabTestGroups = new System.Windows.Forms.TabPage();
             this.testGroupsListView = new SqlOptimizerBechmark.Controls.BenchmarkListView.TestGroupsListView();
+            this.tabAnnotations = new System.Windows.Forms.TabPage();
+            this.gridAnnotations = new SqlOptimizerBechmark.Controls.DataGridViewEx();
+            this.colAnnotationNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAnnotationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAnnotationDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblInitScript = new System.Windows.Forms.LinkLabel();
             this.lblCleanUpScript = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
@@ -49,7 +57,10 @@
             this.splitContainer.SuspendLayout();
             this.gpxBenchmark.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabTestGroups.SuspendLayout();
+            this.tabAnnotations.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAnnotations)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -85,7 +96,7 @@
             // 
             // splitContainer.Panel2
             // 
-            this.splitContainer.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer.Size = new System.Drawing.Size(667, 441);
             this.splitContainer.SplitterDistance = 170;
             this.splitContainer.TabIndex = 2;
@@ -186,26 +197,86 @@
             this.txtAuthor.TabIndex = 1;
             this.txtAuthor.TextChanged += new System.EventHandler(this.txtAuthor_TextChanged);
             // 
-            // groupBox1
+            // tabControl1
             // 
-            this.groupBox1.Controls.Add(this.testGroupsListView);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(667, 267);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Test groups";
+            this.tabControl1.Controls.Add(this.tabTestGroups);
+            this.tabControl1.Controls.Add(this.tabAnnotations);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(667, 267);
+            this.tabControl1.TabIndex = 3;
+            // 
+            // tabTestGroups
+            // 
+            this.tabTestGroups.Controls.Add(this.testGroupsListView);
+            this.tabTestGroups.Location = new System.Drawing.Point(4, 22);
+            this.tabTestGroups.Name = "tabTestGroups";
+            this.tabTestGroups.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTestGroups.Size = new System.Drawing.Size(659, 241);
+            this.tabTestGroups.TabIndex = 0;
+            this.tabTestGroups.Text = "Test groups";
+            this.tabTestGroups.UseVisualStyleBackColor = true;
             // 
             // testGroupsListView
             // 
             this.testGroupsListView.Benchmark = null;
             this.testGroupsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.testGroupsListView.Location = new System.Drawing.Point(3, 17);
+            this.testGroupsListView.Location = new System.Drawing.Point(3, 3);
             this.testGroupsListView.Name = "testGroupsListView";
-            this.testGroupsListView.Size = new System.Drawing.Size(661, 247);
+            this.testGroupsListView.Size = new System.Drawing.Size(653, 235);
             this.testGroupsListView.TabIndex = 0;
             this.testGroupsListView.BenchmarkObjectDoubleClick += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.testGroupsListView_BenchmarkObjectDoubleClick);
+            // 
+            // tabAnnotations
+            // 
+            this.tabAnnotations.Controls.Add(this.gridAnnotations);
+            this.tabAnnotations.Location = new System.Drawing.Point(4, 22);
+            this.tabAnnotations.Name = "tabAnnotations";
+            this.tabAnnotations.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAnnotations.Size = new System.Drawing.Size(659, 241);
+            this.tabAnnotations.TabIndex = 1;
+            this.tabAnnotations.Text = "Annotations";
+            this.tabAnnotations.UseVisualStyleBackColor = true;
+            // 
+            // gridAnnotations
+            // 
+            this.gridAnnotations.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridAnnotations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridAnnotations.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colAnnotationNumber,
+            this.colAnnotationName,
+            this.colAnnotationDescription});
+            this.gridAnnotations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridAnnotations.Location = new System.Drawing.Point(3, 3);
+            this.gridAnnotations.Name = "gridAnnotations";
+            this.gridAnnotations.Size = new System.Drawing.Size(653, 235);
+            this.gridAnnotations.TabIndex = 0;
+            this.gridAnnotations.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.gridAnnotations_UserDeletingRow);
+            // 
+            // colAnnotationNumber
+            // 
+            this.colAnnotationNumber.DataPropertyName = "Number";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colAnnotationNumber.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colAnnotationNumber.HeaderText = "Number";
+            this.colAnnotationNumber.Name = "colAnnotationNumber";
+            // 
+            // colAnnotationName
+            // 
+            this.colAnnotationName.DataPropertyName = "Name";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colAnnotationName.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colAnnotationName.HeaderText = "Name";
+            this.colAnnotationName.Name = "colAnnotationName";
+            // 
+            // colAnnotationDescription
+            // 
+            this.colAnnotationDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colAnnotationDescription.DataPropertyName = "Description";
+            this.colAnnotationDescription.HeaderText = "Description";
+            this.colAnnotationDescription.Name = "colAnnotationDescription";
             // 
             // lblInitScript
             // 
@@ -249,7 +320,10 @@
             this.gpxBenchmark.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabTestGroups.ResumeLayout(false);
+            this.tabAnnotations.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridAnnotations)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -263,12 +337,18 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.LinkLabel lblInitScript;
         private System.Windows.Forms.LinkLabel lblCleanUpScript;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtAuthor;
         private BenchmarkListView.TestGroupsListView testGroupsListView;
         private System.Windows.Forms.SplitContainer splitContainer;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabTestGroups;
+        private System.Windows.Forms.TabPage tabAnnotations;
+        private DataGridViewEx gridAnnotations;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAnnotationNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAnnotationName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAnnotationDescription;
     }
 }

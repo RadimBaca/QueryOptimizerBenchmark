@@ -62,6 +62,26 @@ namespace SqlOptimizerBechmark.Executor
             }
         }
 
+        /// <summary>
+        /// Test whether the test should be ignored due to some annotation.
+        /// </summary>
+        /// <param name="planEquivalenceTest"></param>
+        /// <returns></returns>
+        private bool IgnoreTest(Benchmark.PlanEquivalenceTest planEquivalenceTest)
+        {
+            foreach (Benchmark.SelectedAnnotation selectedAnnotation in planEquivalenceTest.SelectedAnnotations)
+            {
+                foreach (Benchmark.SelectedAnnotation ignoreAnnotation in Benchmark.TestRunSettings.IgnoreAnnotations)
+                {
+                    if (selectedAnnotation.AnnotationId == ignoreAnnotation.AnnotationId)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public void Prepare(string name)
         {
             if (benchmark == null)
@@ -99,6 +119,11 @@ namespace SqlOptimizerBechmark.Executor
 
                         if (test is Benchmark.PlanEquivalenceTest planEquivalenceTest)
                         {
+                            if (IgnoreTest(planEquivalenceTest))
+                            {
+                                continue;
+                            }
+
                             Benchmark.PlanEquivalenceTestResult planEquivalenceTestResult = new Benchmark.PlanEquivalenceTestResult(testRun);
                             planEquivalenceTestResult.TestId = test.Id;
                             planEquivalenceTestResult.TestNumber = test.Number;
@@ -127,6 +152,13 @@ namespace SqlOptimizerBechmark.Executor
                                 planEquivalenceTestResult.QueryVariantResults.Add(queryVariantResult);
                             }
 
+                            foreach (Benchmark.SelectedAnnotation selectedAnnotation in planEquivalenceTest.SelectedAnnotations)
+                            {
+                                Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(planEquivalenceTestResult);
+                                selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
+                                planEquivalenceTestResult.SelectedAnnotationResults.Add(selectedAnnotationResult);
+                            }
+
                             if (planEquivalenceTestResult.QueryVariantResults.Count > 0)
                             {
                                 testRun.TestResults.Add(planEquivalenceTestResult);
@@ -135,6 +167,15 @@ namespace SqlOptimizerBechmark.Executor
                         // TODO - other test types.
                     }
                 }
+            }
+
+            foreach (Benchmark.Annotation annotation in benchmark.Annotations)
+            {
+                Benchmark.AnnotationResult annotationResult = new Benchmark.AnnotationResult(testRun);
+                annotationResult.AnnotationId = annotation.Id;
+                annotationResult.AnnotationNumber = annotation.Number;
+                annotationResult.AnnotationName = annotation.Name;
+                testRun.AnnotationResults.Add(annotationResult);
             }
 
             benchmark.TestRuns.Add(testRun);
@@ -680,18 +721,15 @@ namespace SqlOptimizerBechmark.Executor
 
             Controls.NewTestRunDialog dialog = new Controls.NewTestRunDialog();
             dialog.TestRunName = now.ToString("yyyy-MM-dd HH:mm:ss");
-            dialog.RunInitScript = runInitScript;
-            dialog.RunCleanUpScript = runCleanUpScript;
-            dialog.CheckResultSizes = checkResultSizes;
-            dialog.CompareResults = compareResults;
+            dialog.TestRunSettings = benchmark.TestRunSettings;
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Prepare(dialog.TestRunName);
-                runInitScript = dialog.RunInitScript;
-                runCleanUpScript = dialog.RunCleanUpScript;
-                checkResultSizes = dialog.CheckResultSizes;
-                compareResults = dialog.CompareResults;
+                runInitScript = benchmark.TestRunSettings.RunInitScript;
+                runCleanUpScript = benchmark.TestRunSettings.RunCleanUpScript;
+                checkResultSizes = benchmark.TestRunSettings.CheckResultSizes;
+                compareResults = benchmark.TestRunSettings.CompareResults;
 
                 StartTesting();
             }

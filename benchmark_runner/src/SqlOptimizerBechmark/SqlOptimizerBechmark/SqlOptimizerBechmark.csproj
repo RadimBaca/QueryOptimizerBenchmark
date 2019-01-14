@@ -67,6 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Benchmark\Annotation.cs" />
+    <Compile Include="Benchmark\AnnotationResult.cs" />
     <Compile Include="Benchmark\Benchmark.cs" />
     <Compile Include="Benchmark\Configuration.cs" />
     <Compile Include="Benchmark\BenchmarkObject.cs" />
@@ -82,6 +84,8 @@
     <Compile Include="Benchmark\QueryVariantResult.cs" />
     <Compile Include="Benchmark\ConfigurationResult.cs" />
     <Compile Include="Benchmark\Script.cs" />
+    <Compile Include="Benchmark\SelectedAnnotation.cs" />
+    <Compile Include="Benchmark\SelectedAnnotationResult.cs" />
     <Compile Include="Benchmark\SpecificStatement.cs" />
     <Compile Include="Benchmark\SpecificStatementList.cs" />
     <Compile Include="Benchmark\TestGroup.cs" />
@@ -94,7 +98,11 @@
     <Compile Include="Benchmark\TestResult.cs" />
     <Compile Include="Benchmark\TestResultStatus.cs" />
     <Compile Include="Benchmark\TestRun.cs" />
+    <Compile Include="Benchmark\TestRunSettings.cs" />
     <Compile Include="Benchmark\TestType.cs" />
+    <Compile Include="Controls\AnnotationCheckListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\BenchmarkListView\ConfigurationsListView.cs">
       <SubType>UserControl</SubType>
     </Compile>

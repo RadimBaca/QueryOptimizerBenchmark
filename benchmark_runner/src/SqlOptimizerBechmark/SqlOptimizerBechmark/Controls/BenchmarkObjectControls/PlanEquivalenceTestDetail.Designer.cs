@@ -45,9 +45,12 @@
             this.btnSetByFirstVariant = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtNumber = new System.Windows.Forms.TextBox();
+            this.gpxSelectedAnnotations = new System.Windows.Forms.GroupBox();
+            this.selectedAnnotationsClb = new SqlOptimizerBechmark.Controls.AnnotationCheckListBox();
             this.gpxVariants = new System.Windows.Forms.GroupBox();
             this.queryVariantsListView = new SqlOptimizerBechmark.Controls.BenchmarkListView.QueryVariantsListView();
             this.warningProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -55,8 +58,13 @@
             this.splitContainer.SuspendLayout();
             this.gpxPlanEquivalenceTest.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.gpxSelectedAnnotations.SuspendLayout();
             this.gpxVariants.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -97,7 +105,7 @@
             // 
             // splitContainer.Panel1
             // 
-            this.splitContainer.Panel1.Controls.Add(this.gpxPlanEquivalenceTest);
+            this.splitContainer.Panel1.Controls.Add(this.splitContainer1);
             // 
             // splitContainer.Panel2
             // 
@@ -112,7 +120,7 @@
             this.gpxPlanEquivalenceTest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpxPlanEquivalenceTest.Location = new System.Drawing.Point(0, 0);
             this.gpxPlanEquivalenceTest.Name = "gpxPlanEquivalenceTest";
-            this.gpxPlanEquivalenceTest.Size = new System.Drawing.Size(679, 196);
+            this.gpxPlanEquivalenceTest.Size = new System.Drawing.Size(516, 196);
             this.gpxPlanEquivalenceTest.TabIndex = 0;
             this.gpxPlanEquivalenceTest.TabStop = false;
             this.gpxPlanEquivalenceTest.Text = "Plan equivalence test";
@@ -143,7 +151,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(673, 176);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(510, 176);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // txtName
@@ -164,7 +172,7 @@
             this.txtDescription.Name = "txtDescription";
             this.tableLayoutPanel2.SetRowSpan(this.txtDescription, 2);
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(547, 70);
+            this.txtDescription.Size = new System.Drawing.Size(384, 70);
             this.txtDescription.TabIndex = 2;
             this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
@@ -250,6 +258,29 @@
             this.txtNumber.TabIndex = 0;
             this.txtNumber.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
+            // gpxSelectedAnnotations
+            // 
+            this.gpxSelectedAnnotations.Controls.Add(this.selectedAnnotationsClb);
+            this.gpxSelectedAnnotations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpxSelectedAnnotations.Location = new System.Drawing.Point(0, 0);
+            this.gpxSelectedAnnotations.Name = "gpxSelectedAnnotations";
+            this.gpxSelectedAnnotations.Size = new System.Drawing.Size(159, 196);
+            this.gpxSelectedAnnotations.TabIndex = 1;
+            this.gpxSelectedAnnotations.TabStop = false;
+            this.gpxSelectedAnnotations.Text = "Annotations";
+            // 
+            // selectedAnnotationsClb
+            // 
+            this.selectedAnnotationsClb.CheckOnClick = true;
+            this.selectedAnnotationsClb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectedAnnotationsClb.FormattingEnabled = true;
+            this.selectedAnnotationsClb.Location = new System.Drawing.Point(3, 17);
+            this.selectedAnnotationsClb.Name = "selectedAnnotationsClb";
+            this.selectedAnnotationsClb.ParentBenchmarkObject = null;
+            this.selectedAnnotationsClb.SelectedAnnotations = null;
+            this.selectedAnnotationsClb.Size = new System.Drawing.Size(153, 176);
+            this.selectedAnnotationsClb.TabIndex = 0;
+            // 
             // gpxVariants
             // 
             this.gpxVariants.Controls.Add(this.queryVariantsListView);
@@ -276,6 +307,24 @@
             this.warningProvider.ContainerControl = this;
             this.warningProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("warningProvider.Icon")));
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.gpxPlanEquivalenceTest);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.gpxSelectedAnnotations);
+            this.splitContainer1.Size = new System.Drawing.Size(679, 196);
+            this.splitContainer1.SplitterDistance = 516;
+            this.splitContainer1.TabIndex = 2;
+            // 
             // PlanEquivalenceTestDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,8 +341,13 @@
             this.gpxPlanEquivalenceTest.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.gpxSelectedAnnotations.ResumeLayout(false);
             this.gpxVariants.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -318,5 +372,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtNumber;
         private System.Windows.Forms.ErrorProvider warningProvider;
+        private System.Windows.Forms.GroupBox gpxSelectedAnnotations;
+        private AnnotationCheckListBox selectedAnnotationsClb;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

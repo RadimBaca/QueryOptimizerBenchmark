@@ -18,6 +18,7 @@ namespace SqlOptimizerBechmark.Benchmark
 
         private ObservableCollection<TestGroupResult> testGroupResults = new ObservableCollection<TestGroupResult>();
         private ObservableCollection<ConfigurationResult> configurationResults = new ObservableCollection<ConfigurationResult>();
+        private ObservableCollection<AnnotationResult> annotationResults = new ObservableCollection<AnnotationResult>();
         private ObservableCollection<TestResult> testResults = new ObservableCollection<TestResult>();
 
         public override IBenchmarkObject ParentObject => benchmark;
@@ -34,6 +35,11 @@ namespace SqlOptimizerBechmark.Benchmark
                 foreach (ConfigurationResult configurationResult in configurationResults)
                 {
                     yield return configurationResult;
+                }
+
+                foreach (AnnotationResult annotationResult in annotationResults)
+                {
+                    yield return annotationResult;
                 }
 
                 foreach (TestResult testResult in testResults)
@@ -90,6 +96,8 @@ namespace SqlOptimizerBechmark.Benchmark
 
         public ObservableCollection<ConfigurationResult> ConfigurationResults => configurationResults;
 
+        public ObservableCollection<AnnotationResult> AnnotationResults => annotationResults;
+
         public ObservableCollection<TestResult> TestResults => testResults;
 
 
@@ -109,6 +117,11 @@ namespace SqlOptimizerBechmark.Benchmark
             return configurationResults.Where(c => c.ConfigurationId == configurationId).FirstOrDefault();
         }
 
+        public AnnotationResult GetAnnotationResult(int annotationId)
+        {
+            return annotationResults.Where(a => a.AnnotationId == annotationId).FirstOrDefault();
+        }
+
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadInt("id", ref id);
@@ -122,6 +135,9 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadCollection<TestGroupResult>("test_group_results", "test_group_result", testGroupResults,
                 delegate () { return new TestGroupResult(this); });
 
+            serializer.ReadCollection<AnnotationResult>("annotation_results", "annotation_result", annotationResults,
+                delegate () { return new AnnotationResult(this); });
+
             serializer.ReadCollection<TestResult>("test_results", "test_result", testResults, // TODO - various test types
                 delegate () { return new PlanEquivalenceTestResult(this); });
         }
@@ -134,6 +150,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteDateTime("end_date", endDate);
             serializer.WriteCollection<ConfigurationResult>("configuration_results", "configuration_result", configurationResults);
             serializer.WriteCollection<TestGroupResult>("test_group_results", "test_group_result", testGroupResults);
+            serializer.WriteCollection<AnnotationResult>("annotation_results", "annotation_result", annotationResults);
             serializer.WriteCollection<TestResult>("test_results", "test_result", testResults);
         }
 
@@ -146,12 +163,12 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             if ((exportOptions & CsvExportOptions.ExportDistinctPlans) > 0)
             {
-                writer.WriteLine("code;group;configuration;test;distinct plans;completed variants");
+                writer.WriteLine("code;group;configuration;test;annotations;distinct plans;completed variants");
             }
 
             if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
             {
-                writer.WriteLine("code;group;configuration;test;variant;result size;processing time;query plan;root cost;root estimated rows;root actual rows");
+                writer.WriteLine("code;group;configuration;test;annotations;variant;result size;processing time;query plan;root cost;root estimated rows;root actual rows");
             }
 
             foreach (TestResult testResult in testResults)

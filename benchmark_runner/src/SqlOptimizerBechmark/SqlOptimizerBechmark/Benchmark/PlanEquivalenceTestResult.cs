@@ -13,6 +13,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private int distinctQueryPlans = 0;
         private int successfullyCompletedVariants = 0;
         private ObservableCollection<QueryVariantResult> queryVariantResults = new ObservableCollection<QueryVariantResult>();
+        private ObservableCollection<SelectedAnnotationResult> selectedAnnotationResults = new ObservableCollection<SelectedAnnotationResult>();
         private bool started = false;
         private bool completed = false;
         
@@ -63,6 +64,8 @@ namespace SqlOptimizerBechmark.Benchmark
 
         public ObservableCollection<QueryVariantResult> QueryVariantResults => queryVariantResults;
 
+        public ObservableCollection<SelectedAnnotationResult> SelectedAnnotationResults => selectedAnnotationResults;
+
         public bool Started
         {
             get => started;
@@ -102,6 +105,8 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadInt("successfully_completed_variants", ref successfullyCompletedVariants);
             serializer.ReadCollection<QueryVariantResult>("query_variant_results", "query_variant_result", queryVariantResults,
                 delegate () { return new QueryVariantResult(this); });
+            serializer.ReadCollection<SelectedAnnotationResult>("selected_annotation_results", "selected_annotation_result", selectedAnnotationResults,
+                delegate () { return new SelectedAnnotationResult(this); });
             serializer.ReadBool("started", ref started);
             serializer.ReadBool("completed", ref completed);
         }
@@ -112,6 +117,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteInt("distinct_query_plans", distinctQueryPlans);
             serializer.WriteInt("successfully_completed_variants", successfullyCompletedVariants);
             serializer.WriteCollection<QueryVariantResult>("query_variant_results", "query_variant_result", queryVariantResults);
+            serializer.WriteCollection<SelectedAnnotationResult>("selected_annotation_results", "selected_annotation_result", selectedAnnotationResults);
             serializer.WriteBool("started", started);
             serializer.WriteBool("completed", completed);
         }
@@ -128,14 +134,27 @@ namespace SqlOptimizerBechmark.Benchmark
                 TestGroupResult testGroupResult = TestRun.GetTestGroupResult(TestGroupId);
                 ConfigurationResult configurationResult = TestRun.GetConfigurationResult(ConfigurationId);
 
+                string annotationsStr = string.Empty;
+                foreach (int annotationId in selectedAnnotationResults.Select(ar => ar.AnnotationId))
+                {
+                    AnnotationResult annotationResult = TestRun.GetAnnotationResult(annotationId);
+                    string annotationStr = annotationResult.AnnotationNumber;
+                    if (!string.IsNullOrEmpty(annotationsStr))
+                    {
+                        annotationsStr += ",";
+                    }
+                    annotationsStr += annotationStr;
+                }
+
                 string code = string.Format("{0}-{1}-{2}", testGroupResult.TestGroupNumber,
                     configurationResult.ConfigurationNumber, this.TestNumber);
 
-                writer.WriteLine("{0};{1};{2};{3};{4};{5}",
+                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6}",
                     TestRun.GetCsvStr(code),
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),
                     TestRun.GetCsvStr(this.TestName),
+                    TestRun.GetCsvStr(annotationsStr),
                     TestRun.GetCsvStr(Convert.ToString(this.distinctQueryPlans)),
                     TestRun.GetCsvStr(Convert.ToString(this.successfullyCompletedVariants)));
             }

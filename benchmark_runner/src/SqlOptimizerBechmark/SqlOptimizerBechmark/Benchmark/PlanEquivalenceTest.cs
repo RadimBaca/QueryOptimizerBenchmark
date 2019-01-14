@@ -11,6 +11,7 @@ namespace SqlOptimizerBechmark.Benchmark
     public class PlanEquivalenceTest: Test
     {
         private ObservableCollection<QueryVariant> variants = new ObservableCollection<QueryVariant>();
+        private ObservableCollection<SelectedAnnotation> selectedAnnotations = new ObservableCollection<SelectedAnnotation>();
         private int expectedResultSize = 0;
 
         public override IEnumerable<IBenchmarkObject> ChildObjects
@@ -21,6 +22,10 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     yield return variant;
                 }
+                foreach (SelectedAnnotation selectedAnnotation in selectedAnnotations)
+                {
+                    yield return selectedAnnotation;
+                }
             }
         }
 
@@ -29,6 +34,11 @@ namespace SqlOptimizerBechmark.Benchmark
         public ObservableCollection<QueryVariant> Variants
         {
             get => variants;
+        }
+
+        public ObservableCollection<SelectedAnnotation> SelectedAnnotations
+        {
+            get => selectedAnnotations;
         }
 
         public int ExpectedResultSize
@@ -59,6 +69,7 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             base.SaveToXml(serializer);
             serializer.WriteCollection<QueryVariant>("variants", "variant", variants);
+            serializer.WriteCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations);
             serializer.WriteInt("expected_result_size", expectedResultSize);
         }
 
@@ -67,6 +78,8 @@ namespace SqlOptimizerBechmark.Benchmark
             base.LoadFromXml(serializer);
             serializer.ReadCollection<QueryVariant>("variants", "variant", variants,
                 delegate () { return new QueryVariant(this); });
+            serializer.ReadCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations,
+                delegate () { return new SelectedAnnotation(this); });
             serializer.ReadInt("expected_result_size", ref expectedResultSize);
         }
     }

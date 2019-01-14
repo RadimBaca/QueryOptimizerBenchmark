@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -12,34 +13,20 @@ namespace SqlOptimizerBechmark.Controls
 {
     public partial class NewTestRunDialog : Form
     {
+        private Benchmark.TestRunSettings testRunSettings;
+        private ObservableCollection<Benchmark.SelectedAnnotation> ignoreAnnotationsCopy =
+            new ObservableCollection<Benchmark.SelectedAnnotation>();
+
         public string TestRunName
         {
             get => txtName.Text;
             set => txtName.Text = value;
         }
 
-        public bool RunInitScript
+        public Benchmark.TestRunSettings TestRunSettings
         {
-            get => cbxRunInitScript.Checked;
-            set => cbxRunInitScript.Checked = value;
-        }
-
-        public bool RunCleanUpScript
-        {
-            get => cbxRunCleanUpScript.Checked;
-            set => cbxRunCleanUpScript.Checked = value;
-        }
-
-        public bool CheckResultSizes
-        {
-            get => cbxCheckResultSizes.Checked;
-            set => cbxCheckResultSizes.Checked = value;
-        }
-
-        public bool CompareResults
-        {
-            get => cbxCompareResults.Checked;
-            set => cbxCompareResults.Checked = value;
+            get => testRunSettings;
+            set => testRunSettings = value;
         }
 
         public NewTestRunDialog()
@@ -47,10 +34,50 @@ namespace SqlOptimizerBechmark.Controls
             InitializeComponent();
         }
 
+        private void UpdateControls()
+        {
+            cbxRunInitScript.Checked = testRunSettings.RunInitScript;
+            cbxRunCleanUpScript.Checked = testRunSettings.RunCleanUpScript;
+            cbxCheckResultSizes.Checked = testRunSettings.CheckResultSizes;
+            cbxCompareResults.Checked = testRunSettings.CompareResults;
+
+            ignoreAnnotationsCopy.Clear();
+            foreach (Benchmark.SelectedAnnotation selectedAnnotation in testRunSettings.IgnoreAnnotations)
+            {
+                ignoreAnnotationsCopy.Add(selectedAnnotation);
+            }
+            ignoreAnnotationsClb.ParentBenchmarkObject = testRunSettings;
+            ignoreAnnotationsClb.SelectedAnnotations = ignoreAnnotationsCopy;
+            ignoreAnnotationsClb.BindAnnotations();
+        }
+
+        private void UpdateSettings()
+        {
+            testRunSettings.RunInitScript = cbxRunInitScript.Checked;
+            testRunSettings.RunCleanUpScript = cbxRunCleanUpScript.Checked;
+            testRunSettings.CheckResultSizes = cbxCheckResultSizes.Checked;
+            testRunSettings.CompareResults = cbxCompareResults.Checked;
+            testRunSettings.IgnoreAnnotations.Clear();
+            foreach (Benchmark.SelectedAnnotation selectedAnnotation in ignoreAnnotationsCopy)
+            {
+                testRunSettings.IgnoreAnnotations.Add(selectedAnnotation);
+            }
+        }
+
         private void NewTestRunDialog_Shown(object sender, EventArgs e)
         {
             txtName.SelectAll();
             txtName.Focus();
+        }
+
+        private void NewTestRunDialog_Load(object sender, EventArgs e)
+        {
+            UpdateControls();
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            UpdateSettings();
         }
     }
 }

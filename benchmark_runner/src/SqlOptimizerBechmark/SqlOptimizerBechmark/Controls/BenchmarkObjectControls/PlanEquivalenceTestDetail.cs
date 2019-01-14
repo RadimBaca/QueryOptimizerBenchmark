@@ -41,6 +41,10 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             queryVariantsListView.PlanEquivalenceTest = PlanEquivalenceTest;
             queryVariantsListView.Collection = PlanEquivalenceTest.Variants;
 
+            selectedAnnotationsClb.SelectedAnnotations = PlanEquivalenceTest.SelectedAnnotations;
+            selectedAnnotationsClb.ParentBenchmarkObject = PlanEquivalenceTest;
+            selectedAnnotationsClb.BindAnnotations();
+
             CheckUniqueNumber();
         }
 
@@ -98,7 +102,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 Enabled = true;
             }
         }
-
+        
         private void SetResultSizeByFirstVariant()
         {
             try

@@ -39,26 +39,31 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.cbxCheckResultSizes = new System.Windows.Forms.CheckBox();
             this.cbxCompareResults = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.ignoreAnnotationsClb = new SqlOptimizerBechmark.Controls.AnnotationCheckListBox();
             this.gpxSettings.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(185, 177);
+            this.btnOk.Location = new System.Drawing.Point(261, 177);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(266, 177);
+            this.btnCancel.Location = new System.Drawing.Point(342, 177);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -73,16 +78,20 @@
             this.gpxSettings.Controls.Add(this.tableLayoutPanel1);
             this.gpxSettings.Location = new System.Drawing.Point(12, 12);
             this.gpxSettings.Name = "gpxSettings";
-            this.gpxSettings.Size = new System.Drawing.Size(329, 159);
+            this.gpxSettings.Size = new System.Drawing.Size(405, 159);
             this.gpxSettings.TabIndex = 0;
             this.gpxSettings.TabStop = false;
             this.gpxSettings.Text = "Settings";
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 5;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 57F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 172F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.cbxRunInitScript, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.cbxRunCleanUpScript, 1, 3);
@@ -100,7 +109,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(323, 139);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(399, 139);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label1
@@ -140,7 +149,7 @@
             this.txtName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtName.Location = new System.Drawing.Point(60, 3);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(260, 21);
+            this.txtName.Size = new System.Drawing.Size(144, 21);
             this.txtName.TabIndex = 0;
             // 
             // cbxCheckResultSizes
@@ -165,13 +174,46 @@
             this.cbxCompareResults.Text = "Compare results";
             this.cbxCompareResults.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(103, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Ignore annotations:";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.ignoreAnnotationsClb);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(229, 3);
+            this.panel1.Name = "panel1";
+            this.tableLayoutPanel1.SetRowSpan(this.panel1, 6);
+            this.panel1.Size = new System.Drawing.Size(166, 129);
+            this.panel1.TabIndex = 3;
+            // 
+            // ignoreAnnotationsClb
+            // 
+            this.ignoreAnnotationsClb.CheckOnClick = true;
+            this.ignoreAnnotationsClb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ignoreAnnotationsClb.FormattingEnabled = true;
+            this.ignoreAnnotationsClb.Location = new System.Drawing.Point(0, 13);
+            this.ignoreAnnotationsClb.Name = "ignoreAnnotationsClb";
+            this.ignoreAnnotationsClb.ParentBenchmarkObject = null;
+            this.ignoreAnnotationsClb.SelectedAnnotations = null;
+            this.ignoreAnnotationsClb.Size = new System.Drawing.Size(166, 116);
+            this.ignoreAnnotationsClb.TabIndex = 5;
+            // 
             // NewTestRunDialog
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(353, 212);
+            this.ClientSize = new System.Drawing.Size(429, 212);
             this.Controls.Add(this.gpxSettings);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -183,10 +225,13 @@
             this.Name = "NewTestRunDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New test run";
+            this.Load += new System.EventHandler(this.NewTestRunDialog_Load);
             this.Shown += new System.EventHandler(this.NewTestRunDialog_Shown);
             this.gpxSettings.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -203,5 +248,8 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.CheckBox cbxCheckResultSizes;
         private System.Windows.Forms.CheckBox cbxCompareResults;
+        private AnnotationCheckListBox ignoreAnnotationsClb;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel1;
     }
 }

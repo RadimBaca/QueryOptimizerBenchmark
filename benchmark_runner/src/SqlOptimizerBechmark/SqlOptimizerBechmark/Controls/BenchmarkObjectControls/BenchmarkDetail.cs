@@ -38,6 +38,16 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
             testGroupsListView.Benchmark = Benchmark;
             testGroupsListView.Collection = Benchmark.TestGroups;
+
+            BindingList<Benchmark.Annotation> bindingList = new BindingList<Benchmark.Annotation>(Benchmark.Annotations);
+            bindingList.AddingNew += bindingList_AddingNew;
+            gridAnnotations.AutoGenerateColumns = false;
+            gridAnnotations.DataSource = bindingList;
+        }
+
+        private void bindingList_AddingNew(object sender, AddingNewEventArgs e)
+        {
+            e.NewObject = new Benchmark.Annotation(Benchmark);
         }
 
         private void Benchmark_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -96,6 +106,43 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         private void testGroupsListView_BenchmarkObjectDoubleClick(object sender, BenchmarkObjectEventArgs e)
         {
             OnNavigateBenchmarkObject(e.BenchmarkObject);
+        }
+
+        private string GetFirstAnnotationUsage(Benchmark.Annotation annotation)
+        {
+            foreach (Benchmark.TestGroup testGroup in Benchmark.TestGroups)
+            {
+                foreach (Benchmark.Test test in testGroup.Tests)
+                {
+                    if (test is Benchmark.PlanEquivalenceTest planEquivalenceTest)
+                    {
+                        foreach (Benchmark.SelectedAnnotation selectedAnnotation in planEquivalenceTest.SelectedAnnotations)
+                        {
+                            if (selectedAnnotation.AnnotationId == annotation.Id)
+                            {
+                                return string.Format("the test {0}-{1}", planEquivalenceTest.TestGroup.Number, planEquivalenceTest.Number);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private void gridAnnotations_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (e.Row.DataBoundItem is Benchmark.Annotation annotation)
+            {
+                string str = GetFirstAnnotationUsage(annotation);
+                if (!string.IsNullOrEmpty(str))
+                {
+                    MessageBox.Show(string.Format("This annotation is already used by {0}.", str),
+                        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

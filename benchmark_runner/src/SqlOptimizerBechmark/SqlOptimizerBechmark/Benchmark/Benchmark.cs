@@ -23,6 +23,8 @@ namespace SqlOptimizerBechmark.Benchmark
         private ObservableCollection<TestGroup> testGroups = new ObservableCollection<TestGroup>();
         private ConnectionSettings connectionSettings;
         private ObservableCollection<TestRun> testRuns = new ObservableCollection<TestRun>();
+        private ObservableCollection<Annotation> annotations = new ObservableCollection<Annotation>();
+        private TestRunSettings testRunSettings;
 
         private int lastId = 0;
 
@@ -44,6 +46,10 @@ namespace SqlOptimizerBechmark.Benchmark
                 foreach (TestRun testRun in testRuns)
                 {
                     yield return testRun;
+                }
+                foreach (Annotation annotation in annotations)
+                {
+                    yield return annotation;
                 }
             }
         }
@@ -107,9 +113,19 @@ namespace SqlOptimizerBechmark.Benchmark
             get => connectionSettings;
         }
 
+        public TestRunSettings TestRunSettings
+        {
+            get => testRunSettings;
+        }
+
         public ObservableCollection<TestRun> TestRuns
         {
             get => testRuns;
+        }
+
+        public ObservableCollection<Annotation> Annotations
+        {
+            get => annotations;
         }
 
         public Benchmark()
@@ -117,6 +133,7 @@ namespace SqlOptimizerBechmark.Benchmark
             initScript = new Script(this);
             cleanUpScript = new Script(this);
             connectionSettings = new ConnectionSettings(this);
+            testRunSettings = new TestRunSettings(this);
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
@@ -129,6 +146,8 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteCollection<TestGroup>("test_groups", "test_group", testGroups);
             serializer.WriteObject("connection_settings", connectionSettings);
             serializer.WriteCollection<TestRun>("test_runs", "test_run", testRuns);
+            serializer.WriteCollection<Annotation>("annotations", "annotation", annotations);
+            serializer.WriteObject("test_run_settings", testRunSettings);
             serializer.WriteInt("last_id", lastId);
         }
 
@@ -144,6 +163,9 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadObject("connection_settings", connectionSettings);
             serializer.ReadCollection<TestRun>("test_runs", "test_run", testRuns,
                 delegate () { return new TestRun(this); });
+            serializer.ReadCollection<Annotation>("annotations", "annotation", annotations,
+                delegate () { return new Annotation(this); });
+            serializer.ReadObject("test_run_settings", testRunSettings);
             serializer.ReadInt("last_id", ref lastId);
         }
 
@@ -158,7 +180,6 @@ namespace SqlOptimizerBechmark.Benchmark
             BenchmarkXmlSerializer serializer = new BenchmarkXmlSerializer();
             serializer.LoadBenchmark(this, fileName);
         }
-
 
         public IIdentifiedBenchmarkObject FindObjectById(int id)
         {

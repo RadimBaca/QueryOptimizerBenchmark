@@ -81,6 +81,11 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         {
             if (detail != activeDetail)
             {
+                if (activeDetail != null)
+                {
+                    activeDetail.Validate();
+                }
+
                 Controls.Clear();
 
                 if (detail != null)

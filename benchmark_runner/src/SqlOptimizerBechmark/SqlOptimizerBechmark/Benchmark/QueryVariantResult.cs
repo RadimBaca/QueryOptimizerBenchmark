@@ -209,6 +209,18 @@ namespace SqlOptimizerBechmark.Benchmark
                 TestGroupResult testGroupResult = planEquivalenceTestResult.TestRun.GetTestGroupResult(planEquivalenceTestResult.TestGroupId);
                 ConfigurationResult configurationResult = planEquivalenceTestResult.TestRun.GetConfigurationResult(planEquivalenceTestResult.ConfigurationId);
 
+                string annotationsStr = string.Empty;
+                foreach (int annotationId in planEquivalenceTestResult.SelectedAnnotationResults.Select(ar => ar.AnnotationId))
+                {
+                    AnnotationResult annotationResult = planEquivalenceTestResult.TestRun.GetAnnotationResult(annotationId);
+                    string annotationStr = annotationResult.AnnotationNumber;
+                    if (!string.IsNullOrEmpty(annotationsStr))
+                    {
+                        annotationsStr += ",";
+                    }
+                    annotationsStr += annotationStr;
+                }
+
                 string code = string.Format("{0}-{1}-{2}-{3}",
                     testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
                     planEquivalenceTestResult.TestNumber, queryVariantNumber);
@@ -218,6 +230,7 @@ namespace SqlOptimizerBechmark.Benchmark
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),
                     TestRun.GetCsvStr(planEquivalenceTestResult.TestName),
+                    TestRun.GetCsvStr(annotationsStr),
                     TestRun.GetCsvStr(this.QueryVariantName),
                     TestRun.GetCsvStr(Convert.ToString(this.resultSize)),
                     TestRun.GetCsvStr(Convert.ToString(this.queryProcessingTime)),
