@@ -225,7 +225,7 @@ namespace SqlOptimizerBechmark.Benchmark
                     testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
                     planEquivalenceTestResult.TestNumber, queryVariantNumber);
 
-                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10}",
+                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11}",
                     TestRun.GetCsvStr(code),
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),

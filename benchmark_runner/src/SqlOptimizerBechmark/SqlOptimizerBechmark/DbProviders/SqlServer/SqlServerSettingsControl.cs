@@ -87,6 +87,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             rbtnUseConnectionString.Checked = provider.UseConnectionString;
             txtConnectionString.Text = provider.ConnectionString;
 
+            cbxDisableParallelQueryProcessing.Checked = provider.DisableParallelQueryProcessing;
+
             UpdateUI();
 
             ready = true;
@@ -162,6 +164,16 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             provider.UseConnectionString = rbtnUseConnectionString.Checked;
             UpdateUI();
         }
+
+        private void cbxDisableParallelQueryProcessing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                SqlServerProvider.DisableParallelQueryProcessing = cbxDisableParallelQueryProcessing.Checked;
+                NotifyChanged();
+            }
+        }
+
 
         private void btnTestConnection_Click(object sender, EventArgs e)
         {

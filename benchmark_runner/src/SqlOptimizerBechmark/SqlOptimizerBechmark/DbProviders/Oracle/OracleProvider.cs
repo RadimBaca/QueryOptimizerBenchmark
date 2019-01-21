@@ -483,7 +483,7 @@ FROM TABLE(DBMS_XPLAN.DISPLAY)";
                 OracleCommand cmdQuery = connection.CreateCommand();
                 cmdQuery.CommandText = query;
                 cmdQuery.CommandTimeout = commandTimeout;
-
+                
                 DateTime t0 = DateTime.Now;
 
                 int resultSize = 0;

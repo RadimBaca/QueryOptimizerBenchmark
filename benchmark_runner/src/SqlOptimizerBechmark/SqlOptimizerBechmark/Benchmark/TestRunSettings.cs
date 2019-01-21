@@ -18,6 +18,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private bool checkResultSizes = true;
         private bool compareResults = true;
         private ObservableCollection<SelectedAnnotation> ignoreAnnotations = new ObservableCollection<SelectedAnnotation>();
+        private int queryRuns = 1;
 
         public bool RunInitScript
         {
@@ -71,6 +72,19 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        public int QueryRuns
+        {
+            get => queryRuns;
+            set
+            {
+                if (queryRuns != value)
+                {
+                    queryRuns = value;
+                    OnPropertyChanged("QueryRuns");
+                }
+            }
+        }
+
         public ObservableCollection<SelectedAnnotation> IgnoreAnnotations
         {
             get => ignoreAnnotations;
@@ -87,6 +101,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadBool("run_clean_up_script", ref runCleanUpScript);
             serializer.ReadBool("check_result_sizes", ref checkResultSizes);
             serializer.ReadBool("compare_results", ref compareResults);
+            serializer.ReadInt("query_runs", ref queryRuns);
             serializer.ReadCollection<SelectedAnnotation>("ignore_annotations", "ignore_annotation", ignoreAnnotations,
                 delegate() { return new SelectedAnnotation(this); });
         }
@@ -97,6 +112,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteBool("run_clean_up_script", runCleanUpScript);
             serializer.WriteBool("check_result_sizes", checkResultSizes);
             serializer.WriteBool("compare_results", compareResults);
+            serializer.WriteInt("query_runs", queryRuns);
             serializer.WriteCollection<SelectedAnnotation>("ignore_annotations", "ignore_annotation", ignoreAnnotations);
         }
     }

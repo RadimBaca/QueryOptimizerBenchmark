@@ -19,6 +19,7 @@ namespace SqlOptimizerBechmark.Executor
         private bool runCleanUpScript = true;
         private bool checkResultSizes = true;
         private bool compareResults = true;
+        private int queryRuns = 1;
 
         private volatile bool stopTesting = false;
         private volatile bool interruptTesting = false;
@@ -262,6 +263,40 @@ namespace SqlOptimizerBechmark.Executor
             return true;
         }
 
+        /// <summary>
+        /// Computes the average time span.
+        /// If there are more than 2 timespans in the list, the best and the worst case are ignored.
+        /// </summary>
+        /// <param name="timeSpans"></param>
+        /// <returns></returns>
+        private TimeSpan ComputeAvgTimeSpan(IList<TimeSpan> timeSpans)
+        {
+            List<TimeSpan> copy = new List<TimeSpan>(timeSpans);
+            copy.Sort();
+
+            long sumOfTicks = 0;
+            TimeSpan ret;
+
+            if (copy.Count > 2)
+            {
+                for (int i = 1; i < copy.Count - 1; i++)
+                {
+                    sumOfTicks += copy[i].Ticks;
+                }
+                ret = new TimeSpan(sumOfTicks / (copy.Count - 2));
+            }
+            else
+            {
+                for (int i = 0; i < copy.Count; i++)
+                {
+                    sumOfTicks += copy[i].Ticks;
+                }
+                ret = new TimeSpan(sumOfTicks / copy.Count);
+            }
+
+            return ret;
+        }
+
         private void Execute()
         {
             try
@@ -465,21 +500,30 @@ namespace SqlOptimizerBechmark.Executor
 
                                                                 queryVariantResult.Started = true;
 
-                                                                DbProviders.QueryStatistics stats = db.GetQueryStatistics(queryVariantResult.Query, compareResults);
-                                                                DbProviders.QueryPlan plan = db.GetQueryPlan(queryVariantResult.Query);
-
-                                                                if (checkResultSizes && stats.ResultSize != planEquivalenceTest.ExpectedResultSize)
+                                                                List<TimeSpan> timeSpans = new List<TimeSpan>();
+                                                                DbProviders.QueryStatistics lastStats = null;
+                                                                for (int i = 0; i < queryRuns; i++)
                                                                 {
-                                                                    throw new Exception(string.Format("Unexpected result size ({0} instead of {1}).", stats.ResultSize, planEquivalenceTest.ExpectedResultSize));
-                                                                }
+                                                                    DbProviders.QueryStatistics stats = db.GetQueryStatistics(queryVariantResult.Query, compareResults);
 
-                                                                queryVariantResult.QueryProcessingTime = stats.QueryProcessingTime;
-                                                                queryVariantResult.ResultSize = stats.ResultSize;
+                                                                    if (checkResultSizes && stats.ResultSize != planEquivalenceTest.ExpectedResultSize)
+                                                                    {
+                                                                        throw new Exception(string.Format("Unexpected result size ({0} instead of {1}).", stats.ResultSize, planEquivalenceTest.ExpectedResultSize));
+                                                                    }
+
+                                                                    timeSpans.Add(stats.QueryProcessingTime);
+                                                                    lastStats = stats;
+                                                                }
+                                                                
+                                                                queryVariantResult.QueryProcessingTime = ComputeAvgTimeSpan(timeSpans);
+                                                                queryVariantResult.ResultSize = lastStats.ResultSize;
+
+                                                                DbProviders.QueryPlan plan = db.GetQueryPlan(queryVariantResult.Query);
                                                                 queryVariantResult.QueryPlan = plan;
 
                                                                 if (compareResults)
                                                                 {
-                                                                    results.Add(stats.Result);
+                                                                    results.Add(lastStats.Result);
                                                                 }
 
                                                                 //// TODO - remove.
@@ -679,10 +723,11 @@ namespace SqlOptimizerBechmark.Executor
 
         public void StartTesting()
         {
+            stopTesting = false;
+            interruptTesting = false;
             testingThread = new Thread(Execute);
             testingThread.Start();
             OnTestingStarted();
-            stopTesting = false;
         }
 
         public void StopTesting()
@@ -730,6 +775,7 @@ namespace SqlOptimizerBechmark.Executor
                 runCleanUpScript = benchmark.TestRunSettings.RunCleanUpScript;
                 checkResultSizes = benchmark.TestRunSettings.CheckResultSizes;
                 compareResults = benchmark.TestRunSettings.CompareResults;
+                queryRuns = benchmark.TestRunSettings.QueryRuns;
 
                 StartTesting();
             }

@@ -21,6 +21,7 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
         private string userId = string.Empty;
         private string password = string.Empty;
         private string connectionString = string.Empty;
+        private bool disableParallelQueryProcessing = false;
 
         private SqlConnection connection;
 
@@ -72,6 +73,12 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             set => connectionString = value;
         }
 
+        public bool DisableParallelQueryProcessing
+        {
+            get => disableParallelQueryProcessing;
+            set => disableParallelQueryProcessing = value;
+        }
+
         #endregion
 
         public override void LoadFromXml(XElement element)
@@ -83,6 +90,11 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             userId = element.Attribute("user_id").Value;
             password = element.Attribute("password").Value;
             connectionString = element.Attribute("connection_string").Value;
+
+            if (element.Attribute("disable_parallel_query_processing") != null)
+            {
+                disableParallelQueryProcessing = Convert.ToBoolean(element.Attribute("disable_parallel_query_processing").Value);
+            }
         }
 
         public override void SaveToXml(XElement element)
@@ -94,6 +106,7 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             element.Add(new XAttribute("user_id", userId));
             element.Add(new XAttribute("password", password));
             element.Add(new XAttribute("connection_string", connectionString));
+            element.Add(new XAttribute("disable_parallel_query_processing", disableParallelQueryProcessing));
         }
 
         public override DbProviderSettingsControl CreateSettingsControl()
@@ -152,11 +165,16 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             SqlDataReader reader = null;
             try
             {
+                if (disableParallelQueryProcessing)
+                {
+                    query += " OPTION (MAXDOP 1)";
+                }
+
                 QueryStatistics ret = new QueryStatistics();
 
                 SqlCommand cmd1 = connection.CreateCommand();
                 cmd1.CommandText = query;
-
+                
                 if (!retrieveWholeResult)
                 {
                     reader = cmd1.ExecuteReader();
@@ -279,6 +297,11 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
         
         public override QueryPlan GetQueryPlan(string query)
         {
+            if (disableParallelQueryProcessing)
+            {
+                query += " OPTION (MAXDOP 1)";
+            }
+
             SqlDataReader reader = null;
             QueryPlan ret = new QueryPlan();
 
