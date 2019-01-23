@@ -83,6 +83,82 @@ namespace SqlOptimizerBechmark.Executor
             return false;
         }
 
+        private void PreparePlanEquivalenceTest(Benchmark.PlanEquivalenceTest planEquivalenceTest,
+            Benchmark.Test test, Benchmark.TestGroup testGroup, Benchmark.Configuration configuration, DbProviders.DbProvider db,
+            Benchmark.Template template = null)
+        {
+            Benchmark.PlanEquivalenceTestResult planEquivalenceTestResult = new Benchmark.PlanEquivalenceTestResult(testRun);
+            planEquivalenceTestResult.TestId = test.Id;
+            planEquivalenceTestResult.TestNumber = test.Number;
+            planEquivalenceTestResult.TestName = test.Name;
+            planEquivalenceTestResult.TestGroupId = testGroup.Id;
+            planEquivalenceTestResult.ConfigurationId = configuration.Id;
+
+            if (template != null)
+            {
+                planEquivalenceTestResult.TemplateNumber = template.Number;
+            }
+
+            foreach (Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
+            {
+                Benchmark.QueryVariantResult queryVariantResult = new Benchmark.QueryVariantResult(planEquivalenceTestResult);
+                Benchmark.Statement statement = variant.GetStatement(db.Name);
+
+                // Skip not supported variants.
+                if (statement is Benchmark.SpecificStatement specificStatement)
+                {
+                    if (specificStatement.NotSupported)
+                    {
+                        continue;
+                    }
+                }
+                
+                string commandText = statement.CommandText;
+                if (template != null)
+                {
+                    // Parametrized template substitution.
+                    foreach (Benchmark.Parameter parameter in planEquivalenceTest.Parameters)
+                    {
+                        Benchmark.ParameterValue parameterValue =
+                            planEquivalenceTest.ParameterValues.Where(pv => pv.ParameterId == parameter.Id && pv.TemplateId == template.Id).FirstOrDefault();
+                        if (parameterValue != null)
+                        {
+                            string paramStr = Controls.Helpers.GetParamStr(parameter.Name);
+                            commandText = commandText.Replace(paramStr, parameterValue.Value);
+                        }
+                    }
+                }
+
+                queryVariantResult.Query = commandText;
+                queryVariantResult.QueryVariantId = variant.Id;
+                queryVariantResult.QueryVariantNumber = variant.Number;
+                queryVariantResult.QueryVariantName = variant.Name;
+
+                if (template != null)
+                {
+                    queryVariantResult.ExpectedResultSize = template.ExpectedResultSize;
+                }
+                else
+                {
+                    queryVariantResult.ExpectedResultSize = planEquivalenceTest.ExpectedResultSize;
+                }
+
+                planEquivalenceTestResult.QueryVariantResults.Add(queryVariantResult);
+            }
+
+            foreach (Benchmark.SelectedAnnotation selectedAnnotation in planEquivalenceTest.SelectedAnnotations)
+            {
+                Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(planEquivalenceTestResult);
+                selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
+                planEquivalenceTestResult.SelectedAnnotationResults.Add(selectedAnnotationResult);
+            }
+
+            if (planEquivalenceTestResult.QueryVariantResults.Count > 0)
+            {
+                testRun.TestResults.Add(planEquivalenceTestResult);
+            }
+        }
+
         public void Prepare(string name)
         {
             if (benchmark == null)
@@ -125,44 +201,16 @@ namespace SqlOptimizerBechmark.Executor
                                 continue;
                             }
 
-                            Benchmark.PlanEquivalenceTestResult planEquivalenceTestResult = new Benchmark.PlanEquivalenceTestResult(testRun);
-                            planEquivalenceTestResult.TestId = test.Id;
-                            planEquivalenceTestResult.TestNumber = test.Number;
-                            planEquivalenceTestResult.TestName = test.Name;
-                            planEquivalenceTestResult.TestGroupId = testGroup.Id;
-                            planEquivalenceTestResult.ConfigurationId = configuration.Id;
-
-                            foreach (Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
+                            if (planEquivalenceTest.Parametrized)
                             {
-                                Benchmark.QueryVariantResult queryVariantResult = new Benchmark.QueryVariantResult(planEquivalenceTestResult);
-                                Benchmark.Statement statement = variant.GetStatement(db.Name);
-
-                                // Skip not supported variants.
-                                if (statement is Benchmark.SpecificStatement specificStatement)
+                                foreach (Benchmark.Template template in planEquivalenceTest.Templates)
                                 {
-                                    if (specificStatement.NotSupported)
-                                    {
-                                        continue;
-                                    }
+                                    PreparePlanEquivalenceTest(planEquivalenceTest, test, testGroup, configuration, db, template);
                                 }
-
-                                queryVariantResult.Query = statement.CommandText;
-                                queryVariantResult.QueryVariantId = variant.Id;
-                                queryVariantResult.QueryVariantNumber = variant.Number;
-                                queryVariantResult.QueryVariantName = variant.Name;
-                                planEquivalenceTestResult.QueryVariantResults.Add(queryVariantResult);
                             }
-
-                            foreach (Benchmark.SelectedAnnotation selectedAnnotation in planEquivalenceTest.SelectedAnnotations)
+                            else
                             {
-                                Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(planEquivalenceTestResult);
-                                selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
-                                planEquivalenceTestResult.SelectedAnnotationResults.Add(selectedAnnotationResult);
-                            }
-
-                            if (planEquivalenceTestResult.QueryVariantResults.Count > 0)
-                            {
-                                testRun.TestResults.Add(planEquivalenceTestResult);
+                                PreparePlanEquivalenceTest(planEquivalenceTest, test, testGroup, configuration, db);
                             }
                         }
                         // TODO - other test types.
@@ -458,132 +506,125 @@ namespace SqlOptimizerBechmark.Executor
                                                 break;
                                             }
 
-                                            Benchmark.TestResult currentTestResult = null;
                                             foreach (Benchmark.TestResult testResult in testRun.TestResults)
                                             {
                                                 if (testResult.TestId == test.Id &&
                                                     testResult.ConfigurationId == configuration.Id)
                                                 {
-                                                    currentTestResult = testResult;
-                                                    break;
-                                                }
-                                            }
-                                            if (currentTestResult != null)
-                                            {
-                                                if (currentTestResult is Benchmark.PlanEquivalenceTestResult planEquivalenceTestResult)
-                                                {
-                                                    try
+                                                    if (testResult is Benchmark.PlanEquivalenceTestResult planEquivalenceTestResult)
                                                     {
-
-                                                        planEquivalenceTestResult.Started = true;
-                                                        HashSet<DbProviders.QueryPlan> distinctPlans = new HashSet<DbProviders.QueryPlan>();
-                                                        planEquivalenceTestResult.SuccessfullyCompletedVariants = 0;
-
-                                                        Benchmark.PlanEquivalenceTest planEquivalenceTest = (Benchmark.PlanEquivalenceTest)test;
-
-                                                        List<DataTable> results = new List<DataTable>();
-
-                                                        foreach (Benchmark.QueryVariantResult queryVariantResult in planEquivalenceTestResult.QueryVariantResults)
+                                                        try
                                                         {
-                                                            try
+                                                            planEquivalenceTestResult.Started = true;
+                                                            HashSet<DbProviders.QueryPlan> distinctPlans = new HashSet<DbProviders.QueryPlan>();
+                                                            planEquivalenceTestResult.SuccessfullyCompletedVariants = 0;
+
+                                                            Benchmark.PlanEquivalenceTest planEquivalenceTest = (Benchmark.PlanEquivalenceTest)test;
+
+                                                            List<DataTable> results = new List<DataTable>();
+
+                                                            foreach (Benchmark.QueryVariantResult queryVariantResult in planEquivalenceTestResult.QueryVariantResults)
                                                             {
-                                                                if (interruptTesting)
+                                                                try
                                                                 {
-                                                                    testingThread = null;
-                                                                    OnTestingEnded();
-                                                                    return;
-                                                                }
-                                                                if (stopTesting)
-                                                                {
-                                                                    break;
-                                                                }
-
-                                                                queryVariantResult.Started = true;
-
-                                                                List<TimeSpan> timeSpans = new List<TimeSpan>();
-                                                                DbProviders.QueryStatistics lastStats = null;
-                                                                for (int i = 0; i < queryRuns; i++)
-                                                                {
-                                                                    DbProviders.QueryStatistics stats = db.GetQueryStatistics(queryVariantResult.Query, compareResults);
-
-                                                                    if (checkResultSizes && stats.ResultSize != planEquivalenceTest.ExpectedResultSize)
+                                                                    if (interruptTesting)
                                                                     {
-                                                                        throw new Exception(string.Format("Unexpected result size ({0} instead of {1}).", stats.ResultSize, planEquivalenceTest.ExpectedResultSize));
+                                                                        testingThread = null;
+                                                                        OnTestingEnded();
+                                                                        return;
+                                                                    }
+                                                                    if (stopTesting)
+                                                                    {
+                                                                        break;
                                                                     }
 
-                                                                    timeSpans.Add(stats.QueryProcessingTime);
-                                                                    lastStats = stats;
+                                                                    queryVariantResult.Started = true;
+
+                                                                    List<TimeSpan> timeSpans = new List<TimeSpan>();
+                                                                    DbProviders.QueryStatistics lastStats = null;
+                                                                    for (int i = 0; i < queryRuns; i++)
+                                                                    {
+                                                                        DbProviders.QueryStatistics stats = db.GetQueryStatistics(queryVariantResult.Query, compareResults);
+
+                                                                        if (checkResultSizes && stats.ResultSize != queryVariantResult.ExpectedResultSize)
+                                                                        {
+                                                                            throw new Exception(string.Format("Unexpected result size ({0} instead of {1}).", stats.ResultSize, planEquivalenceTest.ExpectedResultSize));
+                                                                        }
+
+                                                                        timeSpans.Add(stats.QueryProcessingTime);
+                                                                        lastStats = stats;
+                                                                    }
+
+                                                                    queryVariantResult.QueryProcessingTime = ComputeAvgTimeSpan(timeSpans);
+                                                                    queryVariantResult.ResultSize = lastStats.ResultSize;
+
+                                                                    DbProviders.QueryPlan plan = db.GetQueryPlan(queryVariantResult.Query);
+                                                                    queryVariantResult.QueryPlan = plan;
+
+                                                                    if (compareResults)
+                                                                    {
+                                                                        results.Add(lastStats.Result);
+                                                                    }
+
+                                                                    //// TODO - remove.
+                                                                    //planEquivalenceTest.ExpectedResultSize = stats.ResultSize;
+                                                                    //break;
+
+                                                                    if (!distinctPlans.Contains(plan))
+                                                                    {
+                                                                        distinctPlans.Add(plan);
+                                                                    }
+
+                                                                    ExecutorMessage message = new ExecutorMessage();
+                                                                    message.Message = "Query executed";
+                                                                    message.MessageType = ExecutorMessageType.Info;
+                                                                    message.Statement = queryVariantResult.Query;
+                                                                    planEquivalenceTestResult.SuccessfullyCompletedVariants++;
+
+                                                                    OnMessage(message);
                                                                 }
-                                                                
-                                                                queryVariantResult.QueryProcessingTime = ComputeAvgTimeSpan(timeSpans);
-                                                                queryVariantResult.ResultSize = lastStats.ResultSize;
-
-                                                                DbProviders.QueryPlan plan = db.GetQueryPlan(queryVariantResult.Query);
-                                                                queryVariantResult.QueryPlan = plan;
-
-                                                                if (compareResults)
+                                                                catch (Exception ex)
                                                                 {
-                                                                    results.Add(lastStats.Result);
+                                                                    queryVariantResult.ErrorMessage = ex.Message;
+
+                                                                    ExecutorMessage message = new ExecutorMessage();
+                                                                    message.Message = ex.Message;
+                                                                    message.MessageType = ExecutorMessageType.Error;
+                                                                    message.Statement = queryVariantResult.Query;
+
+                                                                    OnMessage(message);
                                                                 }
-
-                                                                //// TODO - remove.
-                                                                //planEquivalenceTest.ExpectedResultSize = stats.ResultSize;
-                                                                //break;
-
-                                                                if (!distinctPlans.Contains(plan))
-                                                                {
-                                                                    distinctPlans.Add(plan);
-                                                                }
-
-                                                                ExecutorMessage message = new ExecutorMessage();
-                                                                message.Message = "Query executed";
-                                                                message.MessageType = ExecutorMessageType.Info;
-                                                                message.Statement = queryVariantResult.Query;
-                                                                planEquivalenceTestResult.SuccessfullyCompletedVariants++;
-
-                                                                OnMessage(message);
+                                                                queryVariantResult.Completed = true;
                                                             }
-                                                            catch (Exception ex)
+
+                                                            planEquivalenceTestResult.DistinctQueryPlans = distinctPlans.Count;
+                                                            planEquivalenceTestResult.Completed = true;
+
+                                                            if (compareResults)
                                                             {
-                                                                queryVariantResult.ErrorMessage = ex.Message;
-
-                                                                ExecutorMessage message = new ExecutorMessage();
-                                                                message.Message = ex.Message;
-                                                                message.MessageType = ExecutorMessageType.Error;
-                                                                message.Statement = queryVariantResult.Query;
-
-                                                                OnMessage(message);
+                                                                if (!CheckResultsEquality(results))
+                                                                {
+                                                                    throw new Exception(string.Format("The query variants returned different results."));
+                                                                }
                                                             }
-                                                            queryVariantResult.Completed = true;
+
+                                                            ExecutorMessage messageCompleted = new ExecutorMessage();
+                                                            messageCompleted.Message = string.Format("Test {0} completed.", planEquivalenceTestResult.TestName);
+                                                            messageCompleted.MessageType = ExecutorMessageType.Info;
+                                                            messageCompleted.Statement = string.Empty;
+                                                            OnMessage(messageCompleted);
+
                                                         }
-
-                                                        planEquivalenceTestResult.DistinctQueryPlans = distinctPlans.Count;
-                                                        planEquivalenceTestResult.Completed = true;
-
-                                                        if (compareResults)
+                                                        catch (Exception ex)
                                                         {
-                                                            if (!CheckResultsEquality(results))
-                                                            {
-                                                                throw new Exception(string.Format("The query variants returned different results."));
-                                                            }
+                                                            planEquivalenceTestResult.ErrorMessage = ex.Message;
+
+                                                            ExecutorMessage message = new ExecutorMessage();
+                                                            message.Message = ex.Message;
+                                                            message.MessageType = ExecutorMessageType.Error;
+                                                            message.Statement = string.Empty;
+                                                            OnMessage(message);
                                                         }
-
-                                                        ExecutorMessage messageCompleted = new ExecutorMessage();
-                                                        messageCompleted.Message = string.Format("Test {0} completed.", planEquivalenceTestResult.TestName);
-                                                        messageCompleted.MessageType = ExecutorMessageType.Info;
-                                                        messageCompleted.Statement = string.Empty;
-                                                        OnMessage(messageCompleted);
-
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        planEquivalenceTestResult.ErrorMessage = ex.Message;
-
-                                                        ExecutorMessage message = new ExecutorMessage();
-                                                        message.Message = ex.Message;
-                                                        message.MessageType = ExecutorMessageType.Error;
-                                                        message.Statement = string.Empty;
-                                                        OnMessage(message);
                                                     }
                                                 }
                                             }

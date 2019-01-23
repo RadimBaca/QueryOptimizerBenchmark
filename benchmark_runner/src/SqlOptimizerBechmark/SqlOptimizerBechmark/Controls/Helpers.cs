@@ -216,5 +216,10 @@ namespace SqlOptimizerBechmark.Controls
                 namedBenchmarkObject.Name = title.Trim();
             }
         }
+
+        public static string GetParamStr(string parameterName)
+        {
+            return "$" + parameterName;
+        }
     }
 }

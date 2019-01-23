@@ -16,6 +16,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private ObservableCollection<SelectedAnnotationResult> selectedAnnotationResults = new ObservableCollection<SelectedAnnotationResult>();
         private bool started = false;
         private bool completed = false;
+        private string templateNumber = string.Empty;
         
         public override IEnumerable<IBenchmarkObject> ChildObjects
         {
@@ -50,6 +51,19 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     successfullyCompletedVariants = value;
                     OnPropertyChanged("SuccessfullyCompletedVariants");
+                }
+            }
+        }
+
+        public string TemplateNumber
+        {
+            get => templateNumber;
+            set
+            {
+                if (templateNumber != value)
+                {
+                    templateNumber = value;
+                    OnPropertyChanged("TemplateNumber");
                 }
             }
         }
@@ -109,6 +123,7 @@ namespace SqlOptimizerBechmark.Benchmark
                 delegate () { return new SelectedAnnotationResult(this); });
             serializer.ReadBool("started", ref started);
             serializer.ReadBool("completed", ref completed);
+            serializer.ReadString("template_number", ref templateNumber);
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
@@ -120,6 +135,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteCollection<SelectedAnnotationResult>("selected_annotation_results", "selected_annotation_result", selectedAnnotationResults);
             serializer.WriteBool("started", started);
             serializer.WriteBool("completed", completed);
+            serializer.WriteString("template_number", templateNumber);
         }
 
         public override void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
@@ -148,6 +164,10 @@ namespace SqlOptimizerBechmark.Benchmark
 
                 string code = string.Format("{0}-{1}-{2}", testGroupResult.TestGroupNumber,
                     configurationResult.ConfigurationNumber, this.TestNumber);
+                if (!string.IsNullOrEmpty(templateNumber))
+                {
+                    code += "/" + templateNumber;
+                }
 
                 writer.WriteLine("{0};{1};{2};{3};{4};{5};{6}",
                     TestRun.GetCsvStr(code),

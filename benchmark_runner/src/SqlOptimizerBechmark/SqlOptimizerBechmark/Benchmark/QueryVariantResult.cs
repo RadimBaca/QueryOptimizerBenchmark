@@ -16,6 +16,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private string queryVariantNumber = string.Empty;
         private string queryVariantName = string.Empty;
         private TimeSpan queryProcessingTime = TimeSpan.Zero;
+        private int expectedResultSize = 0;
         private int resultSize = 0;
         private DbProviders.QueryPlan queryPlan = null;
         private bool started = false;
@@ -84,6 +85,19 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     queryProcessingTime = value;
                     OnPropertyChanged("QueryProcessingTime");
+                }
+            }
+        }
+
+        public int ExpectedResultSize
+        {
+            get => expectedResultSize;
+            set
+            {
+                if (expectedResultSize != value)
+                {
+                    expectedResultSize = value;
+                    OnPropertyChanged("ExpectedResultSize");
                 }
             }
         }
@@ -165,6 +179,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("query_variant_number", ref queryVariantNumber);
             serializer.ReadString("query_variant_name", ref queryVariantName);
             serializer.ReadTimeSpan("query_processing_time", ref queryProcessingTime);
+            serializer.ReadInt("expected_result_size", ref expectedResultSize);
             serializer.ReadInt("result_size", ref resultSize);
             serializer.ReadBool("started", ref completed);
             serializer.ReadBool("completed", ref completed);
@@ -189,6 +204,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("query_variant_number", queryVariantNumber);
             serializer.WriteString("query_variant_name", queryVariantName);
             serializer.WriteTimeSpan("query_processing_time", queryProcessingTime);
+            serializer.WriteInt("expected_result_size", expectedResultSize);
             serializer.WriteInt("result_size", resultSize);
             serializer.WriteBool("started", completed);
             serializer.WriteBool("completed", completed);
@@ -221,9 +237,15 @@ namespace SqlOptimizerBechmark.Benchmark
                     annotationsStr += annotationStr;
                 }
 
+                string testNumber = planEquivalenceTestResult.TestNumber;
+                if (!string.IsNullOrEmpty(planEquivalenceTestResult.TemplateNumber))
+                {
+                    testNumber += "/" + planEquivalenceTestResult.TemplateNumber;
+                }
+
                 string code = string.Format("{0}-{1}-{2}-{3}",
                     testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
-                    planEquivalenceTestResult.TestNumber, queryVariantNumber);
+                    testNumber, queryVariantNumber);
 
                 writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11}",
                     TestRun.GetCsvStr(code),

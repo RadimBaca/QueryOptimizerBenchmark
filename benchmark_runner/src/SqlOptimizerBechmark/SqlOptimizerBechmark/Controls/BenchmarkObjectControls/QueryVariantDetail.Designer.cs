@@ -40,6 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtNumber = new System.Windows.Forms.TextBox();
+            this.splitContainerParameters = new System.Windows.Forms.SplitContainer();
             this.gpxStatement = new System.Windows.Forms.GroupBox();
             this.fctbStatement = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -47,10 +48,13 @@
             this.btnChangeImplementation = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.cbxNotSupported = new System.Windows.Forms.CheckBox();
+            this.gpxTemplateParameters = new System.Windows.Forms.GroupBox();
+            this.listTemplateParameters = new System.Windows.Forms.ListView();
             this.lblNextVariant = new System.Windows.Forms.LinkLabel();
             this.lblPreviousVariant = new System.Windows.Forms.LinkLabel();
             this.lblTest = new System.Windows.Forms.LinkLabel();
             this.warningProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.colParameter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -58,9 +62,14 @@
             this.splitContainer.SuspendLayout();
             this.gpxQueryVariant.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerParameters)).BeginInit();
+            this.splitContainerParameters.Panel1.SuspendLayout();
+            this.splitContainerParameters.Panel2.SuspendLayout();
+            this.splitContainerParameters.SuspendLayout();
             this.gpxStatement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fctbStatement)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
+            this.gpxTemplateParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,7 +108,7 @@
             // 
             // splitContainer.Panel2
             // 
-            this.splitContainer.Panel2.Controls.Add(this.gpxStatement);
+            this.splitContainer.Panel2.Controls.Add(this.splitContainerParameters);
             this.splitContainer.Size = new System.Drawing.Size(783, 511);
             this.splitContainer.SplitterDistance = 170;
             this.splitContainer.TabIndex = 2;
@@ -199,6 +208,24 @@
             this.txtNumber.TabIndex = 0;
             this.txtNumber.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
+            // splitContainerParameters
+            // 
+            this.splitContainerParameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerParameters.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainerParameters.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerParameters.Name = "splitContainerParameters";
+            // 
+            // splitContainerParameters.Panel1
+            // 
+            this.splitContainerParameters.Panel1.Controls.Add(this.gpxStatement);
+            // 
+            // splitContainerParameters.Panel2
+            // 
+            this.splitContainerParameters.Panel2.Controls.Add(this.gpxTemplateParameters);
+            this.splitContainerParameters.Size = new System.Drawing.Size(783, 337);
+            this.splitContainerParameters.SplitterDistance = 654;
+            this.splitContainerParameters.TabIndex = 2;
+            // 
             // gpxStatement
             // 
             this.gpxStatement.Controls.Add(this.fctbStatement);
@@ -206,7 +233,7 @@
             this.gpxStatement.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpxStatement.Location = new System.Drawing.Point(0, 0);
             this.gpxStatement.Name = "gpxStatement";
-            this.gpxStatement.Size = new System.Drawing.Size(783, 337);
+            this.gpxStatement.Size = new System.Drawing.Size(654, 337);
             this.gpxStatement.TabIndex = 1;
             this.gpxStatement.TabStop = false;
             this.gpxStatement.Text = "Statement";
@@ -241,7 +268,7 @@
             this.fctbStatement.Paddings = new System.Windows.Forms.Padding(0);
             this.fctbStatement.RightBracket = ')';
             this.fctbStatement.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.fctbStatement.Size = new System.Drawing.Size(777, 288);
+            this.fctbStatement.Size = new System.Drawing.Size(648, 288);
             this.fctbStatement.TabIndex = 3;
             this.fctbStatement.Text = "fastColoredTextBox1";
             this.fctbStatement.Zoom = 100;
@@ -265,7 +292,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(777, 29);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(648, 29);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // dbProviderComboBox
@@ -317,6 +344,33 @@
             this.cbxNotSupported.UseVisualStyleBackColor = true;
             this.cbxNotSupported.CheckedChanged += new System.EventHandler(this.cbxNotSupported_CheckedChanged);
             // 
+            // gpxTemplateParameters
+            // 
+            this.gpxTemplateParameters.Controls.Add(this.listTemplateParameters);
+            this.gpxTemplateParameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpxTemplateParameters.Location = new System.Drawing.Point(0, 0);
+            this.gpxTemplateParameters.Name = "gpxTemplateParameters";
+            this.gpxTemplateParameters.Size = new System.Drawing.Size(125, 337);
+            this.gpxTemplateParameters.TabIndex = 0;
+            this.gpxTemplateParameters.TabStop = false;
+            this.gpxTemplateParameters.Text = "Template parameters";
+            // 
+            // listTemplateParameters
+            // 
+            this.listTemplateParameters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colParameter});
+            this.listTemplateParameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listTemplateParameters.FullRowSelect = true;
+            this.listTemplateParameters.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listTemplateParameters.Location = new System.Drawing.Point(3, 17);
+            this.listTemplateParameters.Name = "listTemplateParameters";
+            this.listTemplateParameters.Size = new System.Drawing.Size(119, 317);
+            this.listTemplateParameters.TabIndex = 0;
+            this.listTemplateParameters.UseCompatibleStateImageBehavior = false;
+            this.listTemplateParameters.View = System.Windows.Forms.View.Details;
+            this.listTemplateParameters.DoubleClick += new System.EventHandler(this.listTemplateParameters_DoubleClick);
+            this.listTemplateParameters.Resize += new System.EventHandler(this.listTemplateParameters_Resize);
+            // 
             // lblNextVariant
             // 
             this.lblNextVariant.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -361,6 +415,11 @@
             this.warningProvider.ContainerControl = this;
             this.warningProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("warningProvider.Icon")));
             // 
+            // colParameter
+            // 
+            this.colParameter.Text = "Parameter";
+            this.colParameter.Width = 96;
+            // 
             // QueryVariantDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,10 +436,15 @@
             this.gpxQueryVariant.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.splitContainerParameters.Panel1.ResumeLayout(false);
+            this.splitContainerParameters.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerParameters)).EndInit();
+            this.splitContainerParameters.ResumeLayout(false);
             this.gpxStatement.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fctbStatement)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.gpxTemplateParameters.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -409,5 +473,9 @@
         private System.Windows.Forms.Button btnChangeImplementation;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbxNotSupported;
+        private System.Windows.Forms.SplitContainer splitContainerParameters;
+        private System.Windows.Forms.GroupBox gpxTemplateParameters;
+        private System.Windows.Forms.ListView listTemplateParameters;
+        private System.Windows.Forms.ColumnHeader colParameter;
     }
 }

@@ -85,7 +85,33 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 }
             }
 
+            UpdateTemplateParameters();
+
             UpdateUI();
+        }
+
+        private void UpdateTemplateParameters()
+        {
+            if (QueryVariant.PlanEquivalenceTest.Parametrized)
+            {
+                splitContainerParameters.Panel2Collapsed = false;
+                splitContainerParameters.IsSplitterFixed = false;
+
+                listTemplateParameters.BeginUpdate();
+                listTemplateParameters.Items.Clear();
+                foreach (Benchmark.Parameter parameter in QueryVariant.PlanEquivalenceTest.Parameters)
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = Helpers.GetParamStr(parameter.Name);
+                    listTemplateParameters.Items.Add(item);
+                }
+                listTemplateParameters.EndUpdate();
+            }
+            else
+            {
+                splitContainerParameters.Panel2Collapsed = true;
+                splitContainerParameters.IsSplitterFixed = true;
+            }
         }
 
         private void CreateImplementation(DbProviders.DbProvider dbProvider)
@@ -304,6 +330,20 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                     }
                 }
             }
+        }
+
+        private void listTemplateParameters_DoubleClick(object sender, EventArgs e)
+        {
+            if (listTemplateParameters.SelectedItems.Count == 1)
+            {
+                ListViewItem item = listTemplateParameters.SelectedItems[0];
+                fctbStatement.InsertText(item.Text);
+            }
+        }
+
+        private void listTemplateParameters_Resize(object sender, EventArgs e)
+        {
+            colParameter.Width = listTemplateParameters.Width - 25;
         }
     }
 }

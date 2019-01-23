@@ -34,6 +34,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             txtDescription.Text = PlanEquivalenceTest.Description;
             txtExpectedResultSize.Text = Convert.ToString(PlanEquivalenceTest.ExpectedResultSize);
             cbxActive.Checked = PlanEquivalenceTest.Active;
+            cbxParametrized.Checked = PlanEquivalenceTest.Parametrized;
 
             PlanEquivalenceTest.PropertyChanged -= PlanEquivalenceTest_PropertyChanged;
             PlanEquivalenceTest.PropertyChanged += PlanEquivalenceTest_PropertyChanged;
@@ -44,6 +45,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             selectedAnnotationsClb.SelectedAnnotations = PlanEquivalenceTest.SelectedAnnotations;
             selectedAnnotationsClb.ParentBenchmarkObject = PlanEquivalenceTest;
             selectedAnnotationsClb.BindAnnotations();
+
+            templateEditor.PlanEquivalenceTest = PlanEquivalenceTest;
 
             CheckUniqueNumber();
         }
@@ -67,6 +70,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 warningProvider.SetError(txtNumber, "The test number is not unique within the test group!");
             }
         }
+
         private void PlanEquivalenceTest_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Number")
@@ -89,6 +93,11 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 cbxActive.Checked = PlanEquivalenceTest.Active;
             }            
+            else if (e.PropertyName == "Parametrized")
+            {
+                cbxParametrized.Checked = PlanEquivalenceTest.Parametrized;
+                UpdateUI();
+            }
         }
         
         protected override void UpdateUI()
@@ -101,6 +110,19 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 Enabled = true;
             }
+
+            if (PlanEquivalenceTest.Parametrized && !tabControl.TabPages.Contains(tabTemplates))
+            {
+                tabControl.TabPages.Add(tabTemplates);
+            }
+            else if (!PlanEquivalenceTest.Parametrized && tabControl.TabPages.Contains(tabTemplates))
+            {
+                tabControl.TabPages.Remove(tabTemplates);
+            }
+
+            txtExpectedResultSize.Enabled = !PlanEquivalenceTest.Parametrized;
+            lblExpectedResultSize.Enabled = txtExpectedResultSize.Enabled;
+            btnSetByFirstVariant.Enabled = txtExpectedResultSize.Enabled;
         }
         
         private void SetResultSizeByFirstVariant()
@@ -150,7 +172,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-            PlanEquivalenceTest.Name = txtName.Text;    
+            PlanEquivalenceTest.Name = txtName.Text;
         }
 
         private void txtDescription_TextChanged(object sender, EventArgs e)
@@ -162,6 +184,12 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         {
             PlanEquivalenceTest.Active = cbxActive.Checked;
         }
+
+        private void cbxParametrized_CheckedChanged(object sender, EventArgs e)
+        {
+            PlanEquivalenceTest.Parametrized = cbxParametrized.Checked;
+        }
+
 
         private void queryVariantsListView_BenchmarkObjectDoubleClick(object sender, BenchmarkObjectEventArgs e)
         {

@@ -143,6 +143,16 @@ namespace SqlOptimizerBechmark.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DeleteParameter_16 {
+            get {
+                object obj = ResourceManager.GetObject("DeleteParameter_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Down_16 {
             get {
                 object obj = ResourceManager.GetObject("Down_16", resourceCulture);
@@ -243,6 +253,16 @@ namespace SqlOptimizerBechmark.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NewParameter_16 {
+            get {
+                object obj = ResourceManager.GetObject("NewParameter_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap OkBlueFlat_16 {
             get {
                 object obj = ResourceManager.GetObject("OkBlueFlat_16", resourceCulture);
@@ -316,6 +336,16 @@ namespace SqlOptimizerBechmark.Properties {
         internal static System.Drawing.Bitmap Rename_16 {
             get {
                 object obj = ResourceManager.GetObject("Rename_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RenameParameter_16 {
+            get {
+                object obj = ResourceManager.GetObject("RenameParameter_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

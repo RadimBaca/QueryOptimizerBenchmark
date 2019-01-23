@@ -33,6 +33,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblBenchmark = new System.Windows.Forms.LinkLabel();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gpxPlanEquivalenceTest = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -40,31 +41,36 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbxActive = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblExpectedResultSize = new System.Windows.Forms.Label();
             this.txtExpectedResultSize = new System.Windows.Forms.TextBox();
             this.btnSetByFirstVariant = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtNumber = new System.Windows.Forms.TextBox();
+            this.cbxParametrized = new System.Windows.Forms.CheckBox();
             this.gpxSelectedAnnotations = new System.Windows.Forms.GroupBox();
             this.selectedAnnotationsClb = new SqlOptimizerBechmark.Controls.AnnotationCheckListBox();
-            this.gpxVariants = new System.Windows.Forms.GroupBox();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabVariants = new System.Windows.Forms.TabPage();
             this.queryVariantsListView = new SqlOptimizerBechmark.Controls.BenchmarkListView.QueryVariantsListView();
+            this.tabTemplates = new System.Windows.Forms.TabPage();
+            this.templateEditor = new SqlOptimizerBechmark.Controls.TemplateEditor.TemplateEditor();
             this.warningProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
-            this.gpxPlanEquivalenceTest.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.gpxSelectedAnnotations.SuspendLayout();
-            this.gpxVariants.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.gpxPlanEquivalenceTest.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.gpxSelectedAnnotations.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.tabVariants.SuspendLayout();
+            this.tabTemplates.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -109,10 +115,28 @@
             // 
             // splitContainer.Panel2
             // 
-            this.splitContainer.Panel2.Controls.Add(this.gpxVariants);
+            this.splitContainer.Panel2.Controls.Add(this.tabControl);
             this.splitContainer.Size = new System.Drawing.Size(679, 441);
-            this.splitContainer.SplitterDistance = 196;
+            this.splitContainer.SplitterDistance = 221;
             this.splitContainer.TabIndex = 0;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.gpxPlanEquivalenceTest);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.gpxSelectedAnnotations);
+            this.splitContainer1.Size = new System.Drawing.Size(679, 221);
+            this.splitContainer1.SplitterDistance = 516;
+            this.splitContainer1.TabIndex = 2;
             // 
             // gpxPlanEquivalenceTest
             // 
@@ -120,7 +144,7 @@
             this.gpxPlanEquivalenceTest.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpxPlanEquivalenceTest.Location = new System.Drawing.Point(0, 0);
             this.gpxPlanEquivalenceTest.Name = "gpxPlanEquivalenceTest";
-            this.gpxPlanEquivalenceTest.Size = new System.Drawing.Size(516, 196);
+            this.gpxPlanEquivalenceTest.Size = new System.Drawing.Size(516, 221);
             this.gpxPlanEquivalenceTest.TabIndex = 0;
             this.gpxPlanEquivalenceTest.TabStop = false;
             this.gpxPlanEquivalenceTest.Text = "Plan equivalence test";
@@ -136,22 +160,24 @@
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.cbxActive, 1, 5);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.lblExpectedResultSize, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.txtExpectedResultSize, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.btnSetByFirstVariant, 2, 4);
             this.tableLayoutPanel2.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.txtNumber, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.cbxParametrized, 1, 6);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 6;
+            this.tableLayoutPanel2.RowCount = 7;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(510, 176);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(510, 201);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // txtName
@@ -200,7 +226,6 @@
             // 
             this.cbxActive.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cbxActive.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.cbxActive, 2);
             this.cbxActive.Location = new System.Drawing.Point(123, 155);
             this.cbxActive.Name = "cbxActive";
             this.cbxActive.Size = new System.Drawing.Size(56, 17);
@@ -209,15 +234,15 @@
             this.cbxActive.UseVisualStyleBackColor = true;
             this.cbxActive.CheckedChanged += new System.EventHandler(this.cbxActive_CheckedChanged);
             // 
-            // label3
+            // lblExpectedResultSize
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 132);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(107, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Expected result size:";
+            this.lblExpectedResultSize.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblExpectedResultSize.AutoSize = true;
+            this.lblExpectedResultSize.Location = new System.Drawing.Point(3, 132);
+            this.lblExpectedResultSize.Name = "lblExpectedResultSize";
+            this.lblExpectedResultSize.Size = new System.Drawing.Size(107, 13);
+            this.lblExpectedResultSize.TabIndex = 4;
+            this.lblExpectedResultSize.Text = "Expected result size:";
             // 
             // txtExpectedResultSize
             // 
@@ -258,13 +283,26 @@
             this.txtNumber.TabIndex = 0;
             this.txtNumber.TextChanged += new System.EventHandler(this.txtNumber_TextChanged);
             // 
+            // cbxParametrized
+            // 
+            this.cbxParametrized.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbxParametrized.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.cbxParametrized, 2);
+            this.cbxParametrized.Location = new System.Drawing.Point(123, 180);
+            this.cbxParametrized.Name = "cbxParametrized";
+            this.cbxParametrized.Size = new System.Drawing.Size(160, 17);
+            this.cbxParametrized.TabIndex = 6;
+            this.cbxParametrized.Text = "Use parametrized templates";
+            this.cbxParametrized.UseVisualStyleBackColor = true;
+            this.cbxParametrized.CheckedChanged += new System.EventHandler(this.cbxParametrized_CheckedChanged);
+            // 
             // gpxSelectedAnnotations
             // 
             this.gpxSelectedAnnotations.Controls.Add(this.selectedAnnotationsClb);
             this.gpxSelectedAnnotations.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gpxSelectedAnnotations.Location = new System.Drawing.Point(0, 0);
             this.gpxSelectedAnnotations.Name = "gpxSelectedAnnotations";
-            this.gpxSelectedAnnotations.Size = new System.Drawing.Size(159, 196);
+            this.gpxSelectedAnnotations.Size = new System.Drawing.Size(159, 221);
             this.gpxSelectedAnnotations.TabIndex = 1;
             this.gpxSelectedAnnotations.TabStop = false;
             this.gpxSelectedAnnotations.Text = "Annotations";
@@ -278,52 +316,65 @@
             this.selectedAnnotationsClb.Name = "selectedAnnotationsClb";
             this.selectedAnnotationsClb.ParentBenchmarkObject = null;
             this.selectedAnnotationsClb.SelectedAnnotations = null;
-            this.selectedAnnotationsClb.Size = new System.Drawing.Size(153, 176);
+            this.selectedAnnotationsClb.Size = new System.Drawing.Size(153, 201);
             this.selectedAnnotationsClb.TabIndex = 0;
             // 
-            // gpxVariants
+            // tabControl
             // 
-            this.gpxVariants.Controls.Add(this.queryVariantsListView);
-            this.gpxVariants.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gpxVariants.Location = new System.Drawing.Point(0, 0);
-            this.gpxVariants.Name = "gpxVariants";
-            this.gpxVariants.Size = new System.Drawing.Size(679, 241);
-            this.gpxVariants.TabIndex = 1;
-            this.gpxVariants.TabStop = false;
-            this.gpxVariants.Text = "Variants";
+            this.tabControl.Controls.Add(this.tabVariants);
+            this.tabControl.Controls.Add(this.tabTemplates);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(679, 216);
+            this.tabControl.TabIndex = 2;
+            // 
+            // tabVariants
+            // 
+            this.tabVariants.Controls.Add(this.queryVariantsListView);
+            this.tabVariants.Location = new System.Drawing.Point(4, 22);
+            this.tabVariants.Name = "tabVariants";
+            this.tabVariants.Padding = new System.Windows.Forms.Padding(3);
+            this.tabVariants.Size = new System.Drawing.Size(671, 190);
+            this.tabVariants.TabIndex = 0;
+            this.tabVariants.Text = "Variants";
+            this.tabVariants.UseVisualStyleBackColor = true;
             // 
             // queryVariantsListView
             // 
             this.queryVariantsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queryVariantsListView.Location = new System.Drawing.Point(3, 17);
+            this.queryVariantsListView.Location = new System.Drawing.Point(3, 3);
             this.queryVariantsListView.Name = "queryVariantsListView";
             this.queryVariantsListView.PlanEquivalenceTest = null;
-            this.queryVariantsListView.Size = new System.Drawing.Size(673, 221);
+            this.queryVariantsListView.Size = new System.Drawing.Size(665, 184);
             this.queryVariantsListView.TabIndex = 0;
             this.queryVariantsListView.BenchmarkObjectDoubleClick += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.queryVariantsListView_BenchmarkObjectDoubleClick);
+            // 
+            // tabTemplates
+            // 
+            this.tabTemplates.Controls.Add(this.templateEditor);
+            this.tabTemplates.Location = new System.Drawing.Point(4, 22);
+            this.tabTemplates.Name = "tabTemplates";
+            this.tabTemplates.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTemplates.Size = new System.Drawing.Size(671, 190);
+            this.tabTemplates.TabIndex = 1;
+            this.tabTemplates.Text = "Templates";
+            this.tabTemplates.UseVisualStyleBackColor = true;
+            // 
+            // templateEditor
+            // 
+            this.templateEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.templateEditor.Location = new System.Drawing.Point(3, 3);
+            this.templateEditor.Name = "templateEditor";
+            this.templateEditor.PlanEquivalenceTest = null;
+            this.templateEditor.Size = new System.Drawing.Size(665, 184);
+            this.templateEditor.TabIndex = 0;
             // 
             // warningProvider
             // 
             this.warningProvider.ContainerControl = this;
             this.warningProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("warningProvider.Icon")));
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.gpxPlanEquivalenceTest);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.gpxSelectedAnnotations);
-            this.splitContainer1.Size = new System.Drawing.Size(679, 196);
-            this.splitContainer1.SplitterDistance = 516;
-            this.splitContainer1.TabIndex = 2;
             // 
             // PlanEquivalenceTestDetail
             // 
@@ -338,16 +389,18 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
-            this.gpxPlanEquivalenceTest.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            this.gpxSelectedAnnotations.ResumeLayout(false);
-            this.gpxVariants.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.gpxPlanEquivalenceTest.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.gpxSelectedAnnotations.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
+            this.tabVariants.ResumeLayout(false);
+            this.tabTemplates.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -361,12 +414,11 @@
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox gpxVariants;
         private BenchmarkListView.QueryVariantsListView queryVariantsListView;
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.LinkLabel lblBenchmark;
         private System.Windows.Forms.CheckBox cbxActive;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblExpectedResultSize;
         private System.Windows.Forms.TextBox txtExpectedResultSize;
         private System.Windows.Forms.Button btnSetByFirstVariant;
         private System.Windows.Forms.Label label4;
@@ -375,5 +427,10 @@
         private System.Windows.Forms.GroupBox gpxSelectedAnnotations;
         private AnnotationCheckListBox selectedAnnotationsClb;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabVariants;
+        private System.Windows.Forms.TabPage tabTemplates;
+        private TemplateEditor.TemplateEditor templateEditor;
+        private System.Windows.Forms.CheckBox cbxParametrized;
     }
 }

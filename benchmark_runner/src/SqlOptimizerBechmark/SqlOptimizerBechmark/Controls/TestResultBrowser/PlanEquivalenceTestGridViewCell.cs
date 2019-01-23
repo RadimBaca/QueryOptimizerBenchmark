@@ -161,7 +161,13 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
 
             Brush foreBrush = new SolidBrush(foreColor);
 
-            string title = Helpers.GetTitle(planEquivalenceTestResult.TestNumber, planEquivalenceTestResult.TestName);
+            string str = planEquivalenceTestResult.TestNumber;
+            if (!string.IsNullOrEmpty(planEquivalenceTestResult.TemplateNumber))
+            {
+                str += "/" + planEquivalenceTestResult.TemplateNumber;
+            }
+
+            string title = Helpers.GetTitle(str, planEquivalenceTestResult.TestName);
             graphics.DrawString(title, fontBold, foreBrush, areaName, format);
 
             graphics.Restore(state);

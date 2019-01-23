@@ -269,7 +269,7 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkListView
                 {
                     if (e.PropertyName == "Description")
                     {
-                        item.SubItems[2].Text = describedBenchmarkObject.Description;
+                        item.SubItems[1].Text = describedBenchmarkObject.Description;
                     }
                 };
             }

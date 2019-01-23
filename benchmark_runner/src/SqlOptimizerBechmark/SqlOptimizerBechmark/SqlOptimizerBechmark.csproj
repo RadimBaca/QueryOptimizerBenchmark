@@ -80,6 +80,8 @@
     <Compile Include="Benchmark\INamedBenchmarkObject.cs" />
     <Compile Include="Benchmark\BenchmarkXmlSerializer.cs" />
     <Compile Include="Benchmark\INumberedBenchmarkObject.cs" />
+    <Compile Include="Benchmark\Parameter.cs" />
+    <Compile Include="Benchmark\ParameterValue.cs" />
     <Compile Include="Benchmark\PlanEquivalenceTestResult.cs" />
     <Compile Include="Benchmark\QueryVariantResult.cs" />
     <Compile Include="Benchmark\ConfigurationResult.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Benchmark\SelectedAnnotationResult.cs" />
     <Compile Include="Benchmark\SpecificStatement.cs" />
     <Compile Include="Benchmark\SpecificStatementList.cs" />
+    <Compile Include="Benchmark\Template.cs" />
     <Compile Include="Benchmark\TestGroup.cs" />
     <Compile Include="Benchmark\PlanEquivalenceTest.cs" />
     <Compile Include="Benchmark\Test.cs" />
@@ -237,6 +240,27 @@
     <Compile Include="Controls\StatementPreviewDialog.Designer.cs">
       <DependentUpon>StatementPreviewDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TemplateEditor\ParameterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\TemplateEditor\ParameterDialog.Designer.cs">
+      <DependentUpon>ParameterDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TemplateEditor\TemplateBindingList.cs" />
+    <Compile Include="Controls\TemplateEditor\TemplateEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TemplateEditor\TemplateEditor.Designer.cs">
+      <DependentUpon>TemplateEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TemplateEditor\TemplateEditorResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateEditorResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TemplateEditor\TemplateNumberDescriptor.cs" />
+    <Compile Include="Controls\TemplateEditor\TemplateParameterDescriptor.cs" />
+    <Compile Include="Controls\TemplateEditor\TemplateResultSizeDescriptor.cs" />
     <Compile Include="Controls\TestResultBrowser\BenchmarkDataGridViewCell.cs" />
     <Compile Include="Controls\TestResultBrowser\ConfigurationDataGridViewCell.cs" />
     <Compile Include="Controls\TestResultBrowser\DistinctPlansDataGridViewCell.cs" />
@@ -361,6 +385,16 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StatementPreviewDialog.resx">
       <DependentUpon>StatementPreviewDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TemplateEditor\ParameterDialog.resx">
+      <DependentUpon>ParameterDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TemplateEditor\TemplateEditor.resx">
+      <DependentUpon>TemplateEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TemplateEditor\TemplateEditorResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TemplateEditorResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TestResultBrowser\TestResultBrowser.resx">
       <DependentUpon>TestResultBrowser.cs</DependentUpon>
@@ -505,6 +539,9 @@
     <None Include="Resources\ExcelFile_16.png" />
     <None Include="Resources\OracleSmall.png" />
     <None Include="Resources\PostgreSqlSmall.png" />
+    <None Include="Resources\DeleteParameter_16.png" />
+    <None Include="Resources\NewParameter_16.png" />
+    <None Include="Resources\RenameParameter_16.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
