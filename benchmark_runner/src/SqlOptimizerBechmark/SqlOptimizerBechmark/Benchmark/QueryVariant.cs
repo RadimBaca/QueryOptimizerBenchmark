@@ -18,6 +18,7 @@ namespace SqlOptimizerBechmark.Benchmark
 
         private Statement defaultStatement;
         private ObservableCollection<SpecificStatement> specificStatements;
+        private ObservableCollection<SelectedAnnotation> selectedAnnotations = new ObservableCollection<SelectedAnnotation>();
 
         public override IBenchmarkObject ParentObject => planEquivalenceTest;
 
@@ -30,6 +31,10 @@ namespace SqlOptimizerBechmark.Benchmark
                 foreach (SpecificStatement specificStatement in specificStatements)
                 {
                     yield return specificStatement;
+                }
+                foreach (SelectedAnnotation selectedAnnotation in selectedAnnotations)
+                {
+                    yield return selectedAnnotation;
                 }
             }
         }
@@ -93,6 +98,11 @@ namespace SqlOptimizerBechmark.Benchmark
             get => specificStatements;
         }
 
+        public ObservableCollection<SelectedAnnotation> SelectedAnnotations
+        {
+            get => selectedAnnotations;
+        }
+
         public QueryVariant(PlanEquivalenceTest planEquivalenceTest)
         {
             this.id = planEquivalenceTest.Owner.GenerateId();
@@ -134,6 +144,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("description", description);
             serializer.WriteObject("default_statement", defaultStatement);
             serializer.WriteCollection<SpecificStatement>("specific_statements", "specific_statement", specificStatements);
+            serializer.WriteCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations);
         }
 
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
@@ -152,6 +163,8 @@ namespace SqlOptimizerBechmark.Benchmark
             }
             serializer.ReadCollection<SpecificStatement>("specific_statements", "specific_statement", specificStatements,
                 delegate () { return new SpecificStatement(this); });
+            serializer.ReadCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations,
+                delegate () { return new SelectedAnnotation(this); });
         }
     }
 }

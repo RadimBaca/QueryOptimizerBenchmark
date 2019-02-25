@@ -8,15 +8,10 @@ namespace SqlOptimizerBechmark.Benchmark
 {
     public class SelectedAnnotationResult : BenchmarkObject
     {
-        private PlanEquivalenceTestResult planEquivalenceTestResult;
+        private BenchmarkObject parentObject;
         private int annotationId;
 
-        public override IBenchmarkObject ParentObject => planEquivalenceTestResult; 
-
-        public PlanEquivalenceTestResult PlanEquivalenceTestResult
-        {
-            get => planEquivalenceTestResult;
-        }
+        public override IBenchmarkObject ParentObject => parentObject; 
 
         public int AnnotationId
         {
@@ -31,9 +26,9 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
-        public SelectedAnnotationResult(PlanEquivalenceTestResult planEquivalenceTestResult)
+        public SelectedAnnotationResult(BenchmarkObject parentObject)
         {
-            this.planEquivalenceTestResult = planEquivalenceTestResult;
+            this.parentObject = parentObject;
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)

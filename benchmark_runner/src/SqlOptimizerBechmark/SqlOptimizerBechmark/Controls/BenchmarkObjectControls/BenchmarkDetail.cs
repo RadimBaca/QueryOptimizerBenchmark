@@ -29,12 +29,20 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 return;
             }
 
-            txtName.Text = Benchmark.Name;
-            txtAuthor.Text = Benchmark.Author;
-            txtDescription.Text = Benchmark.Description;
+            txtName.DataBindings.Clear();
+            txtAuthor.DataBindings.Clear();
+            txtDescription.DataBindings.Clear();
 
-            Benchmark.PropertyChanged -= Benchmark_PropertyChanged;
-            Benchmark.PropertyChanged += Benchmark_PropertyChanged;
+            txtName.DataBindings.Add("Text", Benchmark, "Name");
+            txtAuthor.DataBindings.Add("Text", Benchmark, "Author");
+            txtDescription.DataBindings.Add("Text", Benchmark, "Description");
+
+            //txtName.Text = Benchmark.Name;
+            //txtAuthor.Text = Benchmark.Author;
+            //txtDescription.Text = Benchmark.Description;
+
+            //Benchmark.PropertyChanged -= Benchmark_PropertyChanged;
+            //Benchmark.PropertyChanged += Benchmark_PropertyChanged;
 
             testGroupsListView.Benchmark = Benchmark;
             testGroupsListView.Collection = Benchmark.TestGroups;
@@ -50,21 +58,21 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             e.NewObject = new Benchmark.Annotation(Benchmark);
         }
 
-        private void Benchmark_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Name")
-            {
-                txtName.Text = Benchmark.Name;
-            }
-            else if (e.PropertyName == "Description")
-            {
-                txtDescription.Text = Benchmark.Description;
-            }
-            else if (e.PropertyName == "Author")
-            {
-                txtAuthor.Text = Benchmark.Author;
-            }
-        }
+        //private void Benchmark_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == "Name")
+        //    {
+        //        txtName.Text = Benchmark.Name;
+        //    }
+        //    else if (e.PropertyName == "Description")
+        //    {
+        //        txtDescription.Text = Benchmark.Description;
+        //    }
+        //    else if (e.PropertyName == "Author")
+        //    {
+        //        txtAuthor.Text = Benchmark.Author;
+        //    }
+        //}
 
         protected override void UpdateUI()
         {
@@ -78,20 +86,20 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             }
         }
 
-        private void txtName_TextChanged(object sender, EventArgs e)
-        {
-            Benchmark.Name = txtName.Text;
-        }
+        //private void txtName_TextChanged(object sender, EventArgs e)
+        //{
+        //    Benchmark.Name = txtName.Text;
+        //}
 
-        private void txtAuthor_TextChanged(object sender, EventArgs e)
-        {
-            Benchmark.Author = txtAuthor.Text;
-        }
+        //private void txtAuthor_TextChanged(object sender, EventArgs e)
+        //{
+        //    Benchmark.Author = txtAuthor.Text;
+        //}
 
-        private void txtDescription_TextChanged(object sender, EventArgs e)
-        {
-            Benchmark.Description = txtDescription.Text;
-        }
+        //private void txtDescription_TextChanged(object sender, EventArgs e)
+        //{
+        //    Benchmark.Description = txtDescription.Text;
+        //}
 
         private void lblInitScript_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

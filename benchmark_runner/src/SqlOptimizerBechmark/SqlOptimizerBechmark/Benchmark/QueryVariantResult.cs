@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace SqlOptimizerBechmark.Benchmark
         private bool started = false;
         private bool completed = false;
         private string errorMessage = string.Empty;
+        private ObservableCollection<SelectedAnnotationResult> selectedAnnotationResults = new ObservableCollection<SelectedAnnotationResult>();
+
         public override IBenchmarkObject ParentObject => planEquivalenceTestResult;
 
         public string Query
@@ -167,6 +170,8 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        public ObservableCollection<SelectedAnnotationResult> SelectedAnnotationResults => selectedAnnotationResults;
+
         public QueryVariantResult(PlanEquivalenceTestResult planEquivalenceTestResult)
         {
             this.planEquivalenceTestResult = planEquivalenceTestResult;
@@ -184,6 +189,10 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadBool("started", ref completed);
             serializer.ReadBool("completed", ref completed);
             serializer.ReadString("error_message", ref errorMessage);
+
+            serializer.ReadCollection<SelectedAnnotationResult>("selected_annotation_results", "selected_annotation_result", selectedAnnotationResults,
+                delegate () { return new SelectedAnnotationResult(this); });
+
 
             XElement eQueryPlan = serializer.ReadXml("query_plan");
             if (eQueryPlan != null)
@@ -210,6 +219,9 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteBool("completed", completed);
             serializer.WriteString("error_message", errorMessage);
 
+            serializer.WriteCollection<SelectedAnnotationResult>("selected_annotation_results", "selected_annotation_result",
+                selectedAnnotationResults);
+
             if (queryPlan != null)
             {
                 XElement eQueryPlan = new XElement("query_plan");
@@ -225,16 +237,28 @@ namespace SqlOptimizerBechmark.Benchmark
                 TestGroupResult testGroupResult = planEquivalenceTestResult.TestRun.GetTestGroupResult(planEquivalenceTestResult.TestGroupId);
                 ConfigurationResult configurationResult = planEquivalenceTestResult.TestRun.GetConfigurationResult(planEquivalenceTestResult.ConfigurationId);
 
-                string annotationsStr = string.Empty;
+                string testAnnotationsStr = string.Empty;
                 foreach (int annotationId in planEquivalenceTestResult.SelectedAnnotationResults.Select(ar => ar.AnnotationId))
                 {
                     AnnotationResult annotationResult = planEquivalenceTestResult.TestRun.GetAnnotationResult(annotationId);
                     string annotationStr = annotationResult.AnnotationNumber;
-                    if (!string.IsNullOrEmpty(annotationsStr))
+                    if (!string.IsNullOrEmpty(testAnnotationsStr))
                     {
-                        annotationsStr += ",";
+                        testAnnotationsStr += ",";
                     }
-                    annotationsStr += annotationStr;
+                    testAnnotationsStr += annotationStr;
+                }
+
+                string variantAnnotationsStr = string.Empty;
+                foreach (int annotationId in this.SelectedAnnotationResults.Select(ar => ar.AnnotationId))
+                {
+                    AnnotationResult annotationResult = planEquivalenceTestResult.TestRun.GetAnnotationResult(annotationId);
+                    string annotationStr = annotationResult.AnnotationNumber;
+                    if (!string.IsNullOrEmpty(variantAnnotationsStr))
+                    {
+                        variantAnnotationsStr += ",";
+                    }
+                    variantAnnotationsStr += annotationStr;
                 }
 
                 string testNumber = planEquivalenceTestResult.TestNumber;
@@ -247,13 +271,14 @@ namespace SqlOptimizerBechmark.Benchmark
                     testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
                     testNumber, queryVariantNumber);
 
-                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11}",
+                writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12}",
                     TestRun.GetCsvStr(code),
                     TestRun.GetCsvStr(testGroupResult.TestGroupName),
                     TestRun.GetCsvStr(configurationResult.ConfigurationName),
                     TestRun.GetCsvStr(planEquivalenceTestResult.TestName),
-                    TestRun.GetCsvStr(annotationsStr),
+                    TestRun.GetCsvStr(testAnnotationsStr),
                     TestRun.GetCsvStr(this.QueryVariantName),
+                    TestRun.GetCsvStr(variantAnnotationsStr),
                     TestRun.GetCsvStr(Convert.ToString(this.resultSize)),
                     TestRun.GetCsvStr(Convert.ToString(this.queryProcessingTime)),
                     TestRun.GetCsvStr(Convert.ToString(this.queryPlan)),

@@ -143,7 +143,6 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(190, 21);
             this.txtName.TabIndex = 0;
-            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // txtDescription
             // 
@@ -156,7 +155,6 @@
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(581, 94);
             this.txtDescription.TabIndex = 2;
-            this.txtDescription.TextChanged += new System.EventHandler(this.txtDescription_TextChanged);
             // 
             // label1
             // 
@@ -195,7 +193,6 @@
             this.txtAuthor.Name = "txtAuthor";
             this.txtAuthor.Size = new System.Drawing.Size(190, 21);
             this.txtAuthor.TabIndex = 1;
-            this.txtAuthor.TextChanged += new System.EventHandler(this.txtAuthor_TextChanged);
             // 
             // tabControl1
             // 

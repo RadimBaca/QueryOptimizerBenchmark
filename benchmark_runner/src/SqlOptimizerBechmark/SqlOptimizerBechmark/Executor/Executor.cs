@@ -83,6 +83,26 @@ namespace SqlOptimizerBechmark.Executor
             return false;
         }
 
+        /// <summary>
+        /// Test whether the query variant should be ignored due to some annotation.
+        /// </summary>
+        /// <param name="variant"></param>
+        /// <returns></returns>
+        private bool IgnoreVariant(Benchmark.QueryVariant variant)
+        {
+            foreach (Benchmark.SelectedAnnotation selectedAnnotation in variant.SelectedAnnotations)
+            {
+                foreach (Benchmark.SelectedAnnotation ignoreAnnotation in Benchmark.TestRunSettings.IgnoreAnnotations)
+                {
+                    if (selectedAnnotation.AnnotationId == ignoreAnnotation.AnnotationId)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         private void PreparePlanEquivalenceTest(Benchmark.PlanEquivalenceTest planEquivalenceTest,
             Benchmark.Test test, Benchmark.TestGroup testGroup, Benchmark.Configuration configuration, DbProviders.DbProvider db,
             Benchmark.Template template = null)
@@ -101,6 +121,11 @@ namespace SqlOptimizerBechmark.Executor
 
             foreach (Benchmark.QueryVariant variant in planEquivalenceTest.Variants)
             {
+                if (IgnoreVariant(variant))
+                {
+                    continue;
+                }
+
                 Benchmark.QueryVariantResult queryVariantResult = new Benchmark.QueryVariantResult(planEquivalenceTestResult);
                 Benchmark.Statement statement = variant.GetStatement(db.Name);
 
@@ -112,7 +137,14 @@ namespace SqlOptimizerBechmark.Executor
                         continue;
                     }
                 }
-                
+
+                foreach (Benchmark.SelectedAnnotation selectedAnnotation in variant.SelectedAnnotations)
+                {
+                    Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(queryVariantResult);
+                    selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
+                    queryVariantResult.SelectedAnnotationResults.Add(selectedAnnotationResult);
+                }
+
                 string commandText = statement.CommandText;
                 if (template != null)
                 {

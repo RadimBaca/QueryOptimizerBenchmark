@@ -57,6 +57,10 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             QueryVariant.DefaultStatement.PropertyChanged -= Statement_PropertyChanged;
             QueryVariant.DefaultStatement.PropertyChanged += Statement_PropertyChanged;
 
+            selectedAnnotationsClb.SelectedAnnotations = QueryVariant.SelectedAnnotations;
+            selectedAnnotationsClb.ParentBenchmarkObject = QueryVariant;
+            selectedAnnotationsClb.BindAnnotations();
+
             CheckUniqueNumber();
 
             ready = true;
