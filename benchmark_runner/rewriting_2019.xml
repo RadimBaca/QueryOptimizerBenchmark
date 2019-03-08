@@ -311,7 +311,7 @@ END;
           <number>1</number>
           <name>Semi join 1</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>392</id>
@@ -654,7 +654,7 @@ $ORDERBY</command_text>
           <number>2</number>
           <name>Conditional aggregation 1</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>457</id>
@@ -974,7 +974,7 @@ $OrderBy</command_text>
           <number>3</number>
           <name>Conditional aggregation 2</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>517</id>
@@ -1353,7 +1353,7 @@ $OrderBy</command_text>
           <number>4</number>
           <name>Anti join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>589</id>
@@ -1838,7 +1838,7 @@ $OrderBy</command_text>
           <number>5</number>
           <name>Conditional aggregation 3</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>674</id>
@@ -2455,7 +2455,7 @@ ON A (fkb, search)</command_text>
           <number>2</number>
           <name>Semi join 2</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>425</id>
@@ -2936,7 +2936,7 @@ drop index ix_A_localsearch</command_text>
           <number>1</number>
           <name>Having distinct</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>573</id>
@@ -3221,7 +3221,7 @@ WHERE t.c1 = 2</command_text>
           <number>2</number>
           <name>Greatest per group</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>622</id>
@@ -3674,7 +3674,7 @@ WHERE $PA1groupby and
           <number>3</number>
           <name>Greatest aggregation per group</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>683</id>
@@ -4501,7 +4501,7 @@ ON A (id, search)</command_text>
       <id>544</id>
       <number>T3B</number>
       <name>Attribute removal from Group By</name>
-      <description>This variant remove attribute from the Group By (compared to the variant marked as T3A)</description>
+      <description>This variant remove an attribute from the Group By (compared to the variant marked as T3A)</description>
     </annotation>
     <annotation>
       <id>559</id>
@@ -4515,6 +4515,18 @@ ON A (id, search)</command_text>
       <name>Cross apply</name>
       <description>T4 Cross apply equivalent of T4A</description>
     </annotation>
+    <annotation>
+      <id>718</id>
+      <number>T5A</number>
+      <name>No Pk</name>
+      <description>This variant is equivalent (when compare to the [a] variant) even when a primary key is not defined</description>
+    </annotation>
+    <annotation>
+      <id>720</id>
+      <number>T5B</number>
+      <name>Pk</name>
+      <description>Primary key on some table has to be defined</description>
+    </annotation>
   </annotations>
   <test_run_settings>
     <run_init_script>False</run_init_script>
@@ -4524,5 +4536,5 @@ ON A (id, search)</command_text>
     <query_runs>1</query_runs>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>717</last_id>
+  <last_id>722</last_id>
 </sql_benchmark>
