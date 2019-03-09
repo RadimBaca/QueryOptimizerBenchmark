@@ -77,7 +77,10 @@ insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null,
 </command_text>
           </statement>
           <statement>
-            <command_text>insert into B(id, groupby) values (10000, null);
+            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);
+insert into B(id, groupby, search, padding) values (10001, null, 1, null);
+insert into B(id, groupby, search, padding) values (10002, 1, null, null);
+insert into B(id, groupby, search, padding) values (10003, 1, 1, null);
 </command_text>
           </statement>
           <statement>
@@ -359,6 +362,9 @@ $ORDERBY</command_text>
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -382,6 +388,9 @@ $ORDERBY</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -408,6 +417,9 @@ $ORDERBY</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -436,6 +448,9 @@ $ORDERBY</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>387</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -466,6 +481,9 @@ $ORDERBY</command_text>
                 <selected_annotation>
                   <annotation_id>387</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -489,6 +507,9 @@ $ORDERBY</command_text>
               <selected_annotations>
                 <selected_annotation>
                   <annotation_id>381</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -514,6 +535,9 @@ $ORDERBY</command_text>
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -537,6 +561,9 @@ $ORDERBY</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -715,6 +742,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -753,6 +783,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -786,6 +819,9 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -823,6 +859,9 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -1032,6 +1071,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>382</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -1067,6 +1109,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>559</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -1100,6 +1145,9 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>389</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -1138,6 +1186,9 @@ $OrderBy
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -1169,6 +1220,9 @@ $OrderBy</command_text>
               <selected_annotations>
                 <selected_annotation>
                   <annotation_id>561</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -1203,7 +1257,11 @@ WHERE B.search = 1 and exists (SELECT 1 FROM A WHERE A.fkb = B.id)
 $OrderBy</command_text>
               </default_statement>
               <specific_statements />
-              <selected_annotations />
+              <selected_annotations>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
+              </selected_annotations>
             </variant>
           </variants>
           <selected_annotations />
@@ -1762,12 +1820,12 @@ $OrderBy</command_text>
             <template>
               <id>611</id>
               <number>v</number>
-              <expected_result_size>536</expected_result_size>
+              <expected_result_size>1062</expected_result_size>
             </template>
             <template>
               <id>612</id>
               <number>vi</number>
-              <expected_result_size>536</expected_result_size>
+              <expected_result_size>1062</expected_result_size>
             </template>
           </templates>
           <parameter_values>
@@ -1895,6 +1953,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -1933,6 +1994,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>559</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -1970,6 +2034,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -2006,6 +2073,9 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -2048,6 +2118,9 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>561</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -2506,6 +2579,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -2528,6 +2604,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -2536,11 +2615,11 @@ $OrderBy</command_text>
               <name>Join + group by</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT b1.id, b1.groupby, max(b1.search), max(b1.padding)
+                <command_text>SELECT b1.id, max(b1.groupby), max(b1.search), max(b1.padding)
 FROM B b1
 JOIN A ON A.fkb = b1.id
 WHERE $PBsearch
-GROUP BY b1.id, b1.groupby
+GROUP BY b1.id
 $OrderBy</command_text>
               </default_statement>
               <specific_statements />
@@ -2550,6 +2629,12 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>544</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -2574,6 +2659,9 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -2606,6 +2694,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -2634,6 +2725,9 @@ $OrderBy</command_text>
                 <selected_annotation>
                   <annotation_id>378</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -2657,6 +2751,32 @@ $OrderBy</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
+              </selected_annotations>
+            </variant>
+            <variant>
+              <id>724</id>
+              <number>i</number>
+              <name>Join + group by</name>
+              <description></description>
+              <default_statement>
+                <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
+FROM B b1
+JOIN A ON A.fkb = b1.id
+WHERE $PBsearch
+GROUP BY b1.id, b1.groupby, b1.search, b1.padding
+$OrderBy</command_text>
+              </default_statement>
+              <specific_statements />
+              <selected_annotations>
+                <selected_annotation>
+                  <annotation_id>543</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>720</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -2985,6 +3105,9 @@ HAVING count(DISTINCT
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3015,6 +3138,9 @@ WHERE exists (
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3042,6 +3168,9 @@ WHERE (
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3071,6 +3200,9 @@ WHERE groupby in (
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3094,6 +3226,9 @@ WHERE search = 1 and groupby is not null</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>387</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3121,6 +3256,9 @@ WHERE c2 = 2</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3154,6 +3292,9 @@ WHERE exists (
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3179,6 +3320,9 @@ HAVING count(DISTINCT
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3208,6 +3352,9 @@ WHERE t.c1 = 2</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3278,6 +3425,9 @@ $OrderByA1</command_text>
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3300,6 +3450,9 @@ $OrderByA1</command_text>
               <selected_annotations>
                 <selected_annotation>
                   <annotation_id>559</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3330,6 +3483,9 @@ $OrderByA1</command_text>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3355,6 +3511,9 @@ $OrderByA1</command_text>
                 <selected_annotation>
                   <annotation_id>390</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3378,7 +3537,11 @@ $OrderByA1
 </command_text>
               </default_statement>
               <specific_statements />
-              <selected_annotations />
+              <selected_annotations>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
+              </selected_annotations>
             </variant>
             <variant>
               <id>653</id>
@@ -3405,6 +3568,9 @@ WHERE a1.search_max = a1.search</command_text>
                 <selected_annotation>
                   <annotation_id>386</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3429,6 +3595,9 @@ ORDER BY dense_rank() over (PARTITION BY groupby ORDER BY search DESC)</command_
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>386</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3466,6 +3635,9 @@ $OrderByA1</command_text>
                 <selected_annotation>
                   <annotation_id>379</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3489,6 +3661,9 @@ WHERE $PA1groupby and
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>388</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3726,6 +3901,9 @@ ORDER BY $AggFn DESC</command_text>
                 <selected_annotation>
                   <annotation_id>382</annotation_id>
                 </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
               </selected_annotations>
             </variant>
             <variant>
@@ -3754,6 +3932,9 @@ WHERE t.rn = 1</command_text>
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>386</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3788,6 +3969,9 @@ HAVING $AggFn =
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3824,6 +4008,9 @@ JOIN
                 </selected_annotation>
                 <selected_annotation>
                   <annotation_id>384</annotation_id>
+                </selected_annotation>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
                 </selected_annotation>
               </selected_annotations>
             </variant>
@@ -3994,7 +4181,11 @@ FROM
 ) t</command_text>
               </default_statement>
               <specific_statements />
-              <selected_annotations />
+              <selected_annotations>
+                <selected_annotation>
+                  <annotation_id>718</annotation_id>
+                </selected_annotation>
+              </selected_annotations>
             </variant>
           </variants>
           <selected_annotations />
@@ -4525,7 +4716,7 @@ ON A (id, search)</command_text>
       <id>720</id>
       <number>T5B</number>
       <name>Pk</name>
-      <description>Primary key on some table has to be defined</description>
+      <description>Primary key on some table has to be defined if we expect this variant to be equivalent to [a]</description>
     </annotation>
   </annotations>
   <test_run_settings>
@@ -4536,5 +4727,5 @@ ON A (id, search)</command_text>
     <query_runs>1</query_runs>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>722</last_id>
+  <last_id>724</last_id>
 </sql_benchmark>
