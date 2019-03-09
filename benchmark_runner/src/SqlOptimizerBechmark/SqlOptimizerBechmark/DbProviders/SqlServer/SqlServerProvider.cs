@@ -189,9 +189,16 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                 }
                 else
                 {
+                    reader = cmd1.ExecuteReader();
                     ret.Result = new System.Data.DataTable();
-                    ret.Result.Load(cmd1.ExecuteReader());
+                    ret.Result.Load(reader);
                     ret.ResultSize = ret.Result.Rows.Count;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                        reader = null;
+                    }
                 }
 
                 connection.ResetStatistics();
