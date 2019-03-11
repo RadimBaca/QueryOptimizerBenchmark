@@ -39,5 +39,16 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("provider_name", ref providerName);
             base.LoadFromXml(serializer);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "SpecificStatementList";
+
+            ret.DbColumns.Add(new DbColumnInfo("ProviderName", "provider_name", System.Data.DbType.String, 50));
+
+            return ret;
+        }
     }
 }

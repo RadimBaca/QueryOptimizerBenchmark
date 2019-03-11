@@ -187,5 +187,23 @@ namespace SqlOptimizerBechmark.Benchmark
                 }
             }
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            // TODO - nebude fungovat pro vice typu testu.
+
+            ret.DbColumns.Add(new DbColumnInfo("DistinctQueryPlans", "distinct_query_plans", System.Data.DbType.Int32));
+            ret.DbColumns.Add(new DbColumnInfo("SuccessfullyCompletedVariants", "successfully_completed_variants", System.Data.DbType.Int32));
+            ret.DbColumns.Add(new DbColumnInfo("Started", "started", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("Completed", "completed", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("TemplateNumber", "template_number", System.Data.DbType.String, 20));
+
+            ret.DbDependentTables.Add(new DbDependentTableInfo("QueryVariantResults", "QueryVariantResult", "test_result_id"));
+            ret.DbDependentTables.Add(new DbDependentTableInfo("SelectedAnnotationResults", "SelectedAnnotationResult", "test_result_id"));
+
+            return ret;
+        }
     }
 }

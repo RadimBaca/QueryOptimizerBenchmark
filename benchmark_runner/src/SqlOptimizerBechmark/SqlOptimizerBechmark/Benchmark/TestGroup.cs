@@ -163,5 +163,19 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadCollection<Configuration>("configurations", "configuration", configurations,
                 delegate () { return new Configuration(this); });
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "TestGroup";
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "test_group_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+            
+            return ret;
+        }
     }
 }

@@ -74,6 +74,9 @@
     <Compile Include="Benchmark\BenchmarkObject.cs" />
     <Compile Include="Benchmark\ConnectionSettings.cs" />
     <Compile Include="Benchmark\CsvExportOptions.cs" />
+    <Compile Include="Benchmark\DbColumnInfo.cs" />
+    <Compile Include="Benchmark\DbDependentTableInfo.cs" />
+    <Compile Include="Benchmark\DbTableInfo.cs" />
     <Compile Include="Benchmark\IBenchmarkObject.cs" />
     <Compile Include="Benchmark\IDescribedBenchmarkObject.cs" />
     <Compile Include="Benchmark\IIdentifiedBenchmarkObject.cs" />
@@ -269,6 +272,7 @@
     <Compile Include="Controls\TestResultBrowser\TestResultBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DbProviders\DbBenchmarkObjectWriter.cs" />
     <Compile Include="DbProviders\DbProvider.cs" />
     <Compile Include="DbProviders\DbProviderSettingsControl.cs">
       <SubType>UserControl</SubType>
@@ -302,6 +306,7 @@
     </Compile>
     <Compile Include="DbProviders\QueryPlan.cs" />
     <Compile Include="DbProviders\QueryStatistics.cs" />
+    <Compile Include="DbProviders\SqlServer\SqlBenchmarkObjectWriter.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProvider.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProviderResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -542,6 +547,7 @@
     <None Include="Resources\DeleteParameter_16.png" />
     <None Include="Resources\NewParameter_16.png" />
     <None Include="Resources\RenameParameter_16.png" />
+    <None Include="Resources\SaveToDb_16.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

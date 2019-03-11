@@ -72,5 +72,20 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("test_group_number", testGroupNumber);
             serializer.WriteString("test_group_name", testGroupName);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "TestGroupResult";
+
+            ret.DbColumns.Add(new DbColumnInfo(null, "test_run_id", System.Data.DbType.Int32, true, true, "TestRun", "test_run_id")); // PK, FK
+            ret.DbColumns.Add(new DbColumnInfo("TestGroupId", "test_group_id", System.Data.DbType.Int32, true, true, "TestGroup", "test_group_id")); // PK, FK
+
+            ret.DbColumns.Add(new DbColumnInfo("TestGroupNumber", "test_group_number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("TestGroupName", "test_group_name", System.Data.DbType.String, 50));
+
+            return ret;
+        }
     }
 }

@@ -115,5 +115,20 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteInt("query_runs", queryRuns);
             serializer.WriteCollection<SelectedAnnotation>("ignore_annotations", "ignore_annotation", ignoreAnnotations);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "TestRunSettings";
+
+            ret.DbColumns.Add(new DbColumnInfo("RunInitScript", "run_init_script", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("RunCleanUpScript", "run_clean_up_script", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("CheckResultSizes", "check_result_sizes", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("CompareResults", "compare_results", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("QueryRuns", "query_runs", System.Data.DbType.Int32));
+            
+            return ret;
+        }
     }
 }

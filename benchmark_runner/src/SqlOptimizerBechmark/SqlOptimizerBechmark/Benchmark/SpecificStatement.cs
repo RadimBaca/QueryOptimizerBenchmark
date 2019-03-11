@@ -55,5 +55,17 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteBool("not_supported", notSupported);
             base.SaveToXml(serializer);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "SpecificStatement";
+
+            ret.DbColumns.Add(new DbColumnInfo("ProviderName", "provider_name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("NotSupported", "not_supported", System.Data.DbType.Boolean));
+
+            return ret;
+        }
     }
 }

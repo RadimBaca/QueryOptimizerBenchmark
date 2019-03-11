@@ -132,5 +132,17 @@ namespace SqlOptimizerBechmark.Benchmark
                     delegate () { return new ParameterValue(this); });
             }
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = new DbTableInfo();
+
+            ret.TableName = "PlanEquivalenceTest";
+
+            ret.DbColumns.Add(new DbColumnInfo("ExpectedResultSize", "expected_result_size", System.Data.DbType.Int32));
+            ret.DbColumns.Add(new DbColumnInfo("Parametrized", "parametrized", System.Data.DbType.Boolean));
+
+            return ret;
+        }
     }
 }

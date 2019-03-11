@@ -74,5 +74,18 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("number", number);
             serializer.WriteInt("expected_result_size", expectedResultSize);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "Template";
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "template_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("ExpectedResultSize", "expected_result_size", System.Data.DbType.Int32));
+
+            return ret;
+        }
     }
 }

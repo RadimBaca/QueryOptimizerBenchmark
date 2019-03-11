@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SqlOptimizerBechmark.DbProviders;
 
 namespace SqlOptimizerBechmark.Benchmark
 {
@@ -182,6 +183,25 @@ namespace SqlOptimizerBechmark.Benchmark
             StreamWriter writer = new StreamWriter(fileName);
             ExportToCsv(writer, exportOptions);
             writer.Close();
+        }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "TestRun";
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "test_run_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("StartDate", "start_date", System.Data.DbType.DateTime));
+            ret.DbColumns.Add(new DbColumnInfo("EndDate", "end_date", System.Data.DbType.DateTime));
+
+            ret.DbDependentTables.Add(new DbDependentTableInfo("ConfigurationResults", "ConfigurationResult", "test_run_id"));
+            ret.DbDependentTables.Add(new DbDependentTableInfo("TestGroupResults", "TestGroupResult", "test_run_id"));
+            ret.DbDependentTables.Add(new DbDependentTableInfo("AnnotationResults", "AnnotationResult", "test_run_id"));
+            ret.DbDependentTables.Add(new DbDependentTableInfo("TestResults", "TestResult", "test_run_id"));
+
+            return ret;
         }
     }
 }

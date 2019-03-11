@@ -166,5 +166,19 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations,
                 delegate () { return new SelectedAnnotation(this); });
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = new DbTableInfo();
+
+            ret.TableName = "QueryVariant";
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "query_variant_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+
+            return ret;
+        }
     }
 }

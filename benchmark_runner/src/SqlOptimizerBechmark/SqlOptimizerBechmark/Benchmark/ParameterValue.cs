@@ -76,5 +76,18 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteInt("parameter_id", parameterId);
             serializer.WriteString("value", value);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = GetTableInfo();
+
+            ret.TableName = "ParameterValue";
+
+            ret.DbColumns.Add(new DbColumnInfo("TemplateId", "template_id", System.Data.DbType.Int32, true, "Template", "template_id"));
+            ret.DbColumns.Add(new DbColumnInfo("ParameterId", "parameter_id", System.Data.DbType.Int32, true, "Parameter", "parameter_id"));
+            ret.DbColumns.Add(new DbColumnInfo("Value", "value", System.Data.DbType.String, 100));
+
+            return ret;
+        }
     }
 }

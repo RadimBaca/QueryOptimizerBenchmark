@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.testResultsBrowser = new SqlOptimizerBechmark.Controls.TestResultBrowser.TestResultsBrowser();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gpxSummary = new System.Windows.Forms.GroupBox();
@@ -43,11 +44,15 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
             this.lblErrors = new System.Windows.Forms.Label();
-            this.btnExportToCsv = new System.Windows.Forms.Button();
             this.gpxLog = new System.Windows.Forms.GroupBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.btnClearLog = new System.Windows.Forms.ToolStripButton();
             this.logBrowser = new SqlOptimizerBechmark.Controls.LogBrowser();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnSaveToDatabase = new System.Windows.Forms.Button();
+            this.btnExportToCsv = new System.Windows.Forms.Button();
+            this.btnClearLog = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.testResultsBrowser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -56,8 +61,8 @@
             this.gpxSummary.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.gpxLog.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logBrowser)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // testResultsBrowser
@@ -72,7 +77,7 @@
             this.testResultsBrowser.Location = new System.Drawing.Point(0, 0);
             this.testResultsBrowser.Name = "testResultsBrowser";
             this.testResultsBrowser.ReadOnly = true;
-            this.testResultsBrowser.Size = new System.Drawing.Size(840, 310);
+            this.testResultsBrowser.Size = new System.Drawing.Size(840, 274);
             this.testResultsBrowser.TabIndex = 0;
             this.testResultsBrowser.NavigateBenchmarkObject += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.testResultsBrowser_NavigateBenchmarkObject);
             // 
@@ -99,10 +104,12 @@
             // gpxSummary
             // 
             this.gpxSummary.Controls.Add(this.tableLayoutPanel1);
+            this.gpxSummary.Controls.Add(this.btnSaveToDatabase);
+            this.gpxSummary.Controls.Add(this.btnExportToCsv);
             this.gpxSummary.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gpxSummary.Location = new System.Drawing.Point(0, 310);
+            this.gpxSummary.Location = new System.Drawing.Point(0, 274);
             this.gpxSummary.Name = "gpxSummary";
-            this.gpxSummary.Size = new System.Drawing.Size(840, 67);
+            this.gpxSummary.Size = new System.Drawing.Size(840, 103);
             this.gpxSummary.TabIndex = 1;
             this.gpxSummary.TabStop = false;
             this.gpxSummary.Text = "Summary";
@@ -129,17 +136,17 @@
             this.tableLayoutPanel1.Controls.Add(this.lblTestsPassed, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblTestsFailed, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblSuccess, 7, 0);
-            this.tableLayoutPanel1.Controls.Add(this.progressBar, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label5, 8, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblErrors, 9, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnExportToCsv, 10, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(834, 47);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
@@ -231,7 +238,7 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.progressBar, 11);
             this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBar.Location = new System.Drawing.Point(3, 30);
+            this.progressBar.Location = new System.Drawing.Point(3, 28);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(828, 14);
             this.progressBar.TabIndex = 3;
@@ -257,21 +264,6 @@
             this.lblErrors.TabIndex = 2;
             this.lblErrors.Text = "0";
             // 
-            // btnExportToCsv
-            // 
-            this.btnExportToCsv.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnExportToCsv.Image = global::SqlOptimizerBechmark.Properties.Resources.ExcelFile_16;
-            this.btnExportToCsv.Location = new System.Drawing.Point(708, 0);
-            this.btnExportToCsv.Margin = new System.Windows.Forms.Padding(0);
-            this.btnExportToCsv.Name = "btnExportToCsv";
-            this.btnExportToCsv.Size = new System.Drawing.Size(126, 25);
-            this.btnExportToCsv.TabIndex = 4;
-            this.btnExportToCsv.Text = "Export to CSV";
-            this.btnExportToCsv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExportToCsv.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnExportToCsv.UseVisualStyleBackColor = true;
-            this.btnExportToCsv.Click += new System.EventHandler(this.btnExportToCsv_Click);
-            // 
             // gpxLog
             // 
             this.gpxLog.Controls.Add(this.logBrowser);
@@ -284,6 +276,50 @@
             this.gpxLog.TabStop = false;
             this.gpxLog.Text = "Log";
             // 
+            // logBrowser
+            // 
+            this.logBrowser.AllowUserToAddRows = false;
+            this.logBrowser.AllowUserToDeleteRows = false;
+            this.logBrowser.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.logBrowser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.logBrowser.ColumnHeadersVisible = false;
+            this.logBrowser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3});
+            this.logBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logBrowser.Location = new System.Drawing.Point(3, 40);
+            this.logBrowser.Name = "logBrowser";
+            this.logBrowser.ReadOnly = true;
+            this.logBrowser.Size = new System.Drawing.Size(834, 190);
+            this.logBrowser.TabIndex = 2;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Message";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 200;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Statement";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 200;
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -295,6 +331,34 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // btnSaveToDatabase
+            // 
+            this.btnSaveToDatabase.Image = global::SqlOptimizerBechmark.Properties.Resources.SaveToDb_16;
+            this.btnSaveToDatabase.Location = new System.Drawing.Point(137, 70);
+            this.btnSaveToDatabase.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSaveToDatabase.Name = "btnSaveToDatabase";
+            this.btnSaveToDatabase.Size = new System.Drawing.Size(126, 25);
+            this.btnSaveToDatabase.TabIndex = 4;
+            this.btnSaveToDatabase.Text = "Save to database";
+            this.btnSaveToDatabase.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSaveToDatabase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSaveToDatabase.UseVisualStyleBackColor = true;
+            this.btnSaveToDatabase.Click += new System.EventHandler(this.btnSaveToDatabase_Click);
+            // 
+            // btnExportToCsv
+            // 
+            this.btnExportToCsv.Image = global::SqlOptimizerBechmark.Properties.Resources.ExcelFile_16;
+            this.btnExportToCsv.Location = new System.Drawing.Point(6, 70);
+            this.btnExportToCsv.Margin = new System.Windows.Forms.Padding(0);
+            this.btnExportToCsv.Name = "btnExportToCsv";
+            this.btnExportToCsv.Size = new System.Drawing.Size(126, 25);
+            this.btnExportToCsv.TabIndex = 4;
+            this.btnExportToCsv.Text = "Export to CSV";
+            this.btnExportToCsv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExportToCsv.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExportToCsv.UseVisualStyleBackColor = true;
+            this.btnExportToCsv.Click += new System.EventHandler(this.btnExportToCsv_Click);
+            // 
             // btnClearLog
             // 
             this.btnClearLog.Image = global::SqlOptimizerBechmark.Properties.Resources.Clear_16;
@@ -303,15 +367,6 @@
             this.btnClearLog.Size = new System.Drawing.Size(74, 20);
             this.btnClearLog.Text = "Clear log";
             this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
-            // 
-            // logBrowser
-            // 
-            this.logBrowser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.logBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logBrowser.Location = new System.Drawing.Point(3, 40);
-            this.logBrowser.Name = "logBrowser";
-            this.logBrowser.Size = new System.Drawing.Size(834, 190);
-            this.logBrowser.TabIndex = 2;
             // 
             // TestRunDetail
             // 
@@ -330,9 +385,9 @@
             this.tableLayoutPanel1.PerformLayout();
             this.gpxLog.ResumeLayout(false);
             this.gpxLog.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logBrowser)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.logBrowser)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -359,5 +414,9 @@
         private System.Windows.Forms.GroupBox gpxLog;
         private System.Windows.Forms.Button btnExportToCsv;
         private LogBrowser logBrowser;
+        private System.Windows.Forms.Button btnSaveToDatabase;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
     }
 }

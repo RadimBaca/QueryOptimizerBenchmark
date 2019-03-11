@@ -205,5 +205,17 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             return ++lastId;
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = new DbTableInfo("Benchmark");
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "benchmark_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("Author", "author", System.Data.DbType.String, 200));
+            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+
+            return ret;
+        }
     }
 }

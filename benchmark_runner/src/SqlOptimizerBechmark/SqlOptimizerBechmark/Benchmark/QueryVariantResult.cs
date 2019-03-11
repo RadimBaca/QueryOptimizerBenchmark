@@ -288,5 +288,31 @@ namespace SqlOptimizerBechmark.Benchmark
                     );
             }
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "QueryVariantResult";
+
+            ret.DbColumns.Add(new DbColumnInfo("query_variant_result_id", true, true)); // PK
+            ret.DbColumns.Add(new DbColumnInfo(null, "test_result_id", System.Data.DbType.Int32, true, "TestResult", "test_result_id")); // FK
+
+            ret.DbColumns.Add(new DbColumnInfo("Query", "query", System.Data.DbType.String, 1000));
+            ret.DbColumns.Add(new DbColumnInfo("QueryVariantNumber", "query_variant_number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("QueryVariantName", "query_variant_name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("QueryProcessingTime", "query_processing_time", System.Data.DbType.Double));
+            ret.DbColumns.Add(new DbColumnInfo("ExpectedResultSize", "expected_result_size", System.Data.DbType.Int32));
+            ret.DbColumns.Add(new DbColumnInfo("ResultSize", "result_size", System.Data.DbType.Int32));
+            ret.DbColumns.Add(new DbColumnInfo("Started", "started", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("Completed", "completed", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("ErrorMessage", "error_message", System.Data.DbType.String, 1000));
+            ret.DbColumns.Add(new DbColumnInfo("QueryVariantId", "query_variant_id", System.Data.DbType.Int32, true, "QueryVariant", "query_variant_id")); // FK
+            ret.DbColumns.Add(new DbColumnInfo("QueryPlan", "query_plan", System.Data.DbType.String, 1000));
+
+            ret.DbDependentTables.Add(new DbDependentTableInfo("SelectedAnnotationResults", "SelectedAnnotationResult", "query_variant_result_id"));
+
+            return ret;
+        }
     }
 }
