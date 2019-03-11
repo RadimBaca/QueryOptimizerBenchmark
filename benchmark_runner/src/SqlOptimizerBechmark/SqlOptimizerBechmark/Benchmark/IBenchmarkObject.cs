@@ -12,5 +12,7 @@ namespace SqlOptimizerBechmark.Benchmark
         void LoadFromXml(BenchmarkXmlSerializer serializer);
         void SaveToXml(BenchmarkXmlSerializer serializer);
         void NotifyChange();
+
+        DbTableInfo GetTableInfo();
     }
 }

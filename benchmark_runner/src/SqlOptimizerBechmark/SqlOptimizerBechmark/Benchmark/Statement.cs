@@ -41,5 +41,16 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             serializer.ReadString("command_text", ref commandText);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "Statement";
+
+            ret.DbColumns.Add(new DbColumnInfo("CommandText", "command_text", System.Data.DbType.String, 1000));
+
+            return ret;
+        }
     }
 }

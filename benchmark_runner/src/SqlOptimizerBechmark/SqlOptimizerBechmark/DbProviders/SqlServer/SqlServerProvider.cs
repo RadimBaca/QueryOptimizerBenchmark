@@ -79,6 +79,11 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             set => disableParallelQueryProcessing = value;
         }
 
+        public SqlConnection Connection
+        {
+            get => connection;
+        }
+
         #endregion
 
         public override void LoadFromXml(XElement element)
@@ -659,6 +664,11 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
                 fileName = Path.Combine(path, "clean_up_script.sql");
                 File.WriteAllText(fileName, writer.ToString());
             }
+        }
+
+        public override DbBenchmarkObjectWriter CreateBenchmarkObjectWriter()
+        {
+            return new SqlBenchmarkObjectWriter(this);
         }
     }
 }

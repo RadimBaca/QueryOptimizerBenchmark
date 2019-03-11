@@ -383,6 +383,16 @@ namespace SqlOptimizerBechmark.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SaveToDb_16 {
+            get {
+                object obj = ResourceManager.GetObject("SaveToDb_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Sql_16 {
             get {
                 object obj = ResourceManager.GetObject("Sql_16", resourceCulture);

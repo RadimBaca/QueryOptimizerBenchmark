@@ -58,6 +58,11 @@ namespace SqlOptimizerBechmark.DbProviders
             return Name;
         }
 
+        public virtual DbBenchmarkObjectWriter CreateBenchmarkObjectWriter()
+        {
+            return null;
+        }
+
         // TODO - dynamic loading of providers.
 
         private static SqlServer.SqlServerProvider sqlServerProvider = new SqlServer.SqlServerProvider();

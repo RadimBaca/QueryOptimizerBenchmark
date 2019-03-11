@@ -110,5 +110,20 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("description", ref description);
             serializer.ReadBool("Active", ref active);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "Test";
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "test_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+            ret.DbColumns.Add(new DbColumnInfo("Active", "active", System.Data.DbType.Boolean));
+
+            return ret;
+        }
     }
 }

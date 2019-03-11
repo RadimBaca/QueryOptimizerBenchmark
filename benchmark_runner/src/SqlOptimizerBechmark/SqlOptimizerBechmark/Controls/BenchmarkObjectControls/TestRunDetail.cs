@@ -202,5 +202,10 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 TestRun.ExportToCsv(fileName, exportOptions);
             }
         }
+
+        private void btnSaveToDatabase_Click(object sender, EventArgs e)
+        {
+            Executor.Executor.Instance.SaveTestRunToDb(TestRun);
+        }
     }
 }

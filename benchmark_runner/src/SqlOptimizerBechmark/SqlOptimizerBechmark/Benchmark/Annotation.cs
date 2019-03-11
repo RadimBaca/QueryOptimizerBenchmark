@@ -85,5 +85,19 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("name", ref name);
             serializer.ReadString("description", ref description);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "Annotation";
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "annotation_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+
+            return ret;
+        }
     }
 }

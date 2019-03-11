@@ -118,5 +118,19 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadObject("init_script", initScript);
             serializer.ReadObject("clean_up_script", cleanUpScript);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "Configuration";
+
+            ret.DbColumns.Add(new DbColumnInfo("Id", "configuration_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
+
+            return ret;
+        }
     }
 }

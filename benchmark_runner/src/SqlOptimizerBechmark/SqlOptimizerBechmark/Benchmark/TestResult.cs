@@ -128,5 +128,24 @@ namespace SqlOptimizerBechmark.Benchmark
         public virtual void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
         {
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "TestResult";
+
+            ret.DbColumns.Add(new DbColumnInfo("test_result_id", true, true)); // PK
+            ret.DbColumns.Add(new DbColumnInfo(null, "test_run_id", System.Data.DbType.Int32, true, "TestRun", "test_run_id")); // FK
+
+            ret.DbColumns.Add(new DbColumnInfo("TestId", "test_id", System.Data.DbType.Int32, true, "Test", "test_id")); // FK
+            ret.DbColumns.Add(new DbColumnInfo("TestNumber", "test_number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("TestName", "test_name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("ErrorMessage", "error_message", System.Data.DbType.String, 1000));
+            ret.DbColumns.Add(new DbColumnInfo("TestGroupId", "test_group_id", System.Data.DbType.Int32, true, "TestGroup", "test_group_id")); // FK
+            ret.DbColumns.Add(new DbColumnInfo("ConfigurationId", "configuration_id", System.Data.DbType.Int32, true, "Configuration", "configuration_id")); // FK
+
+            return ret;
+        }
     }
 }

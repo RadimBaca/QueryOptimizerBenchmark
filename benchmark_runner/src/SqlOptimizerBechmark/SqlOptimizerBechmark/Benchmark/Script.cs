@@ -86,5 +86,14 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteObject("default_statement_list", defaultStatementList);
             serializer.WriteCollection<SpecificStatementList>("specific_statement_lists", "specific_statement_list", specificStatementLists);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "Script";
+
+            return ret;
+        }
     }
 }

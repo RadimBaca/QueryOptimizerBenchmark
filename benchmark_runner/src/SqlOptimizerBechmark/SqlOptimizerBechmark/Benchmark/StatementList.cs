@@ -53,5 +53,14 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadCollection<Statement>("statements", "statement", statements,
                 delegate () { return new Statement(this); });
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "StatementList";
+
+            return ret;
+        }
     }
 }

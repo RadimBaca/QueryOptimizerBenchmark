@@ -172,5 +172,26 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteBool("clean_up_script_completed", cleanUpScriptCompleted);
             serializer.WriteString("clean_up_error_message", cleanUpScriptErrorMessage);
         }
+
+        public override DbTableInfo GetTableInfo()
+        {
+            DbTableInfo ret = base.GetTableInfo();
+
+            ret.TableName = "ConfigurationResult";
+
+            ret.DbColumns.Add(new DbColumnInfo(null, "test_run_id", System.Data.DbType.Int32, true, true, "TestRun", "test_run_id")); // PK, FK
+            ret.DbColumns.Add(new DbColumnInfo("ConfigurationId", "configuration_id", System.Data.DbType.Int32, true, true, "Configuration", "configuration_id")); // PK, FK
+
+            ret.DbColumns.Add(new DbColumnInfo("ConfigurationNumber", "configuration_number", System.Data.DbType.String, 20));
+            ret.DbColumns.Add(new DbColumnInfo("ConfigurationName", "configuration_name", System.Data.DbType.String, 50));
+            ret.DbColumns.Add(new DbColumnInfo("InitScriptStarted", "init_script_started", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("InitScriptCompleted", "init_script_completed", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("InitErrorMessage", "init_error_message", System.Data.DbType.String, 1000));
+            ret.DbColumns.Add(new DbColumnInfo("CleanUpScriptStarted", "clean_up_script_started", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("CleanUpScriptCompleted", "clean_up_script_completed", System.Data.DbType.Boolean));
+            ret.DbColumns.Add(new DbColumnInfo("CleanUpErrorMessage", "clean_up_error_message", System.Data.DbType.String, 1000));
+
+            return ret;
+        }
     }
 }

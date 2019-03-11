@@ -852,7 +852,42 @@ namespace SqlOptimizerBechmark.Executor
 
                 StartTesting();
             }
+        }
 
+        public void SaveTestRunToDb(Benchmark.TestRun testRun)
+        {
+            if (testRun.Benchmark.ConnectionSettings.DbProvider == null)
+            {
+                MessageBox.Show("Database connection is not set.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            else
+            {
+                DbProviders.DbProvider provider = testRun.Benchmark.ConnectionSettings.DbProvider;
+                DbProviders.DbBenchmarkObjectWriter writer = provider.CreateBenchmarkObjectWriter();
+
+                try
+                {
+                    if (writer == null)
+                    {
+                        throw new Exception("The selected provider does not support this operation.");
+                    }
+
+                    Cursor.Current = Cursors.WaitCursor;
+
+                    provider.Connect();
+                    writer.WriteToDb(testRun);
+                    provider.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    Cursor.Current = Cursors.Default;
+                }
+            }
         }
     }
 }
