@@ -297,7 +297,8 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             if (autoIncPk)
             {
                 SqlCommand cmdGetIdentity = CreateCommand();
-                cmdGetIdentity.CommandText = "SELECT SCOPE_IDENTITY()";
+                cmdGetIdentity.CommandText = "SELECT IDENT_CURRENT(@fullTableName)";
+                cmdGetIdentity.Parameters.AddWithValue("fullTableName", string.Format("[{0}].[{1}]", Schema, tableInfo.TableName));
                 pkValue = cmdGetIdentity.ExecuteScalar();
             }
 
