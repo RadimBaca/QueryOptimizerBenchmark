@@ -36,7 +36,16 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             switch (columnInfo.DbType)
             {
                 case DbType.String:
-                    return string.Format("VARCHAR({0})", columnInfo.DbSize);
+                    {
+                        if (columnInfo.DbSize <= 8000)
+                        {
+                            return string.Format("VARCHAR({0})", columnInfo.DbSize);
+                        }
+                        else
+                        {
+                            return "VARCHAR(MAX)";
+                        }
+                    }
                 case DbType.Int32:
                     {
                         if (columnInfo.DbAutoIncrement)
@@ -121,7 +130,7 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             if (o != null && o != DBNull.Value)
             {
                 int maxLength = Convert.ToInt32(o);
-                if (text.Length > maxLength)
+                if (maxLength != -1 && text.Length > maxLength)
                 {
                     columnInfo.DbSize = text.Length * 2;
                     SqlCommand cmdAlter = CreateCommand();
