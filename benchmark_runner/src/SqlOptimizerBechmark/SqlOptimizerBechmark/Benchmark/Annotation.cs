@@ -92,7 +92,9 @@ namespace SqlOptimizerBechmark.Benchmark
 
             ret.TableName = "Annotation";
 
-            ret.DbColumns.Add(new DbColumnInfo("Id", "annotation_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Id", "annotation_id", System.Data.DbType.Int32, true)); // PK
+            ret.DbColumns.Add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
+
             ret.DbColumns.Add(new DbColumnInfo("Number", "number", System.Data.DbType.String, 20));
             ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
             ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));

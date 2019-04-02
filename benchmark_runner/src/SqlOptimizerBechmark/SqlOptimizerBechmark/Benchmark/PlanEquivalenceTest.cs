@@ -135,9 +135,7 @@ namespace SqlOptimizerBechmark.Benchmark
 
         public override DbTableInfo GetTableInfo()
         {
-            DbTableInfo ret = new DbTableInfo();
-
-            ret.TableName = "PlanEquivalenceTest";
+            DbTableInfo ret = base.GetTableInfo();
 
             ret.DbColumns.Add(new DbColumnInfo("ExpectedResultSize", "expected_result_size", System.Data.DbType.Int32));
             ret.DbColumns.Add(new DbColumnInfo("Parametrized", "parametrized", System.Data.DbType.Boolean));

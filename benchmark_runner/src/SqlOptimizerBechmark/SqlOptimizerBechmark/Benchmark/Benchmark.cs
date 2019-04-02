@@ -215,6 +215,10 @@ namespace SqlOptimizerBechmark.Benchmark
             ret.DbColumns.Add(new DbColumnInfo("Author", "author", System.Data.DbType.String, 200));
             ret.DbColumns.Add(new DbColumnInfo("Description", "description", System.Data.DbType.String, 1000));
 
+            ret.DbDependentTables.Add(new DbDependentTableInfo("TestGroups", "TestGroup", "benchmark_id"));
+            ret.DbDependentTables.Add(new DbDependentTableInfo("TestRuns", "TestRun", "benchmark_id"));
+            ret.DbDependentTables.Add(new DbDependentTableInfo("Annotations", "Annotation", "benchmark_id"));
+
             return ret;
         }
     }

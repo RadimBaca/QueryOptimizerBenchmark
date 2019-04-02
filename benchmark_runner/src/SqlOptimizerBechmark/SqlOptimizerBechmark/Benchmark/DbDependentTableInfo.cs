@@ -11,6 +11,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private string property;
         private string dbTableName;
         private string dbFkColumn;
+        private bool oneToOne;
 
         public string Property
         {
@@ -30,11 +31,18 @@ namespace SqlOptimizerBechmark.Benchmark
             set => dbFkColumn = value;
         }
 
-        public DbDependentTableInfo(string property, string dbTableName, string dbFkColumn)
+        public bool OneToOne
+        {
+            get => oneToOne;
+            set => oneToOne = value;
+        }
+
+        public DbDependentTableInfo(string property, string dbTableName, string dbFkColumn, bool oneToOne = false)
         {
             this.property = property;
             this.dbTableName = dbTableName;
             this.dbFkColumn = dbFkColumn;
+            this.oneToOne = oneToOne;
         }
     }
 }

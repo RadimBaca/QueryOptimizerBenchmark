@@ -125,16 +125,24 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
 
         private void rbtnBasicSettings_CheckedChanged(object sender, EventArgs e)
         {
-            PostgreSqlProvider provider = PostgreSqlProvider;
-            provider.UseConnectionString = !rbtnBasicSettings.Checked;
-            UpdateUI();
+            if (ready)
+            {
+                PostgreSqlProvider provider = PostgreSqlProvider;
+                provider.UseConnectionString = !rbtnBasicSettings.Checked;
+                UpdateUI();
+                NotifyChanged();
+            }
         }
 
         private void rbtnUseConnectionString_CheckedChanged(object sender, EventArgs e)
         {
-            PostgreSqlProvider provider = PostgreSqlProvider;
-            provider.UseConnectionString = rbtnUseConnectionString.Checked;
-            UpdateUI();
+            if (ready)
+            {
+                PostgreSqlProvider provider = PostgreSqlProvider;
+                provider.UseConnectionString = rbtnUseConnectionString.Checked;
+                UpdateUI();
+                NotifyChanged();
+            }
         }
 
         private void btnTestConnection_Click(object sender, EventArgs e)

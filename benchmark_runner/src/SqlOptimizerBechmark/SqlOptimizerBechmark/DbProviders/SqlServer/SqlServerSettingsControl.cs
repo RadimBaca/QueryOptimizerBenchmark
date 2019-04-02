@@ -153,16 +153,24 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
         private void rbtnBasicSettings_CheckedChanged(object sender, EventArgs e)
         {
-            SqlServerProvider provider = SqlServerProvider;
-            provider.UseConnectionString = !rbtnBasicSettings.Checked;
-            UpdateUI();
+            if (ready)
+            {
+                SqlServerProvider provider = SqlServerProvider;
+                provider.UseConnectionString = !rbtnBasicSettings.Checked;
+                UpdateUI();
+                NotifyChanged();
+            }
         }
 
         private void rbtnUseConnectionString_CheckedChanged(object sender, EventArgs e)
         {
-            SqlServerProvider provider = SqlServerProvider;
-            provider.UseConnectionString = rbtnUseConnectionString.Checked;
-            UpdateUI();
+            if (ready)
+            {
+                SqlServerProvider provider = SqlServerProvider;
+                provider.UseConnectionString = rbtnUseConnectionString.Checked;
+                UpdateUI();
+                NotifyChanged();
+            }
         }
 
         private void cbxDisableParallelQueryProcessing_CheckedChanged(object sender, EventArgs e)

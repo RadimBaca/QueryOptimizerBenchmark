@@ -68,6 +68,7 @@ namespace SqlOptimizerBechmark.DbProviders
         private static SqlServer.SqlServerProvider sqlServerProvider = new SqlServer.SqlServerProvider();
         private static Oracle.OracleProvider oracleProvider = new Oracle.OracleProvider();
         private static PostgreSql.PostgreSqlProvider postgreSqlProvider = new PostgreSql.PostgreSqlProvider();
+        private static MySql.MySqlProvider mySqlProvider = new MySql.MySqlProvider();
 
         public static IEnumerable<DbProvider> Providers
         {
@@ -76,6 +77,7 @@ namespace SqlOptimizerBechmark.DbProviders
                 yield return sqlServerProvider;
                 yield return oracleProvider;
                 yield return postgreSqlProvider;
+                yield return mySqlProvider;
             }
         }
 

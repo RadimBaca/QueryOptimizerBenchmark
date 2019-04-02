@@ -145,16 +145,24 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
 
         private void rbtnBasicSettings_CheckedChanged(object sender, EventArgs e)
         {
-            OracleProvider provider = OracleProvider;
-            provider.UseConnectionString = !rbtnBasicSettings.Checked;
-            UpdateUI();
+            if (ready)
+            {
+                OracleProvider provider = OracleProvider;
+                provider.UseConnectionString = !rbtnBasicSettings.Checked;
+                UpdateUI();
+                NotifyChanged();
+            }
         }
 
         private void rbtnUseConnectionString_CheckedChanged(object sender, EventArgs e)
         {
-            OracleProvider provider = OracleProvider;
-            provider.UseConnectionString = rbtnUseConnectionString.Checked;
-            UpdateUI();
+            if (ready)
+            {
+                OracleProvider provider = OracleProvider;
+                provider.UseConnectionString = rbtnUseConnectionString.Checked;
+                UpdateUI();
+                NotifyChanged();
+            }
         }
 
         private void btnTestConnection_Click(object sender, EventArgs e)

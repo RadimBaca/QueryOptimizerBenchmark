@@ -38,6 +38,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\FastColoredTextBox.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.12\Assemblies\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql">
       <HintPath>..\References\Npgsql.dll</HintPath>
     </Reference>
@@ -280,6 +287,18 @@
     <Compile Include="DbProviders\DbProviderSettingsControl.Designer.cs">
       <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DbProviders\MySql\MySqlProvider.cs" />
+    <Compile Include="DbProviders\MySql\MySqlResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MySqlResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DbProviders\MySql\MySqlSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbProviders\MySql\MySqlSettingsControl.Designer.cs">
+      <DependentUpon>MySqlSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DbProviders\Oracle\OracleProvider.cs" />
     <Compile Include="DbProviders\Oracle\OracleResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -406,6 +425,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DbProviders\DbProviderSettingsControl.resx">
       <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\MySql\MySqlResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MySqlResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\MySql\MySqlSettingsControl.resx">
+      <DependentUpon>MySqlSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DbProviders\Oracle\OracleResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -548,6 +574,7 @@
     <None Include="Resources\NewParameter_16.png" />
     <None Include="Resources\RenameParameter_16.png" />
     <None Include="Resources\SaveToDb_16.png" />
+    <None Include="Resources\MySQL_Small.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

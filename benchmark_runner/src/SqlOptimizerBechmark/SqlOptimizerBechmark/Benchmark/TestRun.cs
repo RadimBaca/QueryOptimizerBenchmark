@@ -191,7 +191,9 @@ namespace SqlOptimizerBechmark.Benchmark
 
             ret.TableName = "TestRun";
 
-            ret.DbColumns.Add(new DbColumnInfo("Id", "test_run_id", System.Data.DbType.Int32, true));
+            ret.DbColumns.Add(new DbColumnInfo("Id", "test_run_id", System.Data.DbType.Int32, true)); // PK
+            ret.DbColumns.Add(new DbColumnInfo(null, "benchmark_id", System.Data.DbType.Int32, true, "Benchmark", "benchmark_id")); // FK
+
             ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
             ret.DbColumns.Add(new DbColumnInfo("StartDate", "start_date", System.Data.DbType.DateTime));
             ret.DbColumns.Add(new DbColumnInfo("EndDate", "end_date", System.Data.DbType.DateTime));
