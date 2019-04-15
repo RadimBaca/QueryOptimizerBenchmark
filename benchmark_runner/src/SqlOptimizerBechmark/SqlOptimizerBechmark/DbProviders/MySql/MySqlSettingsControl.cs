@@ -118,7 +118,7 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
         {
             if (ready)
             {
-                MySqlProvider.DefaultSchema = txtConnectionString.Text;
+                MySqlProvider.ConnectionString = txtConnectionString.Text;
                 NotifyChanged();
             }
         }

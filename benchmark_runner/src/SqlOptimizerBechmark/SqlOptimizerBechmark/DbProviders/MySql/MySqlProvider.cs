@@ -129,6 +129,19 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
             MySqlCommand cmdSetProfiling = connection.CreateCommand();
             cmdSetProfiling.CommandText = "SET SESSION profiling = 1";
             cmdSetProfiling.ExecuteNonQuery();
+
+            MySqlCommand cmdSetTimeout = connection.CreateCommand();
+            cmdSetTimeout.CommandText = "SET SESSION MAX_EXECUTION_TIME = @t";
+            cmdSetTimeout.Parameters.AddWithValue("t", commandTimeout * 1000);
+            cmdSetTimeout.ExecuteNonQuery();
+        }
+
+        private void CheckConnection()
+        {
+            if (connection != null && connection.State != ConnectionState.Open)
+            {
+                Connect();
+            }
         }
 
         public override void Close()
@@ -138,9 +151,11 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
         public override void Execute(string statement)
         {
+            CheckConnection();
+
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = statement;
-            command.CommandTimeout = commandTimeout;
+            //command.CommandTimeout = commandTimeout;
             command.ExecuteNonQuery();
         }
 
@@ -276,6 +291,8 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
         public override QueryPlan GetQueryPlan(string query)
         {
+            CheckConnection();
+
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = "EXPLAIN FORMAT=JSON " + query;
             object o = command.ExecuteScalar();
@@ -288,6 +305,8 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
         public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)
         {
+            CheckConnection();
+
             QueryStatistics ret = new QueryStatistics();
 
             MySqlDataReader reader = null;
@@ -296,7 +315,7 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
             {
                 MySqlCommand cmdQuery = connection.CreateCommand();
                 cmdQuery.CommandText = query;
-                cmdQuery.CommandTimeout = commandTimeout;
+                //cmdQuery.CommandTimeout = commandTimeout;
 
                 int resultSize = 0;
                 if (!retrieveWholeResult)

@@ -22,7 +22,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -52,7 +52,12 @@
       <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>..\References\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -287,6 +292,18 @@
     <Compile Include="DbProviders\DbProviderSettingsControl.Designer.cs">
       <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DbProviders\H2\H2Provider.cs" />
+    <Compile Include="DbProviders\H2\H2Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>H2Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DbProviders\H2\H2SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbProviders\H2\H2SettingsControl.Designer.cs">
+      <DependentUpon>H2SettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DbProviders\MySql\MySqlProvider.cs" />
     <Compile Include="DbProviders\MySql\MySqlResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -325,6 +342,13 @@
     </Compile>
     <Compile Include="DbProviders\QueryPlan.cs" />
     <Compile Include="DbProviders\QueryStatistics.cs" />
+    <Compile Include="DbProviders\SQLite\SQLiteProvider.cs" />
+    <Compile Include="DbProviders\SQLite\SQLiteSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DbProviders\SQLite\SQLiteSettingsControl.Designer.cs">
+      <DependentUpon>SQLiteSettingsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DbProviders\SqlServer\SqlBenchmarkObjectWriter.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProvider.cs" />
     <Compile Include="DbProviders\SqlServer\SqlServerProviderResources.Designer.cs">
@@ -426,6 +450,13 @@
     <EmbeddedResource Include="DbProviders\DbProviderSettingsControl.resx">
       <DependentUpon>DbProviderSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\H2\H2Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>H2Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\H2\H2SettingsControl.resx">
+      <DependentUpon>H2SettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbProviders\MySql\MySqlResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MySqlResources.Designer.cs</LastGenOutput>
@@ -446,6 +477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DbProviders\PostgreSql\PostgreSqlSettingsControl.resx">
       <DependentUpon>PostgreSqlSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbProviders\SQLite\SQLiteSettingsControl.resx">
+      <DependentUpon>SQLiteSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DbProviders\SqlServer\SqlServerProviderResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -575,7 +609,15 @@
     <None Include="Resources\RenameParameter_16.png" />
     <None Include="Resources\SaveToDb_16.png" />
     <None Include="Resources\MySQL_Small.png" />
+    <None Include="Resources\SQLite.png" />
+    <None Include="Resources\H2_Logo_Small.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\H2Sharp\H2Sharp.csproj">
+      <Project>{c10d5c23-0122-4173-9033-7e491dda9e74}</Project>
+      <Name>H2Sharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

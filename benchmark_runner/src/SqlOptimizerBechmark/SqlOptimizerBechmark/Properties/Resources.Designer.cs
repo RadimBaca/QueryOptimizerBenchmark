@@ -213,6 +213,16 @@ namespace SqlOptimizerBechmark.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap H2_Logo_Small {
+            get {
+                object obj = ResourceManager.GetObject("H2_Logo_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap InitScript_16 {
             get {
                 object obj = ResourceManager.GetObject("InitScript_16", resourceCulture);
@@ -406,6 +416,16 @@ namespace SqlOptimizerBechmark.Properties {
         internal static System.Drawing.Bitmap Sql_16 {
             get {
                 object obj = ResourceManager.GetObject("Sql_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SQLite {
+            get {
+                object obj = ResourceManager.GetObject("SQLite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

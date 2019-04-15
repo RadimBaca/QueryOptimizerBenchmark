@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.H2;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -141,8 +142,27 @@ namespace Test
 
         static void Main(string[] args)
         {
-            Program p = new Program();
-            p.Test();
+            H2Connection connection = new H2Connection();
+            connection.ConnectionString = "jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test;USER=sa;PASSWORD=n3cUmubsbo";
+            connection.Open();
+
+            Console.WriteLine("start...");
+            H2Command cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT a, b, c FROM Test";
+            H2DataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int a = reader.GetInt32(0);
+                int b = reader.GetInt32(1);
+                int c = reader.GetInt32(2);
+
+                Console.WriteLine("{0} {1} {2}", a, b, c);
+            }
+            reader.Close();
+            Console.WriteLine("stop...");
+
+            connection.Close();
         }
     }
 }

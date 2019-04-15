@@ -377,6 +377,21 @@ namespace SqlOptimizerBechmark.Executor
             return ret;
         }
 
+        private string GetAllExceptionMessages(Exception exception)
+        {
+            string ret = string.Empty;
+            while (exception != null)
+            {
+                if (!string.IsNullOrEmpty(ret))
+                {
+                    ret += Environment.NewLine + Environment.NewLine;
+                }
+                ret += exception.Message;
+                exception = exception.InnerException;
+            }
+            return ret;
+        }
+
         private void Execute()
         {
             try
@@ -412,7 +427,7 @@ namespace SqlOptimizerBechmark.Executor
                         catch (Exception ex)
                         {
                             ExecutorMessage message = new ExecutorMessage();
-                            message.Message = ex.Message;
+                            message.Message = GetAllExceptionMessages(ex);
                             message.MessageType = ExecutorMessageType.Error;
                             message.Statement = commandText;
 
@@ -503,10 +518,10 @@ namespace SqlOptimizerBechmark.Executor
                                         }
                                         catch (Exception ex)
                                         {
-                                            currentConfigurationResult.InitScriptErrorMessage = ex.Message;
+                                            currentConfigurationResult.InitScriptErrorMessage = GetAllExceptionMessages(ex);
 
                                             ExecutorMessage message = new ExecutorMessage();
-                                            message.Message = ex.Message;
+                                            message.Message = GetAllExceptionMessages(ex);
                                             message.MessageType = ExecutorMessageType.Error;
                                             message.Statement = commandText;
 
@@ -617,10 +632,10 @@ namespace SqlOptimizerBechmark.Executor
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    queryVariantResult.ErrorMessage = ex.Message;
+                                                                    queryVariantResult.ErrorMessage = GetAllExceptionMessages(ex);
 
                                                                     ExecutorMessage message = new ExecutorMessage();
-                                                                    message.Message = ex.Message;
+                                                                    message.Message = GetAllExceptionMessages(ex);
                                                                     message.MessageType = ExecutorMessageType.Error;
                                                                     message.Statement = queryVariantResult.Query;
 
@@ -649,10 +664,10 @@ namespace SqlOptimizerBechmark.Executor
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            planEquivalenceTestResult.ErrorMessage = ex.Message;
+                                                            planEquivalenceTestResult.ErrorMessage = GetAllExceptionMessages(ex);
 
                                                             ExecutorMessage message = new ExecutorMessage();
-                                                            message.Message = ex.Message;
+                                                            message.Message = GetAllExceptionMessages(ex);
                                                             message.MessageType = ExecutorMessageType.Error;
                                                             message.Statement = string.Empty;
                                                             OnMessage(message);
@@ -663,9 +678,8 @@ namespace SqlOptimizerBechmark.Executor
                                         }
                                         catch (Exception ex)
                                         {
-
                                             ExecutorMessage message = new ExecutorMessage();
-                                            message.Message = ex.Message;
+                                            message.Message = GetAllExceptionMessages(ex);
                                             message.MessageType = ExecutorMessageType.Error;
                                             message.Statement = string.Empty;
                                             OnMessage(message);
@@ -700,10 +714,10 @@ namespace SqlOptimizerBechmark.Executor
                                         }
                                         catch (Exception ex)
                                         {
-                                            currentConfigurationResult.CleanUpScriptErrorMessage = ex.Message;
+                                            currentConfigurationResult.CleanUpScriptErrorMessage = GetAllExceptionMessages(ex);
 
                                             ExecutorMessage message = new ExecutorMessage();
-                                            message.Message = ex.Message;
+                                            message.Message = GetAllExceptionMessages(ex);
                                             message.MessageType = ExecutorMessageType.Error;
                                             message.Statement = commandText;
 
@@ -718,7 +732,7 @@ namespace SqlOptimizerBechmark.Executor
                                 catch (Exception ex)
                                 {
                                     ExecutorMessage message = new ExecutorMessage();
-                                    message.Message = ex.Message;
+                                    message.Message = GetAllExceptionMessages(ex);
                                     message.MessageType = ExecutorMessageType.Error;
                                     message.Statement = string.Empty;
                                     OnMessage(message);
@@ -733,7 +747,7 @@ namespace SqlOptimizerBechmark.Executor
                 catch (Exception ex)
                 {
                     ExecutorMessage message = new ExecutorMessage();
-                    message.Message = ex.Message;
+                    message.Message = GetAllExceptionMessages(ex);
                     message.MessageType = ExecutorMessageType.Error;
                     message.Statement = string.Empty;
                     OnMessage(message);
@@ -767,7 +781,7 @@ namespace SqlOptimizerBechmark.Executor
                         catch (Exception ex)
                         {
                             ExecutorMessage message = new ExecutorMessage();
-                            message.Message = ex.Message;
+                            message.Message = GetAllExceptionMessages(ex);
                             message.MessageType = ExecutorMessageType.Error;
                             message.Statement = commandText;
 
@@ -784,7 +798,7 @@ namespace SqlOptimizerBechmark.Executor
             catch (Exception ex)
             {
                 ExecutorMessage message = new ExecutorMessage();
-                message.Message = ex.Message;
+                message.Message = GetAllExceptionMessages(ex);
                 message.MessageType = ExecutorMessageType.Error;
                 message.Statement = string.Empty;
                 OnMessage(message);
