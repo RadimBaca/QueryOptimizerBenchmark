@@ -500,7 +500,10 @@ FROM TABLE(DBMS_XPLAN.DISPLAY)";
                 else
                 {
                     ret.Result = new DataTable();
-                    ret.Result.Load(cmdQuery.ExecuteReader());
+
+                    OracleDataAdapter adapter = new OracleDataAdapter(cmdQuery);
+                    adapter.ReturnProviderSpecificTypes = true;
+                    adapter.Fill(ret.Result);
                     resultSize = ret.Result.Rows.Count;
                 }
 

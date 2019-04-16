@@ -620,4 +620,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(SolutionDir)\SqlOptimizerBechmark\bin\Release\SqlOptimizerBechmark.exe  $(SolutionDir)\..\..\bin</PostBuildEvent>
+  </PropertyGroup>
 </Project>
