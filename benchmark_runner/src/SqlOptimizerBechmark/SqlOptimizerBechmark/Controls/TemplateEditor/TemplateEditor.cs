@@ -26,6 +26,26 @@ namespace SqlOptimizerBechmark.Controls.TemplateEditor
             }
         }
 
+        public Template SelectedTemplate
+        {
+            get => GetSelectedTemplate();
+        }
+
+        public Parameter SelectedParameter
+        {
+            get => GetSelectedParameter();
+        }
+
+        public event EventHandler SelectionChanged;
+        
+        protected virtual void OnSelectionChanged()
+        {
+            if (SelectionChanged != null)
+            {
+                SelectionChanged(this, EventArgs.Empty);
+            }
+        }
+
         public TemplateEditor()
         {
             InitializeComponent();
@@ -244,6 +264,7 @@ namespace SqlOptimizerBechmark.Controls.TemplateEditor
         private void gridTemplates_SelectionChanged(object sender, EventArgs e)
         {
             UpdateUI();
+            OnSelectionChanged();
         }
 
         private void gridTemplates_CellValueChanged(object sender, DataGridViewCellEventArgs e)

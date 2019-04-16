@@ -53,7 +53,10 @@
             this.tabVariants = new System.Windows.Forms.TabPage();
             this.queryVariantsListView = new SqlOptimizerBechmark.Controls.BenchmarkListView.QueryVariantsListView();
             this.tabTemplates = new System.Windows.Forms.TabPage();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.templateEditor = new SqlOptimizerBechmark.Controls.TemplateEditor.TemplateEditor();
+            this.gpxSelectedTemplateAnnotations = new System.Windows.Forms.GroupBox();
+            this.selectedTemplateAnnotationsClb = new SqlOptimizerBechmark.Controls.AnnotationCheckListBox();
             this.warningProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -70,6 +73,11 @@
             this.tabControl.SuspendLayout();
             this.tabVariants.SuspendLayout();
             this.tabTemplates.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.gpxSelectedTemplateAnnotations.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -353,7 +361,7 @@
             // 
             // tabTemplates
             // 
-            this.tabTemplates.Controls.Add(this.templateEditor);
+            this.tabTemplates.Controls.Add(this.splitContainer2);
             this.tabTemplates.Location = new System.Drawing.Point(4, 22);
             this.tabTemplates.Name = "tabTemplates";
             this.tabTemplates.Padding = new System.Windows.Forms.Padding(3);
@@ -362,14 +370,56 @@
             this.tabTemplates.Text = "Templates";
             this.tabTemplates.UseVisualStyleBackColor = true;
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.templateEditor);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.gpxSelectedTemplateAnnotations);
+            this.splitContainer2.Size = new System.Drawing.Size(665, 184);
+            this.splitContainer2.SplitterDistance = 508;
+            this.splitContainer2.TabIndex = 1;
+            // 
             // templateEditor
             // 
             this.templateEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.templateEditor.Location = new System.Drawing.Point(3, 3);
+            this.templateEditor.Location = new System.Drawing.Point(0, 0);
             this.templateEditor.Name = "templateEditor";
             this.templateEditor.PlanEquivalenceTest = null;
-            this.templateEditor.Size = new System.Drawing.Size(665, 184);
+            this.templateEditor.Size = new System.Drawing.Size(508, 184);
             this.templateEditor.TabIndex = 0;
+            this.templateEditor.SelectionChanged += new System.EventHandler(this.templateEditor_SelectionChanged);
+            // 
+            // gpxSelectedTemplateAnnotations
+            // 
+            this.gpxSelectedTemplateAnnotations.Controls.Add(this.selectedTemplateAnnotationsClb);
+            this.gpxSelectedTemplateAnnotations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpxSelectedTemplateAnnotations.Location = new System.Drawing.Point(0, 0);
+            this.gpxSelectedTemplateAnnotations.Name = "gpxSelectedTemplateAnnotations";
+            this.gpxSelectedTemplateAnnotations.Size = new System.Drawing.Size(153, 184);
+            this.gpxSelectedTemplateAnnotations.TabIndex = 0;
+            this.gpxSelectedTemplateAnnotations.TabStop = false;
+            this.gpxSelectedTemplateAnnotations.Text = "Template annotations";
+            // 
+            // selectedTemplateAnnotationsClb
+            // 
+            this.selectedTemplateAnnotationsClb.CheckOnClick = true;
+            this.selectedTemplateAnnotationsClb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectedTemplateAnnotationsClb.FormattingEnabled = true;
+            this.selectedTemplateAnnotationsClb.Location = new System.Drawing.Point(3, 17);
+            this.selectedTemplateAnnotationsClb.Name = "selectedTemplateAnnotationsClb";
+            this.selectedTemplateAnnotationsClb.ParentBenchmarkObject = null;
+            this.selectedTemplateAnnotationsClb.SelectedAnnotations = null;
+            this.selectedTemplateAnnotationsClb.Size = new System.Drawing.Size(147, 164);
+            this.selectedTemplateAnnotationsClb.TabIndex = 1;
             // 
             // warningProvider
             // 
@@ -400,6 +450,11 @@
             this.tabControl.ResumeLayout(false);
             this.tabVariants.ResumeLayout(false);
             this.tabTemplates.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.gpxSelectedTemplateAnnotations.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.warningProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -432,5 +487,8 @@
         private System.Windows.Forms.TabPage tabTemplates;
         private TemplateEditor.TemplateEditor templateEditor;
         private System.Windows.Forms.CheckBox cbxParametrized;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.GroupBox gpxSelectedTemplateAnnotations;
+        private AnnotationCheckListBox selectedTemplateAnnotationsClb;
     }
 }

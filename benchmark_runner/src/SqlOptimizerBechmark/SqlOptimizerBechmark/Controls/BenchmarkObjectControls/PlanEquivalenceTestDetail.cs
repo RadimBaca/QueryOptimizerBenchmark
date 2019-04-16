@@ -123,6 +123,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             txtExpectedResultSize.Enabled = !PlanEquivalenceTest.Parametrized;
             lblExpectedResultSize.Enabled = txtExpectedResultSize.Enabled;
             btnSetByFirstVariant.Enabled = txtExpectedResultSize.Enabled;
+
+            selectedTemplateAnnotationsClb.Enabled = templateEditor.SelectedTemplate != null;
         }
         
         private void SetResultSizeByFirstVariant()
@@ -214,6 +216,19 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         private void btnSetByFirstVariant_Click(object sender, EventArgs e)
         {
             SetResultSizeByFirstVariant();
+        }
+
+        private void templateEditor_SelectionChanged(object sender, EventArgs e)
+        {
+            Benchmark.Template template = templateEditor.SelectedTemplate;
+            if (template != null)
+            {
+                selectedTemplateAnnotationsClb.SelectedAnnotations = template.SelectedAnnotations;
+                selectedTemplateAnnotationsClb.ParentBenchmarkObject = template;
+                selectedTemplateAnnotationsClb.BindAnnotations();
+            }
+
+            UpdateUI();
         }
     }
 }

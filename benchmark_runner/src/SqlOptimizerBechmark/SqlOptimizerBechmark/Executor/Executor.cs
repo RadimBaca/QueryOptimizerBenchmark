@@ -103,6 +103,21 @@ namespace SqlOptimizerBechmark.Executor
             return false;
         }
 
+        private bool IgnoreTemplate(Benchmark.Template template)
+        {
+            foreach (Benchmark.SelectedAnnotation selectedAnnotation in template.SelectedAnnotations)
+            {
+                foreach (Benchmark.SelectedAnnotation ignoreAnnotation in Benchmark.TestRunSettings.IgnoreAnnotations)
+                {
+                    if (selectedAnnotation.AnnotationId == ignoreAnnotation.AnnotationId)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         private void PreparePlanEquivalenceTest(Benchmark.PlanEquivalenceTest planEquivalenceTest,
             Benchmark.Test test, Benchmark.TestGroup testGroup, Benchmark.Configuration configuration, DbProviders.DbProvider db,
             Benchmark.Template template = null)
@@ -184,6 +199,16 @@ namespace SqlOptimizerBechmark.Executor
                 selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
                 planEquivalenceTestResult.SelectedAnnotationResults.Add(selectedAnnotationResult);
             }
+            if (template != null)
+            {
+                foreach (Benchmark.SelectedAnnotation selectedAnnotation in template.SelectedAnnotations)
+                {
+                    Benchmark.SelectedAnnotationResult selectedAnnotationResult = new Benchmark.SelectedAnnotationResult(planEquivalenceTestResult);
+                    selectedAnnotationResult.AnnotationId = selectedAnnotation.AnnotationId;
+                    selectedAnnotationResult.IsTemplateAnnotation = true;
+                    planEquivalenceTestResult.SelectedAnnotationResults.Add(selectedAnnotationResult);
+                }
+            }
 
             if (planEquivalenceTestResult.QueryVariantResults.Count > 0)
             {
@@ -237,6 +262,11 @@ namespace SqlOptimizerBechmark.Executor
                             {
                                 foreach (Benchmark.Template template in planEquivalenceTest.Templates)
                                 {
+                                    if (IgnoreTemplate(template))
+                                    {
+                                        continue;
+                                    }
+
                                     PreparePlanEquivalenceTest(planEquivalenceTest, test, testGroup, configuration, db, template);
                                 }
                             }

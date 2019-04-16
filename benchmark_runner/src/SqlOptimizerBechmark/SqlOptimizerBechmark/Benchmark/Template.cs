@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace SqlOptimizerBechmark.Benchmark
     public class Template : BenchmarkObject, IIdentifiedBenchmarkObject, INumberedBenchmarkObject
     {
         private PlanEquivalenceTest planEquivalenceTest;
+        private ObservableCollection<SelectedAnnotation> selectedAnnotations = new ObservableCollection<SelectedAnnotation>();
+
         private int id = 0;
         private string number = string.Empty;
         private int expectedResultSize = 0;
@@ -20,6 +23,17 @@ namespace SqlOptimizerBechmark.Benchmark
             get => planEquivalenceTest;
         }
 
+        public override IEnumerable<IBenchmarkObject> ChildObjects
+        {
+            get
+            {
+                foreach (SelectedAnnotation selectedAnnotation in selectedAnnotations)
+                {
+                    yield return selectedAnnotation;
+                }
+            }
+        }
+        
         public int Id
         {
             get => id;
@@ -51,6 +65,11 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        public ObservableCollection<SelectedAnnotation> SelectedAnnotations
+        {
+            get => selectedAnnotations;
+        }
+
         public Template(PlanEquivalenceTest planEquivalenceTest)
         {
             this.id = planEquivalenceTest.Owner.GenerateId();
@@ -66,6 +85,8 @@ namespace SqlOptimizerBechmark.Benchmark
             }
             serializer.ReadString("number", ref number);
             serializer.ReadInt("expected_result_size", ref expectedResultSize);
+            serializer.ReadCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations,
+                delegate () { return new SelectedAnnotation(this); });
         }
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
@@ -73,6 +94,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteInt("id", id);
             serializer.WriteString("number", number);
             serializer.WriteInt("expected_result_size", expectedResultSize);
+            serializer.WriteCollection<SelectedAnnotation>("selected_annotations", "selected_annotation", selectedAnnotations);
         }
 
         public override DbTableInfo GetTableInfo()
