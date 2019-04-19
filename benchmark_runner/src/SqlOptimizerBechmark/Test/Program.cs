@@ -146,7 +146,7 @@ namespace Test
             connection.ConnectionString = "jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test;USER=sa;PASSWORD=n3cUmubsbo";
             connection.Open();
 
-            Console.WriteLine("start...");
+            Console.WriteLine("start....");
             H2Command cmd = connection.CreateCommand();
             cmd.CommandText = "SELECT a, b, c FROM Test";
             H2DataReader reader = cmd.ExecuteReader();
