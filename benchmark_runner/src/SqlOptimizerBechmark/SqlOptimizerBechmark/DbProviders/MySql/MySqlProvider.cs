@@ -340,6 +340,7 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
                 {
                     ret.Result = new DataTable();
                     reader = cmdQuery.ExecuteReader();
+                    cmdQuery.CommandTimeout = commandTimeout;
                     ret.Result.Load(reader);
                     resultSize = ret.Result.Rows.Count;
                     reader.Close();
@@ -376,14 +377,14 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
                 if (ex is MySqlException mySqlException1)
                 {
-                    if (mySqlException1.Number == 3024)
+                    if (mySqlException1.Number == 3024) // Maximum execution time exceeded.
                     {
                         resetConnection = true;
                     }
                 }
                 if (ex.InnerException is MySqlException mySqlException2)
                 {
-                    if (mySqlException2.Number == 3024)
+                    if (mySqlException2.Number == 3024) // Maximum execution time exceeded.
                     {
                         resetConnection = true;
                     }
