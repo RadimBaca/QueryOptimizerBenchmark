@@ -37,11 +37,10 @@ C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptim
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\bin\Debug\Newtonsoft.Json.pdb
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\bin\Debug\System.Data.SQLite.xml
-C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\bin\Debug\MySql.Data.xml
-C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.Properties.Resources.resources
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.csproj.GenerateResource.cache
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.csproj.CoreCompileInputs.cache
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.csproj.CopyComplete
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.exe
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.pdb
+C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Debug\Test.csprojAssemblyReference.cache

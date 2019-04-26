@@ -315,7 +315,7 @@
             this.mbtnActivateAll,
             this.mbtnDeactivateAll});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // mbtnNavigateBack
@@ -365,7 +365,7 @@
             this.mbtnExportTestingScript,
             this.mbtnExportToFileSystem});
             this.testingToolStripMenuItem.Name = "testingToolStripMenuItem";
-            this.testingToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.testingToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.testingToolStripMenuItem.Text = "Testing";
             // 
             // mbtnLaunchTest
@@ -425,14 +425,14 @@
             // mbtnAbout
             // 
             this.mbtnAbout.Name = "mbtnAbout";
-            this.mbtnAbout.Size = new System.Drawing.Size(180, 22);
+            this.mbtnAbout.Size = new System.Drawing.Size(138, 22);
             this.mbtnAbout.Text = "About ...";
             this.mbtnAbout.Click += new System.EventHandler(this.mbtnAbout_Click);
             // 
             // btnTest
             // 
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(180, 22);
+            this.btnTest.Size = new System.Drawing.Size(138, 22);
             this.btnTest.Text = "TEST Debug";
             this.btnTest.Visible = false;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
@@ -458,8 +458,7 @@
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(849, 454);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.toolStrip1);

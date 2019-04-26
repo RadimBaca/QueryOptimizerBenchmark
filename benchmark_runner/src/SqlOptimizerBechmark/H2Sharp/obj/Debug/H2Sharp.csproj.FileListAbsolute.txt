@@ -1,6 +1,5 @@
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\bin\Debug\H2Sharp.dll
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\bin\Debug\H2Sharp.pdb
-C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\obj\Debug\H2Sharp.csprojResolveAssemblyReference.cache
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\obj\Debug\H2Sharp.dll
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\obj\Debug\H2Sharp.pdb
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\bin\Debug\h2.dll
@@ -32,3 +31,6 @@ C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptim
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\bin\Debug\IKVM.OpenJDK.XML.XPath.dll
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\bin\Debug\IKVM.Runtime.dll
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\bin\Debug\IKVM.Runtime.JNI.dll
+C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\obj\Debug\H2Sharp.csprojAssemblyReference.cache
+C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\obj\Debug\H2Sharp.csproj.CoreCompileInputs.cache
+C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\H2Sharp\obj\Debug\H2Sharp.csproj.CopyComplete

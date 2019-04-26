@@ -265,7 +265,7 @@ namespace SqlOptimizerBechmark
                 benchmark.ConnectionSettings.DbProvider.ExportToFileSystem(dialog.SelectedPath, benchmark);
             }
         }
-
+                
         private void FormMain_Load(object sender, EventArgs e)
         {
             New();
