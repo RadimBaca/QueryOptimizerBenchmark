@@ -4,6 +4,7 @@ using System.Data.H2;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using SqlOptimizerBechmark.DbProviders;
 
@@ -11,156 +12,133 @@ namespace Test
 {
     class Program
     {
-        private double ReadCostInfo(JsonReader reader)
-        {
-            double ret = 0;
-            while (reader.Read())
-            {
-                if (reader.TokenType == JsonToken.EndObject)
-                {
-                    return ret;
-                }
-                if (reader.TokenType == JsonToken.PropertyName &&
-                    Convert.ToString(reader.Value) == "query_cost")
-                {
-                    reader.Read();
-                    ret = Convert.ToDouble(reader.Value, System.Globalization.CultureInfo.InvariantCulture);
-                }
-            }
-            return  ret;
-        }
-
-        private QueryPlanNode ReadNode(JsonReader reader, QueryPlanNode parentNode, string parentPropertyName)
-        {
-            QueryPlanNode ret = new QueryPlanNode();
-            ret.OpName = parentPropertyName;
-
-            int level = 1;
-            string propertyName = null;
-
-            while (level > 0 && reader.Read())
-            {
-                if (reader.TokenType == JsonToken.StartObject)
-                {
-                    if (propertyName != null)
-                    {
-                        QueryPlanNode queryPlanNode = ReadNode(reader, ret, propertyName);
-                        ret.ChildNodes.Add(queryPlanNode);
-                        queryPlanNode.Parent = ret;
-                    }
-                    else
-                    {
-                        level++;
-                    }
-                }
-                else if (reader.TokenType == JsonToken.EndObject)
-                {
-                    level--;
-                }
-
-                if (reader.TokenType == JsonToken.StartArray)
-                {
-                    if (propertyName != null)
-                    {
-                        QueryPlanNode queryPlanNode = ReadNode(reader, ret, propertyName);
-                        ret.ChildNodes.Add(queryPlanNode);
-                        queryPlanNode.Parent = ret;
-                    }
-                    else
-                    {
-                        level++;
-                    }
-                }
-                else if (reader.TokenType == JsonToken.EndArray)
-                {
-                    level--;
-
-                }
-
-                if (reader.TokenType == JsonToken.PropertyName)
-                {
-                    propertyName = Convert.ToString(reader.Value);
-
-
-                    if (propertyName == "rows_produced_per_join")
-                    {
-                        reader.Read();
-                        int rows = Convert.ToInt32(reader.Value);
-                        ret.EstimatedRows = rows;
-
-                        propertyName = null;
-                    }
-                    if (propertyName == "cost_info")
-                    {
-                        ret.EstimatedCost = ReadCostInfo(reader);
-                        propertyName = null;
-                    }
-                    if (propertyName == "access_type")
-                    {
-                        reader.Read();
-                        string accessTypeStr = Convert.ToString(reader.Value);
-                        ret.OpName += "_" + accessTypeStr.ToLower();
-                        propertyName = null;
-                    }
-
-                    // Ignored properties.
-                    if (propertyName == "used_columns")
-                    {
-                        propertyName = null;
-                    }
-                }
-                else
-                {
-                    propertyName = null;
-                }
-            }
-
-            return ret;
-        }
-
-        private QueryPlanNode ParsePlan(string jsonStr)
-        {
-            QueryPlanNode ret = null;
-            System.IO.StringReader stringReader = new System.IO.StringReader(jsonStr);
-            JsonTextReader jsonTextReader = new JsonTextReader(stringReader);
-            if (jsonTextReader.Read())
-            {
-                if (jsonTextReader.TokenType == JsonToken.StartObject)
-                {
-                    ret =  ReadNode(jsonTextReader, null, null);
-                }
-            }
-            jsonTextReader.Close();
-            return ret;
-        }
-
-        private void Test()
-        {
-            QueryPlanNode node = ParsePlan(Properties.Resources.TestMySQLQueryPlan);
-            Console.WriteLine(node);
-        }
 
         static void Main(string[] args)
         {
-            H2Connection connection = new H2Connection();
-            connection.ConnectionString = "jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test;USER=sa;PASSWORD=n3cUmubsbo";
+            DateTime t1 = DateTime.MinValue;
+            DateTime t2;
+            string connectionString = "Server=bayer.cs.vsb.cz;Database=SQLBench;Uid=sqlbench;Pwd=n3cUmubsbo;ConnectionReset=True;";
+
+            MySqlConnection.ClearAllPools();
+
+            MySqlConnection connection = new MySqlConnection();
+            connection.ConnectionString = connectionString;
             connection.Open();
 
-            Console.WriteLine("start....");
-            H2Command cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT a, b, c FROM Test";
-            H2DataReader reader = cmd.ExecuteReader();
+            MySqlCommand cmdTimeout = connection.CreateCommand();
+            cmdTimeout.CommandText = "SET SESSION MAX_EXECUTION_TIME = 1000";
+            cmdTimeout.ExecuteNonQuery();
 
-            while (reader.Read())
+            MySqlCommand theCmd = null;
+
+            MySqlDataReader reader2 = null;
+
+            for (int i = 0; i < 100; i++)
             {
-                int a = reader.GetInt32(0);
-                int b = reader.GetInt32(1);
-                int c = reader.GetInt32(2);
+                try
+                {
+                    Console.WriteLine("Loop {0} ...", i);
 
-                Console.WriteLine("{0} {1} {2}", a, b, c);
+                    if (connection.State != System.Data.ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+
+                    using (MySqlCommand cmdTimeoutRead = connection.CreateCommand())
+                    {
+                        cmdTimeoutRead.CommandText = "SHOW SESSION VARIABLES LIKE 'max_execution_time'";
+                        MySqlDataReader reader = cmdTimeoutRead.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            object o = reader[1];
+                            Console.WriteLine("MAX_EXECUTION_TIME = {0}", o);
+                        }
+                        reader.Close();
+                    }
+
+                    theCmd = connection.CreateCommand();
+                    theCmd.CommandText = "SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding FROM A a1 JOIN B ON a1.fkb > B.id WHERE a1.search = 1 and B.search = 1";
+                    theCmd.CommandTimeout = 0;
+                    Console.WriteLine("Start of execution, timeout = {0}", theCmd.CommandTimeout);
+                    t1 = DateTime.Now;
+
+                    reader2 = theCmd.ExecuteReader();
+                    int resultSize = 0;
+                    while (reader2.Read())
+                    {
+                        DateTime tx = DateTime.Now;
+                        TimeSpan sp = tx - t1;
+                        if (sp.TotalMilliseconds > 1000)
+                        {
+                            Console.WriteLine("Interrupt query: {0}", resultSize);
+                            break;
+                        }
+                        resultSize++;
+                    }
+                    reader2.Close();
+                    reader2 = null;
+
+                    Console.WriteLine("End of execution");
+
+                    Console.WriteLine("Completed");
+                }
+                catch (MySqlException mySqlEx)
+                {
+                    Console.WriteLine("MySqlException: {0}", mySqlEx.Message);
+
+                    if (theCmd != null)
+                    {
+                        theCmd.Cancel();
+                    }
+
+                    if (mySqlEx.Number == 3024)
+                    {
+                        Console.WriteLine("TIMEOUT");
+                        t2 = DateTime.Now;
+                        TimeSpan span = t2 - t1;
+                        Console.WriteLine("span = {0}", span);
+                        
+                        //if (theCmd != null)
+                        //{
+                        //    connection.Close();
+                        //    MySqlConnection.ClearAllPools();
+                        //    connection.Open();
+                        //}
+
+                        //connection = new MySqlConnection();
+                        //connection.ConnectionString = connectionString;
+                        //connection.Open();
+                        //Console.WriteLine("CONNECTION RESET");
+
+                        using (MySqlCommand cmdTimeoutRead = connection.CreateCommand())
+                        {
+                            cmdTimeoutRead.CommandText = "SHOW SESSION VARIABLES LIKE 'max_execution_time'";
+                            MySqlDataReader reader = cmdTimeoutRead.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                object o = reader[1];
+                                Console.WriteLine("MAX_EXECUTION_TIME = {0}", o);
+                            }
+                            reader.Close();
+
+                            reader2 = null;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Other exception: {0}", ex.Message);
+                }
+                finally
+                {
+                    //if (reader2 != null && !reader2.IsClosed)
+                    //{
+                    //    reader2.Close();
+                    //}
+                }
+                Console.WriteLine("Next");
             }
-            reader.Close();
-            Console.WriteLine("stop...");
+            
 
             connection.Close();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -130,18 +131,20 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
             cmdSetProfiling.CommandText = "SET SESSION profiling = 1";
             cmdSetProfiling.ExecuteNonQuery();
 
-            MySqlCommand cmdSetTimeout = connection.CreateCommand();
-            cmdSetTimeout.CommandText = "SET SESSION MAX_EXECUTION_TIME = @t";
-            cmdSetTimeout.Parameters.AddWithValue("t", commandTimeout * 1000);
-            cmdSetTimeout.ExecuteNonQuery();
+            SetSessionMaxExecuteTime();
         }
 
-        private void CheckConnection()
+        private int GetCommandTimeoutInMs()
         {
-            if (connection != null && connection.State != ConnectionState.Open)
-            {
-                Connect();
-            }
+            return commandTimeout * 1000;
+        }
+
+        private void SetSessionMaxExecuteTime()
+        {
+            MySqlCommand cmdSetTimeout = connection.CreateCommand();
+            cmdSetTimeout.CommandText = "SET SESSION MAX_EXECUTION_TIME = @t";
+            cmdSetTimeout.Parameters.AddWithValue("t", GetCommandTimeoutInMs());
+            cmdSetTimeout.ExecuteNonQuery();
         }
 
         public override void Close()
@@ -151,8 +154,6 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
         public override void Execute(string statement)
         {
-            CheckConnection();
-
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = statement;
             //command.CommandTimeout = commandTimeout;
@@ -291,8 +292,6 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
         public override QueryPlan GetQueryPlan(string query)
         {
-            CheckConnection();
-
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = "EXPLAIN FORMAT=JSON " + query;
             object o = command.ExecuteScalar();
@@ -305,34 +304,46 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
         public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)
         {
-            CheckConnection();
-
             QueryStatistics ret = new QueryStatistics();
 
             MySqlDataReader reader = null;
+            bool closing = false;
 
             try
             {
                 MySqlCommand cmdQuery = connection.CreateCommand();
                 cmdQuery.CommandText = query;
-                //cmdQuery.CommandTimeout = commandTimeout;
+                cmdQuery.CommandTimeout = 0;
 
                 int resultSize = 0;
                 if (!retrieveWholeResult)
                 {
                     reader = cmdQuery.ExecuteReader();
+                    DateTime t1 = DateTime.Now;
                     while (reader.Read())
                     {
                         resultSize++;
+                        DateTime t2 = DateTime.Now;
+                        TimeSpan span = t2 - t1;
+                        if (span.TotalMilliseconds > GetCommandTimeoutInMs())
+                        {
+                            resultSize = 0;
+                            cmdQuery.Cancel();
+                            break;
+                        }
                     }
+                    closing = true;
                     reader.Close();
                     reader = null;
                 }
                 else
                 {
                     ret.Result = new DataTable();
-                    ret.Result.Load(cmdQuery.ExecuteReader());
+                    reader = cmdQuery.ExecuteReader();
+                    ret.Result.Load(reader);
                     resultSize = ret.Result.Rows.Count;
+                    reader.Close();
+                    reader = null;
                 }
                 ret.ResultSize = resultSize;
 
@@ -341,6 +352,7 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
                 MySqlCommand cmdGetTime = connection.CreateCommand();
                 cmdGetTime.CommandText = "SHOW PROFILES";
                 reader = cmdGetTime.ExecuteReader();
+                closing = false;
                 while (reader.Read())
                 {
                     string readerQuery = Convert.ToString(query);
@@ -357,15 +369,43 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
                 return ret;
 
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex.ToString());
+                bool resetConnection = false;
+
+                if (ex is MySqlException mySqlException1)
+                {
+                    if (mySqlException1.Number == 3024)
+                    {
+                        resetConnection = true;
+                    }
+                }
+                if (ex.InnerException is MySqlException mySqlException2)
+                {
+                    if (mySqlException2.Number == 3024)
+                    {
+                        resetConnection = true;
+                    }
+                }
+
+                if (resetConnection)
+                {
+                    reader = null;
+                    Connect();
+                    Debug.WriteLine("CONNECTION RESET");
+                }
+
                 throw;
             }
             finally
             {
                 if (reader != null)
                 {
-                    reader.Close();
+                    if (!reader.IsClosed && !closing)
+                    {
+                        reader.Close();
+                    }
                     reader = null;
                 }
             }

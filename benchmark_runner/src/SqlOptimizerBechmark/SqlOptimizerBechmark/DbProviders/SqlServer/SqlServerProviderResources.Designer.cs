@@ -61,7 +61,15 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IF NOT EXISTS(
+        ///   Looks up a localized string similar to SET ANSI_WARNINGS ON;
+        ///
+        ///GO
+        ///
+        ///SET NOCOUNT ON;
+        ///
+        ///GO
+        ///
+        ///IF NOT EXISTS(
         ///	SELECT *
         ///	FROM sys.schemas
         ///	WHERE name = &apos;sql_optimizer_benchmark&apos;
@@ -75,11 +83,9 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer {
         ///GO
         ///
         ///-- =============================================
-        ///-- Author:		Petr Lukas
-        ///-- Create date: 2018-10-05
         ///-- Description:	Gets the query plan and query
         ///--              processing processing time.
-        ///-- ================ [rest of string was truncated]&quot;;.
+        ///-- ============ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SqlInitScript {
             get {
@@ -100,8 +106,12 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer {
         ///	
         ///	SELECT @testResultId = IDENT_CURRENT(&apos;sql_optimizer_benchmark.test_results&apos;);
         ///
-        ///	{3}
-        ///END;.
+        ///{3}
+        ///
+        ///	UPDATE sql_optimizer_benchmark.test_results
+        ///	SET distinct_plans = (
+        ///		SELECT COUNT(DISTINCT query_plan)
+        ///		FROM sql_optimizer_benchmark.v [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SqlTestScript {
             get {
@@ -111,7 +121,7 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer {
         
         /// <summary>
         ///   Looks up a localized string similar to 	SET @sql = &apos;{0}&apos;;
-        ///	EXEC sql_optimizer_benchmark.sp_GetQueryStatistics @sql, @processingTime OUT, @queryPlan OUT;
+        ///	EXEC sql_optimizer_benchmark.sp_GetQueryStatistics @sql, @processingTime OUT, @resultSize OUT, @queryPlan OUT;
         ///	INSERT INTO sql_optimizer_benchmark.variant_results(test_result_id, result_size, query_processing_time, query_plan)
         ///	VALUES (@testResultId, @resultSize, @processingTime, @queryPlan);
         ///.
