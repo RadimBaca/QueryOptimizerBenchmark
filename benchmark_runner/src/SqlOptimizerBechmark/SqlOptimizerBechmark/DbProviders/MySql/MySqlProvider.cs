@@ -115,7 +115,7 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
             }
             else
             {
-                string format = "Server={0};Database={1};Uid={2};Pwd={3};";
+                string format = "Server={0};Database={1};Uid={2};Pwd={3};Default command timeout=0";
                 string ret = string.Format(format, hostName, defaultSchema, userName, password);
                 return ret;
             }
@@ -130,8 +130,6 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
             MySqlCommand cmdSetProfiling = connection.CreateCommand();
             cmdSetProfiling.CommandText = "SET SESSION profiling = 1";
             cmdSetProfiling.ExecuteNonQuery();
-
-            SetSessionMaxExecuteTime();
         }
 
         private int GetCommandTimeoutInMs()
@@ -144,6 +142,13 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
             MySqlCommand cmdSetTimeout = connection.CreateCommand();
             cmdSetTimeout.CommandText = "SET SESSION MAX_EXECUTION_TIME = @t";
             cmdSetTimeout.Parameters.AddWithValue("t", GetCommandTimeoutInMs());
+            cmdSetTimeout.ExecuteNonQuery();
+        }
+
+        private void ResetSessionMaxExecuteTime()
+        {
+            MySqlCommand cmdSetTimeout = connection.CreateCommand();
+            cmdSetTimeout.CommandText = "SET SESSION MAX_EXECUTION_TIME = 0";
             cmdSetTimeout.ExecuteNonQuery();
         }
 
@@ -311,6 +316,8 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
             try
             {
+                SetSessionMaxExecuteTime();
+
                 MySqlCommand cmdQuery = connection.CreateCommand();
                 cmdQuery.CommandText = query;
                 cmdQuery.CommandTimeout = 0;
@@ -409,6 +416,8 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
                     }
                     reader = null;
                 }
+
+                ResetSessionMaxExecuteTime();
             }
         }
 

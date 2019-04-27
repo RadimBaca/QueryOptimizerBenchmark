@@ -1,6 +1,14 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\benchmark_runner",
+    "\\benchmark_runner\\src",
+    "\\benchmark_runner\\src\\SqlOptimizerBechmark",
+    "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark",
+    "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\DbProviders",
+    "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\DbProviders\\MySql",
+    "\\mssql"
   ],
+  "SelectedNode": "\\benchmark_runner\\rewriting_2019.xml",
   "PreviewInSolutionExplorer": false
 }

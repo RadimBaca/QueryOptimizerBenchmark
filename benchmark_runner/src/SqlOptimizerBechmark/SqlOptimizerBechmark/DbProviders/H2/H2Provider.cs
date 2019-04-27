@@ -145,8 +145,35 @@ namespace SqlOptimizerBechmark.DbProviders.H2
                 }
                 else
                 {
-                    ret.Result = new DataTable();
-                    ret.Result.Load(cmdQuery.ExecuteReader());
+                    DataTable dataTable = new DataTable();
+
+                    reader = cmdQuery.ExecuteReader();
+
+                    bool firstRead = true;
+                    while (reader.Read())
+                    {
+                        if (firstRead)
+                        {
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                string columnName = string.Format("col_{0}", i);
+                                DataColumn column = new DataColumn(columnName);
+                                dataTable.Columns.Add(column);
+                            }
+                            firstRead = false;
+                        }
+
+                        DataRow row = dataTable.NewRow();
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            row[i] = reader[i];
+                        }
+                        dataTable.Rows.Add(row);
+                    }
+                    reader.Close();
+                    reader = null;
+
+                    ret.Result = dataTable;
                     resultSize = ret.Result.Rows.Count;
                 }
 
