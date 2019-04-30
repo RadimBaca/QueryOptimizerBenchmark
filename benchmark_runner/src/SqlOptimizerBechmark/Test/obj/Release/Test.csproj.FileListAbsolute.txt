@@ -44,3 +44,5 @@ C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptim
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Release\Test.exe
 C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Release\Test.pdb
 C:\Users\Petr\Source\Repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\obj\Release\Test.csprojAssemblyReference.cache
+C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\bin\Release\FirebirdSql.Data.FirebirdClient.dll
+C:\Users\Petr\source\repos\QueryOptimizerBenchmark\benchmark_runner\src\SqlOptimizerBechmark\Test\bin\Release\FirebirdSql.Data.FirebirdClient.pdb

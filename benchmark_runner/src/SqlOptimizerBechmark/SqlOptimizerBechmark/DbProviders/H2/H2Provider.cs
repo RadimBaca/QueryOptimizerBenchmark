@@ -74,6 +74,33 @@ namespace SqlOptimizerBechmark.DbProviders.H2
             connection.Open();
         }
 
+        private void CheckConnection()
+        {
+            try
+            {
+                H2Command cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT 1";
+                cmd.ExecuteScalar();
+            }
+            catch (H2Exception h2Ex)
+            {
+                // Force to create a new connection.
+                if (h2Ex.Message.ToLower().Contains("the database has been closed"))
+                {
+                    connection = null;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            if (connection == null || !connection.IsOpen)
+            {
+                Connect();
+            }
+        }
+
         public override void Close()
         {
             connection.Close();
@@ -93,6 +120,8 @@ namespace SqlOptimizerBechmark.DbProviders.H2
 
         public override void Execute(string statement)
         {
+            CheckConnection();
+
             H2Command cmd = connection.CreateCommand();
             cmd.CommandTimeout = commandTimeout;
             cmd.CommandText = statement;
@@ -101,6 +130,8 @@ namespace SqlOptimizerBechmark.DbProviders.H2
 
         public override QueryPlan GetQueryPlan(string query)
         {
+            CheckConnection();
+
             H2Command cmd = connection.CreateCommand();
             cmd.CommandText = "EXPLAIN PLAN FOR " + query;
             object planObj = cmd.ExecuteScalar();
@@ -124,6 +155,8 @@ namespace SqlOptimizerBechmark.DbProviders.H2
             H2DataReader reader = null;
             try
             {
+                CheckConnection();
+
                 QueryStatistics ret = new QueryStatistics();
 
                 H2Command cmdQuery = connection.CreateCommand();

@@ -71,6 +71,7 @@ namespace SqlOptimizerBechmark.DbProviders
         private static MySql.MySqlProvider mySqlProvider = new MySql.MySqlProvider();
         private static SQLite.SQLiteProvider sqLiteProvider = new SQLite.SQLiteProvider();
         private static H2.H2Provider h2Provider = new H2.H2Provider();
+        private static Firebird.FirebirdProvider firebirdProvider = new Firebird.FirebirdProvider();
 
 
         public static IEnumerable<DbProvider> Providers
@@ -83,6 +84,7 @@ namespace SqlOptimizerBechmark.DbProviders
                 yield return mySqlProvider;
                 yield return sqLiteProvider;
                 yield return h2Provider;
+                yield return firebirdProvider;
             }
         }
 
