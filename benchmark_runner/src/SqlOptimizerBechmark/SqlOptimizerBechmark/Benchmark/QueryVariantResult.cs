@@ -230,6 +230,28 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        /// <summary>
+        /// Returns an unique code of the query variant including variant number, test number, group number and template number.
+        /// </summary>
+        /// <returns></returns>
+        public string GetCode()
+        {
+            TestGroupResult testGroupResult = planEquivalenceTestResult.TestRun.GetTestGroupResult(planEquivalenceTestResult.TestGroupId);
+            ConfigurationResult configurationResult = planEquivalenceTestResult.TestRun.GetConfigurationResult(planEquivalenceTestResult.ConfigurationId);
+
+            string testNumber = planEquivalenceTestResult.TestNumber;
+            if (!string.IsNullOrEmpty(planEquivalenceTestResult.TemplateNumber))
+            {
+                testNumber += "/" + planEquivalenceTestResult.TemplateNumber;
+            }
+
+            string code = string.Format("{0}-{1}-{2}-{3}",
+                testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
+                testNumber, queryVariantNumber);
+
+            return code;
+        }
+
         public void ExportToCsv(StreamWriter writer, CsvExportOptions exportOptions)
         {
             if ((exportOptions & CsvExportOptions.ExportQueryVariants) > 0)
@@ -261,15 +283,7 @@ namespace SqlOptimizerBechmark.Benchmark
                     variantAnnotationsStr += annotationStr;
                 }
 
-                string testNumber = planEquivalenceTestResult.TestNumber;
-                if (!string.IsNullOrEmpty(planEquivalenceTestResult.TemplateNumber))
-                {
-                    testNumber += "/" + planEquivalenceTestResult.TemplateNumber;
-                }
-
-                string code = string.Format("{0}-{1}-{2}-{3}",
-                    testGroupResult.TestGroupNumber, configurationResult.ConfigurationNumber,
-                    testNumber, queryVariantNumber);
+                string code = GetCode();
 
                 writer.WriteLine("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12}",
                     TestRun.GetCsvStr(code),

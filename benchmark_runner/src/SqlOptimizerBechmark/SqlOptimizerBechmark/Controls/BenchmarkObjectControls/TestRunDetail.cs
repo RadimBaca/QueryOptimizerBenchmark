@@ -92,6 +92,9 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
 
             testResultsBrowser.TestRun = TestRun;
 
+            txtExecutionSettings.Text = TestRun.ExecutorInfo;
+            txtDbProviderSettings.Text = TestRun.SettingsInfo;
+
             UpdateSummary();
 
             base.BindControls();
@@ -107,6 +110,18 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
             {
                 this.Enabled = true;
             }
+
+            bool enableCopySelectedQueries = false;
+            foreach (DataGridViewCell cell in testResultsBrowser.SelectedCells)
+            {
+                if (cell is TestResultBrowser.QueryVariantDataGridViewCell)
+                {
+                    enableCopySelectedQueries = true;
+                    break;
+                }
+            }
+
+            btnCopySelectedQueries.Enabled = enableCopySelectedQueries;
         }
 
         private void UpdateSummary()
@@ -206,6 +221,16 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
         private void btnSaveToDatabase_Click(object sender, EventArgs e)
         {
             Executor.Executor.Instance.SaveTestRunToDb(TestRun);
+        }
+
+        private void testResultsBrowser_SelectionChanged(object sender, EventArgs e)
+        {
+            UpdateUI();
+        }
+
+        private void btnCopySelectedQueries_Click(object sender, EventArgs e)
+        {
+            testResultsBrowser.CopySelectedQueries();
         }
     }
 }

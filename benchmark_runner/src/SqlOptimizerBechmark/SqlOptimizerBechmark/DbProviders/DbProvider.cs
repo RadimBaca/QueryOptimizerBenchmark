@@ -40,6 +40,11 @@ namespace SqlOptimizerBechmark.DbProviders
 
         public abstract void ExportToFileSystem(string path, Benchmark.Benchmark benchmark);
 
+        public virtual string GetSettingsInfo()
+        {
+            return string.Empty;
+        }
+
         public virtual DbProviderSettingsControl GetSettingsControl()
         {
             if (settingsControl == null)

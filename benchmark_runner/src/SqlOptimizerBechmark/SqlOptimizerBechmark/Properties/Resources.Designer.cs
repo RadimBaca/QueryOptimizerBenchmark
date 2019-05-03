@@ -123,6 +123,26 @@ namespace SqlOptimizerBechmark.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Copy_16 {
+            get {
+                object obj = ResourceManager.GetObject("Copy_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CopySql_16 {
+            get {
+                object obj = ResourceManager.GetObject("CopySql_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DbConnection_16 {
             get {
                 object obj = ResourceManager.GetObject("DbConnection_16", resourceCulture);

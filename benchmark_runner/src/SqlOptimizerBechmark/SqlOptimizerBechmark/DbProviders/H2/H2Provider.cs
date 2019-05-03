@@ -25,6 +25,18 @@ namespace SqlOptimizerBechmark.DbProviders.H2
 
         #endregion
 
+        public override string GetSettingsInfo()
+        {
+            if (!useConnectionString)
+            {
+                return $"dbms=H2|url={url}|user={user}|password={password}|commandTimeout={commandTimeout}";
+            }
+            else
+            {
+                return $"dbms=H2|connectionString={connectionString}|commandTimeout={commandTimeout}";
+            }
+        }
+
         #region Properties
 
         public override string Name => "H2";

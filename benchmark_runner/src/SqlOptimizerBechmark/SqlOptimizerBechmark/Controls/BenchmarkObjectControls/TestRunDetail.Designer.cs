@@ -29,9 +29,17 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.testResultsBrowser = new SqlOptimizerBechmark.Controls.TestResultBrowser.TestResultsBrowser();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gpxSummary = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtExecutionSettings = new System.Windows.Forms.TextBox();
+            this.txtDbProviderSettings = new System.Windows.Forms.MaskedTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,14 +52,24 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
             this.lblErrors = new System.Windows.Forms.Label();
+            this.btnCopySelectedQueries = new System.Windows.Forms.Button();
+            this.btnSaveToDatabase = new System.Windows.Forms.Button();
+            this.btnExportToCsv = new System.Windows.Forms.Button();
             this.gpxLog = new System.Windows.Forms.GroupBox();
             this.logBrowser = new SqlOptimizerBechmark.Controls.LogBrowser();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.btnSaveToDatabase = new System.Windows.Forms.Button();
-            this.btnExportToCsv = new System.Windows.Forms.Button();
             this.btnClearLog = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.testResultsBrowser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -59,6 +77,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.gpxSummary.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.gpxLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logBrowser)).BeginInit();
@@ -77,9 +96,10 @@
             this.testResultsBrowser.Location = new System.Drawing.Point(0, 0);
             this.testResultsBrowser.Name = "testResultsBrowser";
             this.testResultsBrowser.ReadOnly = true;
-            this.testResultsBrowser.Size = new System.Drawing.Size(840, 274);
+            this.testResultsBrowser.Size = new System.Drawing.Size(840, 218);
             this.testResultsBrowser.TabIndex = 0;
             this.testResultsBrowser.NavigateBenchmarkObject += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.testResultsBrowser_NavigateBenchmarkObject);
+            this.testResultsBrowser.SelectionChanged += new System.EventHandler(this.testResultsBrowser_SelectionChanged);
             // 
             // splitContainer1
             // 
@@ -103,16 +123,75 @@
             // 
             // gpxSummary
             // 
+            this.gpxSummary.Controls.Add(this.tableLayoutPanel2);
             this.gpxSummary.Controls.Add(this.tableLayoutPanel1);
+            this.gpxSummary.Controls.Add(this.btnCopySelectedQueries);
             this.gpxSummary.Controls.Add(this.btnSaveToDatabase);
             this.gpxSummary.Controls.Add(this.btnExportToCsv);
             this.gpxSummary.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gpxSummary.Location = new System.Drawing.Point(0, 274);
+            this.gpxSummary.Location = new System.Drawing.Point(0, 218);
             this.gpxSummary.Name = "gpxSummary";
-            this.gpxSummary.Size = new System.Drawing.Size(840, 103);
+            this.gpxSummary.Size = new System.Drawing.Size(840, 159);
             this.gpxSummary.TabIndex = 1;
             this.gpxSummary.TabStop = false;
             this.gpxSummary.Text = "Summary";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label7, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.txtExecutionSettings, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.txtDbProviderSettings, 1, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 102);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(834, 54);
+            this.tableLayoutPanel2.TabIndex = 10;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(29, 6);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(99, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Execution settings:";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(20, 31);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(108, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "DB Provider settings:";
+            // 
+            // txtExecutionSettings
+            // 
+            this.txtExecutionSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtExecutionSettings.Location = new System.Drawing.Point(134, 3);
+            this.txtExecutionSettings.Name = "txtExecutionSettings";
+            this.txtExecutionSettings.ReadOnly = true;
+            this.txtExecutionSettings.Size = new System.Drawing.Size(697, 21);
+            this.txtExecutionSettings.TabIndex = 0;
+            // 
+            // txtDbProviderSettings
+            // 
+            this.txtDbProviderSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDbProviderSettings.Location = new System.Drawing.Point(134, 28);
+            this.txtDbProviderSettings.Name = "txtDbProviderSettings";
+            this.txtDbProviderSettings.ReadOnly = true;
+            this.txtDbProviderSettings.Size = new System.Drawing.Size(697, 21);
+            this.txtDbProviderSettings.TabIndex = 1;
             // 
             // tableLayoutPanel1
             // 
@@ -264,6 +343,48 @@
             this.lblErrors.TabIndex = 2;
             this.lblErrors.Text = "0";
             // 
+            // btnCopySelectedQueries
+            // 
+            this.btnCopySelectedQueries.Image = global::SqlOptimizerBechmark.Properties.Resources.CopySql_16;
+            this.btnCopySelectedQueries.Location = new System.Drawing.Point(306, 70);
+            this.btnCopySelectedQueries.Margin = new System.Windows.Forms.Padding(0);
+            this.btnCopySelectedQueries.Name = "btnCopySelectedQueries";
+            this.btnCopySelectedQueries.Size = new System.Drawing.Size(150, 25);
+            this.btnCopySelectedQueries.TabIndex = 5;
+            this.btnCopySelectedQueries.Text = "Copy selected queries";
+            this.btnCopySelectedQueries.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCopySelectedQueries.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnCopySelectedQueries.UseVisualStyleBackColor = true;
+            this.btnCopySelectedQueries.Click += new System.EventHandler(this.btnCopySelectedQueries_Click);
+            // 
+            // btnSaveToDatabase
+            // 
+            this.btnSaveToDatabase.Image = global::SqlOptimizerBechmark.Properties.Resources.SaveToDb_16;
+            this.btnSaveToDatabase.Location = new System.Drawing.Point(156, 70);
+            this.btnSaveToDatabase.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSaveToDatabase.Name = "btnSaveToDatabase";
+            this.btnSaveToDatabase.Size = new System.Drawing.Size(150, 25);
+            this.btnSaveToDatabase.TabIndex = 4;
+            this.btnSaveToDatabase.Text = "Save to database";
+            this.btnSaveToDatabase.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSaveToDatabase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSaveToDatabase.UseVisualStyleBackColor = true;
+            this.btnSaveToDatabase.Click += new System.EventHandler(this.btnSaveToDatabase_Click);
+            // 
+            // btnExportToCsv
+            // 
+            this.btnExportToCsv.Image = global::SqlOptimizerBechmark.Properties.Resources.ExcelFile_16;
+            this.btnExportToCsv.Location = new System.Drawing.Point(6, 70);
+            this.btnExportToCsv.Margin = new System.Windows.Forms.Padding(0);
+            this.btnExportToCsv.Name = "btnExportToCsv";
+            this.btnExportToCsv.Size = new System.Drawing.Size(150, 25);
+            this.btnExportToCsv.TabIndex = 4;
+            this.btnExportToCsv.Text = "Export to CSV";
+            this.btnExportToCsv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExportToCsv.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExportToCsv.UseVisualStyleBackColor = true;
+            this.btnExportToCsv.Click += new System.EventHandler(this.btnExportToCsv_Click);
+            // 
             // gpxLog
             // 
             this.gpxLog.Controls.Add(this.logBrowser);
@@ -284,6 +405,15 @@
             this.logBrowser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.logBrowser.ColumnHeadersVisible = false;
             this.logBrowser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn10,
+            this.dataGridViewTextBoxColumn11,
+            this.dataGridViewTextBoxColumn12,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9,
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3});
@@ -294,10 +424,88 @@
             this.logBrowser.Size = new System.Drawing.Size(834, 190);
             this.logBrowser.TabIndex = 2;
             // 
-            // dataGridViewTextBoxColumn1
+            // dataGridViewTextBoxColumn10
             // 
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewTextBoxColumn10.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewTextBoxColumn10.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            this.dataGridViewTextBoxColumn10.ReadOnly = true;
+            this.dataGridViewTextBoxColumn10.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn11.HeaderText = "Message";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            this.dataGridViewTextBoxColumn11.ReadOnly = true;
+            this.dataGridViewTextBoxColumn11.Width = 200;
+            // 
+            // dataGridViewTextBoxColumn12
+            // 
+            this.dataGridViewTextBoxColumn12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn12.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn12.HeaderText = "Statement";
+            this.dataGridViewTextBoxColumn12.MinimumWidth = 200;
+            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
+            this.dataGridViewTextBoxColumn12.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewTextBoxColumn7.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.ReadOnly = true;
+            this.dataGridViewTextBoxColumn7.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn8.HeaderText = "Message";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.ReadOnly = true;
+            this.dataGridViewTextBoxColumn8.Width = 200;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn9.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn9.HeaderText = "Statement";
+            this.dataGridViewTextBoxColumn9.MinimumWidth = 200;
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 120;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Message";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            this.dataGridViewTextBoxColumn5.Width = 200;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn6.FillWeight = 50F;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Statement";
+            this.dataGridViewTextBoxColumn6.MinimumWidth = 200;
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn1.HeaderText = "Time";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
@@ -331,34 +539,6 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // btnSaveToDatabase
-            // 
-            this.btnSaveToDatabase.Image = global::SqlOptimizerBechmark.Properties.Resources.SaveToDb_16;
-            this.btnSaveToDatabase.Location = new System.Drawing.Point(137, 70);
-            this.btnSaveToDatabase.Margin = new System.Windows.Forms.Padding(0);
-            this.btnSaveToDatabase.Name = "btnSaveToDatabase";
-            this.btnSaveToDatabase.Size = new System.Drawing.Size(126, 25);
-            this.btnSaveToDatabase.TabIndex = 4;
-            this.btnSaveToDatabase.Text = "Save to database";
-            this.btnSaveToDatabase.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSaveToDatabase.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnSaveToDatabase.UseVisualStyleBackColor = true;
-            this.btnSaveToDatabase.Click += new System.EventHandler(this.btnSaveToDatabase_Click);
-            // 
-            // btnExportToCsv
-            // 
-            this.btnExportToCsv.Image = global::SqlOptimizerBechmark.Properties.Resources.ExcelFile_16;
-            this.btnExportToCsv.Location = new System.Drawing.Point(6, 70);
-            this.btnExportToCsv.Margin = new System.Windows.Forms.Padding(0);
-            this.btnExportToCsv.Name = "btnExportToCsv";
-            this.btnExportToCsv.Size = new System.Drawing.Size(126, 25);
-            this.btnExportToCsv.TabIndex = 4;
-            this.btnExportToCsv.Text = "Export to CSV";
-            this.btnExportToCsv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExportToCsv.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnExportToCsv.UseVisualStyleBackColor = true;
-            this.btnExportToCsv.Click += new System.EventHandler(this.btnExportToCsv_Click);
-            // 
             // btnClearLog
             // 
             this.btnClearLog.Image = global::SqlOptimizerBechmark.Properties.Resources.Clear_16;
@@ -381,6 +561,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.gpxSummary.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.gpxLog.ResumeLayout(false);
@@ -418,5 +600,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtExecutionSettings;
+        private System.Windows.Forms.MaskedTextBox txtDbProviderSettings;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.Button btnCopySelectedQueries;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
     }
 }

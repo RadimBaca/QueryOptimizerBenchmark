@@ -29,6 +29,18 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
 
         #endregion
 
+        public override string GetSettingsInfo()
+        {
+            if (!useConnectionString)
+            {
+                return $"dbms=MySql|hostName={hostName}|userName={userName}|password={password}|defaultSchema={defaultSchema}|commandTimeout={commandTimeout}";
+            }
+            else
+            {
+                return $"dbms=MySql|hostName={hostName}|connectionString={connectionString}|commandTimeout={commandTimeout}";
+            }
+        }
+
         #region Properties
 
         public override string Name => "MySQL";
