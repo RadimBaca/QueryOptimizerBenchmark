@@ -24,6 +24,18 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
         private NpgsqlConnection connection;
 
         #endregion
+        
+        public override string GetSettingsInfo()
+        {
+            if (!useConnectionString)
+            {
+                return $"dbms=PostgreSql|userName={userName}|password={password}|host={host}|database={database}|commandTimeout={commandTimeout}";
+            }
+            else
+            {
+                return $"dbms=PostgreSql|connectionString={connectionString}|commandTimeout={commandTimeout}";
+            }
+        }
 
         #region Properties
 

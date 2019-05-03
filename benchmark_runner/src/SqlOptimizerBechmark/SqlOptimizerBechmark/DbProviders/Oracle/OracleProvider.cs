@@ -28,6 +28,18 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
 
         #endregion
 
+        public override string GetSettingsInfo()
+        {
+            if (!useConnectionString)
+            {
+                return $"dbms=Oracle|userName={userName}|password={password}|hostName={hostName}|port={port}|sID={sID}|commandTimeout={commandTimeout}";
+            }
+            else
+            {
+                return $"dbms=Oracle|connectionString={connectionString}|commandTimeout={commandTimeout}";
+            }
+        }
+
         #region Properties
 
         public override string Name => "Oracle Database";

@@ -41,7 +41,7 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
                 NavigateBenchmarkObject(this, new BenchmarkObjectEventArgs(benchmarkObject));
             }
         }
-
+               
         public TestResultsBrowser()
         {
             BorderStyle = BorderStyle.None;
@@ -218,6 +218,31 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             }
 
             RowCount = rowIndex;
+        }
+
+        
+
+        /// <summary>
+        /// Copies SQL queries of all selected cells into the clipboard.
+        /// </summary>
+        public void CopySelectedQueries()
+        {
+            string sql = string.Empty;
+
+            foreach (DataGridViewCell cell in SelectedCells)
+            {
+                if (cell is QueryVariantDataGridViewCell qvCell)
+                {
+                    string code = qvCell.QueryVariantResult.GetCode();                    
+                    string query = qvCell.QueryVariantResult.Query;
+
+                    sql += "--" + code + Environment.NewLine + Environment.NewLine;
+                    sql += query + Environment.NewLine;
+                    sql += "-----------------------------------------------------------------------------------------------" + Environment.NewLine;
+                }
+            }
+
+            Clipboard.SetText(sql);
         }
 
         protected override void OnDataError(bool displayErrorDialogIfNoHandler, DataGridViewDataErrorEventArgs e)

@@ -28,6 +28,18 @@ namespace SqlOptimizerBechmark.DbProviders.Firebird
 
         #endregion
 
+        public override string GetSettingsInfo()
+        {
+            if (!useConnectionString)
+            {
+                return $"dbms=Firebird|hostName={hostName}|userName={userName}|password={password}|database={database}|adminRole={adminRole}|commandTimeout={commandTimeout}";
+            }
+            else
+            {
+                return $"dbms=Firebird|hostName={hostName}|connectionString={connectionString}|commandTimeout={commandTimeout}";
+            }
+        }
+
         #region Properties
 
         public override string Name => "Firebird";

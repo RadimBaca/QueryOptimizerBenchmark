@@ -21,8 +21,20 @@ namespace SqlOptimizerBechmark.DbProviders.SQLite
         private int commandTimeout = 60;
 
         private SQLiteConnection connection;
-        
+
         #endregion
+
+        public override string GetSettingsInfo()
+        {
+            if (!useConnectionString)
+            {
+                return $"dbms=SQLite|fileName={fileName}|inMemory={inMemory}|commandTimeout={commandTimeout}";
+            }
+            else
+            {
+                return $"dbms=SQLite|connectionString={connectionString}|commandTimeout={commandTimeout}";
+            }
+        }
 
         #region Properties
 

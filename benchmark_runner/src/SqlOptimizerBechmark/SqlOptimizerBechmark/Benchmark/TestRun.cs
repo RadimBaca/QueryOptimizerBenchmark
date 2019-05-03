@@ -16,6 +16,8 @@ namespace SqlOptimizerBechmark.Benchmark
         private string name = string.Empty;
         private DateTime startDate = DateTime.MinValue;
         private DateTime endDate = DateTime.MinValue;
+        private string settingsInfo = string.Empty;
+        private string executorInfo = string.Empty;
 
         private ObservableCollection<TestGroupResult> testGroupResults = new ObservableCollection<TestGroupResult>();
         private ObservableCollection<ConfigurationResult> configurationResults = new ObservableCollection<ConfigurationResult>();
@@ -93,6 +95,32 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        public string SettingsInfo
+        {
+            get => settingsInfo;
+            set
+            {
+                if (settingsInfo != value)
+                {
+                    settingsInfo = value;
+                    OnPropertyChanged("SettingsInfo");
+                }
+            }
+        }
+
+        public string ExecutorInfo
+        {
+            get => executorInfo;
+            set
+            {
+                if (executorInfo != value)
+                {
+                    executorInfo = value;
+                    OnPropertyChanged("ExecutorInfo");
+                }
+            }
+        }
+
         public ObservableCollection<TestGroupResult> TestGroupResults => testGroupResults;
 
         public ObservableCollection<ConfigurationResult> ConfigurationResults => configurationResults;
@@ -129,6 +157,8 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("name", ref name);
             serializer.ReadDateTime("start_date", ref startDate);
             serializer.ReadDateTime("end_date", ref endDate);
+            serializer.ReadString("settings_info", ref settingsInfo);
+            serializer.ReadString("executor_info", ref executorInfo);
 
             serializer.ReadCollection<ConfigurationResult>("configuration_results", "configuration_result", configurationResults,
                 delegate () { return new ConfigurationResult(this); });
@@ -149,6 +179,8 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteString("name", name);
             serializer.WriteDateTime("start_date", startDate);
             serializer.WriteDateTime("end_date", endDate);
+            serializer.WriteString("settings_info", settingsInfo);
+            serializer.WriteString("executor_info", executorInfo);
             serializer.WriteCollection<ConfigurationResult>("configuration_results", "configuration_result", configurationResults);
             serializer.WriteCollection<TestGroupResult>("test_group_results", "test_group_result", testGroupResults);
             serializer.WriteCollection<AnnotationResult>("annotation_results", "annotation_result", annotationResults);
@@ -197,6 +229,8 @@ namespace SqlOptimizerBechmark.Benchmark
             ret.DbColumns.Add(new DbColumnInfo("Name", "name", System.Data.DbType.String, 50));
             ret.DbColumns.Add(new DbColumnInfo("StartDate", "start_date", System.Data.DbType.DateTime));
             ret.DbColumns.Add(new DbColumnInfo("EndDate", "end_date", System.Data.DbType.DateTime));
+            ret.DbColumns.Add(new DbColumnInfo("SettingsInfo", "settings_info", System.Data.DbType.String, 300));
+            ret.DbColumns.Add(new DbColumnInfo("ExecutorInfo", "executor_info", System.Data.DbType.String, 300));
 
             ret.DbDependentTables.Add(new DbDependentTableInfo("ConfigurationResults", "ConfigurationResult", "test_run_id"));
             ret.DbDependentTables.Add(new DbDependentTableInfo("TestGroupResults", "TestGroupResult", "test_run_id"));

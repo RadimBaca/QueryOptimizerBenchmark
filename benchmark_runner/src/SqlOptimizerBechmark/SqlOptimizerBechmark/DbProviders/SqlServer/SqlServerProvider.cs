@@ -27,6 +27,18 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
 
         #endregion
 
+        public override string GetSettingsInfo()
+        {
+            if (!useConnectionString)
+            {
+                return $"dbms=SqlServer|dataSource={DataSource}|initialCatalog={initialCatalog}|integratedSecurity={integratedSecurity}|userId={userId}|password={password}|disableParallelQueryProcessing={disableParallelQueryProcessing}";
+            }
+            else
+            {
+                return $"dbms=SqlServer|connectionString={connectionString}|disableParallelQueryProcessing={disableParallelQueryProcessing}";
+            }
+        }
+
         #region Properties
 
         public override string Name => "Microsoft SQL Server";

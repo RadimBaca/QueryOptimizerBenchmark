@@ -21,6 +21,11 @@ namespace SqlOptimizerBechmark.Executor
         private bool compareResults = true;
         private int queryRuns = 1;
 
+        private string GetExecutorInfoStr()
+        {
+            return $"runInitScript={runInitScript}|runCleanUpScript={runCleanUpScript}|checkResultSizes={checkResultSizes}|compareResults={compareResults}|queryRuns={queryRuns}";
+        }
+
         private volatile bool stopTesting = false;
         private volatile bool interruptTesting = false;
 
@@ -227,6 +232,8 @@ namespace SqlOptimizerBechmark.Executor
             
             testRun = new Benchmark.TestRun(benchmark);
             testRun.Name = name;
+            testRun.ExecutorInfo = this.GetExecutorInfoStr();
+            testRun.SettingsInfo = db.GetSettingsInfo();
 
             foreach (Benchmark.TestGroup testGroup in benchmark.TestGroups)
             {

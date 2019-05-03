@@ -639,6 +639,8 @@
     <None Include="Resources\SQLite.png" />
     <None Include="Resources\H2_Logo_Small.png" />
     <None Include="Resources\firebird_small.png" />
+    <None Include="Resources\Copy.png" />
+    <None Include="Resources\CopySql_16.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
   </ItemGroup>
   <ItemGroup>
