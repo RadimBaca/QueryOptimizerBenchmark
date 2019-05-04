@@ -246,7 +246,6 @@ namespace SqlOptimizerBechmark.DbProviders.Firebird
             {
                 try
                 {
-                    int resultSize = 0;
                     DateTime t0 = DateTime.Now;
                     using (FbDataReader reader = cmd.ExecuteReader())
                     {
@@ -257,7 +256,6 @@ namespace SqlOptimizerBechmark.DbProviders.Firebird
                     }
                     cmd = null;
                     DateTime t1 = DateTime.Now;
-                    FbStatsCollector.resultSize = resultSize;
                     FbStatsCollector.queryProcessingTime = t1 - t0;
                     FbStatsCollector.finished = true;
                 }
