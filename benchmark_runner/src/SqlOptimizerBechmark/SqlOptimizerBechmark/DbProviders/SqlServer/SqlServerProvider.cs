@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -175,6 +176,19 @@ namespace SqlOptimizerBechmark.DbProviders.SqlServer
             command.CommandText = "sp_executesql @stmt";
             command.Parameters.AddWithValue("stmt", statement);
             command.ExecuteNonQuery();
+        }
+
+        public override DataTable ExecuteQuery(string query)
+        {
+            DataTable table = new DataTable();
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                table.Load(reader);
+            }
+            return table;
         }
 
         public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)

@@ -2,6 +2,7 @@
 using SqlOptimizerBechmark.Benchmark;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -166,7 +167,20 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             command.CommandText = statement;
             command.ExecuteNonQuery();
         }
-        
+
+        public override DataTable ExecuteQuery(string query)
+        {
+            DataTable table = new DataTable();
+            NpgsqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            using (NpgsqlDataReader reader = command.ExecuteReader())
+            {
+                table.Load(reader);
+            }
+            return table;
+        }
+
         public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)
         {
             CheckConnection();

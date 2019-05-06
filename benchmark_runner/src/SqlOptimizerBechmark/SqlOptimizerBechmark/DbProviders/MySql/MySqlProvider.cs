@@ -177,6 +177,19 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
             command.ExecuteNonQuery();
         }
 
+        public override DataTable ExecuteQuery(string query)
+        {
+            DataTable table = new DataTable();
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                table.Load(reader);
+            }
+            return table;
+        }
+
         private double ReadCostInfo(JsonReader reader)
         {
             double ret = 0;

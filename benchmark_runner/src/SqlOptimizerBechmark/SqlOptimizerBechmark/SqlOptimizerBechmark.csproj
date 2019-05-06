@@ -242,6 +242,12 @@
       <DependentUpon>NewTestRunDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\NumeralStyle.cs" />
+    <Compile Include="Controls\QueryResultPreviewDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\QueryResultPreviewDialog.Designer.cs">
+      <DependentUpon>QueryResultPreviewDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StatementListEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -448,6 +454,9 @@
     <EmbeddedResource Include="Controls\NewTestRunDialog.resx">
       <DependentUpon>NewTestRunDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\QueryResultPreviewDialog.resx">
+      <DependentUpon>QueryResultPreviewDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\StatementListEditor.resx">
       <DependentUpon>StatementListEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -641,6 +650,7 @@
     <None Include="Resources\firebird_small.png" />
     <None Include="Resources\Copy.png" />
     <None Include="Resources\CopySql_16.png" />
+    <None Include="Resources\Execute_16.png" />
     <Content Include="SqlOptimizerBenchmark.ico" />
   </ItemGroup>
   <ItemGroup>

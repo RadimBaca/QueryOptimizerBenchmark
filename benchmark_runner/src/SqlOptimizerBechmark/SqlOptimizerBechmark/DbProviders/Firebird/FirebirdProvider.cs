@@ -163,6 +163,19 @@ namespace SqlOptimizerBechmark.DbProviders.Firebird
             command.ExecuteNonQuery();
         }
 
+        public override DataTable ExecuteQuery(string query)
+        {
+            DataTable table = new DataTable();
+            FbCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            using (FbDataReader reader = command.ExecuteReader())
+            {
+                table.Load(reader);
+            }
+            return table;
+        }
+
         public override QueryPlan GetQueryPlan(string query)
         {
             FbCommand command = connection.CreateCommand();

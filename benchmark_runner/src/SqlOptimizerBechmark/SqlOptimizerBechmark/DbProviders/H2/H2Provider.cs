@@ -140,6 +140,19 @@ namespace SqlOptimizerBechmark.DbProviders.H2
             cmd.ExecuteNonQuery();
         }
 
+        public override DataTable ExecuteQuery(string query)
+        {
+            DataTable table = new DataTable();
+            H2Command command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            using (H2DataReader reader = command.ExecuteReader())
+            {
+                table.Load(reader);
+            }
+            return table;
+        }
+
         public override QueryPlan GetQueryPlan(string query)
         {
             CheckConnection();

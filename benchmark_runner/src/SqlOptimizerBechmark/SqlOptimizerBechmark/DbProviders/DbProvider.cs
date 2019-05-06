@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace SqlOptimizerBechmark.DbProviders
 
 
         public abstract void Execute(string statement);
+
+        public abstract DataTable ExecuteQuery(string query);
 
         public abstract QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult);
 

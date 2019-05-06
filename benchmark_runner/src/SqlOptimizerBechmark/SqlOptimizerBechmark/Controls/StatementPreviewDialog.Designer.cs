@@ -87,6 +87,7 @@
             this.fctb.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fctb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fctb.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb.IsReplaceMode = false;
             this.fctb.Language = FastColoredTextBoxNS.Language.SQL;
             this.fctb.LeftBracket = '(';

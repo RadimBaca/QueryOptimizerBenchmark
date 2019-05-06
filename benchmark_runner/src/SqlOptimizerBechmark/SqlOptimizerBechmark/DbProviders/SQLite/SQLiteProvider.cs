@@ -142,6 +142,19 @@ namespace SqlOptimizerBechmark.DbProviders.SQLite
             command.ExecuteNonQuery();
         }
 
+        public override DataTable ExecuteQuery(string query)
+        {
+            DataTable table = new DataTable();
+            SQLiteCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                table.Load(reader);
+            }
+            return table;
+        }
+
         public override void ExportToFileSystem(string path, Benchmark.Benchmark benchmark)
         {
             

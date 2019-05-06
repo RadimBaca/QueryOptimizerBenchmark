@@ -230,6 +230,19 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             command.ExecuteNonQuery();
         }
 
+        public override DataTable ExecuteQuery(string query)
+        {
+            DataTable table = new DataTable();
+            OracleCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            command.ExecuteNonQuery();
+            using (OracleDataReader reader = command.ExecuteReader())
+            {
+                table.Load(reader);
+            }
+            return table;
+        }
+
         public override void ExportToFileSystem(string path, Benchmark.Benchmark benchmark)
         {
         }

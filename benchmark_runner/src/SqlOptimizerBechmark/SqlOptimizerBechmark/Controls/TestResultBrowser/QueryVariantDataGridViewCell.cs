@@ -15,6 +15,9 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
         private QueryVariantResult queryVariantResult;
         private ContextMenuStrip contextMenuStrip;
 
+        private ToolStripItem btnGoToDefinition;
+        private ToolStripItem btnShowQueryAndPlan;
+        private ToolStripItem btnExecuteQuery;
 
         public QueryVariantResult QueryVariantResult
         {
@@ -31,13 +34,20 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
         {
             contextMenuStrip = new ContextMenuStrip();
             contextMenuStrip.Opening += ContextMenuStrip_Opening;
-            contextMenuStrip.Items.Add("Go to definition", null, goToDefinition_Click);
-            contextMenuStrip.Items.Add("Show query and plan", null, showQueryAndPlan_Click);
+
+            btnGoToDefinition = contextMenuStrip.Items.Add("Go to definition", null, goToDefinition_Click);
+            btnShowQueryAndPlan = contextMenuStrip.Items.Add("Show query and plan", null, showQueryAndPlan_Click);
+            btnExecuteQuery = contextMenuStrip.Items.Add("Execute query", null, executeQuery_Click);
+
             this.ContextMenuStrip = contextMenuStrip;
         }
 
         private void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            btnExecuteQuery.Enabled =
+                !Executor.Executor.Instance.Testing &&
+                queryVariantResult.Owner.ConnectionSettings.DbProvider != null;
+            
             if (DataGridView != null)
             {
                 DataGridView.ClearSelection();
@@ -53,6 +63,11 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
         private void showQueryAndPlan_Click(object sender, EventArgs e)
         {
             ShowQueryAndPlan();
+        }
+
+        private void executeQuery_Click(object sender, EventArgs e)
+        {
+            ExecuteQuery();
         }
 
         private void GoToDefinition()
@@ -76,6 +91,20 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             dialog.Statement = queryVariantResult.Query;
             dialog.QueryPlan = queryVariantResult.QueryPlan;
             dialog.Show(DataGridView);
+        }
+
+        private void ExecuteQuery()
+        {
+
+            DbProviders.DbProvider dbProvider = queryVariantResult.Owner.ConnectionSettings.DbProvider;
+            if (dbProvider != null)
+            {
+                Controls.QueryResultPreviewDialog dialog = new QueryResultPreviewDialog();
+                dialog.Query = queryVariantResult.Query;
+                dialog.DbProvider = dbProvider;
+                dialog.Show();
+                dialog.Execute();
+            }
         }
 
         private void UpdateCell()
