@@ -251,8 +251,15 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
                     if (propertyName == "rows_produced_per_join")
                     {
                         reader.Read();
-                        int rows = Convert.ToInt32(reader.Value);
-                        ret.EstimatedRows = rows;
+                        Int64 val = Convert.ToInt64(reader.Value);
+                        if (val <= int.MaxValue)
+                        {
+                            ret.EstimatedRows = val;
+                        }
+                        else
+                        {
+                            ret.EstimatedRows = -1;
+                        }
 
                         propertyName = null;
                     }
