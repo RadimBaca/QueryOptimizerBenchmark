@@ -336,5 +336,29 @@ namespace SqlOptimizerBechmark.DbProviders.Firebird
         {
             throw new NotImplementedException();
         }
+
+        public override void OnBeforeConfigurationCleanUpScript(Configuration configuration)
+        {
+            Close();
+            Connect();
+        }
+
+        public override void OnBeforeConfigurationInitScript(Configuration configuration)
+        {
+            Close();
+            Connect();
+        }
+
+        public override void OnBeforeInitScript()
+        {
+            Close();
+            Connect();
+        }
+
+        public override void OnBeforeCleanUpScript()
+        {
+            Close();
+            Connect();
+        }
     }
 }

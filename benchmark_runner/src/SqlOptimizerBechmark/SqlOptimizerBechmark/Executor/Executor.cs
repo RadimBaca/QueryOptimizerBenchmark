@@ -439,6 +439,8 @@ namespace SqlOptimizerBechmark.Executor
                 // Init script.
                 if (runInitScript)
                 {
+                    db.OnBeforeInitScript();
+
                     Benchmark.StatementList initScriptStatements = benchmark.InitScript.GetStatementList(db.Name);
                     foreach (Benchmark.Statement statement in initScriptStatements.Statements)
                     {
@@ -474,6 +476,8 @@ namespace SqlOptimizerBechmark.Executor
                             return;
                         }
                     }
+
+                    db.OnAfterInitScript();
                 }
 
                 try
@@ -528,6 +532,8 @@ namespace SqlOptimizerBechmark.Executor
                                 
                                 try
                                 {
+                                    db.OnBeforeConfigurationInitScript(configuration);
+
                                     // Init script.
                                     currentConfigurationResult.InitScriptStarted = true;
 
@@ -569,6 +575,8 @@ namespace SqlOptimizerBechmark.Executor
                                         }
                                     }
                                     currentConfigurationResult.InitScriptCompleted = true;
+
+                                    db.OnAfterConfigurationInitScript(configuration);
 
                                     foreach (Benchmark.Test test in testGroup.Tests)
                                     {
@@ -723,6 +731,7 @@ namespace SqlOptimizerBechmark.Executor
                                         }
                                     }
 
+                                    db.OnBeforeConfigurationCleanUpScript(configuration);
 
                                     // Clean up script.
                                     currentConfigurationResult.CleanUpScriptStarted = true;
@@ -765,6 +774,8 @@ namespace SqlOptimizerBechmark.Executor
                                         }
                                     }
                                     currentConfigurationResult.CleanUpScriptCompleted = true;
+
+                                    db.OnAfterConfigurationCleanUpScript(configuration);
                                 }
                                 catch (Exception ex)
                                 {
@@ -793,6 +804,8 @@ namespace SqlOptimizerBechmark.Executor
                 // Clean up script.
                 if (runCleanUpScript)
                 {
+                    db.OnBeforeCleanUpScript();
+
                     Benchmark.StatementList cleanUpScriptStatements = benchmark.CleanUpScript.GetStatementList(db.Name);
                     foreach (Benchmark.Statement statement in cleanUpScriptStatements.Statements)
                     {
@@ -828,6 +841,8 @@ namespace SqlOptimizerBechmark.Executor
                             return;
                         }
                     }
+
+                    db.OnAfterCleanUpScript();
                 }
 
                 db.Close();

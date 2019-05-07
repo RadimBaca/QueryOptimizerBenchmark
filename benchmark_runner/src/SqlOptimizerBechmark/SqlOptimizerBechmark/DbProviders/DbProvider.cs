@@ -107,5 +107,45 @@ namespace SqlOptimizerBechmark.DbProviders
             }
             return null;
         }
+
+        public virtual void OnBeforeInitScript()
+        {
+
+        }
+
+        public virtual void OnAfterInitScript()
+        {
+
+        }
+
+        public virtual void OnBeforeCleanUpScript()
+        {
+
+        }
+
+        public virtual void OnAfterCleanUpScript()
+        {
+
+        }
+
+        public virtual void OnBeforeConfigurationInitScript(Benchmark.Configuration configuration)
+        {
+
+        }
+
+        public virtual void OnAfterConfigurationInitScript(Benchmark.Configuration configuration)
+        {
+
+        }
+
+        public virtual void OnBeforeConfigurationCleanUpScript(Benchmark.Configuration configuration)
+        {
+
+        }
+
+        public virtual void OnAfterConfigurationCleanUpScript(Benchmark.Configuration configuration)
+        {
+
+        }
     }
 }

@@ -31,13 +31,25 @@ namespace SqlOptimizerBechmark.Controls
             InitializeComponent();
         }
 
+        private string GetSelectedText()
+        {
+            if (fctb.SelectionLength == 0)
+            {
+                return fctb.Text;
+            }
+            else
+            {
+                return fctb.SelectedText;
+            }
+        }
+
         public void Execute()
         {
             Cursor.Current = Cursors.WaitCursor;
             try
             {
                 dbProvider.Connect();
-                string query = fctb.Text;
+                string query = GetSelectedText(); 
                 DataTable table = dbProvider.ExecuteQuery(query);
                 gridView.DataSource = table;
             }
