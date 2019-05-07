@@ -1201,7 +1201,7 @@ $ORDERBY</command_text>
           <number>2</number>
           <name>Conditional aggregation 1</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>457</id>
@@ -1691,7 +1691,7 @@ $OrderBy</command_text>
           <number>3</number>
           <name>Conditional aggregation 2</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>517</id>
@@ -2058,6 +2058,11 @@ WHERE B.search = 1 and exists(
 )
 $OrderBy</command_text>
                 </specific_statement>
+                <specific_statement>
+                  <provider_name>Firebird</provider_name>
+                  <not_supported>True</not_supported>
+                  <command_text></command_text>
+                </specific_statement>
               </specific_statements>
               <selected_annotations>
                 <selected_annotation>
@@ -2253,7 +2258,7 @@ $OrderBy</command_text>
           <number>4</number>
           <name>Anti join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>589</id>
@@ -2732,6 +2737,11 @@ $OrderBy</command_text>
                   <not_supported>True</not_supported>
                   <command_text></command_text>
                 </specific_statement>
+                <specific_statement>
+                  <provider_name>Firebird</provider_name>
+                  <not_supported>True</not_supported>
+                  <command_text></command_text>
+                </specific_statement>
               </specific_statements>
               <selected_annotations>
                 <selected_annotation>
@@ -2771,6 +2781,11 @@ $OrderBy</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
+                  <not_supported>True</not_supported>
+                  <command_text></command_text>
+                </specific_statement>
+                <specific_statement>
+                  <provider_name>Firebird</provider_name>
                   <not_supported>True</not_supported>
                   <command_text></command_text>
                 </specific_statement>
@@ -2969,7 +2984,7 @@ $OrderBy</command_text>
           <number>5</number>
           <name>Conditional aggregation 3</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>674</id>
@@ -3209,6 +3224,11 @@ $OrderBy</command_text>
                   <not_supported>True</not_supported>
                   <command_text></command_text>
                 </specific_statement>
+                <specific_statement>
+                  <provider_name>Firebird</provider_name>
+                  <not_supported>True</not_supported>
+                  <command_text></command_text>
+                </specific_statement>
               </specific_statements>
               <selected_annotations>
                 <selected_annotation>
@@ -3304,7 +3324,7 @@ $OrderBy</command_text>
           <number>6</number>
           <name>Anti group join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>828</id>
@@ -3607,6 +3627,11 @@ WHERE $PBsearch and t.groupby IS NULL</command_text>
                   <not_supported>True</not_supported>
                   <command_text></command_text>
                 </specific_statement>
+                <specific_statement>
+                  <provider_name>Firebird</provider_name>
+                  <not_supported>True</not_supported>
+                  <command_text></command_text>
+                </specific_statement>
               </specific_statements>
               <selected_annotations>
                 <selected_annotation>
@@ -3691,7 +3716,7 @@ WHERE $PBsearch and t.fkb IS NULL</command_text>
           <number>7</number>
           <name>Having distinct join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>849</id>
@@ -4036,6 +4061,11 @@ WHERE t.c1 = 2</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
+                  <not_supported>True</not_supported>
+                  <command_text></command_text>
+                </specific_statement>
+                <specific_statement>
+                  <provider_name>Firebird</provider_name>
                   <not_supported>True</not_supported>
                   <command_text></command_text>
                 </specific_statement>
@@ -7800,7 +7830,7 @@ WHERE a1.search = 1 and B.search = 1
               <query_variant_id>392</query_variant_id>
               <query_variant_number>a</query_variant_number>
               <query_variant_name>Basic</query_variant_name>
-              <query_processing_time>3.126086</query_processing_time>
+              <query_processing_time>3.126</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -7835,7 +7865,7 @@ where exists(
               <query_variant_id>403</query_variant_id>
               <query_variant_number>b</query_variant_number>
               <query_variant_name>Exists variant</query_variant_name>
-              <query_processing_time>4.2366316</query_processing_time>
+              <query_processing_time>4.237</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -7872,7 +7902,7 @@ WHERE a1.search = 1 and
               <query_variant_id>405</query_variant_id>
               <query_variant_number>c</query_variant_number>
               <query_variant_name>Agg</query_variant_name>
-              <query_processing_time>0.7900394</query_processing_time>
+              <query_processing_time>0.79</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -7915,7 +7945,7 @@ where a1.fkb IN (
               <query_variant_id>406</query_variant_id>
               <query_variant_number>d</query_variant_number>
               <query_variant_name>In</query_variant_name>
-              <query_processing_time>4.1020966</query_processing_time>
+              <query_processing_time>4.102</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -7955,7 +7985,7 @@ WHERE a1.search = 1 and B.search = 1
               <query_variant_id>409</query_variant_id>
               <query_variant_number>g</query_variant_number>
               <query_variant_name>Subquery</query_variant_name>
-              <query_processing_time>0.7950235</query_processing_time>
+              <query_processing_time>0.795</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -8002,7 +8032,7 @@ WHERE a1.search &lt; 100 and B.search = 1
               <query_variant_id>392</query_variant_id>
               <query_variant_number>a</query_variant_number>
               <query_variant_name>Basic</query_variant_name>
-              <query_processing_time>1.129956</query_processing_time>
+              <query_processing_time>1.13</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8037,7 +8067,7 @@ where exists(
               <query_variant_id>403</query_variant_id>
               <query_variant_number>b</query_variant_number>
               <query_variant_name>Exists variant</query_variant_name>
-              <query_processing_time>4.1497957</query_processing_time>
+              <query_processing_time>4.15</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8074,7 +8104,7 @@ WHERE a1.search &lt; 100 and
               <query_variant_id>405</query_variant_id>
               <query_variant_number>c</query_variant_number>
               <query_variant_name>Agg</query_variant_name>
-              <query_processing_time>1.2332753</query_processing_time>
+              <query_processing_time>1.233</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8117,7 +8147,7 @@ where a1.fkb IN (
               <query_variant_id>406</query_variant_id>
               <query_variant_number>d</query_variant_number>
               <query_variant_name>In</query_variant_name>
-              <query_processing_time>4.0595391</query_processing_time>
+              <query_processing_time>4.06</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8157,7 +8187,7 @@ WHERE a1.search &lt; 100 and B.search = 1
               <query_variant_id>409</query_variant_id>
               <query_variant_number>g</query_variant_number>
               <query_variant_name>Subquery</query_variant_name>
-              <query_processing_time>1.1665839</query_processing_time>
+              <query_processing_time>1.167</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8217,7 +8247,7 @@ ORDER BY groupby</query>
               <query_variant_id>392</query_variant_id>
               <query_variant_number>a</query_variant_number>
               <query_variant_name>Basic</query_variant_name>
-              <query_processing_time>1.0902458</query_processing_time>
+              <query_processing_time>1.09</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8252,7 +8282,7 @@ ORDER BY groupby</query>
               <query_variant_id>403</query_variant_id>
               <query_variant_number>b</query_variant_number>
               <query_variant_name>Exists variant</query_variant_name>
-              <query_processing_time>4.0447569</query_processing_time>
+              <query_processing_time>4.045</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8289,7 +8319,7 @@ ORDER BY groupby</query>
               <query_variant_id>405</query_variant_id>
               <query_variant_number>c</query_variant_number>
               <query_variant_name>Agg</query_variant_name>
-              <query_processing_time>1.2747567</query_processing_time>
+              <query_processing_time>1.275</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8332,7 +8362,7 @@ ORDER BY groupby</query>
               <query_variant_id>406</query_variant_id>
               <query_variant_number>d</query_variant_number>
               <query_variant_name>In</query_variant_name>
-              <query_processing_time>4.0817193</query_processing_time>
+              <query_processing_time>4.082</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8372,7 +8402,7 @@ ORDER BY groupby</query>
               <query_variant_id>409</query_variant_id>
               <query_variant_number>g</query_variant_number>
               <query_variant_name>Subquery</query_variant_name>
-              <query_processing_time>1.1251429</query_processing_time>
+              <query_processing_time>1.125</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8419,7 +8449,7 @@ WHERE a1.search = 1 and B.search = 1
               <query_variant_id>392</query_variant_id>
               <query_variant_number>a</query_variant_number>
               <query_variant_name>Basic</query_variant_name>
-              <query_processing_time>0.05979</query_processing_time>
+              <query_processing_time>0.06</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -8454,7 +8484,7 @@ where exists(
               <query_variant_id>403</query_variant_id>
               <query_variant_number>b</query_variant_number>
               <query_variant_name>Exists variant</query_variant_name>
-              <query_processing_time>0.0741971</query_processing_time>
+              <query_processing_time>0.074</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -8491,7 +8521,7 @@ WHERE a1.search = 1 and
               <query_variant_id>405</query_variant_id>
               <query_variant_number>c</query_variant_number>
               <query_variant_name>Agg</query_variant_name>
-              <query_processing_time>0.0597874</query_processing_time>
+              <query_processing_time>0.06</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -8534,7 +8564,7 @@ where a1.fkb IN (
               <query_variant_id>406</query_variant_id>
               <query_variant_number>d</query_variant_number>
               <query_variant_name>In</query_variant_name>
-              <query_processing_time>0.0900318</query_processing_time>
+              <query_processing_time>0.09</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -8574,7 +8604,7 @@ WHERE a1.search = 1 and B.search = 1
               <query_variant_id>409</query_variant_id>
               <query_variant_number>g</query_variant_number>
               <query_variant_name>Subquery</query_variant_name>
-              <query_processing_time>0.1002235</query_processing_time>
+              <query_processing_time>0.1</query_processing_time>
               <expected_result_size>4</expected_result_size>
               <result_size>4</result_size>
               <started>True</started>
@@ -8621,7 +8651,7 @@ WHERE a1.search &lt; 100 and B.search = 1
               <query_variant_id>392</query_variant_id>
               <query_variant_number>a</query_variant_number>
               <query_variant_name>Basic</query_variant_name>
-              <query_processing_time>0.0901122</query_processing_time>
+              <query_processing_time>0.09</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8656,7 +8686,7 @@ where exists(
               <query_variant_id>403</query_variant_id>
               <query_variant_number>b</query_variant_number>
               <query_variant_name>Exists variant</query_variant_name>
-              <query_processing_time>0.4898501</query_processing_time>
+              <query_processing_time>0.49</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8693,7 +8723,7 @@ WHERE a1.search &lt; 100 and
               <query_variant_id>405</query_variant_id>
               <query_variant_number>c</query_variant_number>
               <query_variant_name>Agg</query_variant_name>
-              <query_processing_time>0.6497496</query_processing_time>
+              <query_processing_time>0.65</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8736,7 +8766,7 @@ where a1.fkb IN (
               <query_variant_id>406</query_variant_id>
               <query_variant_number>d</query_variant_number>
               <query_variant_name>In</query_variant_name>
-              <query_processing_time>0.5602092</query_processing_time>
+              <query_processing_time>0.56</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8776,7 +8806,7 @@ WHERE a1.search &lt; 100 and B.search = 1
               <query_variant_id>409</query_variant_id>
               <query_variant_number>g</query_variant_number>
               <query_variant_name>Subquery</query_variant_name>
-              <query_processing_time>0.1100386</query_processing_time>
+              <query_processing_time>0.11</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8836,7 +8866,7 @@ ORDER BY groupby</query>
               <query_variant_id>392</query_variant_id>
               <query_variant_number>a</query_variant_number>
               <query_variant_name>Basic</query_variant_name>
-              <query_processing_time>0.1203413</query_processing_time>
+              <query_processing_time>0.12</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8871,7 +8901,7 @@ ORDER BY groupby</query>
               <query_variant_id>403</query_variant_id>
               <query_variant_number>b</query_variant_number>
               <query_variant_name>Exists variant</query_variant_name>
-              <query_processing_time>0.5298455</query_processing_time>
+              <query_processing_time>0.53</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8908,7 +8938,7 @@ ORDER BY groupby</query>
               <query_variant_id>405</query_variant_id>
               <query_variant_number>c</query_variant_number>
               <query_variant_name>Agg</query_variant_name>
-              <query_processing_time>0.7496411</query_processing_time>
+              <query_processing_time>0.75</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8951,7 +8981,7 @@ ORDER BY groupby</query>
               <query_variant_id>406</query_variant_id>
               <query_variant_number>d</query_variant_number>
               <query_variant_name>In</query_variant_name>
-              <query_processing_time>0.5899481</query_processing_time>
+              <query_processing_time>0.59</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
@@ -8991,7 +9021,7 @@ ORDER BY groupby</query>
               <query_variant_id>409</query_variant_id>
               <query_variant_number>g</query_variant_number>
               <query_variant_name>Subquery</query_variant_name>
-              <query_processing_time>0.119716</query_processing_time>
+              <query_processing_time>0.12</query_processing_time>
               <expected_result_size>214</expected_result_size>
               <result_size>214</result_size>
               <started>True</started>
