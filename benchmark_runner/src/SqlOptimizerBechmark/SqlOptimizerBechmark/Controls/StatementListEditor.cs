@@ -144,6 +144,8 @@ namespace SqlOptimizerBechmark.Controls
                 fctb.Text = string.Empty;
             }
 
+            fctb.ClearUndo();
+
             ready = true;
         }
 

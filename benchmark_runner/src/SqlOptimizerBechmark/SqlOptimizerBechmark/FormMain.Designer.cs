@@ -44,6 +44,8 @@
             this.btnStop = new System.Windows.Forms.ToolStripButton();
             this.btnInterrupt = new System.Windows.Forms.ToolStripButton();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.benchmarkTreeView = new SqlOptimizerBechmark.Controls.BenchmarkTreeView.BenchmarkTreeView();
+            this.benchmarkObjectEditor = new SqlOptimizerBechmark.Controls.BenchmarkObjectControls.BenchmarkObjectEditor();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.benchmarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,8 +70,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.btnTest = new System.Windows.Forms.ToolStripMenuItem();
-            this.benchmarkTreeView = new SqlOptimizerBechmark.Controls.BenchmarkTreeView.BenchmarkTreeView();
-            this.benchmarkObjectEditor = new SqlOptimizerBechmark.Controls.BenchmarkObjectControls.BenchmarkObjectEditor();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -96,7 +96,7 @@
             this.btnInterrupt});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(849, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1137, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -229,9 +229,28 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.benchmarkObjectEditor);
-            this.splitContainer.Size = new System.Drawing.Size(849, 405);
+            this.splitContainer.Size = new System.Drawing.Size(1137, 557);
             this.splitContainer.SplitterDistance = global::SqlOptimizerBechmark.Properties.Settings.Default.MainSplitterDistance;
             this.splitContainer.TabIndex = 2;
+            // 
+            // benchmarkTreeView
+            // 
+            this.benchmarkTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.benchmarkTreeView.Location = new System.Drawing.Point(0, 0);
+            this.benchmarkTreeView.Name = "benchmarkTreeView";
+            this.benchmarkTreeView.Size = new System.Drawing.Size(280, 557);
+            this.benchmarkTreeView.TabIndex = 1;
+            this.benchmarkTreeView.SelectionChanged += new System.EventHandler(this.benchmarkTreeView_SelectionChanged);
+            // 
+            // benchmarkObjectEditor
+            // 
+            this.benchmarkObjectEditor.Benchmark = null;
+            this.benchmarkObjectEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.benchmarkObjectEditor.Location = new System.Drawing.Point(0, 0);
+            this.benchmarkObjectEditor.Name = "benchmarkObjectEditor";
+            this.benchmarkObjectEditor.Size = new System.Drawing.Size(853, 557);
+            this.benchmarkObjectEditor.TabIndex = 0;
+            this.benchmarkObjectEditor.NavigateBenchmarkObject += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.benchmarkObjectEditor_NavigateBenchmarkObject);
             // 
             // menuStrip1
             // 
@@ -242,7 +261,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(849, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1137, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -437,29 +456,10 @@
             this.btnTest.Visible = false;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
-            // benchmarkTreeView
-            // 
-            this.benchmarkTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.benchmarkTreeView.Location = new System.Drawing.Point(0, 0);
-            this.benchmarkTreeView.Name = "benchmarkTreeView";
-            this.benchmarkTreeView.Size = new System.Drawing.Size(280, 405);
-            this.benchmarkTreeView.TabIndex = 1;
-            this.benchmarkTreeView.SelectionChanged += new System.EventHandler(this.benchmarkTreeView_SelectionChanged);
-            // 
-            // benchmarkObjectEditor
-            // 
-            this.benchmarkObjectEditor.Benchmark = null;
-            this.benchmarkObjectEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.benchmarkObjectEditor.Location = new System.Drawing.Point(0, 0);
-            this.benchmarkObjectEditor.Name = "benchmarkObjectEditor";
-            this.benchmarkObjectEditor.Size = new System.Drawing.Size(565, 405);
-            this.benchmarkObjectEditor.TabIndex = 0;
-            this.benchmarkObjectEditor.NavigateBenchmarkObject += new SqlOptimizerBechmark.Controls.BenchmarkObjectEventHandler(this.benchmarkObjectEditor_NavigateBenchmarkObject);
-            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(849, 454);
+            this.ClientSize = new System.Drawing.Size(1137, 606);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);

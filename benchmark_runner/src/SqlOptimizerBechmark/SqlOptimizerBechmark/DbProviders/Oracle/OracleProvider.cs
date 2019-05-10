@@ -23,6 +23,7 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
         private string sID = string.Empty;
         private string connectionString = string.Empty;
         private int commandTimeout = 60;
+        private bool disableParallelQueryProcessing = false;
 
         private OracleConnection connection;
 
@@ -32,11 +33,11 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
         {
             if (!useConnectionString)
             {
-                return $"dbms=Oracle|userName={userName}|password={password}|hostName={hostName}|port={port}|sID={sID}|commandTimeout={commandTimeout}";
+                return $"dbms=Oracle|userName={userName}|password={password}|hostName={hostName}|port={port}|sID={sID}|commandTimeout={commandTimeout}|disableParallelQueryProcessing={disableParallelQueryProcessing}";
             }
             else
             {
-                return $"dbms=Oracle|connectionString={connectionString}|commandTimeout={commandTimeout}";
+                return $"dbms=Oracle|connectionString={connectionString}|commandTimeout={commandTimeout}|disableParallelQueryProcessing={disableParallelQueryProcessing}";
             }
         }
 
@@ -92,6 +93,12 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             set => commandTimeout = value;
         }
 
+        public bool DisableParallelQueryProcessing
+        {
+            get => disableParallelQueryProcessing;
+            set => disableParallelQueryProcessing = value;
+        }
+
         #endregion
 
         public string GetConnectionString()
@@ -118,6 +125,14 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             OracleCommand cmdCaptureStatsOn = connection.CreateCommand();
             cmdCaptureStatsOn.CommandText = "ALTER SESSION SET STATISTICS_LEVEL = 'ALL'";
             cmdCaptureStatsOn.ExecuteNonQuery();
+
+            if (disableParallelQueryProcessing)
+            {
+                // Disable parallel query processing.
+                OracleCommand cmdDisaleParallelQueryProcessing = connection.CreateCommand();
+                cmdDisaleParallelQueryProcessing.CommandText = "ALTER SESSION DISABLE PARALLEL QUERY";
+                cmdDisaleParallelQueryProcessing.ExecuteNonQuery();
+            }
         }
 
         public override void Close()
@@ -592,6 +607,11 @@ FROM TABLE(DBMS_XPLAN.DISPLAY)";
             {
                 commandTimeout = 60;
             }
+
+            if (element.Attribute("disable_parallel_query_processing") != null)
+            {
+                disableParallelQueryProcessing = Convert.ToBoolean(element.Attribute("disable_parallel_query_processing").Value);
+            }
         }
 
         public override void SaveToXml(XElement element)
@@ -604,6 +624,7 @@ FROM TABLE(DBMS_XPLAN.DISPLAY)";
             element.Add(new XAttribute("s_id", sID));
             element.Add(new XAttribute("connection_string", connectionString));
             element.Add(new XAttribute("command_timeout", commandTimeout));
+            element.Add(new XAttribute("disable_parallel_query_processing", disableParallelQueryProcessing));
         }
     }
 }

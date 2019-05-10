@@ -72,7 +72,9 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
 
             rbtnUseConnectionString.Checked = provider.UseConnectionString;
             txtConnectionString.Text = provider.ConnectionString;
-            
+
+            cbxDisableParallelQueryProcessing.Checked = provider.DisableParallelQueryProcessing;
+
             UpdateUI();
 
             ready = true;
@@ -174,6 +176,15 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
                 provider.CommandTimeout = i;
             }
             txtCommandTimeout.Text = Convert.ToString(provider.CommandTimeout);
+        }
+
+        private void cbxDisableParallelQueryProcessing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                PostgreSqlProvider.DisableParallelQueryProcessing = cbxDisableParallelQueryProcessing.Checked;
+                NotifyChanged();
+            }
         }
     }
 }

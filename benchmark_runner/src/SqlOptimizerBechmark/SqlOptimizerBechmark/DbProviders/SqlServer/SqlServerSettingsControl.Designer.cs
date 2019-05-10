@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.gpxOtherSettings = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cbxDisableParallelQueryProcessing = new System.Windows.Forms.CheckBox();
             this.rbtnBasicSettings = new System.Windows.Forms.RadioButton();
             this.rbtnUseConnectionString = new System.Windows.Forms.RadioButton();
             this.lblDataSource = new System.Windows.Forms.Label();
@@ -45,13 +48,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnTestConnection = new System.Windows.Forms.Button();
             this.pbxSqlServer = new System.Windows.Forms.PictureBox();
-            this.gpxOtherSettings = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.cbxDisableParallelQueryProcessing = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSqlServer)).BeginInit();
             this.gpxOtherSettings.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxSqlServer)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -100,6 +100,46 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(710, 426);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // gpxOtherSettings
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.gpxOtherSettings, 4);
+            this.gpxOtherSettings.Controls.Add(this.tableLayoutPanel2);
+            this.gpxOtherSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpxOtherSettings.Location = new System.Drawing.Point(3, 323);
+            this.gpxOtherSettings.Name = "gpxOtherSettings";
+            this.gpxOtherSettings.Size = new System.Drawing.Size(329, 51);
+            this.gpxOtherSettings.TabIndex = 15;
+            this.gpxOtherSettings.TabStop = false;
+            this.gpxOtherSettings.Text = "Other settings";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 218F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.cbxDisableParallelQueryProcessing, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 17);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(323, 31);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // cbxDisableParallelQueryProcessing
+            // 
+            this.cbxDisableParallelQueryProcessing.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbxDisableParallelQueryProcessing.AutoSize = true;
+            this.cbxDisableParallelQueryProcessing.Location = new System.Drawing.Point(3, 7);
+            this.cbxDisableParallelQueryProcessing.Name = "cbxDisableParallelQueryProcessing";
+            this.cbxDisableParallelQueryProcessing.Size = new System.Drawing.Size(182, 17);
+            this.cbxDisableParallelQueryProcessing.TabIndex = 0;
+            this.cbxDisableParallelQueryProcessing.Text = "Disable parallel query processing";
+            this.cbxDisableParallelQueryProcessing.UseVisualStyleBackColor = true;
+            this.cbxDisableParallelQueryProcessing.CheckedChanged += new System.EventHandler(this.cbxDisableParallelQueryProcessing_CheckedChanged);
             // 
             // rbtnBasicSettings
             // 
@@ -276,46 +316,6 @@
             this.pbxSqlServer.TabIndex = 13;
             this.pbxSqlServer.TabStop = false;
             // 
-            // gpxOtherSettings
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.gpxOtherSettings, 4);
-            this.gpxOtherSettings.Controls.Add(this.tableLayoutPanel2);
-            this.gpxOtherSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gpxOtherSettings.Location = new System.Drawing.Point(3, 323);
-            this.gpxOtherSettings.Name = "gpxOtherSettings";
-            this.gpxOtherSettings.Size = new System.Drawing.Size(329, 51);
-            this.gpxOtherSettings.TabIndex = 15;
-            this.gpxOtherSettings.TabStop = false;
-            this.gpxOtherSettings.Text = "Other settings";
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 218F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.cbxDisableParallelQueryProcessing, 0, 1);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 17);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(323, 31);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // cbxDisableParallelQueryProcessing
-            // 
-            this.cbxDisableParallelQueryProcessing.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.cbxDisableParallelQueryProcessing.AutoSize = true;
-            this.cbxDisableParallelQueryProcessing.Location = new System.Drawing.Point(3, 7);
-            this.cbxDisableParallelQueryProcessing.Name = "cbxDisableParallelQueryProcessing";
-            this.cbxDisableParallelQueryProcessing.Size = new System.Drawing.Size(182, 17);
-            this.cbxDisableParallelQueryProcessing.TabIndex = 0;
-            this.cbxDisableParallelQueryProcessing.Text = "Disable parallel query processing";
-            this.cbxDisableParallelQueryProcessing.UseVisualStyleBackColor = true;
-            this.cbxDisableParallelQueryProcessing.CheckedChanged += new System.EventHandler(this.cbxDisableParallelQueryProcessing_CheckedChanged);
-            // 
             // SqlServerSettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -325,10 +325,10 @@
             this.Size = new System.Drawing.Size(710, 426);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSqlServer)).EndInit();
             this.gpxOtherSettings.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxSqlServer)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -909,12 +909,13 @@ namespace SqlOptimizerBechmark.Executor
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Prepare(dialog.TestRunName);
                 runInitScript = benchmark.TestRunSettings.RunInitScript;
                 runCleanUpScript = benchmark.TestRunSettings.RunCleanUpScript;
                 checkResultSizes = benchmark.TestRunSettings.CheckResultSizes;
                 compareResults = benchmark.TestRunSettings.CompareResults;
                 queryRuns = benchmark.TestRunSettings.QueryRuns;
+
+                Prepare(dialog.TestRunName);
 
                 StartTesting();
             }

@@ -76,6 +76,7 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
             txtConnectionString.Text = provider.ConnectionString;
 
             txtCommandTimeout.Text = Convert.ToString(provider.CommandTimeout);
+            cbxDisableParallelQueryProcessing.Checked = provider.DisableParallelQueryProcessing;
 
             UpdateUI();
 
@@ -194,6 +195,15 @@ namespace SqlOptimizerBechmark.DbProviders.Oracle
                 provider.CommandTimeout = i;
             }
             txtCommandTimeout.Text = Convert.ToString(provider.CommandTimeout);
+        }
+
+        private void cbxDisableParallelQueryProcessing_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                OracleProvider.DisableParallelQueryProcessing = cbxDisableParallelQueryProcessing.Checked;
+                NotifyChanged();
+            }
         }
     }
 }

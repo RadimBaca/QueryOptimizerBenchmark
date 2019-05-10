@@ -15,7 +15,7 @@ namespace SqlOptimizerBechmark.DbProviders.SQLite
         #region Fields
 
         private bool useConnectionString = false;
-        private string fileName;
+        private string fileName = string.Empty;
         private bool inMemory;
         private string connectionString = string.Empty;
         private int commandTimeout = 60;

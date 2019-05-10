@@ -24,33 +24,65 @@ namespace SqlOptimizerBechmark.Benchmark
         {
             this.benchmark = benchmark;
         }
-            
+
 
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
-            XElement element = serializer.ReadXml("settings");
-            if (element != null)
-            {
-                string providerName = null;
-                serializer.ReadString("provider", ref providerName);
+            string providerName = null;
+            serializer.ReadString("provider", ref providerName);
 
-                if (providerName != null)
+            if (providerName != null)
+            {
+                XElement element = serializer.ReadXml("settings");
+                if (element != null)
                 {
                     dbProvider = DbProviders.DbProvider.GetProvider(providerName);
                     dbProvider.LoadFromXml(element);
                 }
             }
+            else
+            {
+                string currentProvider = null;
+                serializer.ReadString("current_provider", ref currentProvider);
+
+                if (currentProvider != null)
+                {
+                    XElement eProviders = serializer.ReadXml("providers");
+                    foreach (XElement eProvider in eProviders.Elements("provider"))
+                    {
+                        providerName = eProvider.Attribute("name").Value;
+                        DbProviders.DbProvider dbProvider1 = DbProviders.DbProvider.GetProvider(providerName);
+                        dbProvider1.LoadFromXml(eProvider);
+
+                        if (currentProvider == providerName)
+                        {
+                            dbProvider = dbProvider1;
+                        }
+                    }
+                }
+            }
         }
+        
 
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             if (dbProvider != null)
             {
-                serializer.WriteString("provider", dbProvider.Name);
+                serializer.WriteString("current_provider", dbProvider.Name);
 
-                XElement element = new XElement("settings");
-                dbProvider.SaveToXml(element);
-                serializer.WriteXml(element);
+                XElement eProviders = new XElement("providers");
+
+                // Since ver. 1.30, settings of all providers are stored in the XML.
+                foreach (DbProviders.DbProvider provider in DbProviders.DbProvider.Providers)
+                {
+                    XElement eProvider = new XElement("provider");
+                    XAttribute aProviderName = new XAttribute("name", provider.Name);
+                    eProvider.Add(aProviderName);
+                    provider.SaveToXml(eProvider);
+                    eProviders.Add(eProvider);
+                }
+
+                serializer.WriteXml(eProviders);
             }
         }
     }

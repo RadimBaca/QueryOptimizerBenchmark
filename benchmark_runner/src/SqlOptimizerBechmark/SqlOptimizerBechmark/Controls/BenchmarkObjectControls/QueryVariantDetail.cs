@@ -89,6 +89,8 @@ namespace SqlOptimizerBechmark.Controls.BenchmarkObjectControls
                 }
             }
 
+            fctbStatement.ClearUndo();
+
             UpdateTemplateParameters();
 
             UpdateUI();

@@ -21,6 +21,7 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
         private string database = string.Empty;
         private string connectionString = string.Empty;
         private int commandTimeout = 30;
+        private bool disableParallelQueryProcessing = false;
 
         private NpgsqlConnection connection;
 
@@ -30,11 +31,11 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
         {
             if (!useConnectionString)
             {
-                return $"dbms=PostgreSql|userName={userName}|password={password}|host={host}|database={database}|commandTimeout={commandTimeout}";
+                return $"dbms=PostgreSql|userName={userName}|password={password}|host={host}|database={database}|commandTimeout={commandTimeout}|disableParallelQueryProcessing={disableParallelQueryProcessing}";
             }
             else
             {
-                return $"dbms=PostgreSql|connectionString={connectionString}|commandTimeout={commandTimeout}";
+                return $"dbms=PostgreSql|connectionString={connectionString}|commandTimeout={commandTimeout}|disableParallelQueryProcessing={disableParallelQueryProcessing}";
             }
         }
 
@@ -84,6 +85,12 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             set => commandTimeout = value;
         }
 
+        public bool DisableParallelQueryProcessing
+        {
+            get => disableParallelQueryProcessing;
+            set => disableParallelQueryProcessing = value;
+        }
+
         #endregion
 
         public override void LoadFromXml(XElement element)
@@ -95,6 +102,11 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             database = element.Attribute("database").Value;
             commandTimeout = Convert.ToInt32(element.Attribute("command_timeout").Value);
             connectionString = element.Attribute("connection_string").Value;
+
+            if (element.Attribute("disable_parallel_query_processing") != null)
+            {
+                disableParallelQueryProcessing = Convert.ToBoolean(element.Attribute("disable_parallel_query_processing").Value);
+            }
         }
 
         public override void SaveToXml(XElement element)
@@ -106,6 +118,7 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             element.Add(new XAttribute("database", database));
             element.Add(new XAttribute("command_timeout", commandTimeout));
             element.Add(new XAttribute("connection_string", connectionString));
+            element.Add(new XAttribute("disable_parallel_query_processing", disableParallelQueryProcessing));
         }
 
         public override DbProviderSettingsControl CreateSettingsControl()
@@ -135,9 +148,16 @@ namespace SqlOptimizerBechmark.DbProviders.PostgreSql
             connection.ConnectionString = GetConnectionString();
             connection.Open();
 
-            NpgsqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SET statement_timeout = " + (this.commandTimeout * 1000);
-            cmd.ExecuteNonQuery();
+            NpgsqlCommand cmd1 = connection.CreateCommand();
+            cmd1.CommandText = "SET statement_timeout = " + (this.commandTimeout * 1000);
+            cmd1.ExecuteNonQuery();
+
+            if (disableParallelQueryProcessing)
+            {
+                NpgsqlCommand cmd2 = connection.CreateCommand();
+                cmd2.CommandText = "SET max_parallel_workers_per_gather = 0";
+                cmd2.ExecuteNonQuery();
+            }
         }
 
         public override void Close()
