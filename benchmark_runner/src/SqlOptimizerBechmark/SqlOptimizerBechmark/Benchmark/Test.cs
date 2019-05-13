@@ -108,7 +108,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadString("number", ref number);
             serializer.ReadString("name", ref name);
             serializer.ReadString("description", ref description);
-            serializer.ReadBool("Active", ref active);
+            serializer.ReadBool("active", ref active);
         }
 
         public override DbTableInfo GetTableInfo()

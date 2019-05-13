@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using SqlOptimizerBechmark.Benchmark;
@@ -119,7 +120,6 @@ namespace SqlOptimizerBechmark.DbProviders.SQLite
         {
             connection = new SQLiteConnection();
             connection.ConnectionString = GetConnectionString();
-            connection.DefaultTimeout = commandTimeout * 1000;
             connection.Open();
         }
 
@@ -220,56 +220,139 @@ namespace SqlOptimizerBechmark.DbProviders.SQLite
             return ret;
         }
 
+        private static class SQLiteStatsCollector
+        {
+            private static bool finished;
+            private static int resultSize;
+            private static DataTable result;
+            private static TimeSpan queryProcessingTime;
+            private static Exception exception;
+
+            public static bool Finished
+            {
+                get => finished;
+            }
+
+            public static int ResultSize
+            {
+                get => resultSize;
+            }
+
+            public static DataTable Result
+            {
+                get => result;
+            }
+
+            public static TimeSpan QueryProcessingTime
+            {
+                get => queryProcessingTime;
+            }
+
+            public static Exception Exception
+            {
+                get => exception;
+            }
+
+            public static void Clear()
+            {
+                finished = false;
+                resultSize = 0;
+                result = null;
+                queryProcessingTime = TimeSpan.Zero;
+                exception = null;
+            }
+
+            public static void GetStatsResultSizeCore(SQLiteCommand cmd, bool retrieveWholeResult)
+            {
+                try
+                {
+                    int resultSize = 0;
+                    DateTime t0 = DateTime.Now;
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            resultSize++;
+                        }
+                    }
+                    DateTime t1 = DateTime.Now;
+                    SQLiteStatsCollector.resultSize = resultSize;
+                    SQLiteStatsCollector.queryProcessingTime = t1 - t0;
+                }
+                catch (Exception ex)
+                {
+                    SQLiteStatsCollector.exception = ex;
+                }
+                SQLiteStatsCollector.finished = true;
+            }
+
+            public static void GetStatsWholeResultCore(SQLiteCommand cmd, bool retrieveWholeResult)
+            {
+                try
+                {
+                    DateTime t0 = DateTime.Now;
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        DataTable table = new DataTable();
+                        table.Load(reader);
+                        SQLiteStatsCollector.result = table;
+                        SQLiteStatsCollector.resultSize = table.Rows.Count;
+                    }
+                    cmd = null;
+                    DateTime t1 = DateTime.Now;
+                    SQLiteStatsCollector.queryProcessingTime = t1 - t0;
+                }
+                catch (Exception ex)
+                {
+                    SQLiteStatsCollector.exception = ex;
+                }
+                SQLiteStatsCollector.finished = true;
+            }
+        }
+
         public override QueryStatistics GetQueryStatistics(string query, bool retrieveWholeResult)
         {
-            SQLiteDataReader reader = null;
-            try
+            SQLiteCommand cmd = connection.CreateCommand();
+            cmd.CommandText = query;
+
+            Thread thread;
+            SQLiteStatsCollector.Clear();
+            if (retrieveWholeResult)
             {
-                QueryStatistics ret = new QueryStatistics();
+                thread = new Thread(() => SQLiteStatsCollector.GetStatsWholeResultCore(cmd, retrieveWholeResult));
+            }
+            else
+            {
+                thread = new Thread(() => SQLiteStatsCollector.GetStatsResultSizeCore(cmd, retrieveWholeResult));
+            }
 
-                SQLiteCommand cmdQuery = connection.CreateCommand();
-                cmdQuery.CommandText = query;
-                cmdQuery.CommandTimeout = commandTimeout;
+            thread.Start();
 
-                DateTime t0 = DateTime.Now;
-
-                int resultSize = 0;
-                if (!retrieveWholeResult)
-                {
-                    reader = cmdQuery.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        resultSize++;
-                    }
-                    reader.Close();
-                    reader = null;
-                }
-                else
-                {
-                    ret.Result = new DataTable();
-                    ret.Result.Load(cmdQuery.ExecuteReader());
-                    resultSize = ret.Result.Rows.Count;
-                }
-
+            DateTime t0 = DateTime.Now;
+            while (!SQLiteStatsCollector.Finished)
+            {
+                Thread.Yield();
                 DateTime t1 = DateTime.Now;
-
-                ret.QueryProcessingTime = t1 - t0;
-                ret.ResultSize = resultSize;
-
-                return ret;
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                if (reader != null)
+                TimeSpan span = t1 - t0;
+                if (span.TotalSeconds >= commandTimeout)
                 {
-                    reader.Close();
-                    reader = null;
+                    connection.Cancel();
+                    break;
                 }
             }
+
+            thread.Join();
+
+            if (SQLiteStatsCollector.Exception != null)
+            {
+                throw SQLiteStatsCollector.Exception;
+            }
+
+            QueryStatistics ret = new QueryStatistics();
+            ret.QueryProcessingTime = SQLiteStatsCollector.QueryProcessingTime;
+            ret.ResultSize = SQLiteStatsCollector.ResultSize;
+            ret.Result = SQLiteStatsCollector.Result;
+            return ret;
         }
 
         public override string GetTestingScript(Benchmark.Benchmark benchmark)

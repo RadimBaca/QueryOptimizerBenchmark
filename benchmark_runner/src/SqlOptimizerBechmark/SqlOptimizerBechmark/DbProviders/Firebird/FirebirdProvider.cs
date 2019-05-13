@@ -253,6 +253,7 @@ namespace SqlOptimizerBechmark.DbProviders.Firebird
                 {
                     FbStatsCollector.exception = ex;
                 }
+                FbStatsCollector.finished = true;
             }
 
             public static void GetStatsWholeResultCore(FbCommand cmd, bool retrieveWholeResult)
@@ -270,12 +271,12 @@ namespace SqlOptimizerBechmark.DbProviders.Firebird
                     cmd = null;
                     DateTime t1 = DateTime.Now;
                     FbStatsCollector.queryProcessingTime = t1 - t0;
-                    FbStatsCollector.finished = true;
                 }
                 catch (Exception ex)
                 {
                     FbStatsCollector.exception = ex;
                 }
+                FbStatsCollector.finished = true;
             }
 
         }
