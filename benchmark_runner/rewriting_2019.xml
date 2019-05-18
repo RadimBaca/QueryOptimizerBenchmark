@@ -8084,15 +8084,15 @@ ON [dbo].[A] (search, groupby)</command_text>
     </test_group>
   </test_groups>
   <connection_settings>
-    <current_provider>SQLite</current_provider>
+    <current_provider>H2</current_provider>
     <providers>
-      <provider name="Microsoft SQL Server" use_connection_string="false" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="" disable_parallel_query_processing="false" />
-      <provider name="Oracle Database" use_connection_string="false" user_name="" password="" host_name="" port="1521" s_id="" connection_string="" command_timeout="60" disable_parallel_query_processing="false" />
-      <provider name="PostgreSQL" use_connection_string="false" host="" user_name="" password="" database="" command_timeout="30" connection_string="" disable_parallel_query_processing="false" />
-      <provider name="MySQL" use_connection_string="false" host_name="" user_name="" password="" default_schema="" connection_string="" command_timeout="60" />
-      <provider name="SQLite" use_connection_string="false" file_name="C:\Users\Petr\Desktop\data.sqlite" in_memory="false" connection_string="" command_timeout="60" />
-      <provider name="H2" use_connection_string="false" url="" user_name="" password="" connection_string="" command_timeout="0" />
-      <provider name="Firebird" use_connection_string="false" host_name="dbsys.cs.vsb.cz" user_name="sqlbenchuser" password="n3cUmubsbo" database="sqlbench" admin_role="true" connection_string="" command_timeout="180" />
+      <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=dbsys.cs.vsb.cz\student;Database=SqlOptimizerBenchmar;User Id=SqlOptimizerBenchmar;Password=dbbench18;Connection Timeout=300" disable_parallel_query_processing="true" />
+      <provider name="Oracle Database" use_connection_string="false" user_name="SQLBench" password="jOZaccgREX" host_name="bayer.cs.vsb.cz" port="1521" s_id="oracle" connection_string="" command_timeout="300" disable_parallel_query_processing="true" />
+      <provider name="PostgreSQL" use_connection_string="false" host="dbsys.cs.vsb.cz" user_name="luk194" password="PyUqkO9Yzb" database="luk194" command_timeout="300" connection_string="" disable_parallel_query_processing="true" />
+      <provider name="MySQL" use_connection_string="false" host_name="bayer.cs.vsb.cz" user_name="sqlbench" password="n3cUmubsbo" default_schema="SQLBench" connection_string="" command_timeout="300" />
+      <provider name="SQLite" use_connection_string="false" file_name=".\data.sqlite" in_memory="false" connection_string="" command_timeout="300" />
+      <provider name="H2" use_connection_string="false" url="jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test" user_name="sa" password="n3cUmubsbo" connection_string="" command_timeout="300" />
+      <provider name="Firebird" use_connection_string="false" host_name="dbsys.cs.vsb.cz" user_name="sqlbenchuser" password="n3cUmubsbo" database="sqlbench" admin_role="true" connection_string="" command_timeout="300" />
     </providers>
   </connection_settings>
   <test_runs />
@@ -8232,5 +8232,5 @@ ON [dbo].[A] (search, groupby)</command_text>
     <query_runs>1</query_runs>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>982</last_id>
+  <last_id>983</last_id>
 </sql_benchmark>
