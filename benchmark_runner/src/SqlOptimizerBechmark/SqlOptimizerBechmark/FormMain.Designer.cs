@@ -70,6 +70,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mbtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.btnTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.tESTSQLScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -436,7 +437,8 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mbtnAbout,
-            this.btnTest});
+            this.btnTest,
+            this.tESTSQLScannerToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -444,17 +446,24 @@
             // mbtnAbout
             // 
             this.mbtnAbout.Name = "mbtnAbout";
-            this.mbtnAbout.Size = new System.Drawing.Size(138, 22);
+            this.mbtnAbout.Size = new System.Drawing.Size(180, 22);
             this.mbtnAbout.Text = "About ...";
             this.mbtnAbout.Click += new System.EventHandler(this.mbtnAbout_Click);
             // 
             // btnTest
             // 
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(138, 22);
+            this.btnTest.Size = new System.Drawing.Size(180, 22);
             this.btnTest.Text = "TEST Debug";
             this.btnTest.Visible = false;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // tESTSQLScannerToolStripMenuItem
+            // 
+            this.tESTSQLScannerToolStripMenuItem.Name = "tESTSQLScannerToolStripMenuItem";
+            this.tESTSQLScannerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tESTSQLScannerToolStripMenuItem.Text = "TEST SQL Scanner";
+            this.tESTSQLScannerToolStripMenuItem.Click += new System.EventHandler(this.tESTSQLScannerToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -525,6 +534,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem mbtnExportToFileSystem;
         private System.Windows.Forms.ToolStripMenuItem btnTest;
+        private System.Windows.Forms.ToolStripMenuItem tESTSQLScannerToolStripMenuItem;
     }
 }
 

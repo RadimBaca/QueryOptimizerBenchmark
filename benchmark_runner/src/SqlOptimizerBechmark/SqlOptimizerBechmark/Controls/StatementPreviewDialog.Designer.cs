@@ -39,6 +39,8 @@
             this.fctb = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabStatement = new System.Windows.Forms.TabPage();
+            this.pnlTokens = new System.Windows.Forms.Panel();
+            this.lblTokens = new System.Windows.Forms.Label();
             this.tabQueryPlan = new System.Windows.Forms.TabPage();
             this.gridPlan = new SqlOptimizerBechmark.Controls.DataGridViewEx();
             this.colOpName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,6 +51,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.fctb)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabStatement.SuspendLayout();
+            this.pnlTokens.SuspendLayout();
             this.tabQueryPlan.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlan)).BeginInit();
             this.SuspendLayout();
@@ -97,7 +100,7 @@
             this.fctb.ReadOnly = true;
             this.fctb.RightBracket = ')';
             this.fctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.fctb.Size = new System.Drawing.Size(693, 347);
+            this.fctb.Size = new System.Drawing.Size(693, 320);
             this.fctb.TabIndex = 4;
             this.fctb.Zoom = 100;
             // 
@@ -117,6 +120,7 @@
             // tabStatement
             // 
             this.tabStatement.Controls.Add(this.fctb);
+            this.tabStatement.Controls.Add(this.pnlTokens);
             this.tabStatement.Location = new System.Drawing.Point(4, 22);
             this.tabStatement.Name = "tabStatement";
             this.tabStatement.Padding = new System.Windows.Forms.Padding(3);
@@ -124,6 +128,24 @@
             this.tabStatement.TabIndex = 0;
             this.tabStatement.Text = "Statement";
             this.tabStatement.UseVisualStyleBackColor = true;
+            // 
+            // pnlTokens
+            // 
+            this.pnlTokens.Controls.Add(this.lblTokens);
+            this.pnlTokens.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlTokens.Location = new System.Drawing.Point(3, 323);
+            this.pnlTokens.Name = "pnlTokens";
+            this.pnlTokens.Size = new System.Drawing.Size(693, 27);
+            this.pnlTokens.TabIndex = 5;
+            // 
+            // lblTokens
+            // 
+            this.lblTokens.AutoSize = true;
+            this.lblTokens.Location = new System.Drawing.Point(6, 7);
+            this.lblTokens.Name = "lblTokens";
+            this.lblTokens.Size = new System.Drawing.Size(43, 13);
+            this.lblTokens.TabIndex = 0;
+            this.lblTokens.Text = "Tokens";
             // 
             // tabQueryPlan
             // 
@@ -209,10 +231,13 @@
             this.Name = "StatementPreviewDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SQL Statement";
+            this.Load += new System.EventHandler(this.StatementPreviewDialog_Load);
             this.Shown += new System.EventHandler(this.StatementPreviewDialog_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.fctb)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tabStatement.ResumeLayout(false);
+            this.pnlTokens.ResumeLayout(false);
+            this.pnlTokens.PerformLayout();
             this.tabQueryPlan.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridPlan)).EndInit();
             this.ResumeLayout(false);
@@ -231,5 +256,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colActualTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstimatedRows;
         private System.Windows.Forms.DataGridViewTextBoxColumn colActualRows;
+        private System.Windows.Forms.Panel pnlTokens;
+        private System.Windows.Forms.Label lblTokens;
     }
 }

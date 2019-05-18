@@ -36,9 +36,9 @@
             this.gpxQuery = new System.Windows.Forms.GroupBox();
             this.fctb = new FastColoredTextBoxNS.FastColoredTextBox();
             this.gpxResult = new System.Windows.Forms.GroupBox();
+            this.gridView = new SqlOptimizerBechmark.Controls.DataGridViewEx();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExecute = new System.Windows.Forms.ToolStripButton();
-            this.gridView = new SqlOptimizerBechmark.Controls.DataGridViewEx();
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -47,8 +47,8 @@
             this.gpxQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fctb)).BeginInit();
             this.gpxResult.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlBottom
@@ -74,7 +74,6 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(0, 23);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -125,6 +124,7 @@
             this.fctb.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fctb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fctb.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fctb.IsReplaceMode = false;
             this.fctb.Language = FastColoredTextBoxNS.Language.SQL;
             this.fctb.LeftBracket = '(';
@@ -148,6 +148,20 @@
             this.gpxResult.TabStop = false;
             this.gpxResult.Text = "Result";
             // 
+            // gridView
+            // 
+            this.gridView.AllowUserToAddRows = false;
+            this.gridView.AllowUserToDeleteRows = false;
+            this.gridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridView.Location = new System.Drawing.Point(3, 17);
+            this.gridView.Name = "gridView";
+            this.gridView.ReadOnly = true;
+            this.gridView.Size = new System.Drawing.Size(784, 165);
+            this.gridView.TabIndex = 0;
+            this.gridView.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.gridView_CellToolTipTextNeeded);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -167,20 +181,6 @@
             this.btnExecute.Size = new System.Drawing.Size(90, 20);
             this.btnExecute.Text = "Execute (F5)";
             this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
-            // 
-            // gridView
-            // 
-            this.gridView.AllowUserToAddRows = false;
-            this.gridView.AllowUserToDeleteRows = false;
-            this.gridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridView.Location = new System.Drawing.Point(3, 17);
-            this.gridView.Name = "gridView";
-            this.gridView.ReadOnly = true;
-            this.gridView.Size = new System.Drawing.Size(784, 165);
-            this.gridView.TabIndex = 0;
-            this.gridView.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.gridView_CellToolTipTextNeeded);
             // 
             // QueryResultPreviewDialog
             // 
@@ -205,9 +205,9 @@
             this.gpxQuery.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fctb)).EndInit();
             this.gpxResult.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

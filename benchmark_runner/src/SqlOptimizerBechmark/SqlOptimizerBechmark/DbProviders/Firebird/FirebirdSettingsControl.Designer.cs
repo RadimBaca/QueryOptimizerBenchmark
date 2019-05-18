@@ -46,8 +46,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCommandTimeout = new System.Windows.Forms.TextBox();
-            this.pbxSqlServer = new System.Windows.Forms.PictureBox();
             this.cbxAdminRole = new System.Windows.Forms.CheckBox();
+            this.pbxSqlServer = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.gpxOtherSettings.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -194,10 +194,8 @@
             this.tableLayoutPanel1.SetColumnSpan(this.txtPassword, 2);
             this.txtPassword.Location = new System.Drawing.Point(135, 53);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '•';
             this.txtPassword.Size = new System.Drawing.Size(197, 21);
             this.txtPassword.TabIndex = 3;
-            this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // lblHostName
@@ -285,18 +283,6 @@
             this.txtCommandTimeout.TabIndex = 1;
             this.txtCommandTimeout.Validating += new System.ComponentModel.CancelEventHandler(this.txtCommandTimeout_Validating);
             // 
-            // pbxSqlServer
-            // 
-            this.pbxSqlServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbxSqlServer.Image = global::SqlOptimizerBechmark.Properties.Resources.firebird_small;
-            this.pbxSqlServer.Location = new System.Drawing.Point(682, 448);
-            this.pbxSqlServer.Name = "pbxSqlServer";
-            this.tableLayoutPanel1.SetRowSpan(this.pbxSqlServer, 3);
-            this.pbxSqlServer.Size = new System.Drawing.Size(103, 93);
-            this.pbxSqlServer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbxSqlServer.TabIndex = 13;
-            this.pbxSqlServer.TabStop = false;
-            // 
             // cbxAdminRole
             // 
             this.cbxAdminRole.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -308,6 +294,18 @@
             this.cbxAdminRole.Text = "Admin role";
             this.cbxAdminRole.UseVisualStyleBackColor = true;
             this.cbxAdminRole.CheckedChanged += new System.EventHandler(this.cbxAdminRole_CheckedChanged);
+            // 
+            // pbxSqlServer
+            // 
+            this.pbxSqlServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbxSqlServer.Image = global::SqlOptimizerBechmark.Properties.Resources.firebird_small;
+            this.pbxSqlServer.Location = new System.Drawing.Point(682, 448);
+            this.pbxSqlServer.Name = "pbxSqlServer";
+            this.tableLayoutPanel1.SetRowSpan(this.pbxSqlServer, 3);
+            this.pbxSqlServer.Size = new System.Drawing.Size(103, 93);
+            this.pbxSqlServer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbxSqlServer.TabIndex = 13;
+            this.pbxSqlServer.TabStop = false;
             // 
             // FirebirdSettingsControl
             // 

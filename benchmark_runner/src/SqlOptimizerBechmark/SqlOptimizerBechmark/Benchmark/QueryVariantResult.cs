@@ -13,6 +13,7 @@ namespace SqlOptimizerBechmark.Benchmark
     {
         private PlanEquivalenceTestResult planEquivalenceTestResult;
         private string query = string.Empty;
+        private int tokenCount = 0;
         private int queryVariantId = 0;
         private string queryVariantNumber = string.Empty;
         private string queryVariantName = string.Empty;
@@ -36,6 +37,19 @@ namespace SqlOptimizerBechmark.Benchmark
                 {
                     query = value;
                     OnPropertyChanged("Query");
+                }
+            }
+        }
+
+        public int TokenCount
+        {
+            get => tokenCount;
+            set
+            {
+                if (tokenCount != value)
+                {
+                    tokenCount = value;
+                    OnPropertyChanged("TokenCount");
                 }
             }
         }
@@ -180,6 +194,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void LoadFromXml(BenchmarkXmlSerializer serializer)
         {
             serializer.ReadString("query", ref query);
+            serializer.ReadInt("token_count", ref tokenCount);
             serializer.ReadInt("query_variant_id", ref queryVariantId);
             serializer.ReadString("query_variant_number", ref queryVariantNumber);
             serializer.ReadString("query_variant_name", ref queryVariantName);
@@ -209,6 +224,7 @@ namespace SqlOptimizerBechmark.Benchmark
         public override void SaveToXml(BenchmarkXmlSerializer serializer)
         {
             serializer.WriteString("query", query);
+            serializer.WriteInt("token_count", tokenCount);
             serializer.WriteInt("query_variant_id", queryVariantId);
             serializer.WriteString("query_variant_number", queryVariantNumber);
             serializer.WriteString("query_variant_name", queryVariantName);
@@ -313,6 +329,7 @@ namespace SqlOptimizerBechmark.Benchmark
             ret.DbColumns.Add(new DbColumnInfo(null, "test_result_id", System.Data.DbType.Int32, true, "TestResult", "test_result_id")); // FK
 
             ret.DbColumns.Add(new DbColumnInfo("Query", "query", System.Data.DbType.String, 1000));
+            ret.DbColumns.Add(new DbColumnInfo("TokenCount", "token_count", System.Data.DbType.Int32));
             ret.DbColumns.Add(new DbColumnInfo("QueryVariantNumber", "query_variant_number", System.Data.DbType.String, 20));
             ret.DbColumns.Add(new DbColumnInfo("QueryVariantName", "query_variant_name", System.Data.DbType.String, 50));
             ret.DbColumns.Add(new DbColumnInfo("QueryProcessingTime", "query_processing_time", System.Data.DbType.Double));

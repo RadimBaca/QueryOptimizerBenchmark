@@ -130,7 +130,7 @@ namespace SqlOptimizerBechmark.Controls
                     {
                         StatementPreviewDialog dialog = new StatementPreviewDialog();
                         dialog.Statement = message.Statement;
-                        dialog.ShowDialog();
+                        dialog.ShowDialog(this);
                     }
                     else if (e.ColumnIndex == colMessage.Index)
                     {

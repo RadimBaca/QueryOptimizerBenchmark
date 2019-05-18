@@ -90,6 +90,7 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
             StatementPreviewDialog dialog = new StatementPreviewDialog();
             dialog.Statement = queryVariantResult.Query;
             dialog.QueryPlan = queryVariantResult.QueryPlan;
+            dialog.TokenCount = queryVariantResult.TokenCount;
             dialog.Show(DataGridView);
         }
 
@@ -102,7 +103,7 @@ namespace SqlOptimizerBechmark.Controls.TestResultBrowser
                 Controls.QueryResultPreviewDialog dialog = new QueryResultPreviewDialog();
                 dialog.Query = queryVariantResult.Query;
                 dialog.DbProvider = dbProvider;
-                dialog.Show();
+                dialog.Show(DataGridView);
                 dialog.Execute();
             }
         }

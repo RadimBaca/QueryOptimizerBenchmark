@@ -195,6 +195,18 @@ namespace SqlOptimizerBechmark.Executor
                     queryVariantResult.ExpectedResultSize = planEquivalenceTest.ExpectedResultSize;
                 }
 
+                // Token analysis.
+                try
+                {
+                    Classes.SqlScanner scanner = new Classes.SqlScanner(commandText);
+                    scanner.Scan();
+                    queryVariantResult.TokenCount = scanner.Tokens.Length;
+                }
+                catch
+                {
+                    queryVariantResult.TokenCount = -1;
+                }
+
                 planEquivalenceTestResult.QueryVariantResults.Add(queryVariantResult);
             }
 

@@ -463,5 +463,48 @@ namespace SqlOptimizerBechmark
                 }
             }
         }
+
+        private void tESTSQLScannerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection();
+                connection.ConnectionString = "data source = (local); initial catalog = SqlBench_SQLite; integrated security = true";
+                connection.Open();
+                System.Data.SqlClient.SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT query_variant_result_id, query FROM sql_bench.QueryVariantResult";
+                DataTable table = new DataTable();
+                using (System.Data.SqlClient.SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    table.Load(reader);
+                }
+
+                System.Data.SqlClient.SqlCommand cmdUpdate = connection.CreateCommand();
+                cmdUpdate.CommandText = "UPDATE sql_bench.QueryVariantResult SET token_count = @tokenCount WHERE query_variant_result_id = @id";
+                cmdUpdate.Parameters.Add("tokenCount", SqlDbType.Int);
+                cmdUpdate.Parameters.Add("id", SqlDbType.Int);
+
+                foreach (DataRow row in table.Rows)
+                {
+                    int queryVariantResultId = Convert.ToInt32(row["query_variant_result_id"]);
+                    string query = Convert.ToString(row["query"]);
+
+                    Classes.SqlScanner scanner = new Classes.SqlScanner(query);
+                    scanner.Scan();
+                    int tokenCount = scanner.Tokens.Length;
+
+                    cmdUpdate.Parameters["tokenCount"].Value = tokenCount;
+                    cmdUpdate.Parameters["id"].Value = queryVariantResultId;
+                    cmdUpdate.ExecuteNonQuery();
+                }
+                connection.Close();
+
+                MessageBox.Show("Completed.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

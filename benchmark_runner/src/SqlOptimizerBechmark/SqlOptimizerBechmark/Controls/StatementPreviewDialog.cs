@@ -13,11 +13,22 @@ namespace SqlOptimizerBechmark.Controls
     public partial class StatementPreviewDialog : Form
     {
         private DbProviders.QueryPlan queryPlan;
+        private int tokenCount = 0;
 
         public string Statement
         {
             get => fctb.Text;
             set => fctb.Text = value;
+        }
+
+        public int TokenCount
+        {
+            get => tokenCount;
+            set
+            {
+                tokenCount = value;
+                lblTokens.Text = $"Query consists of {tokenCount} tokens.";
+            }
         }
 
         public DbProviders.QueryPlan QueryPlan
@@ -48,6 +59,8 @@ namespace SqlOptimizerBechmark.Controls
             {
                 tabControl.TabPages.Add(tabQueryPlan);
             }
+
+            pnlTokens.Visible = tokenCount > 0;
         }
 
         private string GetPrefix(DbProviders.QueryPlanNode node, bool initCall = true)
@@ -134,6 +147,11 @@ namespace SqlOptimizerBechmark.Controls
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void StatementPreviewDialog_Load(object sender, EventArgs e)
+        {
+            UpdateUI();
         }
     }
 }

@@ -46,10 +46,10 @@
             this.txtSID = new System.Windows.Forms.TextBox();
             this.gpxOtherSettings = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cbxDisableParallelQueryProcessing = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCommandTimeout = new System.Windows.Forms.TextBox();
             this.pbxSqlServer = new System.Windows.Forms.PictureBox();
-            this.cbxDisableParallelQueryProcessing = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.gpxOtherSettings.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -197,10 +197,8 @@
             this.tableLayoutPanel1.SetColumnSpan(this.txtPassword, 2);
             this.txtPassword.Location = new System.Drawing.Point(135, 53);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '•';
             this.txtPassword.Size = new System.Drawing.Size(197, 21);
             this.txtPassword.TabIndex = 2;
-            this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // lblHostName
@@ -292,6 +290,19 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(326, 55);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
+            // cbxDisableParallelQueryProcessing
+            // 
+            this.cbxDisableParallelQueryProcessing.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.cbxDisableParallelQueryProcessing.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.cbxDisableParallelQueryProcessing, 2);
+            this.cbxDisableParallelQueryProcessing.Location = new System.Drawing.Point(3, 4);
+            this.cbxDisableParallelQueryProcessing.Name = "cbxDisableParallelQueryProcessing";
+            this.cbxDisableParallelQueryProcessing.Size = new System.Drawing.Size(182, 17);
+            this.cbxDisableParallelQueryProcessing.TabIndex = 0;
+            this.cbxDisableParallelQueryProcessing.Text = "Disable parallel query processing";
+            this.cbxDisableParallelQueryProcessing.UseVisualStyleBackColor = true;
+            this.cbxDisableParallelQueryProcessing.CheckedChanged += new System.EventHandler(this.cbxDisableParallelQueryProcessing_CheckedChanged);
+            // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -320,19 +331,6 @@
             this.pbxSqlServer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxSqlServer.TabIndex = 13;
             this.pbxSqlServer.TabStop = false;
-            // 
-            // cbxDisableParallelQueryProcessing
-            // 
-            this.cbxDisableParallelQueryProcessing.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.cbxDisableParallelQueryProcessing.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.cbxDisableParallelQueryProcessing, 2);
-            this.cbxDisableParallelQueryProcessing.Location = new System.Drawing.Point(3, 4);
-            this.cbxDisableParallelQueryProcessing.Name = "cbxDisableParallelQueryProcessing";
-            this.cbxDisableParallelQueryProcessing.Size = new System.Drawing.Size(182, 17);
-            this.cbxDisableParallelQueryProcessing.TabIndex = 0;
-            this.cbxDisableParallelQueryProcessing.Text = "Disable parallel query processing";
-            this.cbxDisableParallelQueryProcessing.UseVisualStyleBackColor = true;
-            this.cbxDisableParallelQueryProcessing.CheckedChanged += new System.EventHandler(this.cbxDisableParallelQueryProcessing_CheckedChanged);
             // 
             // OracleSettingsControl
             // 

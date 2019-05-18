@@ -244,10 +244,8 @@
             this.tableLayoutPanel1.SetColumnSpan(this.txtPassword, 3);
             this.txtPassword.Location = new System.Drawing.Point(135, 103);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '•';
             this.txtPassword.Size = new System.Drawing.Size(197, 21);
             this.txtPassword.TabIndex = 5;
-            this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // label6

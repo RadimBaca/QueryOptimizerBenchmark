@@ -129,6 +129,10 @@
     <Compile Include="Benchmark\TestRun.cs" />
     <Compile Include="Benchmark\TestRunSettings.cs" />
     <Compile Include="Benchmark\TestType.cs" />
+    <Compile Include="Classes\SqlException.cs" />
+    <Compile Include="Classes\SqlScanner.cs" />
+    <Compile Include="Classes\SqlScannerException.cs" />
+    <Compile Include="Classes\SqlToken.cs" />
     <Compile Include="Controls\AnnotationCheckListBox.cs">
       <SubType>Component</SubType>
     </Compile>
