@@ -1198,9 +1198,9 @@ WHERE $PAsearch and B.search = 1</command_text>
 FROM (
   SELECT A.id, 
     A.groupby, 
-    max(A.fkb) fkb, 
-    max(A.search) search, 
-    max(A.padding) padding
+    max(A.fkb) as fkb, 
+    max(A.search) as search, 
+    max(A.padding) as padding
   FROM A
   GROUP BY A.id, A.groupby
 ) A 
@@ -1699,7 +1699,7 @@ WHERE $PBsearch and NOT EXISTS
                 <command_text>SELECT B.id, B.groupby, B.search, 
   (
     SELECT br.padding
-    FROM B ar 
+    FROM B br 
     WHERE B.id = Br.id
   ) padding
 FROM B
@@ -2259,7 +2259,7 @@ WHERE $PBsearch and NOT EXISTS (
                 <command_text>SELECT B.id, B.groupby, B.search, 
   (
     SELECT br.padding
-    FROM B ar 
+    FROM B br 
     WHERE B.id = Br.id
   ) padding
 FROM B
@@ -2494,8 +2494,8 @@ HAVING count(DISTINCT A.search) = 2</command_text>
 FROM B
 JOIN (
   SELECT A.id, 
-    max(A.fkb) fkb, 
-    max(A.search) search 
+    max(A.fkb) as fkb, 
+    max(A.search) as search 
   FROM A
   GROUP BY A.id
 ) A ON B.id = A.fkb
@@ -2661,9 +2661,9 @@ WHERE A.search = 1</command_text>
                 <command_text>SELECT count(*)
 FROM (
   SELECT A.id, 
-    max(A.fkb) fkb, 
-    max(A.search) search, 
-    max(A.padding) padding
+    max(A.fkb) as fkb, 
+    max(A.search) as search, 
+    max(A.padding) as padding
   FROM A
   GROUP BY A.id
 ) A
@@ -2896,9 +2896,9 @@ GROUP BY B.id, B.padding</command_text>
 FROM B
 JOIN (
   SELECT A.id, 
-    max(A.fkb) fkb, 
-    max(A.search) search, 
-    max(A.padding) padding
+    max(A.fkb) as fkb, 
+    max(A.search) as search, 
+    max(A.padding) as padding
   FROM A
   GROUP BY A.id
 ) A ON A.fkb = B.id
@@ -3355,7 +3355,7 @@ GROUP BY b1.id</command_text>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, 
   (
     SELECT br.padding
-    FROM B ar 
+    FROM B br 
     WHERE B.id = Br.id
   ) padding
 FROM B b1
@@ -3920,9 +3920,9 @@ HAVING count(DISTINCT A.search) = 2</command_text>
                 <command_text>SELECT groupby
 FROM (
   SELECT A.id, 
-    max(A.groupby) groupby,
-    max(A.search) search, 
-    max(A.padding) padding
+    max(A.groupby) as groupby,
+    max(A.search) as search, 
+    max(A.padding) as padding
   FROM A
   GROUP BY A.id
 ) A
@@ -4221,7 +4221,8 @@ all(
               <default_statement>
                 <command_text>SELECT groupby, $AggFn c2
 FROM A
-WHERE $PAsearch and A.fkb is not null
+WHERE ($PAsearch and A.fkb is not null) or 
+      (1 = 2 and A.search = 1)
 GROUP BY groupby
 HAVING $AggFn &gt;=
 all(
@@ -4230,7 +4231,7 @@ all(
     WHERE $PAsearch
     GROUP BY groupby  
     HAVING $AggFn is not NULL
-) or (1 = 2 and A.search = 1)</command_text>
+) </command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4369,12 +4370,12 @@ all(
             <parameter_value>
               <template_id>686</template_id>
               <parameter_id>692</parameter_id>
-              <value>sum(orderby)</value>
+              <value>sum(A.orderby)</value>
             </parameter_value>
             <parameter_value>
               <template_id>690</template_id>
               <parameter_id>692</parameter_id>
-              <value>sum(orderby)</value>
+              <value>sum(A.orderby)</value>
             </parameter_value>
             <parameter_value>
               <template_id>693</template_id>
@@ -4384,7 +4385,7 @@ all(
             <parameter_value>
               <template_id>693</template_id>
               <parameter_id>692</parameter_id>
-              <value>min(orderby)</value>
+              <value>min(A.orderby)</value>
             </parameter_value>
             <parameter_value>
               <template_id>694</template_id>
@@ -4394,7 +4395,7 @@ all(
             <parameter_value>
               <template_id>694</template_id>
               <parameter_id>692</parameter_id>
-              <value>min(orderby)</value>
+              <value>min(A.orderby)</value>
             </parameter_value>
             <parameter_value>
               <template_id>697</template_id>
@@ -4404,7 +4405,7 @@ all(
             <parameter_value>
               <template_id>697</template_id>
               <parameter_id>692</parameter_id>
-              <value>count(orderby)</value>
+              <value>count(A.orderby)</value>
             </parameter_value>
             <parameter_value>
               <template_id>698</template_id>
@@ -4414,7 +4415,7 @@ all(
             <parameter_value>
               <template_id>698</template_id>
               <parameter_id>692</parameter_id>
-              <value>count(orderby)</value>
+              <value>count(A.orderby)</value>
             </parameter_value>
             <parameter_value>
               <template_id>686</template_id>
@@ -4828,5 +4829,5 @@ ON [dbo].[A] (search, groupby)</command_text>
     <query_runs>1</query_runs>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>1151</last_id>
+  <last_id>1152</last_id>
 </sql_benchmark>
