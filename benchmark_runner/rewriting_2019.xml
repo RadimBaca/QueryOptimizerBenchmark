@@ -1379,7 +1379,7 @@ $ORDERBY</command_text>
           <number>2</number>
           <name>Conditional aggregation 1</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>457</id>
@@ -1874,7 +1874,7 @@ $OrderBy</command_text>
           <number>3</number>
           <name>Conditional aggregation 2</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>517</id>
@@ -2471,7 +2471,7 @@ $OrderBy</command_text>
           <number>4</number>
           <name>Anti join</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>589</id>
@@ -3228,7 +3228,7 @@ $OrderBy</command_text>
           <number>5</number>
           <name>Conditional aggregation 3</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>674</id>
@@ -3573,7 +3573,7 @@ $OrderBy</command_text>
           <number>6</number>
           <name>Anti group join</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>828</id>
@@ -3991,7 +3991,7 @@ WHERE $PBsearch and t.fkb IS NULL</command_text>
           <number>7</number>
           <name>Having distinct join</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>849</id>
@@ -4650,7 +4650,7 @@ drop index A.ix_A_fkb
           <number>1</number>
           <name>Semi join 2</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>425</id>
@@ -5024,7 +5024,7 @@ $OrderBy</command_text>
           <number>2</number>
           <name>Group join</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>817</id>
@@ -5347,7 +5347,7 @@ CROSS JOIN LATERAL (
           <number>3</number>
           <name>Distance from max</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>874</id>
@@ -6030,7 +6030,7 @@ ON B (search)
           <number>1</number>
           <name>Having distinct</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>573</id>
@@ -6439,7 +6439,7 @@ WHERE a1.search = 500 and a2.search = 1 </command_text>
           <number>2</number>
           <name>Greatest per group</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>622</id>
@@ -7023,7 +7023,7 @@ $OrderByA1</command_text>
           <number>3</number>
           <name>Greatest aggregation per group</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>683</id>
@@ -7472,7 +7472,7 @@ WHERE t1.c1 = t2.c1</command_text>
           <number>4</number>
           <name>Standard deviation I</name>
           <description></description>
-          <active>True</active>
+          <active>False</active>
           <variants>
             <variant>
               <id>709</id>
@@ -8084,18 +8084,1460 @@ ON [dbo].[A] (search, groupby)</command_text>
     </test_group>
   </test_groups>
   <connection_settings>
-    <current_provider>H2</current_provider>
+    <current_provider>SQLite</current_provider>
     <providers>
       <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=dbsys.cs.vsb.cz\student;Database=SqlOptimizerBenchmar;User Id=SqlOptimizerBenchmar;Password=dbbench18;Connection Timeout=300" disable_parallel_query_processing="true" />
       <provider name="Oracle Database" use_connection_string="false" user_name="SQLBench" password="jOZaccgREX" host_name="bayer.cs.vsb.cz" port="1521" s_id="oracle" connection_string="" command_timeout="300" disable_parallel_query_processing="true" />
       <provider name="PostgreSQL" use_connection_string="false" host="dbsys.cs.vsb.cz" user_name="luk194" password="PyUqkO9Yzb" database="luk194" command_timeout="300" connection_string="" disable_parallel_query_processing="true" />
       <provider name="MySQL" use_connection_string="false" host_name="bayer.cs.vsb.cz" user_name="sqlbench" password="n3cUmubsbo" default_schema="SQLBench" connection_string="" command_timeout="300" />
-      <provider name="SQLite" use_connection_string="false" file_name=".\data.sqlite" in_memory="false" connection_string="" command_timeout="300" />
+      <provider name="SQLite" use_connection_string="false" file_name=".\data.sqlite" in_memory="false" connection_string="" command_timeout="250" />
       <provider name="H2" use_connection_string="false" url="jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test" user_name="sa" password="n3cUmubsbo" connection_string="" command_timeout="300" />
       <provider name="Firebird" use_connection_string="false" host_name="dbsys.cs.vsb.cz" user_name="sqlbenchuser" password="n3cUmubsbo" database="sqlbench" admin_role="true" connection_string="" command_timeout="300" />
     </providers>
   </connection_settings>
-  <test_runs />
+  <test_runs>
+    <test_run>
+      <id>984</id>
+      <name>2019-06-26 09:39:57</name>
+      <settings_info>dbms=SQLite|fileName=.\data.sqlite|inMemory=False|commandTimeout=250</settings_info>
+      <executor_info>runInitScript=True|runCleanUpScript=False|checkResultSizes=False|compareResults=True|queryRuns=1</executor_info>
+      <configuration_results>
+        <configuration_result>
+          <configuration_id>29</configuration_id>
+          <configuration_number>A</configuration_number>
+          <configuration_name>Heap</configuration_name>
+          <init_script_started>True</init_script_started>
+          <init_script_completed>True</init_script_completed>
+          <init_error_message></init_error_message>
+          <clean_up_script_started>True</clean_up_script_started>
+          <clean_up_script_completed>True</clean_up_script_completed>
+          <clean_up_error_message></clean_up_error_message>
+        </configuration_result>
+        <configuration_result>
+          <configuration_id>30</configuration_id>
+          <configuration_number>B</configuration_number>
+          <configuration_name>Indexed</configuration_name>
+          <init_script_started>False</init_script_started>
+          <init_script_completed>False</init_script_completed>
+          <init_error_message></init_error_message>
+          <clean_up_script_started>False</clean_up_script_started>
+          <clean_up_script_completed>False</clean_up_script_completed>
+          <clean_up_error_message></clean_up_error_message>
+        </configuration_result>
+        <configuration_result>
+          <configuration_id>97</configuration_id>
+          <configuration_number>A</configuration_number>
+          <configuration_name>Heap</configuration_name>
+          <init_script_started>False</init_script_started>
+          <init_script_completed>False</init_script_completed>
+          <init_error_message></init_error_message>
+          <clean_up_script_started>False</clean_up_script_started>
+          <clean_up_script_completed>False</clean_up_script_completed>
+          <clean_up_error_message></clean_up_error_message>
+        </configuration_result>
+        <configuration_result>
+          <configuration_id>98</configuration_id>
+          <configuration_number>B</configuration_number>
+          <configuration_name>Indexed</configuration_name>
+          <init_script_started>False</init_script_started>
+          <init_script_completed>False</init_script_completed>
+          <init_error_message></init_error_message>
+          <clean_up_script_started>False</clean_up_script_started>
+          <clean_up_script_completed>False</clean_up_script_completed>
+          <clean_up_error_message></clean_up_error_message>
+        </configuration_result>
+        <configuration_result>
+          <configuration_id>145</configuration_id>
+          <configuration_number>A</configuration_number>
+          <configuration_name>Heap</configuration_name>
+          <init_script_started>False</init_script_started>
+          <init_script_completed>False</init_script_completed>
+          <init_error_message></init_error_message>
+          <clean_up_script_started>False</clean_up_script_started>
+          <clean_up_script_completed>False</clean_up_script_completed>
+          <clean_up_error_message></clean_up_error_message>
+        </configuration_result>
+        <configuration_result>
+          <configuration_id>146</configuration_id>
+          <configuration_number>B</configuration_number>
+          <configuration_name>Indexed</configuration_name>
+          <init_script_started>False</init_script_started>
+          <init_script_completed>False</init_script_completed>
+          <init_error_message></init_error_message>
+          <clean_up_script_started>False</clean_up_script_started>
+          <clean_up_script_completed>False</clean_up_script_completed>
+          <clean_up_error_message></clean_up_error_message>
+        </configuration_result>
+      </configuration_results>
+      <test_group_results>
+        <test_group_result>
+          <test_group_id>1</test_group_id>
+          <test_group_number>I</test_group_number>
+          <test_group_name>01</test_group_name>
+        </test_group_result>
+        <test_group_result>
+          <test_group_id>37</test_group_id>
+          <test_group_number>II</test_group_number>
+          <test_group_name>02</test_group_name>
+        </test_group_result>
+        <test_group_result>
+          <test_group_id>102</test_group_id>
+          <test_group_number>III</test_group_number>
+          <test_group_name>03</test_group_name>
+        </test_group_result>
+      </test_group_results>
+      <annotation_results>
+        <annotation_result>
+          <anntation_id>378</anntation_id>
+          <anntation_number>T1A</anntation_number>
+          <anntation_name>Independent inline subquery</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>379</anntation_id>
+          <anntation_number>T1B</anntation_number>
+          <anntation_name>Dependent inline subquery</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>380</anntation_id>
+          <anntation_number>T1C</anntation_number>
+          <anntation_name>Independent subquery</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>381</anntation_id>
+          <anntation_number>T1D</anntation_number>
+          <anntation_name>Dependent subquery</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>382</anntation_id>
+          <anntation_number>T1E</anntation_number>
+          <anntation_name>Without subqueries</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>384</anntation_id>
+          <anntation_number>T2A</anntation_number>
+          <anntation_name>Aggregation</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>386</anntation_id>
+          <anntation_number>T2B</anntation_number>
+          <anntation_name>Window function</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>387</anntation_id>
+          <anntation_number>T2C</anntation_number>
+          <anntation_name>Set operations</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>388</anntation_id>
+          <anntation_number>T2D</anntation_number>
+          <anntation_name>Outer join</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>389</anntation_id>
+          <anntation_number>T2E</anntation_number>
+          <anntation_name>Row goals</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>390</anntation_id>
+          <anntation_number>T2F</anntation_number>
+          <anntation_name>Simple query</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>543</anntation_id>
+          <anntation_number>T3A</anntation_number>
+          <anntation_name>Basic</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>544</anntation_id>
+          <anntation_number>T3B</anntation_number>
+          <anntation_name>Attribute removal from Group By</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>559</anntation_id>
+          <anntation_number>T4A</anntation_number>
+          <anntation_name>Subquery</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>561</anntation_id>
+          <anntation_number>T4B</anntation_number>
+          <anntation_name>Cross apply</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>718</anntation_id>
+          <anntation_number>T5A</anntation_number>
+          <anntation_name>No Pk</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>720</anntation_id>
+          <anntation_number>T5B</anntation_number>
+          <anntation_name>Pk</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>737</anntation_id>
+          <anntation_number>T6A</anntation_number>
+          <anntation_name>Group by</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>739</anntation_id>
+          <anntation_number>T6B</anntation_number>
+          <anntation_name>Distinct</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>746</anntation_id>
+          <anntation_number>T7A</anntation_number>
+          <anntation_name>Distinct</anntation_name>
+        </annotation_result>
+        <annotation_result>
+          <anntation_id>747</anntation_id>
+          <anntation_number>T7B</anntation_number>
+          <anntation_name>Distinct pushdown</anntation_name>
+        </annotation_result>
+      </annotation_results>
+      <test_results>
+        <test_result>
+          <test_id>376</test_id>
+          <test_number>1</test_number>
+          <test_name>Semi join 1</test_name>
+          <test_group_id>1</test_group_id>
+          <configuration_id>29</configuration_id>
+          <error_message></error_message>
+          <distinct_query_plans>4</distinct_query_plans>
+          <successfully_completed_variants>5</successfully_completed_variants>
+          <query_variant_results>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search = 1 and B.search = 1
+</query>
+              <token_count>48</token_count>
+              <query_variant_id>392</query_variant_id>
+              <query_variant_number>a</query_variant_number>
+              <query_variant_name>Basic</query_variant_name>
+              <query_processing_time>0.3411932</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>4</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>382</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE A AS a1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="SEARCH TABLE B USING AUTOMATIC PARTIAL COVERING INDEX (search=? AND id=?)" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where exists( 
+        select 1 
+        from B
+        where B.search = 1 and B.id = a1.fkb
+    ) and
+    a1.search = 1
+</query>
+              <token_count>52</token_count>
+              <query_variant_id>403</query_variant_id>
+              <query_variant_number>b</query_variant_number>
+              <query_variant_name>Exists variant</query_variant_name>
+              <query_processing_time>1.4490442</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>4</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE A AS a1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="CORRELATED SCALAR SUBQUERY 1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes>
+                        <node op_name="SCAN TABLE B" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                          <child_nodes />
+                        </node>
+                      </child_nodes>
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+WHERE a1.search = 1 and
+(
+  SELECT count(*) c1 FROM B WHERE B.search = 1 and a1.fkb = B.id
+) != 0
+</query>
+              <token_count>57</token_count>
+              <query_variant_id>405</query_variant_id>
+              <query_variant_number>c</query_variant_number>
+              <query_variant_name>Agg</query_variant_name>
+              <query_processing_time>1.4942416</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>4</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>384</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>559</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE A AS a1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="CORRELATED SCALAR SUBQUERY 1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes>
+                        <node op_name="SCAN TABLE B" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                          <child_nodes />
+                        </node>
+                      </child_nodes>
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where a1.fkb IN ( 
+        select B.id 
+        from B
+        where B.search = 1
+    ) and
+    a1.search = 1
+</query>
+              <token_count>49</token_count>
+              <query_variant_id>406</query_variant_id>
+              <query_variant_number>d</query_variant_number>
+              <query_variant_name>In</query_variant_name>
+              <query_processing_time>0.4024115</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>4</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>380</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE A AS a1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="LIST SUBQUERY 1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes>
+                        <node op_name="SCAN TABLE B" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                          <child_nodes />
+                        </node>
+                      </child_nodes>
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search,
+  (
+     SELECT a2.padding
+     FROM A a2
+     WHERE a1.id = a2.id
+  ) padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search = 1 and B.search = 1
+</query>
+              <token_count>63</token_count>
+              <query_variant_id>409</query_variant_id>
+              <query_variant_number>g</query_variant_number>
+              <query_variant_name>Subquery</query_variant_name>
+              <query_processing_time>1.1229317</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>4</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE A AS a1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="SEARCH TABLE B USING AUTOMATIC PARTIAL COVERING INDEX (search=? AND id=?)" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="CORRELATED SCALAR SUBQUERY 1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes>
+                        <node op_name="SCAN TABLE A AS a2" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                          <child_nodes />
+                        </node>
+                      </child_nodes>
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+          </query_variant_results>
+          <selected_annotation_results />
+          <started>True</started>
+          <completed>True</completed>
+          <template_number>low</template_number>
+        </test_result>
+        <test_result>
+          <test_id>376</test_id>
+          <test_number>1</test_number>
+          <test_name>Semi join 1</test_name>
+          <test_group_id>1</test_group_id>
+          <configuration_id>29</configuration_id>
+          <error_message></error_message>
+          <distinct_query_plans>2</distinct_query_plans>
+          <successfully_completed_variants>3</successfully_completed_variants>
+          <query_variant_results>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+</query>
+              <token_count>48</token_count>
+              <query_variant_id>392</query_variant_id>
+              <query_variant_number>a</query_variant_number>
+              <query_variant_name>Basic</query_variant_name>
+              <query_processing_time>109.4728828</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>214</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>382</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE B" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="SEARCH TABLE A AS a1 USING AUTOMATIC COVERING INDEX (fkb=?)" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where exists( 
+        select 1 
+        from B
+        where B.search = 1 and B.id = a1.fkb
+    ) and
+    a1.search &lt; 100
+</query>
+              <token_count>52</token_count>
+              <query_variant_id>403</query_variant_id>
+              <query_variant_number>b</query_variant_number>
+              <query_variant_name>Exists variant</query_variant_name>
+              <query_processing_time>125.2763069</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>214</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE A AS a1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="CORRELATED SCALAR SUBQUERY 1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes>
+                        <node op_name="SCAN TABLE B" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                          <child_nodes />
+                        </node>
+                      </child_nodes>
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+WHERE a1.search &lt; 100 and
+(
+  SELECT count(*) c1 FROM B WHERE B.search = 1 and a1.fkb = B.id
+) != 0
+</query>
+              <token_count>57</token_count>
+              <query_variant_id>405</query_variant_id>
+              <query_variant_number>c</query_variant_number>
+              <query_variant_name>Agg</query_variant_name>
+              <query_processing_time>85.7953512</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>214</result_size>
+              <started>True</started>
+              <completed>True</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>384</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>559</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+              <query_plan>
+                <node op_name="Query" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                  <child_nodes>
+                    <node op_name="SCAN TABLE A AS a1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes />
+                    </node>
+                    <node op_name="CORRELATED SCALAR SUBQUERY 1" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                      <child_nodes>
+                        <node op_name="SCAN TABLE B" estimated_rows="0" estimated_cost="0" actual_rows="0" actual_time="0">
+                          <child_nodes />
+                        </node>
+                      </child_nodes>
+                    </node>
+                  </child_nodes>
+                </node>
+              </query_plan>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where a1.fkb IN ( 
+        select B.id 
+        from B
+        where B.search = 1
+    ) and
+    a1.search &lt; 100
+</query>
+              <token_count>49</token_count>
+              <query_variant_id>406</query_variant_id>
+              <query_variant_number>d</query_variant_number>
+              <query_variant_name>In</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>380</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search,
+  (
+     SELECT a2.padding
+     FROM A a2
+     WHERE a1.id = a2.id
+  ) padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+</query>
+              <token_count>63</token_count>
+              <query_variant_id>409</query_variant_id>
+              <query_variant_number>g</query_variant_number>
+              <query_variant_name>Subquery</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+          </query_variant_results>
+          <selected_annotation_results>
+            <selected_annotation_result>
+              <annotation_id>378</annotation_id>
+              <is_template_annotation>True</is_template_annotation>
+            </selected_annotation_result>
+            <selected_annotation_result>
+              <annotation_id>379</annotation_id>
+              <is_template_annotation>True</is_template_annotation>
+            </selected_annotation_result>
+            <selected_annotation_result>
+              <annotation_id>380</annotation_id>
+              <is_template_annotation>True</is_template_annotation>
+            </selected_annotation_result>
+          </selected_annotation_results>
+          <started>True</started>
+          <completed>True</completed>
+          <template_number>high</template_number>
+        </test_result>
+        <test_result>
+          <test_id>376</test_id>
+          <test_number>1</test_number>
+          <test_name>Semi join 1</test_name>
+          <test_group_id>1</test_group_id>
+          <configuration_id>29</configuration_id>
+          <error_message></error_message>
+          <distinct_query_plans>0</distinct_query_plans>
+          <successfully_completed_variants>0</successfully_completed_variants>
+          <query_variant_results>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+ORDER BY groupby</query>
+              <token_count>51</token_count>
+              <query_variant_id>392</query_variant_id>
+              <query_variant_number>a</query_variant_number>
+              <query_variant_name>Basic</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>382</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where exists( 
+        select 1 
+        from B
+        where B.search = 1 and B.id = a1.fkb
+    ) and
+    a1.search &lt; 100
+ORDER BY groupby</query>
+              <token_count>55</token_count>
+              <query_variant_id>403</query_variant_id>
+              <query_variant_number>b</query_variant_number>
+              <query_variant_name>Exists variant</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+WHERE a1.search &lt; 100 and
+(
+  SELECT count(*) c1 FROM B WHERE B.search = 1 and a1.fkb = B.id
+) != 0
+ORDER BY groupby</query>
+              <token_count>60</token_count>
+              <query_variant_id>405</query_variant_id>
+              <query_variant_number>c</query_variant_number>
+              <query_variant_name>Agg</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>384</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>559</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where a1.fkb IN ( 
+        select B.id 
+        from B
+        where B.search = 1
+    ) and
+    a1.search &lt; 100
+ORDER BY groupby</query>
+              <token_count>52</token_count>
+              <query_variant_id>406</query_variant_id>
+              <query_variant_number>d</query_variant_number>
+              <query_variant_name>In</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>380</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search,
+  (
+     SELECT a2.padding
+     FROM A a2
+     WHERE a1.id = a2.id
+  ) padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+ORDER BY groupby</query>
+              <token_count>66</token_count>
+              <query_variant_id>409</query_variant_id>
+              <query_variant_number>g</query_variant_number>
+              <query_variant_name>Subquery</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+          </query_variant_results>
+          <selected_annotation_results />
+          <started>True</started>
+          <completed>True</completed>
+          <template_number>orderby</template_number>
+        </test_result>
+        <test_result>
+          <test_id>376</test_id>
+          <test_number>1</test_number>
+          <test_name>Semi join 1</test_name>
+          <test_group_id>1</test_group_id>
+          <configuration_id>30</configuration_id>
+          <error_message></error_message>
+          <distinct_query_plans>0</distinct_query_plans>
+          <successfully_completed_variants>0</successfully_completed_variants>
+          <query_variant_results>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search = 1 and B.search = 1
+</query>
+              <token_count>48</token_count>
+              <query_variant_id>392</query_variant_id>
+              <query_variant_number>a</query_variant_number>
+              <query_variant_name>Basic</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>382</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where exists( 
+        select 1 
+        from B
+        where B.search = 1 and B.id = a1.fkb
+    ) and
+    a1.search = 1
+</query>
+              <token_count>52</token_count>
+              <query_variant_id>403</query_variant_id>
+              <query_variant_number>b</query_variant_number>
+              <query_variant_name>Exists variant</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+WHERE a1.search = 1 and
+(
+  SELECT count(*) c1 FROM B WHERE B.search = 1 and a1.fkb = B.id
+) != 0
+</query>
+              <token_count>57</token_count>
+              <query_variant_id>405</query_variant_id>
+              <query_variant_number>c</query_variant_number>
+              <query_variant_name>Agg</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>384</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>559</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where a1.fkb IN ( 
+        select B.id 
+        from B
+        where B.search = 1
+    ) and
+    a1.search = 1
+</query>
+              <token_count>49</token_count>
+              <query_variant_id>406</query_variant_id>
+              <query_variant_number>d</query_variant_number>
+              <query_variant_name>In</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>380</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search,
+  (
+     SELECT a2.padding
+     FROM A a2
+     WHERE a1.id = a2.id
+  ) padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search = 1 and B.search = 1
+</query>
+              <token_count>63</token_count>
+              <query_variant_id>409</query_variant_id>
+              <query_variant_number>g</query_variant_number>
+              <query_variant_name>Subquery</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>4</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+          </query_variant_results>
+          <selected_annotation_results />
+          <started>False</started>
+          <completed>False</completed>
+          <template_number>low</template_number>
+        </test_result>
+        <test_result>
+          <test_id>376</test_id>
+          <test_number>1</test_number>
+          <test_name>Semi join 1</test_name>
+          <test_group_id>1</test_group_id>
+          <configuration_id>30</configuration_id>
+          <error_message></error_message>
+          <distinct_query_plans>0</distinct_query_plans>
+          <successfully_completed_variants>0</successfully_completed_variants>
+          <query_variant_results>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+</query>
+              <token_count>48</token_count>
+              <query_variant_id>392</query_variant_id>
+              <query_variant_number>a</query_variant_number>
+              <query_variant_name>Basic</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>382</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where exists( 
+        select 1 
+        from B
+        where B.search = 1 and B.id = a1.fkb
+    ) and
+    a1.search &lt; 100
+</query>
+              <token_count>52</token_count>
+              <query_variant_id>403</query_variant_id>
+              <query_variant_number>b</query_variant_number>
+              <query_variant_name>Exists variant</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+WHERE a1.search &lt; 100 and
+(
+  SELECT count(*) c1 FROM B WHERE B.search = 1 and a1.fkb = B.id
+) != 0
+</query>
+              <token_count>57</token_count>
+              <query_variant_id>405</query_variant_id>
+              <query_variant_number>c</query_variant_number>
+              <query_variant_name>Agg</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>384</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>559</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where a1.fkb IN ( 
+        select B.id 
+        from B
+        where B.search = 1
+    ) and
+    a1.search &lt; 100
+</query>
+              <token_count>49</token_count>
+              <query_variant_id>406</query_variant_id>
+              <query_variant_number>d</query_variant_number>
+              <query_variant_name>In</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>380</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search,
+  (
+     SELECT a2.padding
+     FROM A a2
+     WHERE a1.id = a2.id
+  ) padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+</query>
+              <token_count>63</token_count>
+              <query_variant_id>409</query_variant_id>
+              <query_variant_number>g</query_variant_number>
+              <query_variant_name>Subquery</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+          </query_variant_results>
+          <selected_annotation_results>
+            <selected_annotation_result>
+              <annotation_id>378</annotation_id>
+              <is_template_annotation>True</is_template_annotation>
+            </selected_annotation_result>
+            <selected_annotation_result>
+              <annotation_id>379</annotation_id>
+              <is_template_annotation>True</is_template_annotation>
+            </selected_annotation_result>
+            <selected_annotation_result>
+              <annotation_id>380</annotation_id>
+              <is_template_annotation>True</is_template_annotation>
+            </selected_annotation_result>
+          </selected_annotation_results>
+          <started>False</started>
+          <completed>False</completed>
+          <template_number>high</template_number>
+        </test_result>
+        <test_result>
+          <test_id>376</test_id>
+          <test_number>1</test_number>
+          <test_name>Semi join 1</test_name>
+          <test_group_id>1</test_group_id>
+          <configuration_id>30</configuration_id>
+          <error_message></error_message>
+          <distinct_query_plans>0</distinct_query_plans>
+          <successfully_completed_variants>0</successfully_completed_variants>
+          <query_variant_results>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+ORDER BY groupby</query>
+              <token_count>51</token_count>
+              <query_variant_id>392</query_variant_id>
+              <query_variant_number>a</query_variant_number>
+              <query_variant_name>Basic</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>382</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where exists( 
+        select 1 
+        from B
+        where B.search = 1 and B.id = a1.fkb
+    ) and
+    a1.search &lt; 100
+ORDER BY groupby</query>
+              <token_count>55</token_count>
+              <query_variant_id>403</query_variant_id>
+              <query_variant_number>b</query_variant_number>
+              <query_variant_name>Exists variant</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+WHERE a1.search &lt; 100 and
+(
+  SELECT count(*) c1 FROM B WHERE B.search = 1 and a1.fkb = B.id
+) != 0
+ORDER BY groupby</query>
+              <token_count>60</token_count>
+              <query_variant_id>405</query_variant_id>
+              <query_variant_number>c</query_variant_number>
+              <query_variant_name>Agg</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>384</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>559</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
+FROM A a1
+where a1.fkb IN ( 
+        select B.id 
+        from B
+        where B.search = 1
+    ) and
+    a1.search &lt; 100
+ORDER BY groupby</query>
+              <token_count>52</token_count>
+              <query_variant_id>406</query_variant_id>
+              <query_variant_number>d</query_variant_number>
+              <query_variant_name>In</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>380</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>390</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+            <query_variant_result>
+              <query>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search,
+  (
+     SELECT a2.padding
+     FROM A a2
+     WHERE a1.id = a2.id
+  ) padding
+FROM A a1
+JOIN B ON a1.fkb = B.id
+WHERE a1.search &lt; 100 and B.search = 1
+ORDER BY groupby</query>
+              <token_count>66</token_count>
+              <query_variant_id>409</query_variant_id>
+              <query_variant_number>g</query_variant_number>
+              <query_variant_name>Subquery</query_variant_name>
+              <query_processing_time>0</query_processing_time>
+              <expected_result_size>214</expected_result_size>
+              <result_size>0</result_size>
+              <started>False</started>
+              <completed>False</completed>
+              <error_message></error_message>
+              <selected_annotation_results>
+                <selected_annotation_result>
+                  <annotation_id>381</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+                <selected_annotation_result>
+                  <annotation_id>720</annotation_id>
+                  <is_template_annotation>False</is_template_annotation>
+                </selected_annotation_result>
+              </selected_annotation_results>
+            </query_variant_result>
+          </query_variant_results>
+          <selected_annotation_results />
+          <started>False</started>
+          <completed>False</completed>
+          <template_number>orderby</template_number>
+        </test_result>
+      </test_results>
+    </test_run>
+  </test_runs>
   <annotations>
     <annotation>
       <id>378</id>
@@ -8232,5 +9674,5 @@ ON [dbo].[A] (search, groupby)</command_text>
     <query_runs>1</query_runs>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>983</last_id>
+  <last_id>984</last_id>
 </sql_benchmark>
