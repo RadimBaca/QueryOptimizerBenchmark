@@ -1014,7 +1014,7 @@ DROP TABLE IF EXISTS B;
           <number>1</number>
           <name>Semi join 1</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>392</id>
@@ -1375,7 +1375,7 @@ $ORDERBY</command_text>
           <number>2</number>
           <name>Conditional aggregation 1</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>457</id>
@@ -1835,7 +1835,7 @@ $OrderBy</command_text>
           <number>3</number>
           <name>Conditional aggregation 2</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>517</id>
@@ -2347,7 +2347,7 @@ $OrderBy</command_text>
           <number>4</number>
           <name>Anti join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>589</id>
@@ -3082,7 +3082,7 @@ $OrderBy</command_text>
           <number>5</number>
           <name>Conditional aggregation 3</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>674</id>
@@ -3387,7 +3387,7 @@ $OrderBy</command_text>
           <number>6</number>
           <name>Anti group join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>828</id>
@@ -3799,7 +3799,7 @@ WHERE $PBsearch and t.fkb IS NULL</command_text>
           <number>7</number>
           <name>Having distinct join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>849</id>
@@ -4458,7 +4458,7 @@ drop index A.ix_A_fkb
           <number>2</number>
           <name>Semi join 2</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>425</id>
@@ -4832,7 +4832,7 @@ $OrderBy</command_text>
           <number>3</number>
           <name>Group join</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>817</id>
@@ -5134,7 +5134,7 @@ CROSS JOIN LATERAL (
           <number>4</number>
           <name>Distance from max</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>874</id>
@@ -5782,7 +5782,7 @@ ON B (search)
           <number>1</number>
           <name>Having distinct</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>573</id>
@@ -6799,7 +6799,7 @@ $OrderByA1</command_text>
           <number>3</number>
           <name>Greatest aggregation per group</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>683</id>
@@ -7257,7 +7257,7 @@ WHERE t1.c1 = t2.c1</command_text>
           <number>4</number>
           <name>Standard deviation I</name>
           <description></description>
-          <active>False</active>
+          <active>True</active>
           <variants>
             <variant>
               <id>709</id>
@@ -7900,14 +7900,14 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
     </test_group>
   </test_groups>
   <connection_settings>
-    <current_provider>Microsoft SQL Server</current_provider>
+    <current_provider>Firebird</current_provider>
     <providers>
-      <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=bayer.cs.vsb.cz\SQLDB;Database=sqlbench_mysql;User Id=sqlbench;Password=sqlbench2019;timeout=250" disable_parallel_query_processing="true" />
-      <provider name="Oracle Database" use_connection_string="false" user_name="bac027" password="viy0QWuyCz" host_name="bayer.cs.vsb.cz" port="1521" s_id="oracle" connection_string="" command_timeout="250" disable_parallel_query_processing="true" />
-      <provider name="PostgreSQL" use_connection_string="false" host="dbsys.cs.vsb.cz" user_name="querybenchmark" password="cQSZoKMH1Z" database="querybenchmark" command_timeout="250" connection_string="" disable_parallel_query_processing="true" />
+      <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=bayer.cs.vsb.cz\SQLDB;Database=sqlbench_mysql;User Id=sqlbench;Password=sqlbench2019;timeout=300" disable_parallel_query_processing="true" />
+      <provider name="Oracle Database" use_connection_string="false" user_name="bac027" password="viy0QWuyCz" host_name="bayer.cs.vsb.cz" port="1521" s_id="oracle" connection_string="" command_timeout="300" disable_parallel_query_processing="true" />
+      <provider name="PostgreSQL" use_connection_string="false" host="dbsys.cs.vsb.cz" user_name="querybenchmark" password="cQSZoKMH1Z" database="querybenchmark" command_timeout="300" connection_string="" disable_parallel_query_processing="true" />
       <provider name="MySQL" use_connection_string="false" host_name="bayer.cs.vsb.cz" user_name="sqlbench" password="n3cUmubsbo" default_schema="sqlbench" connection_string="jdbc:mysql://bayer.cs.vsb.cz:3306/sqlbench" command_timeout="300" />
-      <provider name="SQLite" use_connection_string="false" file_name="E:\users\bac027\git\QueryOptimizerBenchmark\benchmark_runner\test2.sqlite" in_memory="true" connection_string="" command_timeout="250" />
-      <provider name="H2" use_connection_string="false" url="jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test" user_name="sqlbench" password="n3cUmubsbo" connection_string="" command_timeout="250" />
+      <provider name="SQLite" use_connection_string="false" file_name="E:\users\bac027\git\QueryOptimizerBenchmark\benchmark_runner\test2.sqlite" in_memory="true" connection_string="" command_timeout="300" />
+      <provider name="H2" use_connection_string="false" url="jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test" user_name="sqlbench" password="n3cUmubsbo" connection_string="" command_timeout="300" />
       <provider name="Firebird" use_connection_string="false" host_name="dbsys.cs.vsb.cz" user_name="sqlbenchuser" password="n3cUmubsbo" database="sqlbench" admin_role="false" connection_string="" command_timeout="250" />
     </providers>
   </connection_settings>
@@ -8041,12 +8041,12 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
     </annotation>
   </annotations>
   <test_run_settings>
-    <run_init_script>True</run_init_script>
+    <run_init_script>False</run_init_script>
     <run_clean_up_script>False</run_clean_up_script>
     <check_result_sizes>False</check_result_sizes>
     <compare_results>False</compare_results>
     <query_runs>5</query_runs>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>1004</last_id>
+  <last_id>1005</last_id>
 </sql_benchmark>
