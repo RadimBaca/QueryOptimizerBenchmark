@@ -1330,12 +1330,6 @@ $ORDERBY</command_text>
                 </selected_annotation>
               </selected_annotations>
             </template>
-            <template>
-              <id>421</id>
-              <number>orderby</number>
-              <expected_result_size>497</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -1355,16 +1349,6 @@ $ORDERBY</command_text>
             </parameter_value>
             <parameter_value>
               <template_id>420</template_id>
-              <parameter_id>397</parameter_id>
-              <value>a1.search &lt; 350</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>421</template_id>
-              <parameter_id>394</parameter_id>
-              <value>ORDER BY groupby</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>421</template_id>
               <parameter_id>397</parameter_id>
               <value>a1.search &lt; 350</value>
             </parameter_value>
@@ -1754,18 +1738,6 @@ $OrderBy</command_text>
               <expected_result_size>56</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>497</id>
-              <number>orderby</number>
-              <expected_result_size>56</expected_result_size>
-              <selected_annotations />
-            </template>
-            <template>
-              <id>506</id>
-              <number>orderby</number>
-              <expected_result_size>56</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -1795,36 +1767,6 @@ $OrderBy</command_text>
             </parameter_value>
             <parameter_value>
               <template_id>495</template_id>
-              <parameter_id>489</parameter_id>
-              <value>A.search &gt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>497</template_id>
-              <parameter_id>487</parameter_id>
-              <value>Order by B.groupby</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>497</template_id>
-              <parameter_id>488</parameter_id>
-              <value>A.search &lt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>497</template_id>
-              <parameter_id>489</parameter_id>
-              <value>A.search &gt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>506</template_id>
-              <parameter_id>487</parameter_id>
-              <value>Order by search1</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>506</template_id>
-              <parameter_id>488</parameter_id>
-              <value>A.search &lt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>506</template_id>
               <parameter_id>489</parameter_id>
               <value>A.search &gt; 500</value>
             </parameter_value>
@@ -2266,18 +2208,6 @@ $OrderBy</command_text>
               <expected_result_size>110</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>529</id>
-              <number>orderby</number>
-              <expected_result_size>110</expected_result_size>
-              <selected_annotations />
-            </template>
-            <template>
-              <id>538</id>
-              <number>orderby</number>
-              <expected_result_size>110</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -2307,36 +2237,6 @@ $OrderBy</command_text>
             </parameter_value>
             <parameter_value>
               <template_id>526</template_id>
-              <parameter_id>523</parameter_id>
-              <value>A.search &gt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>529</template_id>
-              <parameter_id>520</parameter_id>
-              <value>Order By B.id</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>529</template_id>
-              <parameter_id>522</parameter_id>
-              <value>A.search &lt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>529</template_id>
-              <parameter_id>523</parameter_id>
-              <value>A.search &gt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>538</template_id>
-              <parameter_id>520</parameter_id>
-              <value>Order By min_search</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>538</template_id>
-              <parameter_id>522</parameter_id>
-              <value>A.search &lt; 500</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>538</template_id>
               <parameter_id>523</parameter_id>
               <value>A.search &gt; 500</value>
             </parameter_value>
@@ -3022,12 +2922,6 @@ $OrderBy</command_text>
               <expected_result_size>468</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>612</id>
-              <number>orderby</number>
-              <expected_result_size>468</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -3051,16 +2945,6 @@ $OrderBy</command_text>
               <value>B.search &lt; 100</value>
             </parameter_value>
             <parameter_value>
-              <template_id>612</template_id>
-              <parameter_id>599</parameter_id>
-              <value>Order By B.id</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>612</template_id>
-              <parameter_id>600</parameter_id>
-              <value>B.search &lt; 100</value>
-            </parameter_value>
-            <parameter_value>
               <template_id>601</template_id>
               <parameter_id>770</parameter_id>
               <value></value>
@@ -3069,11 +2953,6 @@ $OrderBy</command_text>
               <template_id>611</template_id>
               <parameter_id>770</parameter_id>
               <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>612</template_id>
-              <parameter_id>770</parameter_id>
-              <value>Order By id</value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -3342,12 +3221,6 @@ $OrderBy</command_text>
               <expected_result_size>140</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>671</id>
-              <number>orderby</number>
-              <expected_result_size>140</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -3367,16 +3240,6 @@ $OrderBy</command_text>
             </parameter_value>
             <parameter_value>
               <template_id>670</template_id>
-              <parameter_id>661</parameter_id>
-              <value>B.search &lt; 100</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>671</template_id>
-              <parameter_id>660</parameter_id>
-              <value>Order By B.id</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>671</template_id>
               <parameter_id>661</parameter_id>
               <value>B.search &lt; 100</value>
             </parameter_value>
@@ -4787,12 +4650,6 @@ $OrderBy</command_text>
               <expected_result_size>550</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>436</id>
-              <number>orderby</number>
-              <expected_result_size>550</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -4814,16 +4671,6 @@ $OrderBy</command_text>
               <template_id>435</template_id>
               <parameter_id>429</parameter_id>
               <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>436</template_id>
-              <parameter_id>427</parameter_id>
-              <value>b1.search &lt; 50</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>436</template_id>
-              <parameter_id>429</parameter_id>
-              <value>Order By b1.groupby</value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -5593,12 +5440,6 @@ $Orderby</command_text>
               <expected_result_size>550</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>878</id>
-              <number>orderby</number>
-              <expected_result_size>550</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -5612,11 +5453,6 @@ $Orderby</command_text>
               <value>B.search &lt; 50</value>
             </parameter_value>
             <parameter_value>
-              <template_id>878</template_id>
-              <parameter_id>876</parameter_id>
-              <value>B.search &lt; 50</value>
-            </parameter_value>
-            <parameter_value>
               <template_id>875</template_id>
               <parameter_id>879</parameter_id>
               <value></value>
@@ -5625,11 +5461,6 @@ $Orderby</command_text>
               <template_id>877</template_id>
               <parameter_id>879</parameter_id>
               <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>878</template_id>
-              <parameter_id>879</parameter_id>
-              <value>Order By B.id</value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -6724,12 +6555,6 @@ $OrderByA1</command_text>
               <expected_result_size>550</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>638</id>
-              <number>orderby</number>
-              <expected_result_size>550</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -6743,11 +6568,6 @@ $OrderByA1</command_text>
               <value>A.groupby &lt; 50</value>
             </parameter_value>
             <parameter_value>
-              <template_id>638</template_id>
-              <parameter_id>628</parameter_id>
-              <value>A.groupby &lt; 50</value>
-            </parameter_value>
-            <parameter_value>
               <template_id>629</template_id>
               <parameter_id>644</parameter_id>
               <value></value>
@@ -6758,11 +6578,6 @@ $OrderByA1</command_text>
               <value></value>
             </parameter_value>
             <parameter_value>
-              <template_id>638</template_id>
-              <parameter_id>644</parameter_id>
-              <value>Order by a1.id</value>
-            </parameter_value>
-            <parameter_value>
               <template_id>629</template_id>
               <parameter_id>645</parameter_id>
               <value></value>
@@ -6771,11 +6586,6 @@ $OrderByA1</command_text>
               <template_id>636</template_id>
               <parameter_id>645</parameter_id>
               <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>638</template_id>
-              <parameter_id>645</parameter_id>
-              <value>Order by A.id</value>
             </parameter_value>
             <parameter_value>
               <template_id>629</template_id>
@@ -6784,11 +6594,6 @@ $OrderByA1</command_text>
             </parameter_value>
             <parameter_value>
               <template_id>636</template_id>
-              <parameter_id>646</parameter_id>
-              <value>a1.groupby &lt; 50</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>638</template_id>
               <parameter_id>646</parameter_id>
               <value>a1.groupby &lt; 50</value>
             </parameter_value>
@@ -7902,13 +7707,13 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
   <connection_settings>
     <current_provider>Firebird</current_provider>
     <providers>
-      <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=bayer.cs.vsb.cz\SQLDB;Database=sqlbench_mysql;User Id=sqlbench;Password=sqlbench2019;timeout=300" disable_parallel_query_processing="true" />
+      <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=dbsys.cs.vsb.cz\STUDENT;Database=BenchmarkRunner;User Id=BenchmarkRunner;Password=db2019bench;timeout=300" disable_parallel_query_processing="true" />
       <provider name="Oracle Database" use_connection_string="false" user_name="bac027" password="viy0QWuyCz" host_name="bayer.cs.vsb.cz" port="1521" s_id="oracle" connection_string="" command_timeout="300" disable_parallel_query_processing="true" />
       <provider name="PostgreSQL" use_connection_string="false" host="dbsys.cs.vsb.cz" user_name="querybenchmark" password="cQSZoKMH1Z" database="querybenchmark" command_timeout="300" connection_string="" disable_parallel_query_processing="true" />
       <provider name="MySQL" use_connection_string="false" host_name="bayer.cs.vsb.cz" user_name="sqlbench" password="n3cUmubsbo" default_schema="sqlbench" connection_string="jdbc:mysql://bayer.cs.vsb.cz:3306/sqlbench" command_timeout="300" />
-      <provider name="SQLite" use_connection_string="false" file_name="E:\users\bac027\git\QueryOptimizerBenchmark\benchmark_runner\test2.sqlite" in_memory="true" connection_string="" command_timeout="300" />
+      <provider name="SQLite" use_connection_string="false" file_name="E:\users\bac027\git\QueryOptimizerBenchmark\benchmark_runner\test2.sqlite" in_memory="true" connection_string="" command_timeout="250" />
       <provider name="H2" use_connection_string="false" url="jdbc:h2:tcp://dbsys.cs.vsb.cz/~/test" user_name="sqlbench" password="n3cUmubsbo" connection_string="" command_timeout="300" />
-      <provider name="Firebird" use_connection_string="false" host_name="dbsys.cs.vsb.cz" user_name="sqlbenchuser" password="n3cUmubsbo" database="sqlbench" admin_role="false" connection_string="" command_timeout="250" />
+      <provider name="Firebird" use_connection_string="false" host_name="dbsys.cs.vsb.cz" user_name="sqlbenchuser" password="n3cUmubsbo" database="sqlbench" admin_role="false" connection_string="" command_timeout="300" />
     </providers>
   </connection_settings>
   <test_runs />
@@ -8048,5 +7853,5 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
     <query_runs>5</query_runs>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>1005</last_id>
+  <last_id>1007</last_id>
 </sql_benchmark>
