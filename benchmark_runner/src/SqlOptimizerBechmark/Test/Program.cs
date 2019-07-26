@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.H2;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +14,7 @@ namespace Test
 {
     class Program
     {
-
-        static void Main(string[] args)
+        static void TestMySql()
         {
             DateTime t1 = DateTime.MinValue;
             DateTime t2;
@@ -97,7 +98,7 @@ namespace Test
                         t2 = DateTime.Now;
                         TimeSpan span = t2 - t1;
                         Console.WriteLine("span = {0}", span);
-                        
+
                         //if (theCmd != null)
                         //{
                         //    connection.Close();
@@ -138,9 +139,48 @@ namespace Test
                 }
                 Console.WriteLine("Next");
             }
-            
+
 
             connection.Close();
+        }
+
+        static void TestMsSql()
+        {
+            SqlConnection connection = new SqlConnection();
+            connection.ConnectionString = "data source = (local); initial catalog = TomSys; integrated security = true";
+            connection.Open();
+            connection.InfoMessage += Connection_InfoMessage;
+
+            SqlCommand cmd1 = connection.CreateCommand();
+            cmd1.CommandText = "SET STATISTICS TIME ON";
+            cmd1.ExecuteNonQuery();
+
+            connection.StatisticsEnabled = true;
+            connection.ResetStatistics();
+
+            SqlCommand cmd2 = connection.CreateCommand();
+            cmd2.CommandText = "SELECT * FROM QGridLoan a, QGridLoan b, QGridLoan c";
+            cmd2.ExecuteNonQuery();
+
+            IDictionary stats = connection.RetrieveStatistics();
+
+            foreach (string key in stats.Keys)
+            {
+                object value = stats[key];
+                Console.WriteLine("{0} = {1}", key, value);
+            }
+
+            connection.Close();
+        }
+
+        private static void Connection_InfoMessage(object sender, SqlInfoMessageEventArgs e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        static void Main(string[] args)
+        {
+            TestMsSql();
         }
     }
 }

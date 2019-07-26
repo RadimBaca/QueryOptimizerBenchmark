@@ -19,7 +19,11 @@ namespace SqlOptimizerBechmark.Executor
         private bool runCleanUpScript = true;
         private bool checkResultSizes = true;
         private bool compareResults = true;
+        private string testRunName;
         private int queryRuns = 1;
+        private int testLoops = 1;
+        private int currentLoop = 0;
+
 
         private string GetExecutorInfoStr()
         {
@@ -65,6 +69,26 @@ namespace SqlOptimizerBechmark.Executor
             if (TestingEnded != null)
             {
                 TestingEnded(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler TestingCompleted;
+
+        protected virtual void OnTestingCompleted()
+        {
+            if (TestingEnded != null)
+            {
+                TestingCompleted(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler InvokeStartTesting;
+
+        protected virtual void OnInvokeStartTesting()
+        {
+            if (InvokeStartTesting != null)
+            {
+                InvokeStartTesting(this, EventArgs.Empty);
             }
         }
 
@@ -233,7 +257,7 @@ namespace SqlOptimizerBechmark.Executor
             }
         }
 
-        public void Prepare(string name)
+        public void Prepare()
         {
             if (benchmark == null)
             {
@@ -243,7 +267,16 @@ namespace SqlOptimizerBechmark.Executor
             DbProviders.DbProvider db = benchmark.ConnectionSettings.DbProvider;
             
             testRun = new Benchmark.TestRun(benchmark);
-            testRun.Name = name;
+
+            if (testLoops == 1)
+            {
+                testRun.Name = testRunName;
+            }
+            else
+            {
+                testRun.Name = string.Format("{0} ({1}/{2})", testRunName, currentLoop + 1, testLoops);
+            }
+
             testRun.ExecutorInfo = this.GetExecutorInfoStr();
             testRun.SettingsInfo = db.GetSettingsInfo();
 
@@ -870,6 +903,16 @@ namespace SqlOptimizerBechmark.Executor
 
             testingThread = null;
             OnTestingEnded();
+
+            if (!stopTesting)
+            {
+                // Zajisteni opakovaneho spusteni testu.
+                currentLoop++;
+                if (currentLoop < testLoops)
+                {
+                    OnInvokeStartTesting();
+                }
+            }
         }
 
         public void StartTesting()
@@ -903,6 +946,12 @@ namespace SqlOptimizerBechmark.Executor
             interruptTesting = true;
         }
 
+        public void PrepareAndStart()
+        {
+            Prepare();
+            StartTesting();
+        }
+
         public void LaunchTest(Benchmark.Benchmark benchmark)
         {
             this.benchmark = benchmark;
@@ -926,10 +975,11 @@ namespace SqlOptimizerBechmark.Executor
                 checkResultSizes = benchmark.TestRunSettings.CheckResultSizes;
                 compareResults = benchmark.TestRunSettings.CompareResults;
                 queryRuns = benchmark.TestRunSettings.QueryRuns;
+                testLoops = benchmark.TestRunSettings.TestLoops;
+                testRunName = dialog.TestRunName;
 
-                Prepare(dialog.TestRunName);
-
-                StartTesting();
+                currentLoop = 0;
+                OnInvokeStartTesting();
             }
         }
 

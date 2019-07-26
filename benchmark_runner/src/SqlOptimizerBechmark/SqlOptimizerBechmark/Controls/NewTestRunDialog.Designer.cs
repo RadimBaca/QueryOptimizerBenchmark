@@ -44,17 +44,20 @@
             this.cbxCompareResults = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.numQueryRuns = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numTestLoops = new System.Windows.Forms.NumericUpDown();
             this.gpxSettings.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numQueryRuns)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTestLoops)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(261, 225);
+            this.btnOk.Location = new System.Drawing.Point(261, 235);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
@@ -66,7 +69,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(342, 225);
+            this.btnCancel.Location = new System.Drawing.Point(342, 235);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -81,7 +84,7 @@
             this.gpxSettings.Controls.Add(this.tableLayoutPanel1);
             this.gpxSettings.Location = new System.Drawing.Point(12, 12);
             this.gpxSettings.Name = "gpxSettings";
-            this.gpxSettings.Size = new System.Drawing.Size(405, 207);
+            this.gpxSettings.Size = new System.Drawing.Size(405, 217);
             this.gpxSettings.TabIndex = 0;
             this.gpxSettings.TabStop = false;
             this.gpxSettings.Text = "Settings";
@@ -103,10 +106,12 @@
             this.tableLayoutPanel1.Controls.Add(this.cbxCompareResults, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.numQueryRuns, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.numTestLoops, 1, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowCount = 9;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
@@ -114,8 +119,9 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(399, 187);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(399, 197);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -125,9 +131,9 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(229, 3);
             this.panel1.Name = "panel1";
-            this.tableLayoutPanel1.SetRowSpan(this.panel1, 7);
-            this.panel1.Size = new System.Drawing.Size(166, 154);
-            this.panel1.TabIndex = 3;
+            this.tableLayoutPanel1.SetRowSpan(this.panel1, 8);
+            this.panel1.Size = new System.Drawing.Size(166, 179);
+            this.panel1.TabIndex = 10;
             // 
             // ignoreAnnotationsClb
             // 
@@ -138,7 +144,7 @@
             this.ignoreAnnotationsClb.Name = "ignoreAnnotationsClb";
             this.ignoreAnnotationsClb.ParentBenchmarkObject = null;
             this.ignoreAnnotationsClb.SelectedAnnotations = null;
-            this.ignoreAnnotationsClb.Size = new System.Drawing.Size(166, 141);
+            this.ignoreAnnotationsClb.Size = new System.Drawing.Size(166, 166);
             this.ignoreAnnotationsClb.TabIndex = 5;
             // 
             // label2
@@ -241,13 +247,41 @@
             0,
             0});
             // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 166);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(60, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Test loops:";
+            // 
+            // numTestLoops
+            // 
+            this.numTestLoops.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numTestLoops.Location = new System.Drawing.Point(77, 163);
+            this.numTestLoops.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numTestLoops.Name = "numTestLoops";
+            this.numTestLoops.Size = new System.Drawing.Size(127, 21);
+            this.numTestLoops.TabIndex = 6;
+            this.numTestLoops.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // NewTestRunDialog
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(429, 260);
+            this.ClientSize = new System.Drawing.Size(429, 270);
             this.Controls.Add(this.gpxSettings);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -267,6 +301,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numQueryRuns)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTestLoops)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -288,5 +323,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numQueryRuns;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown numTestLoops;
     }
 }

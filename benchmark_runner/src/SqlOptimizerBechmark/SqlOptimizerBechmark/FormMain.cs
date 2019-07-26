@@ -22,6 +22,12 @@ namespace SqlOptimizerBechmark
 
             Executor.Executor.Instance.TestingStarted += Instance_TestingStarted;
             Executor.Executor.Instance.TestingEnded += Instance_TestingEnded;
+            Executor.Executor.Instance.InvokeStartTesting += Instance_InvokeStartTesting;
+        }
+
+        private void Instance_InvokeStartTesting(object sender, EventArgs e)
+        {
+            Invoke(new MethodInvoker(Executor.Executor.Instance.PrepareAndStart));
         }
 
         private void Instance_TestingStarted(object sender, EventArgs e)

@@ -19,6 +19,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private bool compareResults = true;
         private ObservableCollection<SelectedAnnotation> ignoreAnnotations = new ObservableCollection<SelectedAnnotation>();
         private int queryRuns = 1;
+        private int testLoops = 1;
 
         public bool RunInitScript
         {
@@ -85,6 +86,19 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        public int TestLoops
+        {
+            get => testLoops;
+            set
+            {
+                if (testLoops != value)
+                {
+                    testLoops = value;
+                    OnPropertyChanged("TestLoops");
+                }
+            }
+        }
+
         public ObservableCollection<SelectedAnnotation> IgnoreAnnotations
         {
             get => ignoreAnnotations;
@@ -102,6 +116,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadBool("check_result_sizes", ref checkResultSizes);
             serializer.ReadBool("compare_results", ref compareResults);
             serializer.ReadInt("query_runs", ref queryRuns);
+            serializer.ReadInt("test_loops", ref testLoops);
             serializer.ReadCollection<SelectedAnnotation>("ignore_annotations", "ignore_annotation", ignoreAnnotations,
                 delegate() { return new SelectedAnnotation(this); });
         }
@@ -113,6 +128,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteBool("check_result_sizes", checkResultSizes);
             serializer.WriteBool("compare_results", compareResults);
             serializer.WriteInt("query_runs", queryRuns);
+            serializer.WriteInt("test_loops", testLoops);
             serializer.WriteCollection<SelectedAnnotation>("ignore_annotations", "ignore_annotation", ignoreAnnotations);
         }
 
@@ -127,6 +143,7 @@ namespace SqlOptimizerBechmark.Benchmark
             ret.DbColumns.Add(new DbColumnInfo("CheckResultSizes", "check_result_sizes", System.Data.DbType.Boolean));
             ret.DbColumns.Add(new DbColumnInfo("CompareResults", "compare_results", System.Data.DbType.Boolean));
             ret.DbColumns.Add(new DbColumnInfo("QueryRuns", "query_runs", System.Data.DbType.Int32));
+            ret.DbColumns.Add(new DbColumnInfo("TestLoops", "test_loops", System.Data.DbType.Int32));
             
             return ret;
         }

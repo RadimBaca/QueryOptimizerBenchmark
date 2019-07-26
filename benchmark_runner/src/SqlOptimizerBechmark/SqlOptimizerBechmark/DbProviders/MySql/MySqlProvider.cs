@@ -414,20 +414,23 @@ namespace SqlOptimizerBechmark.DbProviders.MySql
                 Debug.WriteLine(ex.ToString());
                 bool resetConnection = false;
 
-                if (ex is MySqlException mySqlException1)
-                {
-                    if (mySqlException1.Number == 3024) // Maximum execution time exceeded.
-                    {
-                        resetConnection = true;
-                    }
-                }
-                if (ex.InnerException is MySqlException mySqlException2)
-                {
-                    if (mySqlException2.Number == 3024) // Maximum execution time exceeded.
-                    {
-                        resetConnection = true;
-                    }
-                }
+                //if (ex is MySqlException mySqlException1)
+                //{
+                //    if (mySqlException1.Number == 3024) // Maximum execution time exceeded.
+                //    {
+                //        resetConnection = true;
+                //    }
+                //}
+                //if (ex.InnerException is MySqlException mySqlException2)
+                //{
+                //    if (mySqlException2.Number == 3024) // Maximum execution time exceeded.
+                //    {
+                //        resetConnection = true;
+                //    }
+                //}
+
+                // Pro jistotu vzdy provedu reset. Nakonec by chyby mely vznikat jen kvuli timeoutu, ktery se na MySQL chova proste divne.
+                resetConnection = true;
 
                 if (resetConnection)
                 {
