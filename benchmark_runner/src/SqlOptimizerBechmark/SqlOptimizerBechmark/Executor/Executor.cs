@@ -23,6 +23,7 @@ namespace SqlOptimizerBechmark.Executor
         private int queryRuns = 1;
         private int testLoops = 1;
         private int currentLoop = 0;
+        private bool closeOnComplete = false;
 
 
         private string GetExecutorInfoStr()
@@ -89,6 +90,16 @@ namespace SqlOptimizerBechmark.Executor
             if (InvokeStartTesting != null)
             {
                 InvokeStartTesting(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler InvokeClose;
+
+        protected virtual void OnInvokeClose()
+        {
+            if (InvokeClose != null)
+            {
+                InvokeClose(this, EventArgs.Empty);
             }
         }
 
@@ -912,6 +923,13 @@ namespace SqlOptimizerBechmark.Executor
                 {
                     OnInvokeStartTesting();
                 }
+                else
+                {
+                    if (closeOnComplete)
+                    {
+                        OnInvokeClose();
+                    }
+                }
             }
         }
 
@@ -952,7 +970,7 @@ namespace SqlOptimizerBechmark.Executor
             StartTesting();
         }
 
-        public void LaunchTest(Benchmark.Benchmark benchmark)
+        public void LaunchTest(Benchmark.Benchmark benchmark, bool skipDialog = false)
         {
             this.benchmark = benchmark;
 
@@ -968,7 +986,7 @@ namespace SqlOptimizerBechmark.Executor
             dialog.TestRunName = now.ToString("yyyy-MM-dd HH:mm:ss");
             dialog.TestRunSettings = benchmark.TestRunSettings;
 
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (skipDialog || dialog.ShowDialog() == DialogResult.OK)
             {
                 runInitScript = benchmark.TestRunSettings.RunInitScript;
                 runCleanUpScript = benchmark.TestRunSettings.RunCleanUpScript;
@@ -977,6 +995,7 @@ namespace SqlOptimizerBechmark.Executor
                 queryRuns = benchmark.TestRunSettings.QueryRuns;
                 testLoops = benchmark.TestRunSettings.TestLoops;
                 testRunName = dialog.TestRunName;
+                closeOnComplete = benchmark.TestRunSettings.CloseOnComplete;
 
                 currentLoop = 0;
                 OnInvokeStartTesting();

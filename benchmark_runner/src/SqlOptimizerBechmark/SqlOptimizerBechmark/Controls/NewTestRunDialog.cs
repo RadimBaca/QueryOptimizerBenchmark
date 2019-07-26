@@ -42,6 +42,7 @@ namespace SqlOptimizerBechmark.Controls
             cbxCompareResults.Checked = testRunSettings.CompareResults;
             numQueryRuns.Value = testRunSettings.QueryRuns;
             numTestLoops.Value = testRunSettings.TestLoops;
+            cbxCloseOnComplete.Checked = testRunSettings.CloseOnComplete;
 
             ignoreAnnotationsCopy.Clear();
             foreach (Benchmark.SelectedAnnotation selectedAnnotation in testRunSettings.IgnoreAnnotations)
@@ -61,6 +62,7 @@ namespace SqlOptimizerBechmark.Controls
             testRunSettings.CompareResults = cbxCompareResults.Checked;
             testRunSettings.QueryRuns = Convert.ToInt32(numQueryRuns.Value);
             testRunSettings.TestLoops = Convert.ToInt32(numTestLoops.Value);
+            testRunSettings.CloseOnComplete = cbxCloseOnComplete.Checked;
 
             testRunSettings.IgnoreAnnotations.Clear();
             foreach (Benchmark.SelectedAnnotation selectedAnnotation in ignoreAnnotationsCopy)

@@ -23,6 +23,18 @@ namespace SqlOptimizerBechmark
             Executor.Executor.Instance.TestingStarted += Instance_TestingStarted;
             Executor.Executor.Instance.TestingEnded += Instance_TestingEnded;
             Executor.Executor.Instance.InvokeStartTesting += Instance_InvokeStartTesting;
+            Executor.Executor.Instance.InvokeClose += Instance_InvokeClose;
+        }
+
+        private void SaveAndClose()
+        {
+            Save();
+            Close();
+        }
+
+        private void Instance_InvokeClose(object sender, EventArgs e)
+        {
+            Invoke(new MethodInvoker(SaveAndClose));
         }
 
         private void Instance_InvokeStartTesting(object sender, EventArgs e)
@@ -170,6 +182,28 @@ namespace SqlOptimizerBechmark
             }
         }
 
+        private void OpenBenchmarkFileName(string fileName)
+        {
+            Cursor = Cursors.WaitCursor;
+
+            benchmark = new Benchmark.Benchmark();
+            benchmark.Load(fileName);
+
+            benchmarkTreeView.Benchmark = benchmark;
+            benchmarkObjectEditor.Benchmark = benchmark;
+
+            benchmarkTreeView.SelectedBenchmarkObject = benchmark;
+            benchmarkTreeView.GetTreeNode(benchmark).Expand();
+
+            benchmark.Changed += Benchmark_Changed;
+
+            this.fileName = fileName;
+
+            changed = false;
+            UpdateUI();
+            Cursor = Cursors.Default;
+        }
+
         public void Open()
         {
             if (!QuerySaveChanges())
@@ -181,24 +215,7 @@ namespace SqlOptimizerBechmark
             dialog.Filter = "XML document (*.xml)|*.xml|All files|*";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Cursor = Cursors.WaitCursor;
-
-                benchmark = new Benchmark.Benchmark();
-                benchmark.Load(dialog.FileName);
-
-                benchmarkTreeView.Benchmark = benchmark;
-                benchmarkObjectEditor.Benchmark = benchmark;
-
-                benchmarkTreeView.SelectedBenchmarkObject = benchmark;
-                benchmarkTreeView.GetTreeNode(benchmark).Expand();
-
-                benchmark.Changed += Benchmark_Changed;
-
-                fileName = dialog.FileName;
-
-                changed = false;
-                UpdateUI();
-                Cursor = Cursors.Default;
+                OpenBenchmarkFileName(dialog.FileName);
             }
         }
 
@@ -271,11 +288,224 @@ namespace SqlOptimizerBechmark
                 benchmark.ConnectionSettings.DbProvider.ExportToFileSystem(dialog.SelectedPath, benchmark);
             }
         }
+
+        private bool IsTrueStr(string str)
+        {
+            return
+                string.Compare(str, "yes", true) == 0 ||
+                string.Compare(str, "1", true) == 0 ||
+                string.Compare(str, "y", true) == 0 ||
+                string.Compare(str, "true", true) == 0;
+        }
+        
+        private bool IsFalseStr(string str)
+        {
+            return
+                string.Compare(str, "no", true) == 0 ||
+                string.Compare(str, "0", true) == 0 ||
+                string.Compare(str, "n", true) == 0 ||
+                string.Compare(str, "false", true) == 0;
+        }
+
+        private bool IsBoolString(string str)
+        {
+            return IsTrueStr(str) || IsFalseStr(str);
+        }
+
+        /// <summary>
+        /// Process command line arguments.
+        /// </summary>
+        private void ParseArgs(string[] args)
+        {
+            try
+            {
+                string openBenchmarkFileName = null;
+                bool? runInitScript = null;
+                bool? runCleanUpScript = null;
+                bool? checkResultSizes = null;
+                bool? compareResults = null;
+                int? queryRuns = null;
+                int? testLoops = null;
+                bool? closeOnComplete = null;
+
+                bool launch = false;
+
+                if (args.Length == 2)
+                {
+                    openBenchmarkFileName = args[1];
+                }
+                else
+                {
+                    // Skip the first argument - the application startup path.
+                    int i = 1;
+                    while (i < args.Length)
+                    {
+                        string currentArg = args[i];
+                        string nextArg = i < args.Length - 1 ? args[i + 1] : string.Empty;
+
+                        if (string.Compare(currentArg, "/Launch", true) == 0)
+                        {
+                            launch = true;
+                        }
+
+
+                        if (string.Compare(currentArg, "/FileName", true) == 0)
+                        {
+                            openBenchmarkFileName = nextArg;
+                            i++;
+                        }
+
+                        if (string.Compare(currentArg, "/RunInitScript", true) == 0)
+                        {
+                            if (IsBoolString(nextArg))
+                            {
+                                runInitScript = IsTrueStr(nextArg);
+                                i++;
+                            }
+                            else
+                            {
+                                runInitScript = true;
+                            }
+                        }
+
+                        if (string.Compare(currentArg, "/RunCleanUpScript", true) == 0)
+                        {
+                            if (IsBoolString(nextArg))
+                            {
+                                runCleanUpScript = IsTrueStr(nextArg);
+                                i++;
+                            }
+                            else
+                            {
+                                runCleanUpScript = true;
+                            }
+                        }
+
+                        if (string.Compare(currentArg, "/CheckResultSizes", true) == 0)
+                        {
+                            if (IsBoolString(nextArg))
+                            {
+                                checkResultSizes = IsTrueStr(nextArg);
+                                i++;
+                            }
+                            else
+                            {
+                                checkResultSizes = true;
+                            }
+                        }
+
+                        if (string.Compare(currentArg, "/CompareResults", true) == 0)
+                        {
+                            if (IsBoolString(nextArg))
+                            {
+                                compareResults = IsTrueStr(nextArg);
+                                i++;
+                            }
+                            else
+                            {
+                                compareResults = true;
+                            }
+                        }
+
+                        if (string.Compare(currentArg, "/CloseOnComplete", true) == 0)
+                        {
+                            if (IsBoolString(nextArg))
+                            {
+                                closeOnComplete = IsTrueStr(nextArg);
+                                i++;
+                            }
+                            else
+                            {
+                                closeOnComplete = true;
+                            }
+                        }
+
+                        if (string.Compare(currentArg, "/QueryRuns", true) == 0)
+                        {
+                            queryRuns = Convert.ToInt32(nextArg);
+                            if (queryRuns < 1)
+                            {
+                                queryRuns = 1;
+                            }
+                            if (queryRuns > 100)
+                            {
+                                queryRuns = 100;
+                            }
+                            i++;
+                        }
+
+                        if (string.Compare(currentArg, "/TestLoops", true) == 0)
+                        {
+                            testLoops = Convert.ToInt32(nextArg);
+                            if (testLoops < 1)
+                            {
+                                testLoops = 1;
+                            }
+                            if (testLoops > 100)
+                            {
+                                testLoops = 100;
+                            }
+                            i++;
+                        }
+
+                        i++;
+                    }
+                }
+
+
+                if (openBenchmarkFileName != null)
+                {
+                    OpenBenchmarkFileName(openBenchmarkFileName);
+
+                    if (launch)
+                    {
+                        if (runInitScript.HasValue)
+                        {
+                            benchmark.TestRunSettings.RunInitScript = runInitScript.Value;
+                        }
+                        if (runCleanUpScript.HasValue)
+                        {
+                            benchmark.TestRunSettings.RunCleanUpScript = runCleanUpScript.Value;
+                        }
+                        if (checkResultSizes.HasValue)
+                        {
+                            benchmark.TestRunSettings.CheckResultSizes = checkResultSizes.Value;
+                        }
+                        if (compareResults.HasValue)
+                        {
+                            benchmark.TestRunSettings.CompareResults = compareResults.Value;
+                        }
+                        if (queryRuns.HasValue)
+                        {
+                            benchmark.TestRunSettings.QueryRuns = queryRuns.Value;
+                        }
+                        if (testLoops.HasValue)
+                        {
+                            benchmark.TestRunSettings.TestLoops = testLoops.Value;
+                        }
+                        if (closeOnComplete.HasValue)
+                        {
+                            benchmark.TestRunSettings.CloseOnComplete = closeOnComplete.Value;
+                        }
+
+                        Executor.Executor.Instance.LaunchTest(benchmark, true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
                 
         private void FormMain_Load(object sender, EventArgs e)
         {
             New();
             UpdateUI();
+
+            string[] args = Environment.GetCommandLineArgs();
+
+            ParseArgs(args);
         }
 
         private void benchmarkTreeView_SelectionChanged(object sender, EventArgs e)

@@ -20,6 +20,7 @@ namespace SqlOptimizerBechmark.Benchmark
         private ObservableCollection<SelectedAnnotation> ignoreAnnotations = new ObservableCollection<SelectedAnnotation>();
         private int queryRuns = 1;
         private int testLoops = 1;
+        private bool closeOnComplete = false;
 
         public bool RunInitScript
         {
@@ -99,6 +100,19 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
 
+        public bool CloseOnComplete
+        {
+            get => closeOnComplete;
+            set
+            {
+                if (closeOnComplete != value)
+                {
+                    closeOnComplete = value;
+                    OnPropertyChanged("CloseOnComplete");
+                }
+            }
+        }
+
         public ObservableCollection<SelectedAnnotation> IgnoreAnnotations
         {
             get => ignoreAnnotations;
@@ -117,6 +131,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.ReadBool("compare_results", ref compareResults);
             serializer.ReadInt("query_runs", ref queryRuns);
             serializer.ReadInt("test_loops", ref testLoops);
+            serializer.ReadBool("close_on_complete", ref closeOnComplete);
             serializer.ReadCollection<SelectedAnnotation>("ignore_annotations", "ignore_annotation", ignoreAnnotations,
                 delegate() { return new SelectedAnnotation(this); });
         }
@@ -129,6 +144,7 @@ namespace SqlOptimizerBechmark.Benchmark
             serializer.WriteBool("compare_results", compareResults);
             serializer.WriteInt("query_runs", queryRuns);
             serializer.WriteInt("test_loops", testLoops);
+            serializer.WriteBool("close_on_complete", closeOnComplete);
             serializer.WriteCollection<SelectedAnnotation>("ignore_annotations", "ignore_annotation", ignoreAnnotations);
         }
 
@@ -144,6 +160,7 @@ namespace SqlOptimizerBechmark.Benchmark
             ret.DbColumns.Add(new DbColumnInfo("CompareResults", "compare_results", System.Data.DbType.Boolean));
             ret.DbColumns.Add(new DbColumnInfo("QueryRuns", "query_runs", System.Data.DbType.Int32));
             ret.DbColumns.Add(new DbColumnInfo("TestLoops", "test_loops", System.Data.DbType.Int32));
+            ret.DbColumns.Add(new DbColumnInfo("CloseOnComplete", "close_on_complete", System.Data.DbType.Boolean));
             
             return ret;
         }
