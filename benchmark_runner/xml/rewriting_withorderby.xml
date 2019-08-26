@@ -3400,7 +3400,7 @@ FROM B
 WHERE $PBsearch and NOT EXISTS (
   SELECT 1
   FROM A
-  WHERE B.id = A.fkb
+  WHERE B.id = A.fkb and A.search &lt; 100
   GROUP BY A.groupby
   HAVING count(*) = 1
 )</command_text>
@@ -3426,7 +3426,7 @@ FROM B
 WHERE $PBsearch and B.id NOT IN (
   SELECT A.fkb
   FROM A
-  WHERE A.fkb is not null
+  WHERE A.fkb is not null and A.search &lt; 100
   GROUP BY A.fkb, A.groupby
   HAVING count(*) = 1
 )</command_text>
@@ -3455,7 +3455,7 @@ FROM B
 WHERE $PBsearch and B.id != ALL (
   SELECT A.fkb
   FROM A
-  WHERE A.fkb is not null
+  WHERE A.fkb is not null and A.search &lt; 100
   GROUP BY A.fkb, A.groupby
   HAVING count(*) = 1
 )</command_text>
@@ -3495,6 +3495,7 @@ WHERE id IN
     EXCEPT
     SELECT A.fkb
     FROM A
+    WHERE A.search &lt; 100
     GROUP BY A.fkb, A.groupby
     HAVING count(*) = 1
 )</command_text>
@@ -3556,6 +3557,7 @@ JOIN
     EXCEPT
     SELECT A.fkb c1
     FROM A
+    WHERE A.search &lt; 100
     GROUP BY A.fkb, A.groupby
     HAVING count(*) = 1
 ) t ON t.c1 = B.id</command_text>
@@ -3614,6 +3616,7 @@ EXCEPT
 SELECT B.id, B.groupby, B.search, B.padding
 FROM A
 JOIN B ON A.fkb = B.id
+WHERE A.search &lt; 100
 GROUP BY A.fkb, A.groupby, B.id, B.groupby, B.search, B.padding
 HAVING count(*) = 1</command_text>
               </default_statement>
@@ -3680,7 +3683,7 @@ FROM B
 OUTER APPLY (
   SELECT A.groupby
   FROM A
-  WHERE A.fkb = B.id
+  WHERE A.fkb = B.id and A.search &lt; 100
   GROUP BY A.groupby
   HAVING count(*) = 1
 ) t
@@ -3739,6 +3742,7 @@ FROM B
 LEFT JOIN (
   SELECT A.fkb
   FROM A
+  WHERE A.search &lt; 100
   GROUP BY A.fkb, A.groupby
   HAVING count(*) = 1
 ) t ON B.id = t.fkb
@@ -7164,30 +7168,6 @@ WHERE t1.c1 = t2.c1</command_text>
               <expected_result_size>1</expected_result_size>
               <selected_annotations />
             </template>
-            <template>
-              <id>693</id>
-              <number>low</number>
-              <expected_result_size>1</expected_result_size>
-              <selected_annotations />
-            </template>
-            <template>
-              <id>694</id>
-              <number>high</number>
-              <expected_result_size>100</expected_result_size>
-              <selected_annotations />
-            </template>
-            <template>
-              <id>697</id>
-              <number>low</number>
-              <expected_result_size>98</expected_result_size>
-              <selected_annotations />
-            </template>
-            <template>
-              <id>698</id>
-              <number>high</number>
-              <expected_result_size>100</expected_result_size>
-              <selected_annotations />
-            </template>
           </templates>
           <parameter_values>
             <parameter_value>
@@ -7198,7 +7178,7 @@ WHERE t1.c1 = t2.c1</command_text>
             <parameter_value>
               <template_id>690</template_id>
               <parameter_id>685</parameter_id>
-              <value>A.search &lt; 200</value>
+              <value>A.search &lt; 100</value>
             </parameter_value>
             <parameter_value>
               <template_id>686</template_id>
@@ -7209,46 +7189,6 @@ WHERE t1.c1 = t2.c1</command_text>
               <template_id>690</template_id>
               <parameter_id>692</parameter_id>
               <value>sum(orderby)</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>693</template_id>
-              <parameter_id>685</parameter_id>
-              <value>A.search = 1</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>693</template_id>
-              <parameter_id>692</parameter_id>
-              <value>min(orderby)</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>694</template_id>
-              <parameter_id>685</parameter_id>
-              <value>A.search &lt; 200</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>694</template_id>
-              <parameter_id>692</parameter_id>
-              <value>min(orderby)</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>697</template_id>
-              <parameter_id>685</parameter_id>
-              <value>A.search = 1</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>697</template_id>
-              <parameter_id>692</parameter_id>
-              <value>count(orderby)</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>698</template_id>
-              <parameter_id>685</parameter_id>
-              <value>A.search &lt; 200</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>698</template_id>
-              <parameter_id>692</parameter_id>
-              <value>count(orderby)</value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -8046,6 +7986,8 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
     <check_result_sizes>False</check_result_sizes>
     <compare_results>False</compare_results>
     <query_runs>5</query_runs>
+    <test_loops>1</test_loops>
+    <close_on_complete>False</close_on_complete>
     <ignore_annotations />
   </test_run_settings>
   <last_id>1006</last_id>
