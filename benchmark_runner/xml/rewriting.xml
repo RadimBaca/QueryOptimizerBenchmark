@@ -6571,7 +6571,7 @@ $OrderByA1</command_text>
             <template>
               <id>636</id>
               <number>high</number>
-              <expected_result_size>275</expected_result_size>
+              <expected_result_size>550</expected_result_size>
               <selected_annotations />
             </template>
           </templates>
@@ -6584,7 +6584,7 @@ $OrderByA1</command_text>
             <parameter_value>
               <template_id>636</template_id>
               <parameter_id>628</parameter_id>
-              <value>A.groupby &lt; 25</value>
+              <value>A.groupby &lt; 50</value>
             </parameter_value>
             <parameter_value>
               <template_id>629</template_id>
@@ -6614,7 +6614,7 @@ $OrderByA1</command_text>
             <parameter_value>
               <template_id>636</template_id>
               <parameter_id>646</parameter_id>
-              <value>a1.groupby &lt; 25</value>
+              <value>a1.groupby &lt; 50</value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -7660,7 +7660,7 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
     </test_group>
   </test_groups>
   <connection_settings>
-    <current_provider>Microsoft SQL Server</current_provider>
+    <current_provider>SQLite</current_provider>
     <providers>
       <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=bayer.cs.vsb.cz\SQLDB;Database=sqlbench;User Id=sqlbench;Password=n3cUmubsbo;timeout=300" disable_parallel_query_processing="true" />
       <provider name="Oracle Database" use_connection_string="false" user_name="bac027" password="viy0QWuyCz" host_name="bayer.cs.vsb.cz" port="1521" s_id="oracle" connection_string="" command_timeout="300" disable_parallel_query_processing="true" />
@@ -7803,12 +7803,12 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
   <test_run_settings>
     <run_init_script>False</run_init_script>
     <run_clean_up_script>False</run_clean_up_script>
-    <check_result_sizes>True</check_result_sizes>
-    <compare_results>True</compare_results>
-    <query_runs>1</query_runs>
-    <test_loops>1</test_loops>
+    <check_result_sizes>False</check_result_sizes>
+    <compare_results>False</compare_results>
+    <query_runs>3</query_runs>
+    <test_loops>3</test_loops>
     <close_on_complete>False</close_on_complete>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>1027</last_id>
+  <last_id>1025</last_id>
 </sql_benchmark>
