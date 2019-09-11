@@ -5,6 +5,7 @@
     </StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>/FileName C:\Users\Petr\Desktop\rewriting.xml /Launch /CloseOnComplete</StartArguments>
+    <StartArguments>
+    </StartArguments>
   </PropertyGroup>
 </Project>
