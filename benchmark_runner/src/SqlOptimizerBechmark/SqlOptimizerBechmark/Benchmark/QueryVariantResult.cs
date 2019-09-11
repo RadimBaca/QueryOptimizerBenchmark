@@ -145,6 +145,21 @@ namespace SqlOptimizerBechmark.Benchmark
             }
         }
         
+        public string QueryPlanWoElapsedTime
+        {
+            get
+            {
+                if (queryPlan != null)
+                {
+                    return queryPlan.ToString(false);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         public bool Started
         {
             get => started;
@@ -339,7 +354,7 @@ namespace SqlOptimizerBechmark.Benchmark
             ret.DbColumns.Add(new DbColumnInfo("Completed", "completed", System.Data.DbType.Boolean));
             ret.DbColumns.Add(new DbColumnInfo("ErrorMessage", "error_message", System.Data.DbType.String, 1000));
             ret.DbColumns.Add(new DbColumnInfo("QueryVariantId", "query_variant_id", System.Data.DbType.Int32, true, "QueryVariant", "query_variant_id")); // FK
-            ret.DbColumns.Add(new DbColumnInfo("QueryPlan", "query_plan", System.Data.DbType.String, 1000));
+            ret.DbColumns.Add(new DbColumnInfo("QueryPlanWoElapsedTime", "query_plan", System.Data.DbType.String, 1000));
 
             ret.DbDependentTables.Add(new DbDependentTableInfo("SelectedAnnotationResults", "SelectedAnnotationResult", "query_variant_result_id"));
 

@@ -38,7 +38,7 @@ namespace SqlOptimizerBechmark.DbProviders
             }
         }
 
-        public override string ToString()
+        public string ToString(bool includeElapsedTime)
         {
             if (root == null)
             {
@@ -46,8 +46,13 @@ namespace SqlOptimizerBechmark.DbProviders
             }
             else
             {
-                return root.ToString();
+                return root.ToString(includeElapsedTime);
             }
+        }
+
+        public override string ToString()
+        {
+            return ToString(true);
         }
 
         public override bool Equals(object obj)
@@ -175,24 +180,39 @@ namespace SqlOptimizerBechmark.DbProviders
             }
         }
 
-        public void Write(int level, TextWriter writer)
+        public void Write(int level, TextWriter writer, bool includeElapsedTime)
         {
             string prefix = new string(' ', 2 * level);
-            string line = prefix + string.Format("|-- {0} (estimated rows: {1}, estimated cost: {2}, actual rows: {3}, actual elapsed time: {4})",
-                opName, estimatedRows, estimatedCost, actualRows, actualTime);
+            string line;
+
+            if (includeElapsedTime)
+            {
+                line = prefix + string.Format("|-- {0} (estimated rows: {1}, estimated cost: {2}, actual rows: {3}, actual elapsed time: {4})",
+                    opName, estimatedRows, estimatedCost, actualRows, actualTime);
+            }
+            else
+            {
+                line = prefix + string.Format("|-- {0} (estimated rows: {1}, estimated cost: {2}, actual rows: {3})",
+                    opName, estimatedRows, estimatedCost, actualRows);
+            }
 
             writer.WriteLine(line);
             foreach (QueryPlanNode childNode in childNodes)
             {
-                childNode.Write(level + 1, writer);
+                childNode.Write(level + 1, writer, includeElapsedTime);
             }
+        }
+
+        public string ToString(bool includeElapsedTime)
+        {
+            StringWriter writer = new StringWriter();
+            Write(0, writer, includeElapsedTime);
+            return writer.ToString();
         }
 
         public override string ToString()
         {
-            StringWriter writer = new StringWriter();
-            Write(0, writer);
-            return writer.ToString();
+            return ToString(true);
         }
 
         public override bool Equals(object obj)
