@@ -4567,12 +4567,14 @@ drop index A.ix_A_fkb
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE exists( 
+WHERE
+    EXISTS
+    ( 
         SELECT 1 
         FROM A
-        WHERE b1.id = A.fkb and A.groupby &lt; 50
-    ) and
-    $PBsearch
+        WHERE b1.id = A.fkb AND A.groupby &lt; 50
+    )
+    AND $PBsearch
 $OrderBy</command_text>
               </default_statement>
               <specific_statements />
@@ -4593,11 +4595,13 @@ $OrderBy</command_text>
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE b1.id IN ( 
+WHERE
+    b1.id IN
+    ( 
         SELECT A.fkb 
         FROM A
-    ) and
-    $PBsearch
+    )
+    AND $PBsearch
 $OrderBy</command_text>
               </default_statement>
               <specific_statements />
@@ -4619,9 +4623,8 @@ $OrderBy</command_text>
               <name>Join + distinct</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT distinct b1.id, b1.groupby, b1.search, b1.padding
-FROM B b1
-JOIN A ON A.fkb = b1.id
+                <command_text>SELECT DISTINCT b1.id, b1.groupby, b1.search, b1.padding
+FROM B b1 JOIN A ON A.fkb = b1.id
 WHERE $PBsearch
 $OrderBy</command_text>
               </default_statement>
@@ -4647,9 +4650,8 @@ $OrderBy</command_text>
               <name>Join + group by 1</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT b1.id, b1.groupby, max(b1.search), max(b1.padding)
-FROM B b1
-JOIN A ON A.fkb = b1.id
+                <command_text>SELECT b1.id, b1.groupby, MAX(b1.search), MAX(b1.padding)
+FROM B b1 JOIN A ON A.fkb = b1.id
 WHERE $PBsearch
 GROUP BY b1.id, b1.groupby
 $OrderBy</command_text>
@@ -4678,12 +4680,13 @@ $OrderBy</command_text>
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE $PBsearch and
-(
-  SELECT count(*) c1 
-  FROM A 
-  WHERE A.fkb = b1.id
-) != 0
+WHERE
+    $PBsearch AND
+    (
+        SELECT COUNT(*) c1 
+        FROM A 
+        WHERE A.fkb = b1.id
+    ) != 0
 $OrderBy</command_text>
               </default_statement>
               <specific_statements />
@@ -4706,15 +4709,17 @@ $OrderBy</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
-FROM B b1
-JOIN (
-    SELECT A.fkb c1
-    FROM A
-    INTERSECT
-    SELECT b1.id c1
-    FROM B b1
-    WHERE $PBsearch
-) t ON t.c1 = b1.id and $PBsearch
+FROM
+    B b1 JOIN
+    (
+        SELECT A.fkb c1
+        FROM A
+        INTERSECT
+        SELECT b1.id c1
+        FROM B b1
+        WHERE $PBsearch
+    ) t ON t.c1 = b1.id
+    AND $PBsearch
 $OrderBy</command_text>
               </default_statement>
               <specific_statements>
@@ -4748,13 +4753,17 @@ $OrderBy</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
-FROM B b1
-CROSS JOIN LATERAL (
-  SELECT count(*) c1 
-  FROM A 
-  WHERE b1.id = A.fkb
-) t
-WHERE $PBsearch and t.c1 != 0
+FROM
+    B b1
+    CROSS JOIN LATERAL
+    (
+        SELECT COUNT(*) c1 
+        FROM A 
+        WHERE b1.id = A.fkb
+    ) t
+WHERE
+    $PBsearch AND
+    t.c1 != 0
 $OrderBy</command_text>
               </default_statement>
               <specific_statements>
@@ -4762,13 +4771,17 @@ $OrderBy</command_text>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
-FROM B b1
-CROSS APPLY (
-  SELECT count(*) c1 
-  FROM A 
-  WHERE b1.id = A.fkb
-) t
-WHERE $PBsearch and t.c1 != 0
+FROM
+    B b1
+    CROSS APPLY
+    (
+        SELECT count(*) c1 
+        FROM A 
+        WHERE b1.id = A.fkb
+    ) t
+WHERE
+    $PBsearch AND
+    t.c1 != 0
 $OrderBy</command_text>
                 </specific_statement>
                 <specific_statement>
@@ -4838,11 +4851,12 @@ $OrderBy</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
-FROM B b1
-JOIN ( 
-  SELECT distinct A.fkb
-  FROM A
-) t ON t.fkb = b1.id
+FROM
+    B b1 JOIN
+    ( 
+        SELECT DISTINCT A.fkb
+        FROM A
+    ) t ON t.fkb = b1.id
 WHERE $PBsearch
 $OrderBy</command_text>
               </default_statement>
@@ -4923,9 +4937,8 @@ $OrderBy</command_text>
               <name>Basic</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN B ON A.fkb = B.id
+                <command_text>SELECT COUNT(*)
+FROM A JOIN B ON A.fkb = B.id
 WHERE $PBsearch</command_text>
               </default_statement>
               <specific_statements />
@@ -4944,13 +4957,14 @@ WHERE $PBsearch</command_text>
               <name>Inline</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN (
-  SELECT *
-  FROM B 
-  WHERE $PBsearch
-) t ON A.fkb = t.id</command_text>
+                <command_text>SELECT COUNT(*)
+FROM
+    A JOIN
+    (
+        SELECT *
+        FROM B 
+        WHERE $PBsearch
+    ) t ON A.fkb = t.id</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4971,13 +4985,15 @@ JOIN (
               <name>Exists</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
+                <command_text>SELECT COUNT(*)
 FROM A
-WHERE EXISTS (
-  SELECT 1
-  FROM B 
-  WHERE $PBsearch and A.fkb = B.id
-)</command_text>
+WHERE
+    EXISTS
+    (
+        SELECT 1
+        FROM B 
+        WHERE $PBsearch AND A.fkb = B.id
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4998,25 +5014,29 @@ WHERE EXISTS (
               <name>Cross join 1</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-CROSS JOIN LATERAL (
-  SELECT *
-  FROM B 
-  WHERE $PBsearch and A.fkb = B.id
-) t</command_text>
+                <command_text>SELECT COUNT(*)
+FROM
+    A
+    CROSS JOIN LATERAL
+    (
+        SELECT *
+        FROM B 
+        WHERE $PBsearch AND A.fkb = B.id
+    ) t</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>SELECT count(*)
-FROM A
-CROSS APPLY (
-  SELECT *
-  FROM B 
-  WHERE $PBsearch and A.fkb = B.id
-) t</command_text>
+                  <command_text>SELECT COUNT(*)
+FROM
+    A
+    CROSS APPLY
+    (
+        SELECT *
+        FROM B 
+        WHERE $PBsearch AND A.fkb = B.id
+    ) t</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -5052,13 +5072,14 @@ CROSS APPLY (
               <name>In</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
+                <command_text>SELECT COUNT(*)
 FROM A
-WHERE A.fkb in (
-  SELECT id
-  FROM B 
-  WHERE $PBsearch
-)</command_text>
+WHERE
+    A.fkb IN (
+        SELECT id
+        FROM B 
+        WHERE $PBsearch
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5079,9 +5100,10 @@ WHERE A.fkb in (
               <name>Sum count</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT sum(t.c1)
-FROM (
-    SELECT (SELECT count(*) FROM A WHERE A.fkb = B.id) c1
+                <command_text>SELECT SUM(t.c1)
+FROM 
+(
+    SELECT (SELECT COUNT(*) FROM A WHERE A.fkb = B.id) c1
     FROM B
     WHERE $PBsearch
 ) t</command_text>
@@ -5090,9 +5112,10 @@ FROM (
                 <specific_statement>
                   <provider_name>PostgreSQL</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>SELECT CAST(sum(t.c1) AS BIGINT)
-FROM (
-    SELECT (SELECT count(*) FROM A WHERE A.fkb = B.id) c1
+                  <command_text>SELECT CAST(SUM(t.c1) AS BIGINT)
+FROM
+(
+    SELECT (SELECT COUNT(*) FROM A WHERE A.fkb = B.id) c1
     FROM B
     WHERE $PBsearch
 ) t</command_text>
@@ -5116,25 +5139,27 @@ FROM (
               <name>Cross join 2</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT sum(t.c1)
-FROM A
-CROSS JOIN LATERAL (
-  SELECT count(*) c1
-  FROM B 
-  WHERE $PBsearch and A.fkb = B.id
-) t</command_text>
+                <command_text>SELECT SUM(t.c1)
+FROM
+    A CROSS JOIN LATERAL
+    (
+        SELECT COUNT(*) c1
+        FROM B 
+        WHERE $PBsearch AND A.fkb = B.id
+    ) t</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>SELECT sum(t.c1)
-FROM A
-CROSS APPLY (
-  SELECT count(*) c1
-  FROM B 
-  WHERE $PBsearch and A.fkb = B.id
-) t</command_text>
+                  <command_text>SELECT SUM(t.c1)
+FROM
+    A CROSS APPLY
+    (
+        SELECT COUNT(*) c1
+        FROM B 
+        WHERE $PBsearch AND A.fkb = B.id
+    ) t</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>

@@ -312,6 +312,40 @@ namespace SqlOptimizerBechmark
             return IsTrueStr(str) || IsFalseStr(str);
         }
 
+        private void ExportAll(string connectionString, bool closeOnComplete)
+        {
+            try
+            {
+                if (benchmark == null)
+                {
+                    throw new Exception("Any benchmark is not open.");
+                }
+
+                DbProviders.SqlServer.SqlServerProvider sqlServerProvider = new DbProviders.SqlServer.SqlServerProvider();
+                sqlServerProvider.ConnectionString = connectionString;
+                sqlServerProvider.UseConnectionString = true;
+                sqlServerProvider.Connect();
+
+                DbProviders.DbBenchmarkObjectWriter writer = sqlServerProvider.CreateBenchmarkObjectWriter();
+                
+                foreach (Benchmark.TestRun testRun in benchmark.TestRuns)
+                {
+                    writer.WriteToDb(testRun);
+                }
+
+                sqlServerProvider.Close();
+
+                if (closeOnComplete)
+                {
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         /// <summary>
         /// Process command line arguments.
         /// </summary>
@@ -320,6 +354,7 @@ namespace SqlOptimizerBechmark
             try
             {
                 string openBenchmarkFileName = null;
+                string connectionString = null;
                 bool? runInitScript = null;
                 bool? runCleanUpScript = null;
                 bool? checkResultSizes = null;
@@ -329,6 +364,7 @@ namespace SqlOptimizerBechmark
                 bool? closeOnComplete = null;
 
                 bool launch = false;
+                bool exportAll = false;
 
                 if (args.Length == 2)
                 {
@@ -348,10 +384,21 @@ namespace SqlOptimizerBechmark
                             launch = true;
                         }
 
+                        if (string.Compare(currentArg, "/ExportAll", true) == 0)
+                        {
+                            exportAll = true;
+                        }
+
 
                         if (string.Compare(currentArg, "/FileName", true) == 0)
                         {
                             openBenchmarkFileName = nextArg;
+                            i++;
+                        }
+
+                        if (string.Compare(currentArg, "/ConnectionString", true) == 0)
+                        {
+                            connectionString = nextArg;
                             i++;
                         }
 
@@ -489,6 +536,11 @@ namespace SqlOptimizerBechmark
                         }
 
                         Executor.Executor.Instance.LaunchTest(benchmark, true);
+                    }
+
+                    if (exportAll && !string.IsNullOrEmpty(connectionString))
+                    {
+                        ExportAll(connectionString, closeOnComplete.HasValue ? closeOnComplete.Value : false);
                     }
                 }
             }
