@@ -5,6 +5,7 @@
     </StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>/FileName "C:\Users\Petr\source\repos\QueryOptimizerBenchmark\backupxml\redundance_2019.xml" /ConnectionString "data source = %28local%29%3b initial catalog = SqlBenchOutput%3b integrated security = true"%3b /ExportAll /CloseOnComplete</StartArguments>
+    <StartArguments>
+    </StartArguments>
   </PropertyGroup>
 </Project>

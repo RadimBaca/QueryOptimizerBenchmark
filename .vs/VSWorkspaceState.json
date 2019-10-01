@@ -7,7 +7,9 @@
     "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark",
     "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\DbProviders",
     "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\DbProviders\\MySql",
+    "\\benchmark_runner\\xml",
     "\\mssql"
   ],
+  "SelectedNode": "\\benchmark_runner\\xml\\rewriting.xml",
   "PreviewInSolutionExplorer": false
 }

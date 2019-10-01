@@ -5250,11 +5250,10 @@ CROSS JOIN LATERAL (
               <name>Basic</name>
               <description></description>
               <default_statement>
-                <command_text>select B.id, max(A.groupby) - B.search
-from B
-join A on A.fkb = B.id
-where $PBsearch
-group by B.id, B.search
+                <command_text>SELECT B.id, MAX(A.groupby) - B.search
+FROM B JOIN A ON A.fkb = B.id
+WHERE $PBsearch
+GROUP BY B.id, B.search
 $Orderby</command_text>
               </default_statement>
               <specific_statements />
@@ -5276,11 +5275,10 @@ $Orderby</command_text>
               <name>Attribute removal</name>
               <description></description>
               <default_statement>
-                <command_text>select B.id, max(A.groupby) - max(B.search)
-from B
-join A on A.fkb = B.id
-where $PBsearch
-group by B.id
+                <command_text>SELECT B.id, MAX(A.groupby) - MAX(B.search)
+FROM B JOIN A ON A.fkb = B.id
+WHERE $PBsearch
+GROUP BY B.id
 $Orderby</command_text>
               </default_statement>
               <specific_statements />
@@ -5305,14 +5303,16 @@ $Orderby</command_text>
               <name>All</name>
               <description></description>
               <default_statement>
-                <command_text>select distinct B.id, A.groupby - B.search
-from B
-join A on A.fkb = B.id
-where $PBsearch and A.groupby &gt;= all(
-  select A.groupby
-  from A
-  where A.fkb = B.id and A.groupby is not null
-)
+                <command_text>SELECT DISTINCT B.id, A.groupby - B.search
+FROM B JOIN A ON A.fkb = B.id
+WHERE
+    $PBsearch AND
+    A.groupby &gt;= ALL
+    (
+        SELECT A.groupby
+        FROM A
+        WHERE A.fkb = B.id AND A.groupby IS NOT NULL
+    )
 $Orderby</command_text>
               </default_statement>
               <specific_statements>
@@ -5340,15 +5340,17 @@ $Orderby</command_text>
               <name>Subquery 1</name>
               <description></description>
               <default_statement>
-                <command_text>select B.id, ( 
-     select max(A.groupby) 
-     from A 
-     where A.fkb = B.id 
-  ) - B.search
-from B
-where $PBsearch and exists(
-  select 1 from A where A.fkb = B.id
-)
+                <command_text>SELECT
+    B.id,
+    ( 
+        SELECT MAX(A.groupby) 
+        FROM A 
+        WHERE A.fkb = B.id 
+    ) - B.search
+FROM B
+WHERE
+    $PBsearch AND
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
 $Orderby</command_text>
               </default_statement>
               <specific_statements />
@@ -5370,65 +5372,73 @@ $Orderby</command_text>
               <name>Subquery 2</name>
               <description></description>
               <default_statement>
-                <command_text>select B.id, ( 
-     select A.groupby
-     from A
-     where A.fkb = B.id
-     order by A.groupby desc
-     fetch first row only    
-  ) - B.search
-from B
-where $PBsearch and exists(
-  select 1 from A where A.fkb = B.id
-)
+                <command_text>SELECT
+    B.id,
+    ( 
+        SELECT A.groupby
+        FROM A
+        WHERE A.fkb = B.id
+        ORDER BY A.groupby DESC
+        FETCH FIRST ROW ONLY
+    ) - B.search
+FROM B
+WHERE
+    $PBsearch AND
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
 $Orderby</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select B.id, ( 
-     select top 1 A.groupby
-     from A 
-     where A.fkb = B.id
-     order by A.groupby desc
-  ) - B.search
-from B
-where $PBsearch and exists(
-  select 1 from A where A.fkb = B.id
-)
+                  <command_text>SELECT
+    B.id,
+    ( 
+        SELECT TOP 1 A.groupby
+        FROM A 
+        WHERE A.fkb = B.id
+        ORDER BY A.groupby DESC
+    ) - B.search
+FROM B
+WHERE
+    $PBsearch AND
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
 $Orderby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>MySQL</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select B.id, ( 
-     select A.groupby
-     from A
-     where A.fkb = B.id
-     order by A.groupby desc
-     limit 1   
-  ) - B.search
-from B
-where $PBsearch and exists(
-  select 1 from A where A.fkb = B.id
-)
+                  <command_text>SELECT
+    B.id,
+    ( 
+        SELECT A.groupby
+        FROM A
+        WHERE A.fkb = B.id
+        ORDER BY A.groupby DESC
+        LIMIT 1   
+    ) - B.search
+FROM B
+WHERE
+    $PBsearch AND
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
 $Orderby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>SQLite</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select B.id, ( 
-     select A.groupby
-     from A
-     where A.fkb = B.id
-     order by A.groupby desc
-     limit 1   
-  ) - B.search
-from B
-where $PBsearch and exists(
-  select 1 from A where A.fkb = B.id
-)
+                  <command_text>SELECT
+    B.id,
+    ( 
+        SELECT A.groupby
+        FROM A
+        WHERE A.fkb = B.id
+        ORDER BY A.groupby DESC
+        LIMIT 1   
+    ) - B.search
+FROM B
+WHERE
+    $PBsearch AND
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
 $Orderby</command_text>
                 </specific_statement>
               </specific_statements>
@@ -5450,30 +5460,32 @@ $Orderby</command_text>
               <name>Cross join</name>
               <description></description>
               <default_statement>
-                <command_text>select B.id, t.max_groupby - B.search
-from B
-cross join lateral ( 
-  select max(A.groupby) max_groupby
-  from A 
-  where A.fkb = B.id 
-  group by A.fkb
-) t
-where $PBsearch
+                <command_text>SELECT B.id, t.max_groupby - B.search
+FROM
+    B CROSS JOIN LATERAL
+    ( 
+        SELECT MAX(A.groupby) max_groupby
+        FROM A 
+        WHERE A.fkb = B.id 
+        GROUP BY A.fkb
+    ) t
+WHERE $PBsearch
 $Orderby</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select B.id, t.max_groupby - B.search
-from B
-cross apply ( 
-  select max(A.groupby) max_groupby
-  from A 
-  where A.fkb = B.id 
-  group by A.fkb
-) t
-where $PBsearch
+                  <command_text>SELECT B.id, t.max_groupby - B.search
+FROM
+    B CROSS APPLY
+    ( 
+        SELECT MAX(A.groupby) max_groupby
+        FROM A 
+        WHERE A.fkb = B.id 
+        GROUP BY A.fkb
+    ) t
+WHERE $PBsearch
 $Orderby</command_text>
                 </specific_statement>
                 <specific_statement>
@@ -5483,7 +5495,7 @@ $Orderby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Firebird</provider_name>
-                  <not_supported>False</not_supported>
+                  <not_supported>True</not_supported>
                   <command_text></command_text>
                 </specific_statement>
                 <specific_statement>
@@ -5510,44 +5522,53 @@ $Orderby</command_text>
               <name>Outer join</name>
               <description></description>
               <default_statement>
-                <command_text>select B.id, t.max_groupby - B.search
-from B
-left join lateral ( 
-  select A.fkb, max(A.groupby) max_groupby
-  from A 
-  where A.fkb = B.id 
-  group by A.fkb
-  ) t on true
-where $PBsearch and t.fkb is not null
+                <command_text>SELECT B.id, t.max_groupby - B.search
+FROM
+    B LEFT JOIN LATERAL
+    ( 
+        SELECT A.fkb, MAX(A.groupby) max_groupby
+        FROM A 
+        WHERE A.fkb = B.id 
+        GROUP BY A.fkb
+    ) t ON true
+WHERE
+    $PBsearch AND
+    t.fkb IS NOT NULL
 $Orderby</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select B.id, t.max_groupby - B.search
-from B
-outer apply ( 
-  select A.fkb, max(A.groupby) max_groupby
-  from A 
-  where A.fkb = B.id 
-  group by A.fkb
-) t
-where $PBsearch and t.fkb is not null
+                  <command_text>SELECT B.id, t.max_groupby - B.search
+FROM
+    B OUTER APPLY
+    ( 
+        SELECT A.fkb, MAX(A.groupby) max_groupby
+        FROM A 
+        WHERE A.fkb = B.id 
+        GROUP BY A.fkb
+    ) t
+WHERE
+    $PBsearch AND
+    t.fkb IS NOT NULL
 $Orderby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Oracle Database</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select B.id, t.max_groupby - B.search
-from B
-outer apply ( 
-  select A.fkb, max(A.groupby) max_groupby
-  from A 
-  where A.fkb = B.id 
-  group by A.fkb
-) t
-where $PBsearch and t.fkb is not null
+                  <command_text>SELECT B.id, t.max_groupby - B.search
+FROM
+    B OUTER APPLY
+    ( 
+        SELECT A.fkb, MAX(A.groupby) max_groupby
+        FROM A 
+        WHERE A.fkb = B.id 
+        GROUP BY A.fkb
+    ) t
+WHERE
+    $PBsearch AND
+    t.fkb IS NOT NULL
 $Orderby</command_text>
                 </specific_statement>
                 <specific_statement>
@@ -5557,7 +5578,7 @@ $Orderby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Firebird</provider_name>
-                  <not_supported>False</not_supported>
+                  <not_supported>True</not_supported>
                   <command_text></command_text>
                 </specific_statement>
                 <specific_statement>
@@ -5584,14 +5605,15 @@ $Orderby</command_text>
               <name>Join</name>
               <description></description>
               <default_statement>
-                <command_text>select B.id, t.max_groupby - B.search
-from B
-join ( 
-  select A.fkb, max(A.groupby) max_groupby
-  from A 
-  group by A.fkb
-) t on t.fkb = B.id 
-where $PBsearch
+                <command_text>SELECT B.id, t.max_groupby - B.search
+FROM
+    B JOIN
+    ( 
+        SELECT A.fkb, MAX(A.groupby) max_groupby
+        FROM A 
+        GROUP BY A.fkb
+    ) t ON t.fkb = B.id 
+WHERE $PBsearch
 $Orderby</command_text>
               </default_statement>
               <specific_statements />
@@ -5613,11 +5635,11 @@ $Orderby</command_text>
               <name>Window</name>
               <description></description>
               <default_statement>
-                <command_text>select distinct B.id, 
-       max(A.groupby) over (partition by B.id) - B.search
-from B
-join A on A.fkb = B.id
-where $PBsearch
+                <command_text>SELECT DISTINCT
+    B.id, 
+    MAX(A.groupby) OVER (PARTITION BY B.id) - B.search
+FROM B JOIN A ON A.fkb = B.id
+WHERE $PBsearch
 $Orderby</command_text>
               </default_statement>
               <specific_statements />
@@ -5639,15 +5661,17 @@ $Orderby</command_text>
               <name>Tuple IN</name>
               <description></description>
               <default_statement>
-                <command_text>select distinct B.id, A.groupby - B.search
-from B
-join A on A.fkb = B.id
-where $PBsearch and (A.groupby, A.fkb) IN (
-  select max(A.groupby), A.fkb
-  from A
-  where A.groupby is not null
-  group by A.fkb
-)
+                <command_text>SELECT DISTINCT B.id, A.groupby - B.search
+FROM B JOIN A ON A.fkb = B.id
+WHERE
+    $PBsearch AND
+    (A.groupby, A.fkb) IN
+    (
+        SELECT MAX(A.groupby), A.fkb
+        FROM A
+        WHERE A.groupby IS NOT NULL
+        GROUP BY A.fkb
+    )
 $Orderby</command_text>
               </default_statement>
               <specific_statements>
@@ -5884,10 +5908,11 @@ ON B (search)
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null and 
-      search in (1, 500)
+WHERE
+    groupby IS NOT NULL AND
+    search in (1, 500)
 GROUP BY groupby
-HAVING count(DISTINCT search) = 2</command_text>
+HAVING COUNT(DISTINCT search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5907,13 +5932,11 @@ HAVING count(DISTINCT search) = 2</command_text>
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null
+WHERE groupby IS NOT NULL
 GROUP BY groupby
-HAVING count(DISTINCT 
-         CASE WHEN search not in (1, 500)
-              THEN search
-         END
-       ) = count(distinct search) - 2</command_text>
+HAVING
+    COUNT(DISTINCT CASE WHEN search NOT IN (1, 500) THEN search END) =
+    COUNT(DISTINCT search) - 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5936,17 +5959,19 @@ HAVING count(DISTINCT
               <default_statement>
                 <command_text>SELECT DISTINCT groupby
 FROM A a1
-WHERE exists (
-  SELECT 1
-  FROM A a2
-  WHERE a2.search = 500 and
-        a1.groupby = a2.groupby
-) and exists (
-  SELECT 1
-  FROM A a2
-  WHERE a2.search = 1 and
-        a1.groupby = a2.groupby
-)</command_text>
+WHERE
+    EXISTS
+    (
+      SELECT 1
+      FROM A a2
+      WHERE a2.search = 500 AND a1.groupby = a2.groupby
+    )
+    AND EXISTS
+    (
+      SELECT 1
+      FROM A a2
+      WHERE a2.search = 1 AND a1.groupby = a2.groupby
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5975,11 +6000,11 @@ WHERE exists (
               <default_statement>
                 <command_text>SELECT DISTINCT groupby
 FROM A a1
-WHERE (
-  SELECT count(distinct a2.search)
-  FROM A a2
-  WHERE search in (1, 500) and
-        a2.groupby = a1.groupby
+WHERE
+(
+    SELECT COUNT(DISTINCT a2.search)
+    FROM A a2
+    WHERE search IN (1, 500) AND a2.groupby = a1.groupby
 ) = 2</command_text>
               </default_statement>
               <specific_statements />
@@ -6006,15 +6031,19 @@ WHERE (
               <default_statement>
                 <command_text>SELECT DISTINCT groupby
 FROM A
-WHERE groupby in (
-  SELECT groupby
-  FROM A
-  WHERE search = 500
-) and groupby in (
-  SELECT groupby
-  FROM A
-  WHERE search = 1
-)</command_text>
+WHERE
+    groupby IN
+    (
+        SELECT groupby
+        FROM A
+        WHERE search = 500
+    )
+    AND groupby IN
+    (
+        SELECT groupby
+        FROM A
+        WHERE search = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6037,11 +6066,11 @@ WHERE groupby in (
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE search = 500 and groupby is not null
+WHERE search = 500 AND groupby IS NOT NULL
 INTERSECT
 SELECT groupby
 FROM A
-WHERE search = 1 and groupby is not null</command_text>
+WHERE search = 1 AND groupby IS NOT NULL</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -6074,12 +6103,11 @@ WHERE search = 1 and groupby is not null</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT c1
-FROM (
-    SELECT groupby c1, 
-           count(DISTINCT search) c2
+FROM
+(
+    SELECT groupby c1, COUNT(DISTINCT search) c2
     FROM A
-    WHERE groupby is not null and 
-          search in (1, 500)
+    WHERE groupby IS NOT NULL AND search IN (1, 500)
     GROUP BY groupby
 ) t
 WHERE c2 = 2</command_text>
@@ -6104,20 +6132,24 @@ WHERE c2 = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT groupby
-FROM (
-  SELECT DISTINCT groupby FROM A
+FROM
+(
+    SELECT DISTINCT groupby
+    FROM A
 ) a1
-WHERE exists (
-  SELECT 1
-  FROM A a2
-  WHERE a2.search = 500 and
-        a1.groupby = a2.groupby
-) and exists (
-  SELECT 1
-  FROM A a2
-  WHERE a2.search = 1 and
-        a1.groupby = a2.groupby
-)</command_text>
+WHERE
+    EXISTS
+    (
+        SELECT 1
+        FROM A a2
+        WHERE a2.search = 500 AND a1.groupby = a2.groupby
+    )
+    AND EXISTS
+    (
+        SELECT 1
+        FROM A a2
+        WHERE a2.search = 1 AND a1.groupby = a2.groupby
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6143,13 +6175,9 @@ WHERE exists (
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null
+WHERE groupby IS NOT NULL
 GROUP BY groupby
-HAVING count(DISTINCT 
-         CASE WHEN search in (1, 500)
-              THEN search
-         END
-       ) = 2</command_text>
+HAVING COUNT(DISTINCT CASE WHEN search IN (1, 500) THEN search END) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6171,13 +6199,14 @@ HAVING count(DISTINCT
               <description></description>
               <default_statement>
                 <command_text>SELECT DISTINCT groupby
-FROM A a1
-CROSS JOIN LATERAL (
-  SELECT count(distinct a2.search) c1
-  FROM A a2
-  WHERE search in (1, 500) and
-        a2.groupby = a1.groupby
-) t
+FROM
+    A a1
+    CROSS JOIN LATERAL
+    (
+        SELECT COUNT(DISTINCT a2.search) c1
+        FROM A a2
+        WHERE search IN (1, 500) AND a2.groupby = a1.groupby
+    ) t
 WHERE t.c1 = 2</command_text>
               </default_statement>
               <specific_statements>
@@ -6185,13 +6214,14 @@ WHERE t.c1 = 2</command_text>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT DISTINCT groupby
-FROM A a1
-CROSS APPLY (
-  SELECT count(distinct a2.search) c1
-  FROM A a2
-  WHERE search in (1, 500) and
-        a2.groupby = a1.groupby
-) t
+FROM
+    A a1
+    CROSS APPLY
+    (
+        SELECT COUNT(DISTINCT a2.search) c1
+        FROM A a2
+        WHERE search IN (1, 500) AND a2.groupby = a1.groupby
+    ) t
 WHERE t.c1 = 2</command_text>
                 </specific_statement>
                 <specific_statement>
@@ -6233,17 +6263,19 @@ WHERE t.c1 = 2</command_text>
               <default_statement>
                 <command_text>SELECT groupby
 FROM A a1
-WHERE exists (
-  SELECT 1
-  FROM A a2
-  WHERE a2.search = 500 and
-        a1.groupby = a2.groupby
-) and exists (
-  SELECT 1
-  FROM A a2
-  WHERE a2.search = 1 and
-        a1.groupby = a2.groupby
-)
+WHERE
+    EXISTS
+    (
+        SELECT 1
+        FROM A a2
+        WHERE a2.search = 500 AND a1.groupby = a2.groupby
+    )
+    AND EXISTS
+    (
+        SELECT 1
+        FROM A a2
+        WHERE a2.search = 1 AND a1.groupby = a2.groupby
+    )
 GROUP BY groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -6269,9 +6301,8 @@ GROUP BY groupby</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT DISTINCT a1.groupby
-FROM A a1
-JOIN A a2 ON a1.groupby = a2.groupby
-WHERE a1.search = 500 and a2.search = 1 </command_text>
+FROM A a1 JOIN A a2 ON a1.groupby = a2.groupby
+WHERE a1.search = 500 AND a2.search = 1 </command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6305,15 +6336,15 @@ WHERE a1.search = 500 and a2.search = 1 </command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-JOIN
-(
-    SELECT groupby, max(search) search_max
-    FROM A
-    WHERE $PAgroupby
-    GROUP BY groupby
-) t2 ON a1.groupby = t2.groupby and 
-        a1.search = t2.search_max
+FROM
+    A a1
+    JOIN
+    (
+        SELECT groupby, MAX(search) search_max
+        FROM A
+        WHERE $PAgroupby
+        GROUP BY groupby
+    ) t2 ON a1.groupby = t2.groupby AND a1.search = t2.search_max
 $OrderByA1</command_text>
               </default_statement>
               <specific_statements />
@@ -6334,15 +6365,15 @@ $OrderByA1</command_text>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
 FROM A a1
-WHERE NOT EXISTS
+WHERE
+    NOT EXISTS
     (
         SELECT 1
         FROM A a2
-        WHERE a2.groupby = a1.groupby and
-              a2.search &gt; a1.search
-    ) and 
-    $PA1groupby and
-    a1.search is not null
+        WHERE a2.groupby = a1.groupby AND a2.search &gt; a1.search
+    )
+    AND $PA1groupby
+    AND a1.search IS NOT NULL
 $OrderByA1</command_text>
               </default_statement>
               <specific_statements />
@@ -6366,9 +6397,11 @@ $OrderByA1</command_text>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
 FROM A a1
-WHERE $PA1groupby and a1.search =
+WHERE
+    $PA1groupby 
+    AND a1.search =
     (
-        SELECT max(a2.search) search_max
+        SELECT MAX(a2.search) search_max
         FROM A a2
         WHERE a2.groupby = a1.groupby
     )
@@ -6397,13 +6430,17 @@ $OrderByA1</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-CROSS JOIN LATERAL (
-        SELECT max(a2.search) search_max
+FROM
+    A a1
+    CROSS JOIN LATERAL
+    (
+        SELECT MAX(a2.search) search_max
         FROM A a2
         WHERE a2.groupby = a1.groupby
-) t
-WHERE $PA1groupby and a1.search = t.search_max
+    ) t
+WHERE
+    $PA1groupby AND
+    a1.search = t.search_max
 $OrderByA1</command_text>
               </default_statement>
               <specific_statements>
@@ -6411,13 +6448,17 @@ $OrderByA1</command_text>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-CROSS APPLY (
-        SELECT max(a2.search) search_max
+FROM
+    A a1
+    CROSS APPLY
+    (
+        SELECT MAX(a2.search) search_max
         FROM A a2
         WHERE a2.groupby = a1.groupby
-) t
-WHERE $PA1groupby and a1.search = t.search_max
+    ) t
+WHERE
+    $PA1groupby AND
+    a1.search = t.search_max
 $OrderByA1</command_text>
                 </specific_statement>
                 <specific_statement>
@@ -6459,11 +6500,15 @@ $OrderByA1</command_text>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
 FROM A a1
-WHERE $PA1groupby and a1.search &gt;= all(
+WHERE
+    $PA1groupby AND
+    a1.search &gt;= ALL
+    (
         SELECT a2.search
         FROM A a2
-        WHERE a1.groupby = a2.groupby and a2.search is not null
-    ) and a1.search is not null
+        WHERE a1.groupby = a2.groupby AND a2.search IS NOT NULL
+    )
+    AND a1.search IS NOT NULL
 $OrderByA1</command_text>
               </default_statement>
               <specific_statements>
@@ -6494,11 +6539,11 @@ $OrderByA1</command_text>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
 FROM
 (
-    SELECT A.id, A.groupby, A.fkb, A.padding, 
-            dense_rank() over (PARTITION BY A.groupby ORDER BY A.search DESC) rn
+    SELECT
+        A.id, A.groupby, A.fkb, A.padding,
+        DENSE_RANK() OVER (PARTITION BY A.groupby ORDER BY A.search DESC) rn
     FROM A
-    WHERE $PAgroupby and 
-          A.search is not null
+    WHERE $PAgroupby AND A.search IS NOT NULL
 ) a1
 WHERE a1.rn = 1
 $OrderByA1
@@ -6527,11 +6572,11 @@ $OrderByA1
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
 FROM
 (
-    SELECT id, groupby, search, fkb, padding,
-           max(search) over (PARTITION BY groupby) search_max
+    SELECT
+        id, groupby, search, fkb, padding,
+        MAX(search) OVER (PARTITION BY groupby) search_max
     FROM A 
     WHERE $PAgroupby
-
 ) a1
 WHERE a1.search_max = a1.search
 $OrderByA1</command_text>
@@ -6557,20 +6602,22 @@ $OrderByA1</command_text>
               <default_statement>
                 <command_text>SELECT id, groupby, fkb, padding
 FROM A
-WHERE $PAgroupby and
-      search is not null
-ORDER BY dense_rank() over (PARTITION BY groupby ORDER BY search DESC)
+WHERE
+    $PAgroupby AND
+    search IS NOT NULL
+ORDER BY DENSE_RANK() OVER (PARTITION BY groupby ORDER BY search DESC)
 FETCH FIRST ROW WITH TIES</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>SELECT top(1) with ties id, groupby, fkb, padding
+                  <command_text>SELECT TOP(1) WITH TIES id, groupby, fkb, padding
 FROM A
-WHERE $PAgroupby and
-      search is not null
-ORDER BY dense_rank() over (PARTITION BY groupby ORDER BY search DESC)</command_text>
+WHERE
+    $PAgroupby AND
+    search IS NOT NULL
+ORDER BY DENSE_RANK() OVER (PARTITION BY groupby ORDER BY search DESC)</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>PostgreSQL</provider_name>
@@ -6615,19 +6662,19 @@ ORDER BY dense_rank() over (PARTITION BY groupby ORDER BY search DESC)</command_
               <description></description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM (
-  SELECT groupby
-  FROM A
-  WHERE $PAgroupby
-  GROUP BY groupby
-  ) t
-CROSS APPLY
-(
-    SELECT top 1 with ties a2.id, a2.groupby, a2.fkb, a2.padding
-    FROM A a2
-    WHERE t.groupby = a2.groupby and
-          a2.search is not null
-    ORDER BY a2.search DESC
+FROM
+    (
+        SELECT groupby
+        FROM A
+        WHERE $PAgroupby
+        GROUP BY groupby
+    ) t
+    CROSS APPLY
+    (
+        SELECT TOP 1 WITH TIES a2.id, a2.groupby, a2.fkb, a2.padding
+        FROM A a2
+        WHERE t.groupby = a2.groupby AND a2.search IS NOT NULL
+        ORDER BY a2.search DESC
     ) a1
 $OrderByA1</command_text>
               </default_statement>
@@ -6636,41 +6683,41 @@ $OrderByA1</command_text>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM (
-  SELECT groupby
-  FROM A
-  WHERE $PAgroupby
-  GROUP BY groupby
-) t
-CROSS APPLY
-(
-    SELECT top 1 with ties a2.id, a2.groupby, a2.fkb, a2.padding
-    FROM A a2
-    WHERE t.groupby = a2.groupby and
-          a2.search is not null
-    ORDER BY a2.search DESC
-) a1
+FROM
+    (
+        SELECT groupby
+        FROM A
+        WHERE $PAgroupby
+        GROUP BY groupby
+    ) t
+    CROSS APPLY
+    (
+        SELECT TOP 1 WITH TIES a2.id, a2.groupby, a2.fkb, a2.padding
+        FROM A a2
+        WHERE t.groupby = a2.groupby AND a2.search IS NOT NULL
+        ORDER BY a2.search DESC
+    ) a1
 $OrderByA1</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Oracle Database</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM (
-  SELECT groupby
-  FROM A
-  WHERE $PAgroupby
-  GROUP BY groupby
-) t
-CROSS APPLY
-(
-    SELECT a2.id, a2.groupby, a2.fkb, a2.padding
-    FROM A a2
-    WHERE t.groupby = a2.groupby and
-          a2.search is not null
-    ORDER BY a2.search DESC
-    FETCH FIRST ROW WITH TIES
-) a1
+FROM
+    (
+        SELECT groupby
+        FROM A
+        WHERE $PAgroupby
+        GROUP BY groupby
+    ) t
+    CROSS APPLY
+    (
+        SELECT a2.id, a2.groupby, a2.fkb, a2.padding
+        FROM A a2
+        WHERE t.groupby = a2.groupby AND a2.search IS NOT NULL
+        ORDER BY a2.search DESC
+        FETCH FIRST ROW WITH TIES
+    ) a1
 $OrderByA1</command_text>
                 </specific_statement>
                 <specific_statement>
@@ -6721,12 +6768,13 @@ $OrderByA1</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-LEFT JOIN A a2 ON a2.groupby = a1.groupby and
-                       a2.search &gt; a1.search
-WHERE $PA1groupby and
-      a1.search is not null and
-      a2.groupby is null</command_text>
+FROM
+    A a1
+    LEFT JOIN A a2 ON a2.groupby = a1.groupby AND a2.search &gt; a1.search
+WHERE
+    $PA1groupby AND
+    a1.search IS NOT NULL AND
+    a2.groupby IS NULL</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6749,12 +6797,14 @@ WHERE $PA1groupby and
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
 FROM A a1
-WHERE (a1.search, a1.groupby) IN (
-    SELECT max(search) search_max, groupby
-    FROM A
-    WHERE $PAgroupby
-    GROUP BY groupby
-)
+WHERE
+    (a1.search, a1.groupby) IN
+    (
+        SELECT MAX(search) search_max, groupby
+        FROM A
+        WHERE $PAgroupby
+        GROUP BY groupby
+    )
 $OrderByA1</command_text>
               </default_statement>
               <specific_statements>
@@ -6877,13 +6927,13 @@ $OrderByA1</command_text>
 FROM A
 WHERE $PAsearch
 GROUP BY groupby
-HAVING $AggFn &gt;=
-all(
+HAVING $AggFn &gt;= ALL
+(
     SELECT $AggFn
     FROM A
     WHERE $PAsearch
     GROUP BY groupby  
-    HAVING $AggFn is not NULL
+    HAVING $AggFn IS NOT NULL
 )</command_text>
               </default_statement>
               <specific_statements>
@@ -6912,7 +6962,7 @@ all(
 FROM A
 WHERE $PAsearch
 GROUP BY groupby
-HAVING $AggFn is not NULL
+HAVING $AggFn IS NOT NULL
 ORDER BY $AggFn DESC</command_text>
               </default_statement>
               <specific_statements>
@@ -6923,7 +6973,7 @@ ORDER BY $AggFn DESC</command_text>
 FROM A
 WHERE $PAsearch
 GROUP BY groupby
-HAVING $AggFn is not NULL
+HAVING $AggFn IS NOT NULL
 ORDER BY $AggFn DESC</command_text>
                 </specific_statement>
                 <specific_statement>
@@ -6933,7 +6983,7 @@ ORDER BY $AggFn DESC</command_text>
 FROM A
 WHERE $PAsearch
 GROUP BY groupby
-HAVING $AggFn is not NULL
+HAVING $AggFn IS NOT NULL
 ORDER BY $AggFn DESC
 FETCH FIRST ROW WITH TIES</command_text>
                 </specific_statement>
@@ -6982,13 +7032,11 @@ FETCH FIRST ROW WITH TIES</command_text>
                 <command_text>SELECT t.groupby, t.c2
 FROM
 (
-    SELECT groupby, 
-           $AggFn c2,
-           dense_rank() OVER (order by $AggFn desc) rn
+    SELECT groupby, $AggFn c2, DENSE_RANK() OVER (ORDER BY $AggFn DESC) rn
     FROM A
     WHERE $PAsearch
     GROUP BY groupby
-    HAVING $AggFn is not NULL
+    HAVING $AggFn IS NOT NULL
 ) t
 WHERE t.rn = 1</command_text>
               </default_statement>
@@ -7017,14 +7065,14 @@ WHERE $PAsearch
 GROUP BY groupby
 HAVING $AggFn =
 (
-    SELECT max(t.c1)
+    SELECT MAX(t.c1)
     FROM
     (
         SELECT $AggFn c1
         FROM A
         WHERE $PAsearch
         GROUP BY groupby  
-        HAVING $AggFn is not NULL
+        HAVING $AggFn IS NOT NULL
     ) t
 )
 </command_text>
@@ -7049,7 +7097,8 @@ HAVING $AggFn =
               <description></description>
               <default_statement>
                 <command_text>SELECT t1.groupby, t1.c1 c2
-FROM (
+FROM
+(
     SELECT groupby, $AggFn c1
     FROM A
     WHERE $PAsearch
@@ -7057,16 +7106,16 @@ FROM (
 ) t1
 JOIN
 (
-    SELECT max(c1) c1
+    SELECT MAX(c1) c1
     FROM
     (
         SELECT $AggFn c1
         FROM A
         WHERE $PAsearch
         GROUP BY groupby
-        HAVING $AggFn is not NULL
+        HAVING $AggFn IS NOT NULL
     ) t1
-) t2 on t1.c1 = t2.c1</command_text>
+) t2 ON t1.c1 = t2.c1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -7088,21 +7137,23 @@ JOIN
               <description></description>
               <default_statement>
                 <command_text>SELECT t1.groupby, t1.c1 c2
-FROM (
+FROM
+(
     SELECT groupby, $AggFn c1
     FROM A
     WHERE $PAsearch
     GROUP BY groupby
 ) t1
-WHERE t1.c1 IN (
-    SELECT max(c1) c1
+WHERE t1.c1 IN
+(
+    SELECT MAX(c1) c1
     FROM
     (
         SELECT $AggFn c1
         FROM A
         WHERE $PAsearch
         GROUP BY groupby
-        HAVING $AggFn is not NULL
+        HAVING $AggFn IS NOT NULL
     ) t1
 ) </command_text>
               </default_statement>
@@ -7129,21 +7180,23 @@ WHERE t1.c1 IN (
               <description></description>
               <default_statement>
                 <command_text>SELECT t1.groupby, t1.c1 c2
-FROM (
+FROM
+(
     SELECT groupby, $AggFn c1
     FROM A
     WHERE $PAsearch
     GROUP BY groupby
 ) t1
-CROSS JOIN LATERAL (
-    SELECT max(c1) c1
+CROSS JOIN LATERAL 
+(
+    SELECT MAX(c1) c1
     FROM
     (
         SELECT $AggFn c1
         FROM A
         WHERE $PAsearch
         GROUP BY groupby
-        HAVING $AggFn is not NULL
+        HAVING $AggFn IS NOT NULL
     ) t1
 ) t2
 WHERE t1.c1 = t2.c1</command_text>
@@ -7153,21 +7206,23 @@ WHERE t1.c1 = t2.c1</command_text>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT t1.groupby, t1.c1 c2
-FROM (
+FROM
+(
     SELECT groupby, $AggFn c1
     FROM A
     WHERE $PAsearch
     GROUP BY groupby
 ) t1
-CROSS APPLY (
-    SELECT max(c1) c1
+CROSS APPLY
+(
+    SELECT MAX(c1) c1
     FROM
     (
         SELECT $AggFn c1
         FROM A
         WHERE $PAsearch
         GROUP BY groupby
-        HAVING $AggFn is not NULL
+        HAVING $AggFn IS NOT NULL
     ) t1
 ) t2
 WHERE t1.c1 = t2.c1</command_text>
@@ -7267,14 +7322,14 @@ WHERE t1.c1 = t2.c1</command_text>
               <name>Window function I</name>
               <description></description>
               <default_statement>
-                <command_text>select groupby, cast(sqrt(sum(c * c) / count(*)) as decimal(15,5)) c
-from (
-    select orderby - avg(orderby) over (partition by groupby) c,
-           groupby
-    from A
-    where $PAsearch
+                <command_text>SELECT groupby, CAST(SQRT(SUM(c * c) / COUNT(*)) AS DECIMAL(15, 5)) c
+FROM
+(
+    SELECT orderby - AVG(orderby) OVER (PARTITION BY groupby) c, groupby
+    FROM A
+    WHERE $PAsearch
 ) t
-group by groupby</command_text>
+GROUP BY groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -7292,15 +7347,16 @@ group by groupby</command_text>
               <name>Window function I</name>
               <description></description>
               <default_statement>
-                <command_text>select groupby, cast(sqrt(sum(c * c) / cnt) as decimal(15,5)) c
-from (
-    select orderby - avg(orderby) over (partition by groupby) c,
-           count(*) over (partition by groupby) cnt,
-           groupby
-    from A
-    where $PAsearch
+                <command_text>SELECT groupby, CAST(SQRT(SUM(c * c) / cnt) as DECIMAL(15, 5)) c
+FROM
+(
+    SELECT
+        orderby - AVG(orderby) OVER (PARTITION BY groupby) c,
+        COUNT(*) OVER (PARTITION BY groupby) cnt, groupby
+    FROM A
+    WHERE $PAsearch
 ) t
-group by t.groupby, t.cnt</command_text>
+GROUP BY t.groupby, t.cnt</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -7324,15 +7380,16 @@ group by t.groupby, t.cnt</command_text>
               <name>Window function III</name>
               <description></description>
               <default_statement>
-                <command_text>select groupby, cast(sqrt(sum(c * c) / max(cnt)) as decimal(15,5)) c
-from (
-    select orderby - avg(orderby) over (partition by groupby) c,
-           count(*) over (partition by groupby) cnt,
-           groupby
-    from A
-    where $PAsearch
+                <command_text>SELECT groupby, CAST(SQRT(SUM(c * c) / MAX(cnt)) AS DECIMAL(15, 5)) c
+FROM
+(
+    SELECT
+        orderby - AVG(orderby) OVER (PARTITION BY groupby) c,
+        COUNT(*) OVER (PARTITION BY groupby) cnt, groupby
+    FROM A
+    WHERE $PAsearch
 ) t
-group by t.groupby</command_text>
+GROUP BY t.groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -7356,16 +7413,21 @@ group by t.groupby</command_text>
               <name>Subquery</name>
               <description></description>
               <default_statement>
-                <command_text>select groupby, cast(sqrt(sum(c * c) / count(*)) as decimal(15,5)) c
-from (
-    select a1.orderby - (select avg(a2.orderby) 
-                         from A a2 
-                         where a2.groupby = a1.groupby and $PA2search) c,
-           groupby
-    from A a1
-    where $PA1search
+                <command_text>SELECT groupby, CAST(SQRT(SUM(c * c) / COUNT(*)) AS DECIMAL(15, 5)) c
+FROM
+(
+    SELECT
+        a1.orderby - 
+        (
+            SELECT AVG(a2.orderby)
+            FROM A a2
+            WHERE a2.groupby = a1.groupby AND $PA2search
+        ) c,
+        groupby
+    FROM A a1
+    WHERE $PA1search
 ) t
-group by groupby</command_text>
+GROUP BY groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -7389,33 +7451,37 @@ group by groupby</command_text>
               <name>Cross join lateral I</name>
               <description></description>
               <default_statement>
-                <command_text>select  a1.groupby,
-    cast(sqrt(sum((a1.orderby - t.orderby_avg) * 
-             (a1.orderby - t.orderby_avg)) / count(*)) as decimal(15,5)) c     
-from A a1
-cross join lateral (
-    select avg(a2.orderby) orderby_avg
-    from A a2 
-    where a2.groupby = a1.groupby and $PA2search
-) t
-where $PA1search
-group by groupby</command_text>
+                <command_text>SELECT
+    a1.groupby,
+    CAST(SQRT(SUM((a1.orderby - t.orderby_avg) * (a1.orderby - t.orderby_avg)) / COUNT(*)) AS DECIMAL(15, 5)) c     
+FROM
+    A a1
+    CROSS JOIN LATERAL
+    (
+        SELECT AVG(a2.orderby) orderby_avg
+        FROM A a2 
+        WHERE a2.groupby = a1.groupby AND $PA2search
+    ) t
+WHERE $PA1search
+GROUP BY groupby</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select  a1.groupby,
-    cast(sqrt(sum((a1.orderby - t.orderby_avg) * 
-             (a1.orderby - t.orderby_avg)) / count(*)) as decimal(15,5)) c     
-from A a1
-cross apply (
-    select avg(a2.orderby) orderby_avg
-    from A a2 
-    where a2.groupby = a1.groupby and $PA2search
-) t
-where $PA1search
-group by groupby</command_text>
+                  <command_text>SELECT
+    a1.groupby,
+    CAST(SQRT(SUM((a1.orderby - t.orderby_avg) * (a1.orderby - t.orderby_avg)) / COUNT(*)) AS DECIMAL(15, 5)) c     
+FROM
+    A a1
+    CROSS APPLY
+    (
+        SELECT  AVG(a2.orderby) orderby_avg
+        FROM A a2 
+        WHERE a2.groupby = a1.groupby AND $PA2search
+    ) t
+WHERE $PA1search
+GROUP BY groupby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -7454,34 +7520,37 @@ group by groupby</command_text>
               <name>Cross join lateral II</name>
               <description></description>
               <default_statement>
-                <command_text>select  a1.groupby,
-    cast(sqrt(sum((a1.orderby - t.orderby_avg) * (a1.orderby - t.orderby_avg)) / t.cnt) as decimal(15,5)) c     
-from A a1
-cross join lateral (
-    select avg(a2.orderby) orderby_avg,
-           count(*) cnt
-    from A a2 
-    where a2.groupby = a1.groupby and $PA2search
-) t
-where $PA1search
-group by groupby, t.cnt</command_text>
+                <command_text>SELECT
+    a1.groupby,
+    CAST(SQRT(SUM((a1.orderby - t.orderby_avg) * (a1.orderby - t.orderby_avg)) / t.cnt) AS DECIMAL(15, 5)) c     
+FROM
+    A a1
+    CROSS JOIN LATERAL
+    (
+        SELECT AVG(a2.orderby) orderby_avg, COUNT(*) cnt
+        FROM A a2 
+        WHERE a2.groupby = a1.groupby AND $PA2search
+    ) t
+WHERE $PA1search
+GROUP BY groupby, t.cnt</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Microsoft SQL Server</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>select  a1.groupby,
-    cast(sqrt(sum((a1.orderby - t.orderby_avg) * 
-             (a1.orderby - t.orderby_avg)) / t.cnt) as decimal(15,5)) c     
-from A a1
-cross apply (
-    select avg(a2.orderby) orderby_avg,
-           count(*) cnt
-    from A a2 
-    where a2.groupby = a1.groupby and $PA2search
-) t
-where $PA1search
-group by groupby, t.cnt</command_text>
+                  <command_text>SELECT
+    a1.groupby,
+    CAST(SQRT(SUM((a1.orderby - t.orderby_avg) * (a1.orderby - t.orderby_avg)) / t.cnt) AS DECIMAL(15, 5)) c     
+FROM
+    A a1
+    CROSS APPLY
+    (
+        SELECT AVG(a2.orderby) orderby_avg, COUNT(*) cnt
+        FROM A a2 
+        WHERE a2.groupby = a1.groupby AND $PA2search
+    ) t
+WHERE $PA1search
+GROUP BY groupby, t.cnt</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -7517,20 +7586,22 @@ group by groupby, t.cnt</command_text>
               <name>Left join I</name>
               <description></description>
               <default_statement>
-                <command_text>select groupby, cast(sqrt(sum(c * c) / count(*)) as decimal(15,5)) c
-from (
-    select a1.orderby - t.orderby_avg c,
-           a1.groupby
-    from A a1
-    left join (
-        select a2.groupby, avg(a2.orderby) orderby_avg
-        from A a2 
-        where $PA2search
-        group by a2.groupby
-    ) t on t.groupby = a1.groupby
-    where $PA1search
+                <command_text>SELECT groupby, CAST(SQRT(SUM(c * c) / COUNT(*)) AS DECIMAL(15, 5)) c
+FROM
+(
+    SELECT a1.orderby - t.orderby_avg c, a1.groupby
+    FROM
+        A a1
+        LEFT JOIN
+        (
+            SELECT a2.groupby, AVG(a2.orderby) orderby_avg
+            FROM A a2 
+            WHERE $PA2search
+            GROUP BY a2.groupby
+        ) t ON t.groupby = a1.groupby
+    WHERE $PA1search
 ) t
-group by groupby</command_text>
+GROUP BY groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -7554,18 +7625,20 @@ group by groupby</command_text>
               <name>Left join II</name>
               <description></description>
               <default_statement>
-                <command_text>select a1.groupby,
-       cast(sqrt(sum((a1.orderby - t.orderby_avg) * 
-                 (a1.orderby - t.orderby_avg)) / count(*)) as decimal(15,5)) c     
-from A a1
-left join (
-    select a2.groupby, avg(a2.orderby) orderby_avg
-    from A a2 
-    where $PA2search
-    group by a2.groupby
-) t on t.groupby = a1.groupby
-where $PA1search
-group by a1.groupby</command_text>
+                <command_text>SELECT
+    a1.groupby,
+    CAST(SQRT(SUM((a1.orderby - t.orderby_avg) * (a1.orderby - t.orderby_avg)) / COUNT(*)) AS DECIMAL(15, 5)) c     
+FROM
+    A a1
+    LEFT JOIN
+    (
+        SELECT a2.groupby, AVG(a2.orderby) orderby_avg
+        FROM A a2 
+        WHERE $PA2search
+        GROUP BY a2.groupby
+    ) t ON t.groupby = a1.groupby
+WHERE $PA1search
+GROUP BY a1.groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -7589,20 +7662,20 @@ group by a1.groupby</command_text>
               <name>Left join III</name>
               <description></description>
               <default_statement>
-                <command_text>select a1.groupby,
-       cast(sqrt(sum((a1.orderby - t.orderby_avg) * 
-                 (a1.orderby - t.orderby_avg)) / t.cnt) as decimal(15,5)) c     
-from A a1
-left join (
-    select a2.groupby, 
-           avg(a2.orderby) orderby_avg,
-           count(*) cnt
-    from A a2 
-    where $PA2search
-    group by a2.groupby
-) t on t.groupby = a1.groupby
-where $PA1search
-group by a1.groupby, t.cnt</command_text>
+                <command_text>SELECT
+    a1.groupby,
+    CAST(SQRT(SUM((a1.orderby - t.orderby_avg) * (a1.orderby - t.orderby_avg)) / t.cnt) AS DECIMAL(15, 5)) c     
+FROM
+    A a1
+    LEFT JOIN
+    (
+        SELECT a2.groupby, AVG(a2.orderby) orderby_avg, COUNT(*) cnt
+        FROM A a2 
+        WHERE $PA2search
+        GROUP BY a2.groupby
+    ) t ON t.groupby = a1.groupby
+WHERE $PA1search
+GROUP BY a1.groupby, t.cnt</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
