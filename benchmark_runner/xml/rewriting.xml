@@ -1024,8 +1024,7 @@ DROP TABLE IF EXISTS B;
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.search, a1.padding
 FROM A a1 JOIN B ON a1.fkb = B.id
-WHERE $PAsearch and B.search = 1
-$ORDERBY</command_text>
+WHERE $PAsearch AND B.search = 1</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -1033,8 +1032,7 @@ $ORDERBY</command_text>
                   <not_supported>False</not_supported>
                   <command_text>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
 FROM A a1 JOIN B ON a1.fkb = B.id
-WHERE $PAsearch AND B.search = 1
-$ORDERBY</command_text>
+WHERE $PAsearch AND B.search = 1</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -1061,8 +1059,7 @@ WHERE
         FROM B
         WHERE B.search = 1 AND B.id = a1.fkb
     )
-    AND $PAsearch
-$ORDERBY</command_text>
+    AND $PAsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1091,8 +1088,7 @@ WHERE
         SELECT COUNT(*) c1 
         FROM B 
         WHERE B.search = 1 AND a1.fkb = B.id
-    ) != 0
-$ORDERBY</command_text>
+    ) != 0</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1125,8 +1121,7 @@ WHERE
         FROM B
         WHERE B.search = 1
     )
-    AND $PAsearch
-$ORDERBY</command_text>
+    AND $PAsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1155,8 +1150,7 @@ $ORDERBY</command_text>
         WHERE a1.id = a2.id
     ) padding
 FROM A a1 JOIN B ON a1.fkb = B.id
-WHERE $PAsearch AND B.search = 1
-$ORDERBY</command_text>
+WHERE $PAsearch AND B.search = 1</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -1164,8 +1158,7 @@ $ORDERBY</command_text>
                   <not_supported>False</not_supported>
                   <command_text>SELECT a1.id, a1.groupby AS groupby, a1.fkb, a1.search, a1.padding
 FROM A a1 JOIN B ON a1.fkb = B.id
-WHERE $PAsearch AND B.search = 1
-$ORDERBY</command_text>
+WHERE $PAsearch AND B.search = 1</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -1195,8 +1188,7 @@ FROM
         FROM B
         WHERE B.search = 1 AND a1.fkb = B.id
     ) t
-WHERE $PAsearch
-$ORDERBY</command_text>
+WHERE $PAsearch</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -1211,8 +1203,7 @@ FROM
         FROM B 
         WHERE B.search = 1 AND a1.fkb = B.id
     ) t
-WHERE $PAsearch
-$ORDERBY</command_text>
+WHERE $PAsearch</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -1257,8 +1248,7 @@ FROM
         FROM B
         WHERE B.search = 1 AND a1.fkb = B.id
     ) t
-WHERE $PAsearch AND t.c1 != 0
-$ORDERBY</command_text>
+WHERE $PAsearch AND t.c1 != 0</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -1273,8 +1263,7 @@ FROM
         FROM B 
         WHERE B.search = 1 AND a1.fkb = B.id
     ) t
-WHERE $PAsearch AND t.c1 != 0
-$ORDERBY</command_text>
+WHERE $PAsearch AND t.c1 != 0</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -1313,10 +1302,6 @@ $ORDERBY</command_text>
           <parametrized>True</parametrized>
           <parameters>
             <parameter>
-              <id>394</id>
-              <name>ORDERBY</name>
-            </parameter>
-            <parameter>
               <id>397</id>
               <name>PAsearch</name>
             </parameter>
@@ -1348,18 +1333,8 @@ $ORDERBY</command_text>
           <parameter_values>
             <parameter_value>
               <template_id>395</template_id>
-              <parameter_id>394</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>395</template_id>
               <parameter_id>397</parameter_id>
               <value>a1.search = 1</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>420</template_id>
-              <parameter_id>394</parameter_id>
-              <value></value>
             </parameter_value>
             <parameter_value>
               <template_id>420</template_id>
@@ -1389,8 +1364,7 @@ FROM
     B
     LEFT JOIN A ON A.fkb = B.id
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1429,8 +1403,7 @@ FROM
         GROUP BY fkb
     ) t2 ON t2.fkb = B.id
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -1457,8 +1430,7 @@ FROM
         GROUP BY fkb
     ) t2 ON t2.fkb = B.id
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>PostgreSQL</provider_name>
@@ -1484,8 +1456,7 @@ FROM
         GROUP BY fkb
     ) t2 ON t2.fkb = B.id
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -1509,7 +1480,7 @@ $OrderBy</command_text>
                 <command_text>SELECT
     B.groupby,
     (
-        SELECT count(1) 
+        SELECT COUNT(1) 
         FROM A JOIN B b2 ON A.fkb = b2.id
         WHERE
             $PAsearch1 AND 
@@ -1517,17 +1488,16 @@ $OrderBy</command_text>
             b2.groupby = B.groupby
     ) AS search1,
     (
-        SELECT count(1) 
+        SELECT COUNT(1) 
         FROM A JOIN B b2 ON A.fkb = b2.id
         WHERE
             $PAsearch2 AND 
             b2.search &lt; 10 AND 
             b2.groupby = B.groupby
-    ) as search2
+    ) AS search2
 FROM B
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1570,8 +1540,7 @@ FROM
         WHERE $PAsearch2 AND A.fkb = B.id
     ) t2
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -1587,17 +1556,16 @@ FROM
     (
         SELECT COUNT(1) c2
         FROM A
-        WHERE $PAsearch1 and A.fkb = B.id
+        WHERE $PAsearch1 AND A.fkb = B.id
     ) t1
     CROSS APPLY
     (
         SELECT COUNT(1) c2
         FROM A
-        WHERE $PAsearch2 and A.fkb = B.id
+        WHERE $PAsearch2 AND A.fkb = B.id
     ) t2
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>PostgreSQL</provider_name>
@@ -1621,8 +1589,7 @@ FROM
         WHERE $PAsearch2 AND A.fkb = B.id
     ) t2
 WHERE B.search &lt; 10
-GROUP BY B.groupby
-$OrderBy</command_text>
+GROUP BY B.groupby</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -1679,8 +1646,7 @@ $OrderBy</command_text>
             b2.groupby = B.groupby
     ) AS search2
 FROM B
-WHERE B.search &lt; 10
-$OrderBy</command_text>
+WHERE B.search &lt; 10</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1732,8 +1698,7 @@ FROM
     SELECT DISTINCT groupby 
     FROM B
     WHERE B.search &lt; 10
-) b
-$OrderBy</command_text>
+) b</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1756,10 +1721,6 @@ $OrderBy</command_text>
           <expected_result_size>0</expected_result_size>
           <parametrized>True</parametrized>
           <parameters>
-            <parameter>
-              <id>487</id>
-              <name>OrderBy</name>
-            </parameter>
             <parameter>
               <id>488</id>
               <name>PAsearch1</name>
@@ -1790,11 +1751,6 @@ $OrderBy</command_text>
           <parameter_values>
             <parameter_value>
               <template_id>490</template_id>
-              <parameter_id>487</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>490</template_id>
               <parameter_id>488</parameter_id>
               <value>A.search = 1</value>
             </parameter_value>
@@ -1802,11 +1758,6 @@ $OrderBy</command_text>
               <template_id>490</template_id>
               <parameter_id>489</parameter_id>
               <value>A.search = 900</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>495</template_id>
-              <parameter_id>487</parameter_id>
-              <value></value>
             </parameter_value>
             <parameter_value>
               <template_id>495</template_id>
@@ -1841,8 +1792,7 @@ $OrderBy</command_text>
 FROM B
 JOIN A ON A.fkb = B.id
 WHERE B.search &lt; 10
-GROUP BY B.id, B.padding
-$OrderBy</command_text>
+GROUP BY B.id, B.padding</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1871,8 +1821,7 @@ $OrderBy</command_text>
 FROM B
 JOIN A ON A.fkb = B.id
 WHERE B.search &lt; 10
-GROUP BY B.id
-$OrderBy</command_text>
+GROUP BY B.id</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1917,8 +1866,7 @@ WHERE
         SELECT 1 
         FROM A 
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1971,8 +1919,7 @@ WHERE
         SELECT 1
         FROM A
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -2005,8 +1952,7 @@ WHERE
         SELECT 1 
         FROM A 
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>MySQL</provider_name>
@@ -2040,8 +1986,7 @@ WHERE
         SELECT 1
         FROM A
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>SQLite</provider_name>
@@ -2075,8 +2020,7 @@ WHERE
         SELECT 1
         FROM A
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -2125,9 +2069,7 @@ WHERE
         SELECT 1 
         FROM A 
         WHERE A.fkb = B.id
-    )
-$OrderBy
-</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2177,8 +2119,7 @@ WHERE
         SELECT 1 
         FROM A 
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -2214,8 +2155,7 @@ WHERE
         SELECT 1 
         FROM A 
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -2265,7 +2205,7 @@ FROM
     (
         SELECT
             A.fkb, A.search,
-            ROW_NUMBER() OVER (partition BY A.fkb ORDER BY A.search ASC) rn
+            ROW_NUMBER() OVER (PARTITION BY A.fkb ORDER BY A.search ASC) rn
         FROM A
         WHERE $PAsearch1
     ) min_search ON min_search.fkb = B.id AND min_search.rn = 1
@@ -2273,7 +2213,7 @@ FROM
     (
         SELECT
             A.fkb, A.search,
-            ROW_NUMBER() OVER (partition BY A.fkb ORDER BY A.search DESC) rn
+            ROW_NUMBER() OVER (PARTITION BY A.fkb ORDER BY A.search DESC) rn
         FROM A
         WHERE $PAsearch2
     ) max_search ON max_search.fkb = B.id AND 
@@ -2285,8 +2225,7 @@ WHERE
         SELECT 1 
         FROM A 
         WHERE A.fkb = B.id
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2306,10 +2245,6 @@ $OrderBy</command_text>
           <expected_result_size>0</expected_result_size>
           <parametrized>True</parametrized>
           <parameters>
-            <parameter>
-              <id>520</id>
-              <name>OrderBy</name>
-            </parameter>
             <parameter>
               <id>522</id>
               <name>PAsearch1</name>
@@ -2336,11 +2271,6 @@ $OrderBy</command_text>
           <parameter_values>
             <parameter_value>
               <template_id>518</template_id>
-              <parameter_id>520</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>518</template_id>
               <parameter_id>522</parameter_id>
               <value>A.search = 1</value>
             </parameter_value>
@@ -2348,11 +2278,6 @@ $OrderBy</command_text>
               <template_id>518</template_id>
               <parameter_id>523</parameter_id>
               <value>A.search = 900</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>526</template_id>
-              <parameter_id>520</parameter_id>
-              <value></value>
             </parameter_value>
             <parameter_value>
               <template_id>526</template_id>
@@ -2388,8 +2313,7 @@ WHERE
         SELECT 1
         FROM A
         WHERE A.search &lt; 500 AND B.id = A.fkb
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2415,8 +2339,7 @@ WHERE
         SELECT COUNT(*) c1 
         FROM A 
         WHERE B.id = A.fkb AND A.search &lt; 500
-    ) = 0
-$OrderBy</command_text>
+    ) = 0</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2449,8 +2372,7 @@ WHERE
         SELECT A.fkb
         FROM A
         WHERE A.search &lt; 500 AND A.fkb IS NOT NULL
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2480,8 +2402,7 @@ WHERE
         SELECT A.fkb
         FROM A
         WHERE A.search &lt; 500 AND A.fkb IS NOT NULL
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -2520,8 +2441,7 @@ WHERE
         SELECT A.fkb
         FROM A
         WHERE A.search &lt; 500
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -2538,8 +2458,7 @@ WHERE
         SELECT A.fkb
         FROM A
         WHERE A.search &lt; 500
-    )
-$OrderBy</command_text>
+    )</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>MySQL</provider_name>
@@ -2581,26 +2500,24 @@ FROM
         SELECT A.fkb c1
         FROM A
         WHERE search &lt; 500
-    ) t ON t.c1 = B.id
-$OrderBy</command_text>
+    ) t ON t.c1 = B.id</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>Oracle Database</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT B.id, B.groupby, B.search, B.padding
-FROM B
-JOIN
-(
-    SELECT id c1
-    FROM B
-    WHERE $PBsearch
-    MINUS
-    SELECT fkb c1
-    FROM A
-    WHERE search &lt; 500
-) t ON t.c1 = B.id
-$OrderBy</command_text>
+FROM
+    B JOIN
+    (
+        SELECT id c1
+        FROM B
+        WHERE $PBsearch
+        MINUS
+        SELECT fkb c1
+        FROM A
+        WHERE search &lt; 500
+    ) t ON t.c1 = B.id</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>MySQL</provider_name>
@@ -2638,8 +2555,7 @@ EXCEPT
 SELECT B.id, B.groupby, B.search, B.padding
 FROM B
 JOIN A ON B.id = A.fkb
-WHERE A.search &lt; 500
-$OrderBy</command_text>
+WHERE A.search &lt; 500</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -2652,8 +2568,7 @@ EXCEPT
 SELECT B.id, B.groupby, B.search, B.padding
 FROM B
 JOIN A ON B.id = A.fkb
-WHERE A.search &lt; 500
-$OrderBy</command_text>
+WHERE A.search &lt; 500</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Oracle Database</provider_name>
@@ -2665,8 +2580,7 @@ MINUS
 SELECT B.id, B.groupby, B.search, B.padding
 FROM B
 JOIN A ON B.id = A.fkb
-WHERE A.search &lt; 500
-$ORDERBYid</command_text>
+WHERE A.search &lt; 500</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>PostgreSQL</provider_name>
@@ -2678,8 +2592,7 @@ EXCEPT
 SELECT B.id, B.groupby, B.search, B.padding
 FROM B
 JOIN A ON B.id = A.fkb
-WHERE A.search &lt; 500
-$ORDERBYid</command_text>
+WHERE A.search &lt; 500</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>MySQL</provider_name>
@@ -2696,8 +2609,7 @@ EXCEPT
 SELECT B.id, B.groupby, B.search, B.padding
 FROM B
 JOIN A ON B.id = A.fkb
-WHERE A.search &lt; 500
-$ORDERBYid</command_text>
+WHERE A.search &lt; 500</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Firebird</provider_name>
@@ -2735,8 +2647,7 @@ FROM
     WHERE $PBsearch
 ) b
 WHERE b.c1 = 0
-GROUP BY b.id, b.groupby, b.search, b.padding
-$OrderBy</command_text>
+GROUP BY b.id, b.groupby, b.search, b.padding</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2766,8 +2677,7 @@ FROM
     LEFT JOIN A ON B.id = A.fkb
 WHERE $PBsearch
 GROUP BY B.id, B.groupby, B.search, B.padding
-HAVING COUNT(CASE WHEN A.search &lt; 500 THEN 1 END) = 0
-$OrderBy</command_text>
+HAVING COUNT(CASE WHEN A.search &lt; 500 THEN 1 END) = 0</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2797,8 +2707,7 @@ FROM
     LEFT JOIN A ON B.id = A.fkb
 WHERE $PBsearch
 GROUP BY B.id
-HAVING COUNT(CASE WHEN A.search &lt; 500 THEN 1 END) = 0
-$OrderBy</command_text>
+HAVING COUNT(CASE WHEN A.search &lt; 500 THEN 1 END) = 0</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2833,8 +2742,7 @@ FROM
     ) t ON B.id = t.fkb
 WHERE
     $PBsearch AND
-    t.fkb IS NULL
-$OrderBy</command_text>
+    t.fkb IS NULL</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -2851,8 +2759,7 @@ FROM
     ) t
 WHERE
     $PBsearch AND
-    t.fkb IS NULL
-$OrderBy</command_text>
+    t.fkb IS NULL</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -2899,8 +2806,7 @@ FROM
     ) t
 WHERE
     $PBsearch AND
-    t.c1 = 0
-$OrderBy</command_text>
+    t.c1 = 0</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -2917,8 +2823,7 @@ FROM
     ) t
 WHERE
     $PBsearch AND 
-    t.c1 = 0
-$OrderBy</command_text>
+    t.c1 = 0</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -2961,8 +2866,7 @@ $OrderBy</command_text>
 FROM
     B
     LEFT JOIN A ON B.id = A.fkb AND A.search &lt; 500
-WHERE $PBsearch AND A.fkb IS NULL
-$OrderBy</command_text>
+WHERE $PBsearch AND A.fkb IS NULL</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2994,8 +2898,7 @@ FROM
         LEFT JOIN A ON B.id = A.fkb
     WHERE $PBsearch
 ) b
-WHERE b.c1 = 0
-$OrderBy</command_text>
+WHERE b.c1 = 0</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3033,8 +2936,7 @@ FROM
         LEFT JOIN A ON B.id = A.fkb
     WHERE $PBsearch
 ) b
-WHERE b.c1 = 0
-$OrderBy</command_text>
+WHERE b.c1 = 0</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3058,16 +2960,8 @@ $OrderBy</command_text>
           <parametrized>True</parametrized>
           <parameters>
             <parameter>
-              <id>599</id>
-              <name>OrderBy</name>
-            </parameter>
-            <parameter>
               <id>600</id>
               <name>PBsearch</name>
-            </parameter>
-            <parameter>
-              <id>770</id>
-              <name>ORDERBYid</name>
             </parameter>
           </parameters>
           <templates>
@@ -3087,33 +2981,13 @@ $OrderBy</command_text>
           <parameter_values>
             <parameter_value>
               <template_id>601</template_id>
-              <parameter_id>599</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>601</template_id>
               <parameter_id>600</parameter_id>
               <value>B.search = 1</value>
             </parameter_value>
             <parameter_value>
               <template_id>611</template_id>
-              <parameter_id>599</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>611</template_id>
               <parameter_id>600</parameter_id>
               <value>B.search &lt; 100</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>601</template_id>
-              <parameter_id>770</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>611</template_id>
-              <parameter_id>770</parameter_id>
-              <value></value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -3144,8 +3018,7 @@ FROM
         WHERE search &gt; 900
     ) t ON B.id = t.fkb
 WHERE $PBSearch
-GROUP BY B.id
-$OrderBy</command_text>
+GROUP BY B.id</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3173,8 +3046,7 @@ FROM
 WHERE
     (A.search &lt; 10 OR A.search &gt; 900) AND
     $PBSearch
-GROUP BY B.id
-$OrderBy</command_text>
+GROUP BY B.id</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3214,9 +3086,8 @@ WHERE
     (
         SELECT A.fkb
         FROM A
-        WHERE A.search &lt; 10 or A.search &gt; 900
-    )
-$OrderBy</command_text>
+        WHERE A.search &lt; 10 OR A.search &gt; 900
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3266,8 +3137,7 @@ WHERE
         SELECT A.fkb
         FROM A
         WHERE A.search &lt; 10 OR A.search &gt; 900
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3312,8 +3182,7 @@ WHERE
         SELECT A.fkb
         FROM A
         WHERE A.search &lt; 10 OR A.search &gt; 900
-    )
-$OrderBy</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -3343,8 +3212,7 @@ WHERE
         SELECT A.fkb
         FROM A
         WHERE A.search &lt; 10 OR A.search &gt; 900
-    )
-$OrderBy</command_text>
+    )</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -3390,10 +3258,6 @@ $OrderBy</command_text>
           <parametrized>True</parametrized>
           <parameters>
             <parameter>
-              <id>660</id>
-              <name>OrderBy</name>
-            </parameter>
-            <parameter>
               <id>661</id>
               <name>PBSearch</name>
             </parameter>
@@ -3415,18 +3279,8 @@ $OrderBy</command_text>
           <parameter_values>
             <parameter_value>
               <template_id>662</template_id>
-              <parameter_id>660</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>662</template_id>
               <parameter_id>661</parameter_id>
               <value>B.search = 1</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>670</template_id>
-              <parameter_id>660</parameter_id>
-              <value></value>
             </parameter_value>
             <parameter_value>
               <template_id>670</template_id>
@@ -3701,7 +3555,7 @@ FROM
     JOIN B ON A.fkb = B.id
 WHERE A.search &lt; 100
 GROUP BY A.fkb, A.groupby, B.id, B.groupby, B.search, B.padding
-HAVING count(*) = 1</command_text>
+HAVING COUNT(*) = 1</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>MySQL</provider_name>
@@ -3765,7 +3619,7 @@ FROM
         (
             SELECT A.groupby
             FROM A
-            WHERE A.fkb = B.id and A.search &lt; 100
+            WHERE A.fkb = B.id AND A.search &lt; 100
             GROUP BY A.groupby
             HAVING COUNT(*) = 1
         ) t
@@ -3788,6 +3642,28 @@ WHERE
                   <provider_name>SQLite</provider_name>
                   <not_supported>True</not_supported>
                   <command_text></command_text>
+                </specific_statement>
+                <specific_statement>
+                  <provider_name>Oracle Database</provider_name>
+                  <not_supported>False</not_supported>
+                  <command_text>SELECT B.id, B.groupby, B.search, B.padding 
+FROM
+    B
+    OUTER APPLY
+    (
+        SELECT COUNT(*) c
+        FROM
+        (
+            SELECT A.groupby
+            FROM A
+            WHERE A.fkb = B.id AND A.search &lt; 100
+            GROUP BY A.groupby
+            HAVING COUNT(*) = 1
+        ) t
+    ) t
+WHERE
+    $PBsearch AND
+    t.c = 0</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -4243,7 +4119,7 @@ FROM
     B
     CROSS APPLY
     (
-        SELECT count(distinct A.search) c1
+        SELECT COUNT(DISTINCT A.search) c1
         FROM A
         WHERE
             search IN (1, 100) AND
@@ -4574,8 +4450,7 @@ WHERE
         FROM A
         WHERE b1.id = A.fkb AND A.groupby &lt; 50
     )
-    AND $PBsearch
-$OrderBy</command_text>
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4601,8 +4476,7 @@ WHERE
         SELECT A.fkb 
         FROM A
     )
-    AND $PBsearch
-$OrderBy</command_text>
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4625,8 +4499,7 @@ $OrderBy</command_text>
               <default_statement>
                 <command_text>SELECT DISTINCT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1 JOIN A ON A.fkb = b1.id
-WHERE $PBsearch
-$OrderBy</command_text>
+WHERE $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4653,8 +4526,7 @@ $OrderBy</command_text>
                 <command_text>SELECT b1.id, b1.groupby, MAX(b1.search), MAX(b1.padding)
 FROM B b1 JOIN A ON A.fkb = b1.id
 WHERE $PBsearch
-GROUP BY b1.id, b1.groupby
-$OrderBy</command_text>
+GROUP BY b1.id, b1.groupby</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4686,8 +4558,7 @@ WHERE
         SELECT COUNT(*) c1 
         FROM A 
         WHERE A.fkb = b1.id
-    ) != 0
-$OrderBy</command_text>
+    ) != 0</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4719,8 +4590,7 @@ FROM
         FROM B b1
         WHERE $PBsearch
     ) t ON t.c1 = b1.id
-    AND $PBsearch
-$OrderBy</command_text>
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -4763,8 +4633,7 @@ FROM
     ) t
 WHERE
     $PBsearch AND
-    t.c1 != 0
-$OrderBy</command_text>
+    t.c1 != 0</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -4775,14 +4644,13 @@ FROM
     B b1
     CROSS APPLY
     (
-        SELECT count(*) c1 
+        SELECT COUNT(*) c1 
         FROM A 
         WHERE b1.id = A.fkb
     ) t
 WHERE
     $PBsearch AND
-    t.c1 != 0
-$OrderBy</command_text>
+    t.c1 != 0</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -4822,8 +4690,7 @@ $OrderBy</command_text>
 FROM B b1
 JOIN A ON A.fkb = b1.id
 WHERE $PBsearch
-GROUP BY b1.id, b1.groupby, b1.search, b1.padding
-$OrderBy</command_text>
+GROUP BY b1.id, b1.groupby, b1.search, b1.padding</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4857,8 +4724,7 @@ FROM
         SELECT DISTINCT A.fkb
         FROM A
     ) t ON t.fkb = b1.id
-WHERE $PBsearch
-$OrderBy</command_text>
+WHERE $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4882,10 +4748,6 @@ $OrderBy</command_text>
               <id>427</id>
               <name>PBsearch</name>
             </parameter>
-            <parameter>
-              <id>429</id>
-              <name>OrderBy</name>
-            </parameter>
           </parameters>
           <templates>
             <template>
@@ -4908,19 +4770,9 @@ $OrderBy</command_text>
               <value>b1.search = 1</value>
             </parameter_value>
             <parameter_value>
-              <template_id>428</template_id>
-              <parameter_id>429</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
               <template_id>435</template_id>
               <parameter_id>427</parameter_id>
               <value>b1.search &lt; 50</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>435</template_id>
-              <parameter_id>429</parameter_id>
-              <value></value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -5169,13 +5021,15 @@ FROM
                 <specific_statement>
                   <provider_name>PostgreSQL</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>SELECT CAST(sum(t.c1) AS BIGINT)
-FROM A
-CROSS JOIN LATERAL (
-  SELECT count(*) c1
-  FROM B 
-  WHERE $PBsearch and A.fkb = B.id
-) t</command_text>
+                  <command_text>SELECT CAST(SUM(t.c1) AS BIGINT)
+FROM
+    A
+    CROSS JOIN LATERAL
+    (
+        SELECT COUNT(*) c1
+        FROM B 
+        WHERE $PBsearch AND A.fkb = B.id
+    ) t</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Firebird</provider_name>
@@ -5253,8 +5107,7 @@ CROSS JOIN LATERAL (
                 <command_text>SELECT B.id, MAX(A.groupby) - B.search
 FROM B JOIN A ON A.fkb = B.id
 WHERE $PBsearch
-GROUP BY B.id, B.search
-$Orderby</command_text>
+GROUP BY B.id, B.search</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5278,8 +5131,7 @@ $Orderby</command_text>
                 <command_text>SELECT B.id, MAX(A.groupby) - MAX(B.search)
 FROM B JOIN A ON A.fkb = B.id
 WHERE $PBsearch
-GROUP BY B.id
-$Orderby</command_text>
+GROUP BY B.id</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5312,8 +5164,7 @@ WHERE
         SELECT A.groupby
         FROM A
         WHERE A.fkb = B.id AND A.groupby IS NOT NULL
-    )
-$Orderby</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -5350,8 +5201,7 @@ $Orderby</command_text>
 FROM B
 WHERE
     $PBsearch AND
-    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
-$Orderby</command_text>
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5420,8 +5270,7 @@ $Orderby</command_text>
 FROM B
 WHERE
     $PBsearch AND
-    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
-$Orderby</command_text>
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>SQLite</provider_name>
@@ -5438,8 +5287,7 @@ $Orderby</command_text>
 FROM B
 WHERE
     $PBsearch AND
-    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
-$Orderby</command_text>
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -5469,8 +5317,7 @@ FROM
         WHERE A.fkb = B.id 
         GROUP BY A.fkb
     ) t
-WHERE $PBsearch
-$Orderby</command_text>
+WHERE $PBsearch</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -5485,8 +5332,7 @@ FROM
         WHERE A.fkb = B.id 
         GROUP BY A.fkb
     ) t
-WHERE $PBsearch
-$Orderby</command_text>
+WHERE $PBsearch</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -5533,8 +5379,7 @@ FROM
     ) t ON true
 WHERE
     $PBsearch AND
-    t.fkb IS NOT NULL
-$Orderby</command_text>
+    t.fkb IS NOT NULL</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -5551,8 +5396,7 @@ FROM
     ) t
 WHERE
     $PBsearch AND
-    t.fkb IS NOT NULL
-$Orderby</command_text>
+    t.fkb IS NOT NULL</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Oracle Database</provider_name>
@@ -5568,8 +5412,7 @@ FROM
     ) t
 WHERE
     $PBsearch AND
-    t.fkb IS NOT NULL
-$Orderby</command_text>
+    t.fkb IS NOT NULL</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -5613,8 +5456,7 @@ FROM
         FROM A 
         GROUP BY A.fkb
     ) t ON t.fkb = B.id 
-WHERE $PBsearch
-$Orderby</command_text>
+WHERE $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5639,8 +5481,7 @@ $Orderby</command_text>
     B.id, 
     MAX(A.groupby) OVER (PARTITION BY B.id) - B.search
 FROM B JOIN A ON A.fkb = B.id
-WHERE $PBsearch
-$Orderby</command_text>
+WHERE $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -5671,8 +5512,7 @@ WHERE
         FROM A
         WHERE A.groupby IS NOT NULL
         GROUP BY A.fkb
-    )
-$Orderby</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -5707,10 +5547,6 @@ $Orderby</command_text>
               <id>876</id>
               <name>PBsearch</name>
             </parameter>
-            <parameter>
-              <id>879</id>
-              <name>Orderby</name>
-            </parameter>
           </parameters>
           <templates>
             <template>
@@ -5736,16 +5572,6 @@ $Orderby</command_text>
               <template_id>877</template_id>
               <parameter_id>876</parameter_id>
               <value>B.search &lt; 50</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>875</template_id>
-              <parameter_id>879</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>877</template_id>
-              <parameter_id>879</parameter_id>
-              <value></value>
             </parameter_value>
           </parameter_values>
         </test>
@@ -5910,7 +5736,7 @@ ON B (search)
 FROM A
 WHERE
     groupby IS NOT NULL AND
-    search in (1, 500)
+    search IN (1, 500)
 GROUP BY groupby
 HAVING COUNT(DISTINCT search) = 2</command_text>
               </default_statement>
@@ -6344,8 +6170,7 @@ FROM
         FROM A
         WHERE $PAgroupby
         GROUP BY groupby
-    ) t2 ON a1.groupby = t2.groupby AND a1.search = t2.search_max
-$OrderByA1</command_text>
+    ) t2 ON a1.groupby = t2.groupby AND a1.search = t2.search_max</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6373,8 +6198,7 @@ WHERE
         WHERE a2.groupby = a1.groupby AND a2.search &gt; a1.search
     )
     AND $PA1groupby
-    AND a1.search IS NOT NULL
-$OrderByA1</command_text>
+    AND a1.search IS NOT NULL</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6404,8 +6228,7 @@ WHERE
         SELECT MAX(a2.search) search_max
         FROM A a2
         WHERE a2.groupby = a1.groupby
-    )
-$OrderByA1</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6440,8 +6263,7 @@ FROM
     ) t
 WHERE
     $PA1groupby AND
-    a1.search = t.search_max
-$OrderByA1</command_text>
+    a1.search = t.search_max</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -6458,8 +6280,7 @@ FROM
     ) t
 WHERE
     $PA1groupby AND
-    a1.search = t.search_max
-$OrderByA1</command_text>
+    a1.search = t.search_max</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>H2</provider_name>
@@ -6508,8 +6329,7 @@ WHERE
         FROM A a2
         WHERE a1.groupby = a2.groupby AND a2.search IS NOT NULL
     )
-    AND a1.search IS NOT NULL
-$OrderByA1</command_text>
+    AND a1.search IS NOT NULL</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -6545,10 +6365,7 @@ FROM
     FROM A
     WHERE $PAgroupby AND A.search IS NOT NULL
 ) a1
-WHERE a1.rn = 1
-$OrderByA1
-
-</command_text>
+WHERE a1.rn = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6578,8 +6395,7 @@ FROM
     FROM A 
     WHERE $PAgroupby
 ) a1
-WHERE a1.search_max = a1.search
-$OrderByA1</command_text>
+WHERE a1.search_max = a1.search</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -6675,8 +6491,7 @@ FROM
         FROM A a2
         WHERE t.groupby = a2.groupby AND a2.search IS NOT NULL
         ORDER BY a2.search DESC
-    ) a1
-$OrderByA1</command_text>
+    ) a1</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -6696,8 +6511,7 @@ FROM
         FROM A a2
         WHERE t.groupby = a2.groupby AND a2.search IS NOT NULL
         ORDER BY a2.search DESC
-    ) a1
-$OrderByA1</command_text>
+    ) a1</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>Oracle Database</provider_name>
@@ -6717,8 +6531,7 @@ FROM
         WHERE t.groupby = a2.groupby AND a2.search IS NOT NULL
         ORDER BY a2.search DESC
         FETCH FIRST ROW WITH TIES
-    ) a1
-$OrderByA1</command_text>
+    ) a1</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>PostgreSQL</provider_name>
@@ -6804,8 +6617,7 @@ WHERE
         FROM A
         WHERE $PAgroupby
         GROUP BY groupby
-    )
-$OrderByA1</command_text>
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -6841,14 +6653,6 @@ $OrderByA1</command_text>
               <name>PAgroupby</name>
             </parameter>
             <parameter>
-              <id>644</id>
-              <name>OrderByA1</name>
-            </parameter>
-            <parameter>
-              <id>645</id>
-              <name>OrderByA</name>
-            </parameter>
-            <parameter>
               <id>646</id>
               <name>PA1groupby</name>
             </parameter>
@@ -6877,26 +6681,6 @@ $OrderByA1</command_text>
               <template_id>636</template_id>
               <parameter_id>628</parameter_id>
               <value>A.groupby &lt; 50</value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>629</template_id>
-              <parameter_id>644</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>636</template_id>
-              <parameter_id>644</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>629</template_id>
-              <parameter_id>645</parameter_id>
-              <value></value>
-            </parameter_value>
-            <parameter_value>
-              <template_id>636</template_id>
-              <parameter_id>645</parameter_id>
-              <value></value>
             </parameter_value>
             <parameter_value>
               <template_id>629</template_id>
@@ -7347,7 +7131,7 @@ GROUP BY groupby</command_text>
               <name>Window function I</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT groupby, CAST(SQRT(SUM(c * c) / cnt) as DECIMAL(15, 5)) c
+                <command_text>SELECT groupby, CAST(SQRT(SUM(c * c) / cnt) AS DECIMAL(15, 5)) c
 FROM
 (
     SELECT

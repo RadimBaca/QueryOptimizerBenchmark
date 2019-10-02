@@ -27,6 +27,7 @@ namespace SqlOptimizerBechmark.Classes
         MORE_OR_EQUALS,
         LESS_OR_EQUALS,
         EOF,
+        SQL_BENCH_PARAMETER_SYMBOL,
         UNDEFINED
     }
 

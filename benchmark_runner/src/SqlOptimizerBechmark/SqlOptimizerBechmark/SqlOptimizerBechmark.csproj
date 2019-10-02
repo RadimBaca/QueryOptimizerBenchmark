@@ -238,6 +238,12 @@
     <Compile Include="Controls\DbProviderComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\FormattingGuideDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\FormattingGuideDialog.Designer.cs">
+      <DependentUpon>FormattingGuideDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Helpers.cs" />
     <Compile Include="Controls\LogBrowser.cs">
       <SubType>Component</SubType>
@@ -454,6 +460,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DbProviderComboBox.resx">
       <DependentUpon>DbProviderComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FormattingGuideDialog.resx">
+      <DependentUpon>FormattingGuideDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LogBrowser.resx">
       <DependentUpon>LogBrowser.cs</DependentUpon>

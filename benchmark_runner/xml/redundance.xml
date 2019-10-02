@@ -1063,18 +1063,16 @@ DROP TABLE IF EXISTS B;
               <description></description>
               <default_statement>
                 <command_text>SELECT A.id, A.groupby, A.fkb, A.search, A.padding
-FROM A 
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and B.search = 1</command_text>
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PAsearch AND B.search = 1</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>SQLite</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT A.id, A.groupby AS groupby, A.fkb, A.search, A.padding
-FROM A
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and B.search = 1</command_text>
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PAsearch AND B.search = 1</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -1096,9 +1094,8 @@ WHERE $PAsearch and B.search = 1</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT A.id, A.groupby, A.fkb, A.search, A.padding
-FROM A 
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and B.search + 9 = 10</command_text>
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PAsearch AND B.search + 9 = 10</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1114,9 +1111,8 @@ WHERE $PAsearch and B.search + 9 = 10</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT A.id, A.groupby, A.fkb, A.search, A.padding
-FROM A 
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and (B.search = 1 or (1 = 2 and A.fkb = 1))</command_text>
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PAsearch AND (B.search = 1 OR (1 = 2 AND A.fkb = 1))</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1131,13 +1127,13 @@ WHERE $PAsearch and (B.search = 1 or (1 = 2 and A.fkb = 1))</command_text>
               <name>Redundant CASE</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT A.id, 
-       CASE WHEN B.search = 1 THEN A.groupby END, 
-       CASE WHEN B.search = 1 THEN A.fkb END, 
-       A.search, A.padding
-FROM A 
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and B.search = 1</command_text>
+                <command_text>SELECT
+    A.id, 
+    CASE WHEN B.search = 1 THEN A.groupby END, 
+    CASE WHEN B.search = 1 THEN A.fkb END, 
+    A.search, A.padding
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PAsearch AND B.search = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1153,13 +1149,16 @@ WHERE $PAsearch and B.search = 1</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT A.id, A.groupby, A.fkb, A.search, A.padding
-FROM A 
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and B.search = 1 and EXISTS (
-  SELECT 1
-  FROM A
-  WHERE A.fkb = B.id and $PAsearch
-)</command_text>
+FROM A JOIN B ON A.fkb = B.id
+WHERE
+    $PAsearch AND
+    B.search = 1 AND
+    EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.fkb = B.id AND $PAsearch
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1174,11 +1173,12 @@ WHERE $PAsearch and B.search = 1 and EXISTS (
               <name>Redundant JOIN</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT A.id, A.groupby, A.fkb, A.search, Ar.padding
-FROM A 
-JOIN B ON A.fkb = B.id
-JOIN A ar ON A.id = ar.id
-WHERE $PAsearch and B.search = 1</command_text>
+                <command_text>SELECT A.id, A.groupby, A.fkb, A.search, ar.padding
+FROM
+    A 
+    JOIN B ON A.fkb = B.id
+    JOIN A ar ON A.id = ar.id
+WHERE $PAsearch AND B.search = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1197,17 +1197,18 @@ WHERE $PAsearch and B.search = 1</command_text>
               <description>GROUP BY attribute set {A.id, A.groupby, A.fkb, A.search, A.padding} needs to be unique</description>
               <default_statement>
                 <command_text>SELECT A.id, A.groupby, A.fkb, A.search, A.padding
-FROM (
-  SELECT A.id, 
-    A.groupby, 
-    max(A.fkb) as fkb, 
-    max(A.search) as search, 
-    max(A.padding) as padding
-  FROM A
-  GROUP BY A.id, A.groupby
-) A 
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and B.search = 1
+FROM
+    (
+        SELECT
+            A.id, A.groupby, 
+            MAX(A.fkb) AS fkb, 
+            MAX(A.search) AS search, 
+            MAX(A.padding) AS padding
+        FROM A
+        GROUP BY A.id, A.groupby
+    ) A 
+    JOIN B ON A.fkb = B.id
+WHERE $PAsearch AND B.search = 1
 GROUP BY A.id, A.groupby, A.fkb, A.search, A.padding</command_text>
               </default_statement>
               <specific_statements />
@@ -1228,13 +1229,12 @@ GROUP BY A.id, A.groupby, A.fkb, A.search, A.padding</command_text>
               <default_statement>
                 <command_text>SELECT A.id, A.groupby, A.fkb, A.search, 
 (
-  SELECT ar.padding
-  FROM A ar 
-  WHERE A.id = Ar.id
-  ) padding
-FROM A 
-JOIN B ON A.fkb = B.id
-WHERE $PAsearch and B.search = 1</command_text>
+    SELECT ar.padding
+    FROM A ar 
+    WHERE A.id = ar.id
+) padding
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PAsearch AND B.search = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1306,12 +1306,12 @@ WHERE $PAsearch and B.search = 1</command_text>
               <name>Conditional aggregation</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
- count(CASE WHEN $PAsearch1 THEN 1 END) as search1,
- count(CASE WHEN $PAsearch2 THEN 1 END) as search2
-FROM B
-LEFT JOIN A ON A.fkb = B.id
-WHERE B.search = 1 and B.groupby is not null
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 THEN 1 END) AS search1,
+    COUNT(CASE WHEN $PAsearch2 THEN 1 END) AS search2
+FROM B LEFT JOIN A ON A.fkb = B.id
+WHERE B.search = 1 AND B.groupby IS NOT NULL
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1333,12 +1333,12 @@ GROUP BY B.groupby</command_text>
               <name>Redundant computation</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
- count(CASE WHEN $PAsearch1 THEN 1 END) as search1,
- count(CASE WHEN $PAsearch2 THEN 1 END) as search2
-FROM B
-LEFT JOIN A ON A.fkb = B.id
-WHERE B.search * 2 = 2 and B.groupby is not null
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 THEN 1 END) AS search1,
+    COUNT(CASE WHEN $PAsearch2 THEN 1 END) AS search2
+FROM B LEFT JOIN A ON A.fkb = B.id
+WHERE B.search * 2 = 2 AND B.groupby IS NOT NULL
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1354,12 +1354,12 @@ GROUP BY B.groupby</command_text>
               <name>Redundant expression</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
- count(CASE WHEN $PAsearch1 THEN 1 END) as search1,
- count(CASE WHEN $PAsearch2 THEN 1 END) as search2
-FROM B
-LEFT JOIN A ON A.fkb = B.id
-WHERE (B.search = 1 or 1 = 2 and A.fkb = 1) and B.groupby is not null
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 THEN 1 END) AS search1,
+    COUNT(CASE WHEN $PAsearch2 THEN 1 END) AS search2
+FROM B LEFT JOIN A ON A.fkb = B.id
+WHERE (B.search = 1 OR 1 = 2 AND A.fkb = 1) AND B.groupby IS NOT NULL
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1375,12 +1375,12 @@ GROUP BY B.groupby</command_text>
               <name>Redundant CASE</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
- count(CASE WHEN $PAsearch1 and B.search = 1 THEN 1 END) as search1,
- count(CASE WHEN $PAsearch2 and B.search = 1 THEN 1 END) as search2
-FROM B
-LEFT JOIN A ON A.fkb = B.id
-WHERE B.search = 1 and B.groupby is not null
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 AND B.search = 1 THEN 1 END) AS search1,
+    COUNT(CASE WHEN $PAsearch2 AND B.search = 1 THEN 1 END) AS search2
+FROM B LEFT JOIN A ON A.fkb = B.id
+WHERE B.search = 1 AND B.groupby IS NOT NULL
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1396,17 +1396,20 @@ GROUP BY B.groupby</command_text>
               <name>Redundant EXISTS</name>
               <description>B.id needs to be a not null value (or primary key)</description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
- count(CASE WHEN $PAsearch1 THEN 1 END) as search1,
- count(CASE WHEN $PAsearch2 THEN 1 END) as search2
-FROM B
-LEFT JOIN A ON A.fkb = B.id
-WHERE B.search = 1 and B.groupby is not null and 
-  exists(
-    SELECT 1
-    FROM B b2
-    WHERE B.id = b2.id
-  )
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 THEN 1 END) AS search1,
+    COUNT(CASE WHEN $PAsearch2 THEN 1 END) AS search2
+FROM B LEFT JOIN A ON A.fkb = B.id
+WHERE
+    B.search = 1 AND
+    B.groupby IS NOT NULL AND 
+    EXISTS
+    (
+        SELECT 1
+        FROM B b2
+        WHERE B.id = b2.id
+    )
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1425,13 +1428,15 @@ GROUP BY B.groupby</command_text>
               <name>Redundant JOIN</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
-  count(CASE WHEN $PAsearch1 THEN 1 END) as search1,
-  count(CASE WHEN $PARsearch2 THEN 1 END) as search2
-FROM B
-LEFT JOIN A ON A.fkb = B.id
-LEFT JOIN A ar ON A.id = ar.id
-WHERE B.search = 1 and B.groupby is not null
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 THEN 1 END) AS search1,
+    COUNT(CASE WHEN $PARsearch2 THEN 1 END) AS search2
+FROM
+    B
+    LEFT JOIN A ON A.fkb = B.id
+    LEFT JOIN A ar ON A.id = ar.id
+WHERE B.search = 1 AND B.groupby IS NOT NULL
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1450,16 +1455,19 @@ GROUP BY B.groupby</command_text>
               <name>Redundant GROUP BY PK</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
- count(CASE WHEN $PAsearch1 THEN 1 END) as search1,
- count(CASE WHEN $PAsearch2 THEN 1 END) as search2
-FROM B
-LEFT JOIN (
-  SELECT A.id, A.fkb, A.search, A.padding
-  FROM A
-  GROUP BY A.id, A.fkb, A.search, A.padding
-) A ON A.fkb = B.id
-WHERE B.search = 1 and B.groupby is not null
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 THEN 1 END) AS search1,
+    COUNT(CASE WHEN $PAsearch2 THEN 1 END) AS search2
+FROM
+    B
+    LEFT JOIN
+    (
+        SELECT A.id, A.fkb, A.search, A.padding
+        FROM A
+        GROUP BY A.id, A.fkb, A.search, A.padding
+    ) A ON A.fkb = B.id
+WHERE B.search = 1 AND B.groupby IS NOT NULL
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1478,17 +1486,16 @@ GROUP BY B.groupby</command_text>
               <name>Redundant subquery</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.groupby,
-  count(CASE WHEN $PAsearch1 THEN 1 END) as search1,
-  (
-    SELECT count(1)
-    FROM A ar 
-    JOIN B br ON br.id = ar.fkb
-    WHERE br.groupby = B.groupby and $PARsearch2 and br.search = 1
+                <command_text>SELECT
+    B.groupby,
+    COUNT(CASE WHEN $PAsearch1 THEN 1 END) AS search1,
+    (
+        SELECT COUNT(1)
+        FROM A ar JOIN B br ON br.id = ar.fkb
+        WHERE br.groupby = B.groupby AND $PARsearch2 AND br.search = 1
     ) search2
-FROM B
-LEFT JOIN A ON A.fkb = B.id
-WHERE B.search = 1 and B.groupby is not null
+FROM B LEFT JOIN A ON A.fkb = B.id
+WHERE B.search = 1 AND B.groupby IS NOT NULL
 GROUP BY B.groupby</command_text>
               </default_statement>
               <specific_statements />
@@ -1585,12 +1592,14 @@ GROUP BY B.groupby</command_text>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS
-(
-  SELECT 1
-  FROM A
-  WHERE A.search = 1 and B.id = A.fkb
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.search = 1 AND B.id = A.fkb
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1613,12 +1622,14 @@ WHERE $PBsearch and NOT EXISTS
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS
-(
-  SELECT 1
-  FROM A
-  WHERE A.search * 10 = 10 and B.id = A.fkb
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.search * 10 = 10 AND B.id = A.fkb
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1635,11 +1646,11 @@ WHERE $PBsearch and NOT EXISTS
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS
+WHERE $PBsearch AND NOT EXISTS
 (
-  SELECT 1
-  FROM A
-  WHERE (A.search = 1 or (1 = 2 and A.fkb = 1)) and B.id = A.fkb
+    SELECT 1
+    FROM A
+    WHERE (A.search = 1 OR (1 = 2 AND A.fkb = 1)) AND B.id = A.fkb
 )</command_text>
               </default_statement>
               <specific_statements />
@@ -1657,13 +1668,15 @@ WHERE $PBsearch and NOT EXISTS
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS
-(
-  SELECT 1
-  FROM A
-  WHERE A.search = 1 and B.id = A.fkb
-  GROUP BY A.search
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.search = 1 AND B.id = A.fkb
+        GROUP BY A.search
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1680,13 +1693,14 @@ WHERE $PBsearch and NOT EXISTS
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS
-(
-  SELECT 1
-  FROM A
-  JOIN B br on br.id = A.fkb
-  WHERE A.search = 1 and br.id = B.id
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A JOIN B br ON br.id = A.fkb
+        WHERE A.search = 1 AND br.id = B.id
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1704,19 +1718,22 @@ WHERE $PBsearch and NOT EXISTS
               <name>Redundant subquery</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, B.groupby, B.search, 
-  (
-    SELECT br.padding
-    FROM B br 
-    WHERE B.id = Br.id
-  ) padding
+                <command_text>SELECT
+    B.id, B.groupby, B.search, 
+    (
+        SELECT br.padding
+        FROM B br 
+        WHERE B.id = br.id
+    ) padding
 FROM B
-WHERE $PBsearch and NOT EXISTS
-(
-  SELECT 1
-  FROM A
-  WHERE A.search = 1 and B.id = A.fkb
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.search = 1 AND B.id = A.fkb
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -1778,18 +1795,18 @@ WHERE $PBsearch and NOT EXISTS
               <name>Set</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, sum(c2)
-FROM B
-JOIN
-(
-    SELECT fkb, groupby c2
-    FROM A
-    WHERE search = 1
-    UNION ALL
-    SELECT fkb, -groupby c2
-    FROM A
-    WHERE search = 2
-) t ON B.id = t.fkb
+                <command_text>SELECT B.id, SUM(c2)
+FROM
+    B JOIN
+    (
+        SELECT fkb, groupby c2
+        FROM A
+        WHERE search = 1
+        UNION ALL
+        SELECT fkb, -groupby c2
+        FROM A
+        WHERE search = 2
+    ) t ON B.id = t.fkb
 WHERE $PBSearch
 GROUP BY B.id</command_text>
               </default_statement>
@@ -1812,18 +1829,18 @@ GROUP BY B.id</command_text>
               <name>Redundant computation</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, sum(c2)
-FROM B
-JOIN
-(
-    SELECT fkb , groupby c2
-    FROM A
-    WHERE search + 9 = 10
-    UNION ALL
-    SELECT fkb, -groupby c2
-    FROM A
-    WHERE search * 2 = 4
-) t ON B.id = t.fkb
+                <command_text>SELECT B.id, SUM(c2)
+FROM
+    B JOIN
+    (
+        SELECT fkb , groupby c2
+        FROM A
+        WHERE search + 9 = 10
+        UNION ALL
+        SELECT fkb, -groupby c2
+        FROM A
+        WHERE search * 2 = 4
+    ) t ON B.id = t.fkb
 WHERE $PBSearch
 GROUP BY B.id</command_text>
               </default_statement>
@@ -1840,18 +1857,18 @@ GROUP BY B.id</command_text>
               <name>Redundant expression</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, sum(c2)
-FROM B
-JOIN
-(
-    SELECT fkb , groupby c2
-    FROM A
-    WHERE search = 1 or (1 = 2 and fkb = 1)
-    UNION ALL
-    SELECT fkb, -groupby c2
-    FROM A
-    WHERE search = 2
-) t ON B.id = t.fkb
+                <command_text>SELECT B.id, SUM(c2)
+FROM
+    B JOIN
+    (
+        SELECT fkb , groupby c2
+        FROM A
+        WHERE search = 1 OR (1 = 2 AND fkb = 1)
+        UNION ALL
+        SELECT fkb, -groupby c2
+        FROM A
+        WHERE search = 2
+    ) t ON B.id = t.fkb
 WHERE $PBSearch
 GROUP BY B.id</command_text>
               </default_statement>
@@ -1871,18 +1888,18 @@ GROUP BY B.id</command_text>
                 <command_text>SELECT t.id, sum_c2
 FROM
 (
-    SELECT B.id, sum(c2) sum_c2
-    FROM B
-    JOIN
-    (
-        SELECT fkb , groupby c2
-        FROM A
-        WHERE search = 1
-        UNION ALL
-        SELECT fkb, -groupby c2
-        FROM A
-        WHERE search = 2
-    ) t ON B.id = t.fkb
+    SELECT B.id, SUM(c2) sum_c2
+    FROM
+        B JOIN
+        (
+            SELECT fkb , groupby c2
+            FROM A
+            WHERE search = 1
+            UNION ALL
+            SELECT fkb, -groupby c2
+            FROM A
+            WHERE search = 2
+        ) t ON B.id = t.fkb
     WHERE $PBSearch
     GROUP BY B.id
 ) t
@@ -1901,19 +1918,18 @@ GROUP BY t.id, t.sum_c2</command_text>
               <name>Redundant CASE</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, 
-       sum(CASE WHEN t.search IN (1, 2) THEN c2 END)
-FROM B
-JOIN
-(
-    SELECT fkb, search, groupby c2
-    FROM A
-    WHERE search = 1
-    UNION ALL
-    SELECT fkb, search, -groupby c2
-    FROM A
-    WHERE search = 2
-) t ON B.id = t.fkb
+                <command_text>SELECT B.id, SUM(CASE WHEN t.search IN (1, 2) THEN c2 END)
+FROM
+    B JOIN
+    (
+        SELECT fkb, search, groupby c2
+        FROM A
+        WHERE search = 1
+        UNION ALL
+        SELECT fkb, search, -groupby c2
+        FROM A
+        WHERE search = 2
+    ) t ON B.id = t.fkb
 WHERE $PBSearch
 GROUP BY B.id</command_text>
               </default_statement>
@@ -1930,30 +1946,34 @@ GROUP BY B.id</command_text>
               <name>Redundant EXISTS</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, sum(c2)
-FROM B
-JOIN
-(
-    SELECT fkb, groupby c2
-    FROM A
-    WHERE search = 1
-    UNION ALL
-    SELECT fkb, -groupby c2
-    FROM A
-    WHERE search = 2
-) t ON B.id = t.fkb
-WHERE $PBSearch and (
-  EXISTS (
-    SELECT 1
-    FROM A
-    WHERE A.fkb = B.id and A.search = 1
-  ) or
-  EXISTS (
-    SELECT 1
-    FROM A
-    WHERE A.fkb = B.id and A.search = 2
-  )  
-)
+                <command_text>SELECT B.id, SUM(c2)
+FROM
+    B JOIN
+    (
+        SELECT fkb, groupby c2
+        FROM A
+        WHERE search = 1
+        UNION ALL
+        SELECT fkb, -groupby c2
+        FROM A
+        WHERE search = 2
+    ) t ON B.id = t.fkb
+WHERE
+    $PBSearch AND
+    (
+        EXISTS
+        (
+            SELECT 1
+            FROM A
+            WHERE A.fkb = B.id AND A.search = 1
+        )
+        OR EXISTS 
+        (
+            SELECT 1
+            FROM A
+            WHERE A.fkb = B.id AND A.search = 2
+        )  
+    )
 GROUP BY B.id</command_text>
               </default_statement>
               <specific_statements />
@@ -1969,19 +1989,21 @@ GROUP BY B.id</command_text>
               <name>Redundant JOIN</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, sum(c2)
-FROM B
-JOIN
-(
-    SELECT fkb, groupby c2
-    FROM A
-    WHERE search = 1
-    UNION ALL
-    SELECT fkb, -groupby c2
-    FROM A
-    WHERE search = 2
-) t ON B.id = t.fkb
-JOIN B br ON br.id = t.fkb
+                <command_text>SELECT B.id, SUM(c2)
+FROM
+    B
+    JOIN
+    (
+        SELECT fkb, groupby c2
+        FROM A
+        WHERE search = 1
+        UNION ALL
+        SELECT fkb, -groupby c2
+        FROM A
+        WHERE search = 2
+    ) t ON B.id = t.fkb
+    JOIN
+    B br ON br.id = t.fkb
 WHERE $PBSearch
 GROUP BY B.id</command_text>
               </default_statement>
@@ -2004,20 +2026,20 @@ GROUP BY B.id</command_text>
               <name>Redundant GROUP BY PK</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, sum(c2)
-FROM B
-JOIN
-(
-    SELECT max(fkb) fkb, max(groupby) c2
-    FROM A
-    WHERE search = 1
-    GROUP BY A.id
-    UNION ALL
-    SELECT max(fkb) fkb, -max(groupby) c2
-    FROM A
-    WHERE search = 2
-    GROUP BY A.id
-) t ON B.id = t.fkb
+                <command_text>SELECT B.id, SUM(c2)
+FROM
+    B JOIN
+    (
+        SELECT MAX(fkb) fkb, MAX(groupby) c2
+        FROM A
+        WHERE search = 1
+        GROUP BY A.id
+        UNION ALL
+        SELECT MAX(fkb) fkb, -MAX(groupby) c2
+        FROM A
+        WHERE search = 2
+        GROUP BY A.id
+    ) t ON B.id = t.fkb
 WHERE $PBSearch
 GROUP BY B.id</command_text>
               </default_statement>
@@ -2083,13 +2105,16 @@ GROUP BY B.id</command_text>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS (
-  SELECT 1
-  FROM A
-  WHERE B.id = A.fkb and A.search = 1
-  GROUP BY A.groupby
-  HAVING count(*) = 1
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE B.id = A.fkb AND A.search = 1
+        GROUP BY A.groupby
+        HAVING COUNT(*) = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2112,13 +2137,15 @@ WHERE $PBsearch and NOT EXISTS (
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS (
-  SELECT 1
-  FROM A
-  WHERE B.id = A.fkb and A.search * 10 = 10
-  GROUP BY A.groupby
-  HAVING count(*) = 1
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS (
+        SELECT 1
+        FROM A
+        WHERE B.id = A.fkb AND A.search * 10 = 10
+        GROUP BY A.groupby
+        HAVING COUNT(*) = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2135,13 +2162,16 @@ WHERE $PBsearch and NOT EXISTS (
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS (
-  SELECT 1
-  FROM A
-  WHERE B.id = A.fkb and (A.search = 1 or (1 = 2 and A.fkb = 1))
-  GROUP BY A.groupby
-  HAVING count(*) = 1
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE B.id = A.fkb AND (A.search = 1 OR (1 = 2 AND A.fkb = 1))
+        GROUP BY A.groupby
+        HAVING COUNT(*) = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2161,12 +2191,13 @@ FROM
 (
     SELECT B.id, B.groupby, B.search, B.padding
     FROM B
-    WHERE $PBsearch and NOT EXISTS (
-      SELECT 1
-      FROM A
-      WHERE B.id = A.fkb and A.search = 1
-      GROUP BY A.groupby
-      HAVING count(*) = 1
+    WHERE $PBsearch AND NOT EXISTS 
+    (
+        SELECT 1
+        FROM A
+        WHERE B.id = A.fkb AND A.search = 1
+        GROUP BY A.groupby
+        HAVING COUNT(*) = 1
     )
 ) t
 GROUP BY t.id, t.groupby, t.search, t.padding</command_text>
@@ -2189,13 +2220,16 @@ GROUP BY t.id, t.groupby, t.search, t.padding</command_text>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS (
-  SELECT 1
-  FROM A
-  WHERE B.id = A.fkb and A.search = 1
-  GROUP BY A.groupby
-  HAVING count(CASE WHEN A.search = 1 THEN A.id END) = 1
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE B.id = A.fkb AND A.search = 1
+        GROUP BY A.groupby
+        HAVING COUNT(CASE WHEN A.search = 1 THEN A.id END) = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2215,17 +2249,24 @@ WHERE $PBsearch and NOT EXISTS (
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS (
-  SELECT 1
-  FROM A
-  WHERE B.id = A.fkb and A.search = 1 and EXISTS (
-    SELECT 1
-    FROM B
-    WHERE B.id = A.fkb and $PBsearch
-  )
-  GROUP BY A.groupby
-  HAVING count(*) = 1
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE
+            B.id = A.fkb AND
+            A.search = 1 AND
+            EXISTS 
+            (
+                SELECT 1
+                FROM B
+                WHERE B.id = A.fkb AND $PBsearch
+            )
+        GROUP BY A.groupby
+        HAVING COUNT(*) = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2242,14 +2283,16 @@ WHERE $PBsearch and NOT EXISTS (
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding
 FROM B
-WHERE $PBsearch and NOT EXISTS (
-  SELECT 1
-  FROM A
-  JOIN B br ON br.id = A.fkb
-  WHERE B.id = A.fkb and A.search = 1
-  GROUP BY A.groupby
-  HAVING count(*) = 1
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A JOIN B br ON br.id = A.fkb
+        WHERE B.id = A.fkb AND A.search = 1
+        GROUP BY A.groupby
+        HAVING COUNT(*) = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2270,20 +2313,24 @@ WHERE $PBsearch and NOT EXISTS (
               <name>Redundant subquery</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, B.groupby, B.search, 
-  (
-    SELECT br.padding
-    FROM B br 
-    WHERE B.id = Br.id
-  ) padding
+                <command_text>SELECT
+    B.id, B.groupby, B.search, 
+    (
+        SELECT br.padding
+        FROM B br 
+        WHERE B.id = br.id
+    ) padding
 FROM B
-WHERE $PBsearch and NOT EXISTS (
-  SELECT 1
-  FROM A
-  WHERE B.id = A.fkb and A.search = 1
-  GROUP BY A.groupby
-  HAVING count(*) = 1
-)</command_text>
+WHERE
+    $PBsearch AND
+    NOT EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE B.id = A.fkb AND A.search = 1
+        GROUP BY A.groupby
+        HAVING COUNT(*) = 1
+    )</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2346,11 +2393,10 @@ WHERE $PBsearch and NOT EXISTS (
               <description></description>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding 
-FROM B
-JOIN A ON B.id = A.fkb
-WHERE A.search in (1, 100)
+FROM B JOIN A ON B.id = A.fkb
+WHERE A.search IN (1, 100)
 GROUP BY B.id, B.groupby, B.search, B.padding 
-HAVING count(DISTINCT A.search) = 2</command_text>
+HAVING COUNT(DISTINCT A.search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2375,11 +2421,10 @@ HAVING count(DISTINCT A.search) = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding 
-FROM B
-JOIN A ON B.id = A.fkb
-WHERE A.search + 9 in (10, 109)
+FROM B JOIN A ON B.id = A.fkb
+WHERE A.search + 9 IN (10, 109)
 GROUP BY B.id, B.groupby, B.search, B.padding 
-HAVING count(DISTINCT A.search) = 2</command_text>
+HAVING COUNT(DISTINCT A.search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2395,11 +2440,10 @@ HAVING count(DISTINCT A.search) = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding 
-FROM B
-JOIN A ON B.id = A.fkb
-WHERE A.search in (1, 100) or (1 = 2 and A.fkb = 1)
+FROM B JOIN A ON B.id = A.fkb
+WHERE A.search IN (1, 100) OR (1 = 2 AND A.fkb = 1)
 GROUP BY B.id, B.groupby, B.search, B.padding 
-HAVING count(DISTINCT A.search) = 2</command_text>
+HAVING COUNT(DISTINCT A.search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2418,11 +2462,10 @@ HAVING count(DISTINCT A.search) = 2</command_text>
 FROM
 (
     SELECT B.id, B.groupby, B.search, B.padding 
-    FROM B
-    JOIN A ON B.id = A.fkb
-    WHERE A.search in (1, 100)
+    FROM B JOIN A ON B.id = A.fkb
+    WHERE A.search IN (1, 100)
     GROUP BY B.id, B.groupby, B.search, B.padding 
-    HAVING count(DISTINCT A.search) = 2
+    HAVING COUNT(DISTINCT A.search) = 2
 ) t
 GROUP BY t.id, t.groupby, t.search, t.padding </command_text>
               </default_statement>
@@ -2440,11 +2483,10 @@ GROUP BY t.id, t.groupby, t.search, t.padding </command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding 
-FROM B
-JOIN A ON B.id = A.fkb
-WHERE A.search in (1, 100)
+FROM B JOIN A ON B.id = A.fkb
+WHERE A.search IN (1, 100)
 GROUP BY B.id, B.groupby, B.search, B.padding 
-HAVING count(DISTINCT CASE WHEN A.search in (1, 100) THEN A.search END) = 2</command_text>
+HAVING COUNT(DISTINCT CASE WHEN A.search IN (1, 100) THEN A.search END) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2460,15 +2502,17 @@ HAVING count(DISTINCT CASE WHEN A.search in (1, 100) THEN A.search END) = 2</com
               <description></description>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding 
-FROM B
-JOIN A ON B.id = A.fkb
-WHERE A.search in (1, 100) and EXISTS (
-  SELECT 1
-  FROM A
-  WHERE A.fkb = B.id and A.search in (1, 100)
-)
+FROM B JOIN A ON B.id = A.fkb
+WHERE
+    A.search IN (1, 100) AND
+    EXISTS 
+    (
+        SELECT 1
+        FROM A
+        WHERE A.fkb = B.id AND A.search IN (1, 100)
+    )
 GROUP BY B.id, B.groupby, B.search, B.padding 
-HAVING count(DISTINCT A.search) = 2</command_text>
+HAVING COUNT(DISTINCT A.search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2484,12 +2528,13 @@ HAVING count(DISTINCT A.search) = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, br.padding 
-FROM B
-JOIN A ON B.id = A.fkb
-JOIN B br ON br.id = A.fkb
-WHERE A.search in (1, 100)
+FROM
+    B
+    JOIN A ON B.id = A.fkb
+    JOIN B br ON br.id = A.fkb
+WHERE A.search IN (1, 100)
 GROUP BY B.id, B.groupby, B.search, br.padding 
-HAVING count(DISTINCT A.search) = 2</command_text>
+HAVING COUNT(DISTINCT A.search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2508,17 +2553,16 @@ HAVING count(DISTINCT A.search) = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT B.id, B.groupby, B.search, B.padding 
-FROM B
-JOIN (
-  SELECT A.id, 
-    max(A.fkb) as fkb, 
-    max(A.search) as search 
-  FROM A
-  GROUP BY A.id
-) A ON B.id = A.fkb
-WHERE A.search in (1, 100)
+FROM
+    B JOIN
+    (
+        SELECT A.id, MAX(A.fkb) AS fkb, MAX(A.search) AS search 
+        FROM A
+        GROUP BY A.id
+    ) A ON B.id = A.fkb
+WHERE A.search IN (1, 100)
 GROUP BY B.id, B.groupby, B.search, B.padding 
-HAVING count(DISTINCT A.search) = 2</command_text>
+HAVING COUNT(DISTINCT A.search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2548,10 +2592,9 @@ HAVING count(DISTINCT A.search) = 2</command_text>
               <name>Basic</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN B ON A.fkb = B.id
-WHERE $PBsearch and A.search = 1</command_text>
+                <command_text>SELECT COUNT(*)
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PBsearch AND A.search = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2566,10 +2609,9 @@ WHERE $PBsearch and A.search = 1</command_text>
               <name>Redundant computation</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN B ON A.fkb = B.id
-WHERE $PBsearch and A.search + 9 = 10</command_text>
+                <command_text>SELECT COUNT(*)
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PBsearch AND A.search + 9 = 10</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2584,10 +2626,9 @@ WHERE $PBsearch and A.search + 9 = 10</command_text>
               <name>Redundant expression</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN B ON A.fkb = B.id
-WHERE $PBsearch and (A.search = 1 or (1 = 2 and A.fkb = 1))</command_text>
+                <command_text>SELECT COUNT(*)
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PBsearch AND (A.search = 1 OR (1 = 2 AND A.fkb = 1))</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2602,10 +2643,9 @@ WHERE $PBsearch and (A.search = 1 or (1 = 2 and A.fkb = 1))</command_text>
               <name>Redundant GROUP BY</name>
               <description>There is no need for GROUP BY since there will be always just one group.</description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN B ON A.fkb = B.id
-WHERE $PBsearch and A.search = 1
+                <command_text>SELECT COUNT(*)
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PBsearch AND A.search = 1
 GROUP BY A.search</command_text>
               </default_statement>
               <specific_statements />
@@ -2621,10 +2661,9 @@ GROUP BY A.search</command_text>
               <name>Redundant CASE</name>
               <description>The equivalence of count(*) to count(A.id) comes from a fact that PK can not contain NULL value.</description>
               <default_statement>
-                <command_text>SELECT count(CASE WHEN A.search = 1 THEN A.id END)
-FROM A
-JOIN B ON A.fkb = B.id
-WHERE $PBsearch and A.search = 1</command_text>
+                <command_text>SELECT COUNT(CASE WHEN A.search = 1 THEN A.id END)
+FROM A JOIN B ON A.fkb = B.id
+WHERE $PBsearch AND A.search = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2639,14 +2678,15 @@ WHERE $PBsearch and A.search = 1</command_text>
               <name>Redundant EXISTS</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN B ON A.fkb = B.id and EXISTS (
-  SELECT 1
-  FROM A
-  WHERE A.fkb = B.id and A.search = 1
-)
-WHERE $PBsearch and A.search = 1</command_text>
+                <command_text>SELECT COUNT(*)
+FROM
+    A JOIN B ON A.fkb = B.id AND EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.fkb = B.id AND A.search = 1
+    )
+WHERE $PBsearch AND A.search = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2661,10 +2701,11 @@ WHERE $PBsearch and A.search = 1</command_text>
               <name>Redundant JOIN</name>
               <description>We have two joins of the A table with the B tables. The first join uses `A.fkb = B.id` join condition and the $PBsearch predicate. The second join uses the same join condition and the `$PBsearch or B.search &gt; 10` predicate. Let us denote B1 and B2 the sets of the table B that are determined by their predicates. Since the B2 is a superset of B1 then the second join with table B is redundant.</description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM A
-JOIN B ON A.fkb = B.id and $PBsearch -- B1
-JOIN B br ON A.fkb = br.id and ($PBsearch or B.search &gt; 10) -- B2
+                <command_text>SELECT COUNT(*)
+FROM
+    A
+    JOIN B ON A.fkb = B.id AND $PBsearch -- B1
+    JOIN B br ON A.fkb = br.id AND ($PBsearch OR B.search &gt; 10) -- B2
 WHERE A.search = 1</command_text>
               </default_statement>
               <specific_statements />
@@ -2686,17 +2727,15 @@ WHERE A.search = 1</command_text>
               <name>Redundant GROUP BY PK</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT count(*)
-FROM (
-  SELECT A.id, 
-    max(A.fkb) as fkb, 
-    max(A.search) as search, 
-    max(A.padding) as padding
-  FROM A
-  GROUP BY A.id
-) A
-JOIN B ON A.fkb = B.id
-WHERE $PBsearch and A.search = 1</command_text>
+                <command_text>SELECT COUNT(*)
+FROM
+    (
+        SELECT A.id, MAX(A.fkb) AS fkb, MAX(A.search) AS search, MAX(A.padding) AS padding
+        FROM A
+        GROUP BY A.id
+    ) A
+    JOIN B ON A.fkb = B.id
+WHERE $PBsearch AND A.search = 1</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -2758,12 +2797,11 @@ WHERE $PBsearch and A.search = 1</command_text>
               <name>Conditional aggregation 1</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-       B.padding,
-       min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-       max(CASE WHEN $PAsearch2 THEN A.search END) as max_search
-FROM B
-JOIN A ON A.fkb = B.id
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+    MAX(CASE WHEN $PAsearch2 THEN A.search END) AS max_search
+FROM B JOIN A ON A.fkb = B.id
 WHERE B.search = 1
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
@@ -2780,12 +2818,11 @@ GROUP BY B.id, B.padding</command_text>
               <name>Redundant computation</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-       B.padding,
-       min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-       max(CASE WHEN $PAsearch2 THEN A.search END) as max_search
-FROM B
-JOIN A ON A.fkb = B.id
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+    MAX(CASE WHEN $PAsearch2 THEN A.search END) AS max_search
+FROM B JOIN A ON A.fkb = B.id
 WHERE B.search + 9 = 10
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
@@ -2802,13 +2839,12 @@ GROUP BY B.id, B.padding</command_text>
               <name>Redundant expression</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-       B.padding,
-       min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-       max(CASE WHEN $PAsearch2 THEN A.search END) as max_search
-FROM B
-JOIN A ON A.fkb = B.id
-WHERE B.search = 1 or (1 = 2 and A.fkb = 1)
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+    MAX(CASE WHEN $PAsearch2 THEN A.search END) AS max_search
+FROM B JOIN A ON A.fkb = B.id
+WHERE B.search = 1 OR (1 = 2 AND A.fkb = 1)
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
               <specific_statements />
@@ -2827,12 +2863,11 @@ GROUP BY B.id, B.padding</command_text>
                 <command_text>SELECT t.id, t.padding, t.min_search, t.max_search
 FROM
 (
-    SELECT  B.id, 
-           B.padding,
-           min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-           max(CASE WHEN $PAsearch2 THEN A.search END) as max_search
-    FROM B
-    JOIN A ON A.fkb = B.id
+    SELECT
+        B.id, B.padding,
+        MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+        MAX(CASE WHEN $PAsearch2 THEN A.search END) AS max_search
+    FROM B JOIN A ON A.fkb = B.id
     WHERE B.search = 1
     GROUP BY B.id, B.padding
 ) t
@@ -2851,12 +2886,11 @@ GROUP BY t.id, t.padding, t.min_search, t.max_search</command_text>
               <name>Redundant CASE</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-  B.padding,
-  min(CASE WHEN $PAsearch1 and B.search = 1 THEN A.search END) as min_search,
-  max(CASE WHEN $PAsearch2 and B.search = 1 THEN A.search END) as max_search
-FROM B
-JOIN A ON A.fkb = B.id
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 AND B.search = 1 THEN A.search END) AS min_search,
+    MAX(CASE WHEN $PAsearch2 AND B.search = 1 THEN A.search END) AS max_search
+FROM B JOIN A ON A.fkb = B.id
 WHERE B.search = 1
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
@@ -2873,12 +2907,15 @@ GROUP BY B.id, B.padding</command_text>
               <name>Redundant EXISTS</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-       B.padding,
-       min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-       max(CASE WHEN $PAsearch2 THEN A.search END) as max_search
-FROM B
-JOIN A ON A.fkb = B.id and EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id) 
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+    MAX(CASE WHEN $PAsearch2 THEN A.search END) AS max_search
+FROM
+    B
+    JOIN A ON
+        A.fkb = B.id AND
+        EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id) 
 WHERE B.search = 1
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
@@ -2895,13 +2932,14 @@ GROUP BY B.id, B.padding</command_text>
               <name>Redundant JOIN</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-       B.padding,
-       min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-       max(CASE WHEN $PAsearch2 THEN A.search END) as max_search
-FROM B
-JOIN A ON A.fkb = B.id
-JOIN A ar ON ar.fkb = B.id
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+    MAX(CASE WHEN $PAsearch2 THEN A.search END) AS max_search
+FROM
+    B
+    JOIN A ON A.fkb = B.id
+    JOIN A ar ON ar.fkb = B.id
 WHERE B.search = 1
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
@@ -2921,19 +2959,18 @@ GROUP BY B.id, B.padding</command_text>
               <name>Redundant GROUP BY PK</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-       B.padding,
-       min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-       max(CASE WHEN $PAsearch2 THEN A.search END) as max_search
-FROM B
-JOIN (
-  SELECT A.id, 
-    max(A.fkb) as fkb, 
-    max(A.search) as search, 
-    max(A.padding) as padding
-  FROM A
-  GROUP BY A.id
-) A ON A.fkb = B.id
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+    MAX(CASE WHEN $PAsearch2 THEN A.search END) AS max_search
+FROM
+    B
+    JOIN
+    (
+        SELECT A.id, MAX(A.fkb) AS fkb, MAX(A.search) AS search, MAX(A.padding) AS padding
+        FROM A
+        GROUP BY A.id
+    ) A ON A.fkb = B.id
 WHERE B.search = 1
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
@@ -2953,16 +2990,15 @@ GROUP BY B.id, B.padding</command_text>
               <name>Redundant subquery</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT  B.id, 
-  B.padding,
-  min(CASE WHEN $PAsearch1 THEN A.search END) as min_search,
-  (
-    SELECT max(Ar.search)
-    FROM A ar
-    WHERE ar.fkb = B.id and $PARsearch2
-  ) as max_search
-FROM B
-JOIN A ON A.fkb = B.id
+                <command_text>SELECT
+    B.id, B.padding,
+    MIN(CASE WHEN $PAsearch1 THEN A.search END) AS min_search,
+    (
+        SELECT MAX(ar.search)
+        FROM A ar
+        WHERE ar.fkb = B.id AND $PARsearch2
+    ) AS max_search
+FROM B JOIN A ON A.fkb = B.id
 WHERE B.search = 1
 GROUP BY B.id, B.padding</command_text>
               </default_statement>
@@ -3237,12 +3273,14 @@ drop index A.ix_A_fkb
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE EXISTS( 
+WHERE
+    EXISTS
+    ( 
         SELECT 1 
         FROM A
         WHERE b1.id = A.fkb
-    ) and
-    $PBsearch</command_text>
+    )
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3265,12 +3303,14 @@ WHERE EXISTS(
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE EXISTS( 
+WHERE
+    EXISTS
+    ( 
         SELECT 1 
         FROM A
-        WHERE b1.id = A.fkb or (1 = 2 and A.search = 1)
-    ) and
-    $PBsearch</command_text>
+        WHERE b1.id = A.fkb OR (1 = 2 AND A.search = 1)
+    )
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3287,13 +3327,15 @@ WHERE EXISTS(
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE EXISTS( 
+WHERE
+    EXISTS
+    ( 
         SELECT 1 
         FROM A
         WHERE b1.id = A.fkb
         GROUP BY A.search
-    ) and
-    $PBsearch</command_text>
+    )
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3310,16 +3352,20 @@ WHERE EXISTS(
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE EXISTS( 
+WHERE
+    EXISTS
+    ( 
         SELECT 1 
         FROM A
         WHERE b1.id = A.fkb
-    ) and EXISTS( 
+    )
+    AND EXISTS
+    ( 
         SELECT 1 
         FROM A
         WHERE b1.id = A.fkb
-    ) and
-    $PBsearch</command_text>
+    ) 
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3336,13 +3382,14 @@ WHERE EXISTS(
               <default_statement>
                 <command_text>SELECT b1.id, b1.groupby, b1.search, b1.padding
 FROM B b1
-WHERE EXISTS( 
+WHERE
+    EXISTS
+    ( 
         SELECT 1 
-        FROM A
-        JOIN B ON A.fkb = B.id
+        FROM A JOIN B ON A.fkb = B.id
         WHERE b1.id = A.fkb
-    ) and
-    $PBsearch</command_text>
+    )
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3360,14 +3407,16 @@ WHERE EXISTS(
               <name>Redundant GROUP BY PK</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT b1.id, max(b1.groupby), max(b1.search), max(b1.padding)
+                <command_text>SELECT b1.id, MAX(b1.groupby), MAX(b1.search), MAX(b1.padding)
 FROM B b1
-WHERE EXISTS( 
+WHERE
+    EXISTS
+    ( 
         SELECT 1 
         FROM A
         WHERE b1.id = A.fkb
-    ) and
-    $PBsearch
+    )
+    AND $PBsearch
 GROUP BY b1.id</command_text>
               </default_statement>
               <specific_statements />
@@ -3386,19 +3435,22 @@ GROUP BY b1.id</command_text>
               <name>Redundant subquery</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT b1.id, b1.groupby, b1.search, 
-  (
-    SELECT br.padding
-    FROM B br 
-    WHERE b1.id = Br.id
-  ) padding
+                <command_text>SELECT
+    b1.id, b1.groupby, b1.search, 
+    (
+        SELECT br.padding
+        FROM B br 
+        WHERE b1.id = br.id
+    ) padding
 FROM B b1
-WHERE EXISTS( 
+WHERE
+    EXISTS
+    (
         SELECT 1 
         FROM A
         WHERE b1.id = A.fkb
-    ) and
-    $PBsearch</command_text>
+    )
+    AND $PBsearch</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3460,9 +3512,8 @@ WHERE EXISTS(
               <name>Basic</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, max(A.groupby) - B.search
-FROM B
-JOIN A ON A.fkb = B.id
+                <command_text>SELECT B.id, MAX(A.groupby) - B.search
+FROM B JOIN A ON A.fkb = B.id
 WHERE $PBsearch
 GROUP BY B.id, B.search</command_text>
               </default_statement>
@@ -3488,9 +3539,8 @@ GROUP BY B.id, B.search</command_text>
               <name>Redundant exprerssion</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, max(A.groupby) - B.search
-FROM B
-JOIN A on A.fkb = B.id or (1 = 2 and A.search = 1)
+                <command_text>SELECT B.id, MAX(A.groupby) - B.search
+FROM B JOIN A ON A.fkb = B.id OR (1 = 2 AND A.search = 1)
 WHERE $PBsearch
 GROUP BY B.id, B.search</command_text>
               </default_statement>
@@ -3507,9 +3557,8 @@ GROUP BY B.id, B.search</command_text>
               <name>Redundant CASE</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, max(CASE WHEN $PBsearch THEN A.groupby END) - B.search
-FROM B
-JOIN A on A.fkb = B.id
+                <command_text>SELECT B.id, MAX(CASE WHEN $PBsearch THEN A.groupby END) - B.search
+FROM B JOIN A ON A.fkb = B.id
 WHERE $PBsearch
 GROUP BY B.id, B.search</command_text>
               </default_statement>
@@ -3526,13 +3575,15 @@ GROUP BY B.id, B.search</command_text>
               <name>Redundant EXISTS</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, max(A.groupby) - B.search
-FROM B
-JOIN A on A.fkb = B.id and EXISTS (
-  SELECT 1
-  FROM A
-  WHERE A.fkb = B.id
-)
+                <command_text>SELECT B.id, MAX(A.groupby) - B.search
+FROM
+    B
+    JOIN A ON A.fkb = B.id AND EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.fkb = B.id
+    )
 WHERE $PBsearch
 GROUP BY B.id, B.search</command_text>
               </default_statement>
@@ -3549,10 +3600,11 @@ GROUP BY B.id, B.search</command_text>
               <name>Redundant JOIN</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, max(A.groupby) - B.search
-FROM B
-JOIN A ON A.fkb = B.id
-JOIN B br ON A.fkb = br.id  
+                <command_text>SELECT B.id, MAX(A.groupby) - B.search
+FROM
+    B
+    JOIN A ON A.fkb = B.id
+    JOIN B br ON A.fkb = br.id  
 WHERE $PBsearch
 GROUP BY B.id, B.search</command_text>
               </default_statement>
@@ -3575,17 +3627,14 @@ GROUP BY B.id, B.search</command_text>
               <name>Redundant GROUP BY PK</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, max(A.groupby) - B.search
-FROM B
-JOIN 
-(
-  SELECT A.id, 
-    max(A.fkb) fkb, 
-    max(A.groupby) groupby, 
-    max(A.padding) padding
-  FROM A
-  GROUP BY A.id
-) A ON A.fkb = B.id
+                <command_text>SELECT B.id, MAX(A.groupby) - B.search
+FROM
+    B JOIN 
+    (
+        SELECT A.id, MAX(A.fkb) fkb, MAX(A.groupby) groupby, MAX(A.padding) padding
+        FROM A
+        GROUP BY A.id
+    ) A ON A.fkb = B.id
 WHERE $PBsearch
 GROUP BY B.id, B.search</command_text>
               </default_statement>
@@ -3605,14 +3654,14 @@ GROUP BY B.id, B.search</command_text>
               <name>Redundant subquery</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT B.id, 
-  (
-    SELECT max(Ar.groupby)
-    FROM A Ar
-    WHERE Ar.fkb = B.id
-  ) - B.search
-FROM B
-JOIN A ON A.fkb = B.id
+                <command_text>SELECT
+    B.id,
+    (
+        SELECT MAX(ar.groupby)
+        FROM A ar
+        WHERE ar.fkb = B.id
+    ) - B.search
+FROM B JOIN A ON A.fkb = B.id
 WHERE $PBsearch
 GROUP BY B.id, B.search</command_text>
               </default_statement>
@@ -3822,10 +3871,11 @@ ON B (search)
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null and 
-      search in (1, 500)
+WHERE
+    groupby IS NOT NULL AND
+    search IN (1, 500)
 GROUP BY groupby
-HAVING count(DISTINCT search) = 2</command_text>
+HAVING COUNT(DISTINCT search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3848,10 +3898,11 @@ HAVING count(DISTINCT search) = 2</command_text>
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null and 
-      search * 2 in (2, 1000)
+WHERE
+    groupby IS NOT NULL AND
+    search * 2 IN (2, 1000)
 GROUP BY groupby
-HAVING count(DISTINCT search) = 2</command_text>
+HAVING COUNT(DISTINCT search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3868,10 +3919,11 @@ HAVING count(DISTINCT search) = 2</command_text>
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null and 
-      search in (1, 500) or (1 = 2 and A.search = 1)
+WHERE
+    groupby IS NOT NULL AND 
+    search IN (1, 500) OR (1 = 2 AND A.search = 1)
 GROUP BY groupby
-HAVING count(DISTINCT search) = 2</command_text>
+HAVING COUNT(DISTINCT search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3888,10 +3940,11 @@ HAVING count(DISTINCT search) = 2</command_text>
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null and 
-      search in (1, 500)
+WHERE
+    groupby IS NOT NULL AND
+    search IN (1, 500)
 GROUP BY groupby
-HAVING count(DISTINCT CASE WHEN search in (1, 500) THEN search END) = 2</command_text>
+HAVING COUNT(DISTINCT CASE WHEN search IN (1, 500) THEN search END) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3908,14 +3961,16 @@ HAVING count(DISTINCT CASE WHEN search in (1, 500) THEN search END) = 2</command
               <default_statement>
                 <command_text>SELECT groupby
 FROM A
-WHERE groupby is not null and 
-      search in (1, 500) and EXISTS(
-  SELECT 1
-  FROM A
-  WHERE A.id = A.id and search = 1
-)
+WHERE
+    groupby IS NOT NULL AND
+    search IN (1, 500) AND EXISTS
+    (
+        SELECT 1
+        FROM A
+        WHERE A.id = A.id AND search = 1
+    )
 GROUP BY groupby
-HAVING count(DISTINCT search) = 2</command_text>
+HAVING COUNT(DISTINCT search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3934,12 +3989,12 @@ HAVING count(DISTINCT search) = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT A.groupby
-FROM A
-JOIN A ar ON A.id = Ar.id
-WHERE A.groupby is not null and 
-      Ar.search in (1, 500)
+FROM A JOIN A ar ON A.id = ar.id
+WHERE
+    A.groupby IS NOT NULL AND
+    ar.search IN (1, 500)
 GROUP BY A.groupby
-HAVING count(DISTINCT A.search) = 2</command_text>
+HAVING COUNT(DISTINCT A.search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -3958,18 +4013,17 @@ HAVING count(DISTINCT A.search) = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT groupby
-FROM (
-  SELECT A.id, 
-    max(A.groupby) as groupby,
-    max(A.search) as search, 
-    max(A.padding) as padding
-  FROM A
-  GROUP BY A.id
+FROM
+(
+    SELECT A.id, MAX(A.groupby) AS groupby, MAX(A.search) AS search, MAX(A.padding) AS padding
+    FROM A
+    GROUP BY A.id
 ) A
-WHERE groupby is not null and 
-      search in (1, 500)
+WHERE
+    groupby IS NOT NULL AND
+    search IN (1, 500)
 GROUP BY groupby
-HAVING count(DISTINCT search) = 2</command_text>
+HAVING COUNT(DISTINCT search) = 2</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4000,15 +4054,18 @@ HAVING count(DISTINCT search) = 2</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-JOIN
-(
-    SELECT max(search) search_max
-    FROM A
-    WHERE A.groupby = 1 and A.fkb is not null
-) t2 ON a1.search = t2.search_max and 
-        a1.groupby = 1 and a1.fkb is not null
-        </command_text>
+FROM
+    A a1
+    JOIN
+    (
+        SELECT MAX(search) search_max
+        FROM A
+        WHERE A.groupby = 1 AND A.fkb IS NOT NULL
+    ) t2 ON
+        a1.search = t2.search_max AND
+        a1.groupby = 1 AND
+        a1.fkb IS NOT NULL
+            </command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4030,15 +4087,20 @@ JOIN
               <description></description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-JOIN
-(
-    SELECT max(search) search_max
-    FROM A
-    WHERE A.groupby = 1  and A.fkb is not null or 1 = 2 and A.search = 1
-) t2 ON a1.search = t2.search_max and 
-        a1.groupby = 1 and a1.fkb is not null
-        
+FROM
+    A a1
+    JOIN
+    (
+        SELECT MAX(search) search_max
+        FROM A
+        WHERE
+            (A.groupby = 1 AND A.fkb IS NOT NULL) OR
+            (1 = 2 AND A.search = 1)
+    ) t2 ON
+        a1.search = t2.search_max AND
+        a1.groupby = 1 AND
+        a1.fkb IS NOT NULL
+            
         
 </command_text>
               </default_statement>
@@ -4059,13 +4121,14 @@ JOIN
 FROM A
 JOIN
 (
-    SELECT groupby, max(search) search_max
+    SELECT groupby, MAX(search) search_max
     FROM A
-    WHERE A.fkb is not null
+    WHERE A.fkb IS NOT NULL
     GROUP BY groupby
-) t ON A.groupby = t.groupby and 
-    A.search = t.search_max and 
-    A.groupby = 1 and A.fkb is not null</command_text>
+) t ON
+    A.groupby = t.groupby AND
+    A.search = t.search_max AND 
+    A.groupby = 1 AND A.fkb IS NOT NULL</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4084,11 +4147,13 @@ JOIN
 FROM A a1
 JOIN
 (
-    SELECT max(CASE WHEN A.groupby = 1 THEN search END) search_max
+    SELECT MAX(CASE WHEN A.groupby = 1 THEN search END) search_max
     FROM A
-    WHERE A.groupby = 1 and A.fkb is not null
-) t2 ON a1.search = t2.search_max and 
-        a1.groupby = 1 and a1.fkb is not null
+    WHERE A.groupby = 1 AND A.fkb IS NOT NULL
+) t2 ON
+    a1.search = t2.search_max AND
+    a1.groupby = 1 AND
+    a1.fkb IS NOT NULL
         </command_text>
               </default_statement>
               <specific_statements />
@@ -4105,20 +4170,23 @@ JOIN
               <description>This variant combines two possible solutions of the greatest per group problem.</description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-JOIN
-(
-    SELECT max(search) search_max
-    FROM A
-    WHERE A.groupby = 1 and A.fkb is not null
-) t2 ON a1.search = t2.search_max and 
-        a1.groupby = 1 and a1.fkb is not null and
-        NOT EXISTS (
-          SELECT 1
-          FROM A
-          WHERE A.groupby = a1.groupby and A.groupby &gt; a1.groupby
-        )
-        </command_text>
+FROM
+    A a1
+    JOIN
+    (
+        SELECT MAX(search) search_max
+        FROM A
+        WHERE A.groupby = 1 AND A.fkb IS NOT NULL
+    ) t2 ON
+        a1.search = t2.search_max AND
+        a1.groupby = 1 AND
+        a1.fkb IS NOT NULL AND
+        NOT EXISTS
+        (
+            SELECT 1
+            FROM A
+            WHERE A.groupby = a1.groupby AND A.groupby &gt; a1.groupby
+        )  </command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4134,16 +4202,18 @@ JOIN
               <description>JOIN can be replaced by `A.fkb is not null` expression in this case, if A.fkb is foreign key.</description>
               <default_statement>
                 <command_text>SELECT a1.id, a1.groupby, a1.fkb, a1.padding
-FROM A a1
-JOIN
-(
-    SELECT max(A.search) search_max
-    FROM A
-    JOIN B ON B.id = A.fkb
-    WHERE A.groupby = 1
-) t2 ON a1.search = t2.search_max and 
-        a1.groupby = 1 and a1.fkb is not null
-        </command_text>
+FROM
+    A a1
+    JOIN
+    (
+        SELECT MAX(A.search) search_max
+        FROM A JOIN B ON B.id = A.fkb
+        WHERE A.groupby = 1
+    ) t2 ON
+        a1.search = t2.search_max AND
+        a1.groupby = 1 AND
+        a1.fkb IS NOT NULL
+            </command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4164,15 +4234,17 @@ JOIN
               <name>Redundant GROUP BY PK</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT a1.id, max(a1.groupby), max(a1.fkb), max(a1.padding)
-FROM A a1
-JOIN
-(
-    SELECT max(search) search_max
-    FROM A
-    WHERE A.groupby = 1 and A.fkb is not null
-) t2 ON a1.search = t2.search_max and 
-        a1.groupby = 1 and a1.fkb is not null
+                <command_text>SELECT a1.id, MAX(a1.groupby), MAX(a1.fkb), MAX(a1.padding)
+FROM
+    A a1
+    JOIN
+    (
+        SELECT MAX(search) search_max
+        FROM A
+        WHERE A.groupby = 1 AND A.fkb IS NOT NULL
+    ) t2 ON
+        a1.search = t2.search_max AND
+        a1.groupby = 1 AND a1.fkb IS NOT NULL
 GROUP BY a1.id</command_text>
               </default_statement>
               <specific_statements />
@@ -4191,20 +4263,24 @@ GROUP BY a1.id</command_text>
               <name>Redundant subquery</name>
               <description></description>
               <default_statement>
-                <command_text>SELECT a1.id, a1.groupby, a1.fkb, 
-  (
-    SELECT ar.padding
-    FROM A ar 
-    WHERE a1.id = Ar.id
-  ) padding
-FROM A a1
-JOIN
-(
-    SELECT max(search) search_max
-    FROM A
-    WHERE A.groupby = 1 and A.fkb is not null
-) t2 ON a1.search = t2.search_max and 
-        a1.groupby = 1 and a1.fkb is not null</command_text>
+                <command_text>SELECT
+    a1.id, a1.groupby, a1.fkb, 
+    (
+        SELECT ar.padding
+        FROM A ar 
+        WHERE a1.id = ar.id
+    ) padding
+FROM
+    A a1
+    JOIN
+    (
+        SELECT MAX(search) search_max
+        FROM A
+        WHERE A.groupby = 1 AND A.fkb IS NOT NULL
+    ) t2 ON
+        a1.search = t2.search_max AND
+        a1.groupby = 1 AND
+        a1.fkb IS NOT NULL</command_text>
               </default_statement>
               <specific_statements />
               <selected_annotations>
@@ -4233,16 +4309,17 @@ JOIN
               <default_statement>
                 <command_text>SELECT groupby, $AggFn c2
 FROM A
-WHERE $PAsearch and A.fkb is not null
+WHERE $PAsearch AND A.fkb IS NOT NULL
 GROUP BY groupby
-HAVING $AggFn &gt;=
-all(
-    SELECT $AggFn
-    FROM A
-    WHERE $PAsearch
-    GROUP BY groupby  
-    HAVING $AggFn is not NULL
-)</command_text>
+HAVING
+    $AggFn &gt;= ALL
+    (
+        SELECT $AggFn
+        FROM A
+        WHERE $PAsearch
+        GROUP BY groupby  
+        HAVING $AggFn IS NOT NULL
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -4250,20 +4327,21 @@ all(
                   <not_supported>False</not_supported>
                   <command_text>SELECT groupby, $AggFn c2
 FROM A
-WHERE $PAsearch and A.fkb is not null
+WHERE $PAsearch AND A.fkb IS NOT NULL
 GROUP BY groupby
-HAVING $AggFn =
-(
-  SELECT max(agg)
-  FROM
-  (
-    SELECT $AggFn agg
-    FROM A
-    WHERE $PAsearch
-    GROUP BY groupby  
-    HAVING $AggFn is not NULL
-  ) t
-)</command_text>
+HAVING
+    $AggFn =
+    (
+        SELECT MAX(agg)
+        FROM
+        (
+            SELECT $AggFn agg
+            FROM A
+            WHERE $PAsearch
+            GROUP BY groupby  
+            HAVING $AggFn IS NOT NULL
+        ) t
+    )</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -4286,17 +4364,19 @@ HAVING $AggFn =
               <default_statement>
                 <command_text>SELECT groupby, $AggFn c2
 FROM A
-WHERE ($PAsearch and A.fkb is not null) or 
-      (1 = 2 and A.search = 1)
+WHERE
+    ($PAsearch AND A.fkb IS NOT NULL) OR 
+    (1 = 2 AND A.search = 1)
 GROUP BY groupby
-HAVING $AggFn &gt;=
-all(
-    SELECT $AggFn
-    FROM A
-    WHERE $PAsearch
-    GROUP BY groupby  
-    HAVING $AggFn is not NULL
-) </command_text>
+HAVING
+    $AggFn &gt;= ALL
+    (
+        SELECT $AggFn
+        FROM A
+        WHERE $PAsearch
+        GROUP BY groupby  
+        HAVING $AggFn IS NOT NULL
+    ) </command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -4304,21 +4384,23 @@ all(
                   <not_supported>False</not_supported>
                   <command_text>SELECT groupby, $AggFn c2
 FROM A
-WHERE ($PAsearch and A.fkb is not null) or 
-      (1 = 2 and A.search = 1)
+WHERE
+    ($PAsearch AND A.fkb IS NOT NULL) OR 
+    (1 = 2 AND A.search = 1)
 GROUP BY groupby
-HAVING $AggFn =
-(
-  SELECT max(agg)
-  FROM
-  (
-    SELECT $AggFn agg
-    FROM A
-    WHERE $PAsearch
-    GROUP BY groupby  
-    HAVING $AggFn is not NULL
-  ) t
-)</command_text>
+HAVING
+    $AggFn =
+    (
+        SELECT MAX(agg)
+        FROM
+        (
+            SELECT $AggFn agg
+            FROM A
+            WHERE $PAsearch
+            GROUP BY groupby  
+            HAVING $AggFn IS NOT NULL
+        ) t
+    )</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>
@@ -4333,21 +4415,22 @@ HAVING $AggFn =
               <name>Redundant GROUP BY</name>
               <description>We perform the same aggregation twice</description>
               <default_statement>
-                <command_text>SELECT t.groupby, max(t.c2)
+                <command_text>SELECT t.groupby, MAX(t.c2)
 FROM
 (
     SELECT groupby, $AggFn c2
     FROM A
-    WHERE $PAsearch and A.fkb is not null
+    WHERE $PAsearch AND A.fkb IS NOT NULL
     GROUP BY groupby
-    HAVING $AggFn &gt;=
-    all(
-        SELECT $AggFn
-        FROM A
-        WHERE $PAsearch
-        GROUP BY groupby  
-        HAVING $AggFn is not NULL
-    )
+    HAVING
+        $AggFn &gt;= ALL
+        (
+            SELECT $AggFn
+            FROM A
+            WHERE $PAsearch
+            GROUP BY groupby  
+            HAVING $AggFn IS NOT NULL
+        )
 ) t
 GROUP BY groupby</command_text>
               </default_statement>
@@ -4355,25 +4438,26 @@ GROUP BY groupby</command_text>
                 <specific_statement>
                   <provider_name>SQLite</provider_name>
                   <not_supported>False</not_supported>
-                  <command_text>SELECT t.groupby, max(t.c2)
+                  <command_text>SELECT t.groupby, MAX(t.c2)
 FROM
 (
     SELECT groupby, $AggFn c2
     FROM A
-    WHERE $PAsearch and A.fkb is not null
+    WHERE $PAsearch AND A.fkb IS NOT NULL
     GROUP BY groupby
-    HAVING $AggFn =
-    (
-      SELECT max(agg)
-      FROM
-      (
-        SELECT $AggFn agg
-        FROM A
-        WHERE $PAsearch
-        GROUP BY groupby  
-        HAVING $AggFn is not NULL
-      ) t
-    )
+    HAVING
+        $AggFn =
+        (
+            SELECT MAX(agg)
+            FROM
+            (
+                SELECT $AggFn agg
+                FROM A
+                WHERE $PAsearch
+                GROUP BY groupby  
+                HAVING $AggFn IS NOT NULL
+            ) t
+        )
 ) t
 GROUP BY groupby</command_text>
                 </specific_statement>
@@ -4391,38 +4475,38 @@ GROUP BY groupby</command_text>
               <description></description>
               <default_statement>
                 <command_text>SELECT A.groupby, $AggFn c2
-FROM A
-JOIN A ar ON ar.id = A.id and $PARsearch
+FROM A JOIN A ar ON ar.id = A.id AND $PARsearch
 GROUP BY A.groupby
-HAVING $AggFn &gt;=
-all(
-    SELECT $AggFn
-    FROM A
-    WHERE $PAsearch
-    GROUP BY groupby  
-    HAVING $AggFn is not NULL
-)</command_text>
+HAVING
+    $AggFn &gt;= ALL
+    (
+        SELECT $AggFn
+        FROM A
+        WHERE $PAsearch
+        GROUP BY groupby  
+        HAVING $AggFn IS NOT NULL
+    )</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
                   <provider_name>SQLite</provider_name>
                   <not_supported>False</not_supported>
                   <command_text>SELECT A.groupby, $AggFn c2
-FROM A
-JOIN A ar ON ar.id = A.id and $PARsearch
+FROM A JOIN A ar ON ar.id = A.id AND $PARsearch
 GROUP BY A.groupby
-HAVING $AggFn =
-(
-  SELECT max(agg)
-  FROM
-  (
-    SELECT $AggFn agg
-    FROM A
-    WHERE $PAsearch
-    GROUP BY groupby  
-    HAVING $AggFn is not NULL
-  ) t
-)</command_text>
+HAVING
+    $AggFn =
+    (
+        SELECT MAX(agg)
+        FROM
+        (
+            SELECT $AggFn agg
+            FROM A
+            WHERE $PAsearch
+            GROUP BY groupby  
+            HAVING $AggFn IS NOT NULL
+        ) t
+    )</command_text>
                 </specific_statement>
               </specific_statements>
               <selected_annotations>

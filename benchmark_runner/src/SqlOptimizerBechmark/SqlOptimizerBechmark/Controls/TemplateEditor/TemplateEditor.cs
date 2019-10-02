@@ -56,6 +56,8 @@ namespace SqlOptimizerBechmark.Controls.TemplateEditor
             if (planEquivalenceTest != null)
             {
                 bindingList = new TemplateBindingList(planEquivalenceTest);
+                gridTemplates.DataSource = null;
+                gridTemplates.Columns.Clear();
                 gridTemplates.DataSource = bindingList;
                 gridTemplates.AllowUserToAddRows = true;
 
@@ -166,6 +168,36 @@ namespace SqlOptimizerBechmark.Controls.TemplateEditor
             Parameter parameter = GetSelectedParameter();
             if (parameter != null)
             {
+                // Check whether the parameter is not used in a statement.
+                bool used = false;
+                List<string> statements = new List<string>();
+                foreach (QueryVariant variant in planEquivalenceTest.Variants)
+                {
+                    statements.Add(variant.DefaultStatement.CommandText);
+                    foreach (SpecificStatement specificStatement in variant.SpecificStatements)
+                    {
+                        statements.Add(specificStatement.CommandText);
+                    }
+                }
+                foreach (string statement in statements)
+                {
+                    if (statement.Contains(parameter.Name))
+                    {
+                        used = true;
+                        break;
+                    }
+                }
+                if (used)
+                {
+                    DialogResult res = MessageBox.Show("The parameter is used in a statement. Do you really want to remove it?", Application.ProductName,
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (res != DialogResult.Yes)
+                    {
+                        return;
+                    }
+                }
+
                 planEquivalenceTest.Parameters.Remove(parameter);
                 List<ParameterValue> valuesToRemove = new List<ParameterValue>();
                 foreach (ParameterValue parameterValue in planEquivalenceTest.ParameterValues)

@@ -794,5 +794,12 @@ namespace SqlOptimizerBechmark
                 MessageBox.Show(ex.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void tESTSQLFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SqlOptimizerBechmark.Controls.FormattingGuideDialog dialog = new Controls.FormattingGuideDialog();
+            dialog.Benchmark = benchmark;
+            dialog.Show();
+        }
     }
 }

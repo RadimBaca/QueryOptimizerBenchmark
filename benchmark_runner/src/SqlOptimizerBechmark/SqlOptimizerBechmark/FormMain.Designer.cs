@@ -71,6 +71,7 @@
             this.mbtnAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.btnTest = new System.Windows.Forms.ToolStripMenuItem();
             this.tESTSQLScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tESTSQLFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -438,7 +439,8 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mbtnAbout,
             this.btnTest,
-            this.tESTSQLScannerToolStripMenuItem});
+            this.tESTSQLScannerToolStripMenuItem,
+            this.tESTSQLFormatToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -464,6 +466,13 @@
             this.tESTSQLScannerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tESTSQLScannerToolStripMenuItem.Text = "TEST SQL Scanner";
             this.tESTSQLScannerToolStripMenuItem.Click += new System.EventHandler(this.tESTSQLScannerToolStripMenuItem_Click);
+            // 
+            // tESTSQLFormatToolStripMenuItem
+            // 
+            this.tESTSQLFormatToolStripMenuItem.Name = "tESTSQLFormatToolStripMenuItem";
+            this.tESTSQLFormatToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tESTSQLFormatToolStripMenuItem.Text = "TEST SQL Format";
+            this.tESTSQLFormatToolStripMenuItem.Click += new System.EventHandler(this.tESTSQLFormatToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -535,6 +544,7 @@
         private System.Windows.Forms.ToolStripMenuItem mbtnExportToFileSystem;
         private System.Windows.Forms.ToolStripMenuItem btnTest;
         private System.Windows.Forms.ToolStripMenuItem tESTSQLScannerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tESTSQLFormatToolStripMenuItem;
     }
 }
 

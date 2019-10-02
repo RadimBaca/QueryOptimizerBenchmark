@@ -27,6 +27,7 @@ namespace SqlOptimizerBechmark.Classes
         private static char identifierChar1 = '\"';
         private static char identifierStartChar2 = '[';
         private static char identifierEndChar2 = ']';
+        private static char sqlBenchParamChar = '$';
 
         private string querySql;
         private SqlToken[] tokens;
@@ -77,6 +78,9 @@ namespace SqlOptimizerBechmark.Classes
                 case "<>": return new SqlToken(SqlTokenType.NOT_EQUAL, "<>", startCharIndex, endCharIndex);
                 case "!=": return new SqlToken(SqlTokenType.NOT_EQUAL, "!=", startCharIndex, endCharIndex);
                 default:
+                    if (strSymbol[0] == sqlBenchParamChar)
+                        return new SqlToken(SqlTokenType.SQL_BENCH_PARAMETER_SYMBOL, strSymbol, startCharIndex, endCharIndex);
+
                     if (strSymbol[0] == stringChar)
                         return new SqlToken(SqlTokenType.STRING_CONSTANT, strSymbol.Substring(1, strSymbol.Length - 2).Replace("''", "'"), startCharIndex, endCharIndex);
 
