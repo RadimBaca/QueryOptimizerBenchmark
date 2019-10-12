@@ -12,85 +12,1211 @@
         <provider_name>Microsoft SQL Server</provider_name>
         <statements>
           <statement>
-            <command_text>--Drop tables if exists A
---Drop tables if exists B
-IF OBJECT_ID('dbo.A', 'U') IS NOT NULL DROP TABLE dbo.A
-IF OBJECT_ID('dbo.B', 'U') IS NOT NULL DROP TABLE dbo.B</command_text>
-          </statement>
-          <statement>
-            <command_text>--Create table A (id int, groupby int, orderby int, fkb int, search int, padding varchar())
-WITH x AS 
-(
-  SELECT n FROM (VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9)) v(n)
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands,       x tenthousands,       x hundredthousands
-), t2 AS
-(
-    SELECT  id,
-            id % 100 groupby
-    FROM t1
-), t3 AS
-(
-    SELECT  b.id, b.groupby, row_number() over (partition by groupby order by id) orderby
-    FROM t2 b
-)
-SELECT  cast(id as int) id, 
-        cast(groupby as int) groupby, 
-        cast(orderby as int) orderby,
-        cast(orderby % 9173 as int) fkb, 
-        cast (id % 911 as int) search, 
-        LEFT('Value ' + CAST(id AS VARCHAR) + ' ' + REPLICATE('*', 1000), 1000) as padding
-    INTO A
-FROM t3
+            <command_text>-- Drop tables A and B, if they exist.
+
+IF OBJECT_ID('dbo.A', 'U') IS NOT NULL DROP TABLE dbo.A;
+
+IF OBJECT_ID('dbo.B', 'U') IS NOT NULL DROP TABLE dbo.B;
 </command_text>
           </statement>
           <statement>
-            <command_text>--Create table B (id int, groupby int, padding varchar())
-WITH x AS 
-(
-  SELECT n FROM (VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9)) v(n)
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands       
-)
-SELECT  cast(id as int) id,
-        cast((id + floor(100000 / (id+1))) % 100 as int) groupby,
-        cast (id % 901 as int) search, 
-        LEFT('Value ' + CAST(id AS VARCHAR) + ' ' + REPLICATE('*', 1000), 1000) as padding
+            <command_text>-- Create table A.
+
+WITH
+    x AS 
+    (
+        SELECT n
+        FROM
+        (
+            VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9)
+        ) v(n)
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n as id  
+        FROM x ones, x tens, x hundreds, x thousands, x tenthousands, x hundredthousands
+    ),
+    t2 AS
+    (
+        SELECT id, id % 100 groupby
+        FROM t1
+    ),
+    t3 AS
+    (
+        SELECT b.id, b.groupby, ROW_NUMBER() OVER (PARTITION BY groupby ORDER BY id) orderby
+        FROM t2 b
+    )
+SELECT
+    CAST(id AS INT) id, 
+    CAST(groupby AS INT) groupby, 
+    CAST(orderby AS INT) orderby,
+    CAST(orderby % 9173 AS int) fkb, 
+    CAST(id % 911 AS int) search, 
+    LEFT('Value ' + CAST(id AS VARCHAR) + ' ' + REPLICATE('*', 1000), 1000) AS padding
+INTO A
+FROM t3;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table B.
+
+WITH
+    x AS 
+    (
+        SELECT n
+        FROM
+        (
+            VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9)
+        ) v(n)
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n AS id  
+        FROM x ones, x tens, x hundreds, x thousands       
+    )
+SELECT
+    CAST(id AS INT) id,
+    CAST((id + FLOOR(100000 / (id + 1))) % 100 AS INT) groupby,
+    CAST(id % 901 AS INT) search, 
+    LEFT('Value ' + CAST(id AS VARCHAR) + ' ' + REPLICATE('*', 1000), 1000) AS padding
 INTO B
-FROM t1
+FROM t1;
 </command_text>
           </statement>
           <statement>
-            <command_text>--insert of some outlier data
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000000, null, null, null, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000001, 100, null, null, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000002, 99, 10000, null, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000003, 101, 10000, 1, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000004, null, null, 1, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000005, null, null, 500, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000006, null, null, 1, 1, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null, null, null, 1, '*');
+            <command_text>-- Insert outlier data into A.
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000000, NULL, NULL, NULL, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000001, 100, NULL, NULL, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000002, 99, 10000, NULL, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000003, 101, 10000, 1, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000004, NULL, NULL, 1, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000005, NULL, NULL, 500, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000006, NULL, NULL, 1, 1, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000007, NULL, NULL, NULL, 1, '*');
 </command_text>
           </statement>
           <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);
-insert into B(id, groupby, search, padding) values (10001, null, 1, null);
-insert into B(id, groupby, search, padding) values (10002, 1, null, null);
-insert into B(id, groupby, search, padding) values (10003, 1, 1, null);
+            <command_text>-- Insert outlier data into B.
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10000, NULL, NULL, NULL);
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10001, NULL, 1, NULL);
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10002, 1, NULL, NULL);
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10003, 1, 1, NULL);
 </command_text>
           </statement>
           <statement>
-            <command_text>--Set id of both tables as a primary key
-alter table A alter column id int not null;
-alter table B alter column id int not null;</command_text>
+            <command_text>-- Set id mandatory in A and B.
+
+ALTER TABLE A ALTER COLUMN id INT NOT NULL;
+
+ALTER TABLE B ALTER COLUMN id INT NOT NULL;
+</command_text>
           </statement>
           <statement>
-            <command_text>alter table A add constraint pk_a_id primary key (id);
-alter table B add constraint pk_b_id primary key (id);</command_text>
+            <command_text>-- Set id as the primary key in A and B.
+
+ALTER TABLE A ADD CONSTRAINT pk_a_id PRIMARY KEY (id);
+
+ALTER TABLE B ADD CONSTRAINT pk_b_id PRIMARY KEY (id);</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+      <specific_statement_list>
+        <provider_name>Oracle Database</provider_name>
+        <statements>
+          <statement>
+            <command_text>-- Drop table A, if it exists.
+
+BEGIN
+   EXECUTE IMMEDIATE 'DROP TABLE A';
+EXCEPTION
+   WHEN OTHERS THEN
+      IF SQLCODE != -942 THEN
+         RAISE;
+      END IF;
+END;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Drop table B, if it exists.
+ 
+BEGIN
+   EXECUTE IMMEDIATE 'DROP TABLE B';
+EXCEPTION
+   WHEN OTHERS THEN
+      IF SQLCODE != -942 THEN
+         RAISE;
+      END IF;
+END;
+ </command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table A.
+
+CREATE TABLE A AS
+WITH
+    x AS 
+    (
+        SELECT 0 n FROM dual
+        UNION ALL
+        SELECT 1 FROM dual
+        UNION ALL
+        SELECT 2 FROM dual
+        UNION ALL
+        SELECT 3 FROM dual
+        UNION ALL
+        SELECT 4 FROM dual
+        UNION ALL
+        SELECT 5 FROM dual
+        UNION ALL
+        SELECT 6 FROM dual
+        UNION ALL
+        SELECT 7 FROM dual
+        UNION ALL
+        SELECT 8 FROM dual
+        UNION ALL
+        SELECT 9 FROM dual  
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n AS id  
+        FROM x ones, x tens, x hundreds, x thousands, x tenthousands, x hundredthousands
+    ),
+    t2 AS
+    (
+        SELECT id, MOD(id, 100) groupby
+        FROM t1
+    ),
+    t3 AS
+    (
+        SELECT  b.id, b.groupby, ROW_NUMBER() OVER (PARTITION BY groupby ORDER BY id) orderby
+        FROM t2 b
+    )
+SELECT
+    CAST(id AS INT) id, 
+    CAST(groupby AS INT) groupby, 
+    CAST(orderby AS INT) orderby,
+    CAST(MOD(orderby, 9173) AS INT) fkb, 
+    CAST(MOD(id, 911) AS INT) search, 
+    RPAD(CONCAT('Value ', id), 1000, '*') AS padding
+FROM t3;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table B.
+
+CREATE TABLE B AS
+WITH
+    x AS 
+    (
+        SELECT 0 n FROM dual
+        UNION ALL
+        SELECT 1 FROM dual
+        UNION ALL 
+        SELECT 2 FROM dual
+        UNION ALL 
+        SELECT 3 FROM dual
+        UNION ALL 
+        SELECT 4 FROM dual
+        UNION ALL 
+        SELECT 5 FROM dual
+        UNION ALL 
+        SELECT 6 FROM dual
+        UNION ALL 
+        SELECT 7 FROM dual
+        UNION ALL 
+        SELECT 8 FROM dual
+        UNION ALL 
+        SELECT 9 FROM dual  
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n AS id
+        FROM x ones, x tens, x hundreds, x thousands       
+    )
+SELECT
+    CAST(id AS INT) id,
+    CAST(MOD(id + FLOOT(100000 / (id + 1)), 100) AS INT) groupby,
+    CAST(MOD(id, 901) AS INT) search, 
+    RPAD(CONCAT('Value ', id), 1000, '*') AS padding  
+FROM t1;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into A.
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000000, NULL, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000001, 100, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000002, 99, 10000, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000003, 101, 10000, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000004, NULL, NULL, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000005, NULL, NULL, 500, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000006, NULL, NULL, 1, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000007, NULL, NULL, NULL, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into B.
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10000, NULL, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10001, NULL, 1, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10002, 1, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10003, 1, 1, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Set id mandatory in A and B.
+
+ALTER TABLE A modify id INT NOT NULL;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>ALTER TABLE B modify id INT NOT NULL;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Set id as the primary key in A and B.
+
+ALTER TABLE A ADD CONSTRAINT pk_a_id PRIMARY KEY (id);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>ALTER TABLE B ADD CONSTRAINT pk_b_id PRIMARY KEY (id);
+</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+      <specific_statement_list>
+        <provider_name>PostgreSQL</provider_name>
+        <statements>
+          <statement>
+            <command_text>-- Drop tables A and B, if they exist.
+
+DROP TABLE IF EXISTS A CASCADE;
+
+DROP TABLE IF EXISTS B CASCADE;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create empty tables A and B.
+
+CREATE TABLE A
+(
+    id INT,
+    groupby INT,
+    orderby INT,
+    fkb INT,
+    search INT,
+    padding VARCHAR(1000)
+);
+
+
+CREATE TABLE B
+(
+    id INT,
+    groupby INT,
+    search INT,
+    padding VARCHAR(1000)
+);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert data into A.
+
+INSERT INTO A
+WITH
+    t1 AS
+    (
+        SELECT id
+        FROM GENERATE_SERIES(0, 999999) id
+    ),
+    t2 AS
+    (
+        SELECT id, id % 100 groupby
+        FROM t1
+    ),
+    t3 AS
+    (
+        SELECT b.id, b.groupby, ROW_NUMBER() OVER (PARTITION BY groupby ORDER BY id) orderby
+        FROM t2 b
+    )
+SELECT
+    id,
+    groupby,
+    orderby orderby,
+    CAST(orderby % 9173 AS INT) fkb,
+    CAST(id % 911 AS INT) lsearch,
+    RPAD('Value ' || id || ' ' , 1000, '*') AS padding
+FROM t3;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert data into B.
+
+INSERT INTO B
+SELECT
+    CAST(id AS INT) id,
+    CAST((id + FLOOR(100000 / (id + 1))) AS INT) % 100 groupby,
+    CAST(id % 901 AS INT) lsearch,
+    RPAD('Value ' || id || ' ' , 1000, '*') AS padding
+FROM GENERATE_SERIES(0, 9999) id;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into A.
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000000, NULL, NULL, NULL, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000001, 100, NULL, NULL, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000002, 99, 10000, NULL, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000003, 101, 10000, 1, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000004, NULL, NULL, 1, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000005, NULL, NULL, 500, NULL, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000006, NULL, NULL, 1, 1, '*');
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000007, NULL, NULL, NULL, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into B.
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10000, NULL, NULL, NULL);
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10001, NULL, 1, NULL);
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10002, 1, NULL, NULL);
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10003, 1, 1, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Set id mandatory in A and B.
+
+ALTER TABLE A ALTER COLUMN id SET NOT NULL;
+
+ALTER TABLE B ALTER COLUMN id SET NOT NULL;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Set id as the primary key in A and B.
+
+ALTER TABLE A ADD CONSTRAINT pk_a_id PRIMARY KEY (id);
+
+ALTER TABLE B ADD CONSTRAINT pk_b_id PRIMARY KEY (id);</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+      <specific_statement_list>
+        <provider_name>MySQL</provider_name>
+        <statements>
+          <statement>
+            <command_text>-- Drop tables A and B, if they exist.
+
+DROP TABLE IF EXISTS A;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>DROP TABLE IF EXISTS B;
+ </command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table A.
+
+CREATE TABLE A
+(
+    id INT NOT NULL PRIMARY KEY,
+    groupby INT NULL,
+    orderby INT NULL,
+    fkb INT NULL,
+    search INT NULL,
+    padding VARCHAR(1000) NULL
+)  AS
+WITH
+    x AS 
+    (
+        SELECT 0 n FROM dual
+        UNION ALL
+        SELECT 1 FROM dual
+        UNION ALL 
+        SELECT 2 FROM dual
+        UNION ALL 
+        SELECT 3 FROM dual
+        UNION ALL 
+        SELECT 4 FROM dual
+        UNION ALL 
+        SELECT 5 FROM dual
+        UNION ALL 
+        SELECT 6 FROM dual
+        UNION ALL 
+        SELECT 7 FROM dual
+        UNION ALL 
+        SELECT 8 FROM dual
+        UNION ALL 
+        SELECT 9 FROM dual  
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n AS id  
+        FROM x ones, x tens, x hundreds, x thousands, x tenthousands, x hundredthousands
+    ),
+    t2 AS
+    (
+        SELECT id, MOD(id, 100) groupby
+        FROM t1
+    ),
+    t3 AS
+    (
+        SELECT b.id, b.groupby, ROW_NUMBER() OVER (PARTITION BY b.groupby ORDER BY b.id) orderby
+        FROM t2 b
+    )
+SELECT
+    CAST(id AS unsigned) id, 
+    CAST(groupby AS unsigned) groupby, 
+    CAST(orderby AS unsigned) orderby,
+    CAST(MOD(orderby, 9173) AS unsigned) fkb, 
+    CAST(MOD(id, 911) AS unsigned) search, 
+    RPAD(CONCAT('Value ', id), 1000, '*') AS padding   
+FROM t3;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table B.
+
+CREATE TABLE B
+(
+    id INT NOT NULL PRIMARY KEY,
+    groupby INT NULL,
+    search INT NULL,
+    padding VARCHAR(1000) NULL
+) AS
+WITH
+    x AS 
+    (
+        SELECT 0 n FROM dual
+        UNION ALL 
+        SELECT 1 FROM dual
+        UNION ALL 
+        SELECT 2 FROM dual
+        UNION ALL 
+        SELECT 3 FROM dual
+        UNION ALL 
+        SELECT 4 FROM dual
+        UNION ALL 
+        SELECT 5 FROM dual
+        UNION ALL 
+        SELECT 6 FROM dual
+        UNION ALL 
+        SELECT 7 FROM dual
+        UNION ALL 
+        SELECT 8 FROM dual
+        UNION ALL 
+        SELECT 9 FROM dual  
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n AS id  
+        FROM x ones, x tens, x hundreds, x thousands       
+    )
+SELECT
+    CAST(id as unsigned) id,
+    CAST(mod(id + floor(100000 / (id + 1)) , 100) AS unsigned) groupby,
+    CAST(mod(id, 901) AS unsigned) search, 
+    RPAD(CONCAT('Value ', id), 1000, '*') AS padding
+FROM t1;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into A.
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000000, NULL, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000001, 100, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000002, 99, 10000, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000003, 101, 10000, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000004, NULL, NULL, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000005, NULL, NULL, 500, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000006, NULL, NULL, 1, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) VALUES (1000007, NULL, NULL, NULL, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into B.
+
+INSERT INTO B(id, groupby, search, padding) VALUES (10000, NULL, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding) VALUES (10001, NULL, 1, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding) VALUES (10002, 1, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding) VALUES (10003, 1, 1, NULL);
+</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+      <specific_statement_list>
+        <provider_name>H2</provider_name>
+        <statements>
+          <statement>
+            <command_text>-- Drop tables A and B, if they exist.
+
+DROP TABLE IF EXISTS A;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>DROP TABLE IF EXISTS B;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table A.
+
+CREATE TABLE A
+(
+    id INT NOT NULL PRIMARY KEY,
+    groupby INT NULL,
+    orderby INT NULL,
+    fkb INT NULL,
+    search INT NULL,
+    padding VARCHAR(1000) NULL
+) AS
+WITH
+    x AS
+    (
+        SELECT 0 n FROM dual
+        UNION ALL
+        SELECT 1 FROM dual
+        UNION ALL
+        SELECT 2 FROM dual
+        UNION ALL
+        SELECT 3 FROM dual
+        UNION ALL
+        SELECT 4 FROM dual
+        UNION ALL
+        SELECT 5 FROM dual
+        UNION ALL
+        SELECT 6 FROM dual
+        UNION ALL
+        SELECT 7 FROM dual
+        UNION ALL
+        SELECT 8 FROM dual
+        UNION ALL
+        SELECT 9 FROM dual
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n AS id
+        FROM x ones, x tens, x hundreds, x thousands, x tenthousands, x hundredthousands
+    ),
+    t2 AS
+    (
+        SELECT id, MOD(id, 100) groupby
+        FROM t1
+    ),
+    t3 AS
+    (
+        SELECT b.id, b.groupby, ROW_NUMBER() OVER (PARTITION BY b.groupby ORDER BY b.id) orderby
+        FROM t2 b
+    )
+SELECT
+    CAST(id AS INT) id,
+    CAST(groupby AS INT) groupby,
+    CAST(orderby AS INT) orderby,
+    CAST(MOD(orderby, 9173) AS INT) fkb,
+    CAST(MOD(id, 911) AS INT) search,
+    RPAD(CONCAT('Value ', id), 1000, '*') AS padding
+FROM t3;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table B.
+
+CREATE TABLE B
+(
+    id INT NOT NULL PRIMARY KEY,
+    groupby INT NULL,
+    search INT NULL,
+    padding VARCHAR(1000) NULL
+) AS
+WITH x AS 
+(
+    SELECT 0 n FROM dual
+    UNION ALL
+    SELECT 1 FROM dual
+    UNION ALL
+    SELECT 2 FROM dual
+    UNION ALL
+    SELECT 3 FROM dual
+    UNION ALL
+    SELECT 4 FROM dual
+    UNION ALL
+    SELECT 5 FROM dual
+    UNION ALL
+    SELECT 6 FROM dual
+    UNION ALL
+    SELECT 7 FROM dual
+    UNION ALL
+    SELECT 8 FROM dual
+    UNION ALL
+    SELECT 9 FROM dual  
+),
+t1 AS
+(
+    SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n AS id
+    FROM x ones, x tens, x hundreds, x thousands       
+)
+SELECT
+    CAST(id AS INT) id,
+    CAST(MOD(id + FLOOR(100000 / (id+1)), 100) AS INT) groupby,
+    CAST(MOD(id, 901) AS INT) search, 
+    RPAD(CONCAT('Value ', id), 1000, '*') AS padding
+FROM t1;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into A.
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000000, NULL, NULL, NULL, NULL, '*');</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000001, 100, NULL, NULL, NULL, '*');</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000002, 99, 10000, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000003, 101, 10000, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000004, NULL, NULL, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000005, NULL, NULL, 500, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000006, NULL, NULL, 1, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000007, NULL, NULL, NULL, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into B.
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10000, NULL, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10001, NULL, 1, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10002, 1, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10003, 1, 1, NULL);</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+      <specific_statement_list>
+        <provider_name>Firebird</provider_name>
+        <statements>
+          <statement>
+            <command_text>/* Create table A. */
+
+CREATE TABLE A
+(
+    id INT PRIMARY KEY,
+    groupby INT,
+    orderby INT,
+    fkb INT,
+    search INT,
+    padding VARCHAR(1000)
+);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>/* Create table B. */
+
+CREATE TABLE B
+(
+    id INT PRIMARY KEY,
+    groupby INT,
+    search INT,
+    padding VARCHAR(1000)
+);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>/* Insert data into A. */
+
+INSERT INTO A 
+    WITH x AS 
+    (
+        SELECT 0 n FROM RDB$DATABASE
+        UNION ALL
+        SELECT 1 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 2 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 3 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 4 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 5 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 6 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 7 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 8 FROM RDB$DATABASE
+        UNION ALL
+        SELECT 9 FROM RDB$DATABASE  
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n AS id
+        FROM x ones, x tens, x hundreds, x thousands, x tenthousands, x hundredthousands
+    ),
+    t2 AS
+    (
+        SELECT  id,
+        MOD(id, 100) groupby
+        FROM t1
+    ),
+    t3 AS
+    (
+        SELECT  b.id, b.groupby, ROW_NUMBER() OVER (PARTITION BY b.groupby ORDER BY b.id) orderby
+        FROM t2 b
+    )
+SELECT
+    cast(id AS INT) id, 
+    cast(groupby AS INT) groupby, 
+    cast(orderby AS INT) orderby,
+    cast(MOD(orderby, 9173) AS INT) fkb, 
+    cast(MOD(id, 911) AS INT) search, 
+    RPAD('Value ' || id, 1000, '*') AS padding   
+FROM t3;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>/* Insert data into B. */
+
+INSERT INTO B
+    WITH x AS 
+    (
+        SELECT 0 n FROM RDB$DATABASE
+        UNION ALL
+        SELECT 1 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 2 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 3 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 4 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 5 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 6 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 7 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 8 FROM RDB$DATABASE
+        UNION ALL 
+        SELECT 9 FROM RDB$DATABASE  
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n as id  
+        FROM x ones, x tens, x hundreds, x thousands
+    )
+SELECT
+    CAST(id AS INT) id,
+    CAST(MOD(id + FLOOR(100000 / (id + 1)), 100) AS INT) groupby,
+    CAST(MOD(id, 901) AS INT) search, 
+    RPAD('Value ' || id, 1000, '*') AS padding
+FROM t1;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>/* Insert outlier data into A. */
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000000, NULL, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000001, 100, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000002, 99, 10000, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000003, 101, 10000, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000004, NULL, NULL, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000005, NULL, NULL, 500, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000006, NULL, NULL, 1, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000007, NULL, NULL, NULL, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>/* Insert outlier data into B. */
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10000, NULL, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10001, NULL, 1, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10002, 1, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10003, 1, 1, NULL);
+</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+      <specific_statement_list>
+        <provider_name>SQLite</provider_name>
+        <statements>
+          <statement>
+            <command_text>-- Drop tables A and B, if they exist.
+
+DROP TABLE IF EXISTS A;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>DROP TABLE IF EXISTS B;
+ </command_text>
+          </statement>
+          <statement>
+            <command_text>-- Increase the cache size.
+
+PRAGMA cache_size = 2000000;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table A.
+
+CREATE TABLE A AS
+WITH
+    x AS 
+    (
+        SELECT 0 AS n
+        UNION ALL
+        SELECT 1
+        UNION ALL
+        SELECT 2
+        UNION ALL
+        SELECT 3
+        UNION ALL 
+        SELECT 4
+        UNION ALL 
+        SELECT 5
+        UNION ALL 
+        SELECT 6
+        UNION ALL 
+        SELECT 7
+        UNION ALL 
+        SELECT 8
+        UNION ALL 
+        SELECT 9 
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n AS id  
+        FROM x ones, x tens, x hundreds, x thousands, x tenthousands, x hundredthousands
+    ),
+    t2 AS
+    (
+        SELECT id, id % 100 groupby
+        FROM t1
+    ),
+    t3 AS
+    (
+        SELECT  b.id, b.groupby, ROW_NUMBER() OVER (PARTITION BY b.groupby ORDER BY b.id) orderby
+        FROM t2 b
+    )
+SELECT
+    CAST(id AS UNSIGNED) id, 
+    CAST(groupby AS UNSIGNED) groupby, 
+    CAST(orderby AS UNSIGNED) orderby,
+    CAST(orderby % 9173 AS UNSIGNED) fkb, 
+    CAST(id % 911 AS UNSIGNED) search, 
+    SUBSTR('Value ' || id || PRINTF('%.' || 1000 || 'c', '*'), 1, 1000) AS padding   
+FROM t3;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Create table B.
+
+CREATE TABLE B AS
+    WITH x AS 
+    (
+        SELECT 0 n
+        UNION ALL 
+        SELECT 1
+        UNION ALL 
+        SELECT 2
+        UNION ALL 
+        SELECT 3
+        UNION ALL 
+        SELECT 4
+        UNION ALL 
+        SELECT 5
+        UNION ALL 
+        SELECT 6
+        UNION ALL 
+        SELECT 7
+        UNION ALL 
+        SELECT 8
+        UNION ALL 
+        SELECT 9  
+    ),
+    t1 AS
+    (
+        SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n AS id  
+        FROM x ones, x tens, x hundreds, x thousands       
+    )
+SELECT
+    CAST(id AS UNSIGNED) id,
+    CAST(((id + floor(100000 / (id + 1))) % 100) AS UNSIGNED) groupby,
+    CAST((id % 901) AS UNSIGNED) search, 
+    SUBSTR('Value ' || id || PRINTF('%.' || 1000 || 'c', '*'), 1, 1000) AS padding
+FROM t1;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into A.
+
+INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000000, NULL, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000001, 100, NULL, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding) 
+VALUES (1000002, 99, 10000, NULL, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000003, 101, 10000, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000004, NULL, NULL, 1, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000005, NULL, NULL, 500, NULL, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000006, NULL, NULL, 1, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO A(id, groupby, orderby, fkb, search, padding)
+VALUES (1000007, NULL, NULL, NULL, 1, '*');
+</command_text>
+          </statement>
+          <statement>
+            <command_text>-- Insert outlier data into B.
+
+INSERT INTO B(id, groupby, search, padding)
+VALUES (10000, NULL, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10001, NULL, 1, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10002, 1, NULL, NULL);
+</command_text>
+          </statement>
+          <statement>
+            <command_text>INSERT INTO B(id, groupby, search, padding)
+VALUES (10003, 1, 1, NULL);</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+    </specific_statement_lists>
+  </init_script>
+  <clean_up_script>
+    <default_statement_list>
+      <statements />
+    </default_statement_list>
+    <specific_statement_lists>
+      <specific_statement_list>
+        <provider_name>Microsoft SQL Server</provider_name>
+        <statements>
+          <statement>
+            <command_text>IF OBJECT_ID('dbo.A', 'U') IS NOT NULL DROP TABLE dbo.A;
+
+IF OBJECT_ID('dbo.B', 'U') IS NOT NULL DROP TABLE dbo.B;</command_text>
           </statement>
         </statements>
       </specific_statement_list>
@@ -117,835 +1243,7 @@ EXCEPTION
       IF SQLCODE != -942 THEN
          RAISE;
       END IF;
-END;
- </command_text>
-          </statement>
-          <statement>
-            <command_text> 
---Create table A (id int, groupby int, orderby int, fkb int, search int, padding varchar())
-CREATE  TABLE A AS
-WITH x AS 
-(
-  SELECT 0 n FROM dual
-  union all 
-  SELECT 1 FROM dual
-  union all 
-  SELECT 2 FROM dual
-  union all 
-  SELECT 3 FROM dual
-  union all 
-  SELECT 4 FROM dual
-  union all 
-  SELECT 5 FROM dual
-  union all 
-  SELECT 6 FROM dual
-  union all 
-  SELECT 7 FROM dual
-  union all 
-  SELECT 8 FROM dual
-  union all 
-  SELECT 9 FROM dual  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands,       x tenthousands,       x hundredthousands
-), t2 AS
-(
-    SELECT  id,
-            mod(id, 100) groupby
-    FROM t1
-), t3 AS
-(
-    SELECT  b.id, b.groupby, row_number() over (partition by groupby order by id) orderby
-    FROM t2 b
-)
-SELECT  cast(id as int) id, 
-        cast(groupby as int) groupby, 
-        cast(orderby as int) orderby,
-        cast(mod(orderby, 9173) as int) fkb, 
-        cast(mod(id, 911) as int) search, 
-        RPAD(concat('Value ', id), 1000, '*') as padding   
-FROM t3;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>--Create table B (id int, groupby int, search int, padding varchar())
-CREATE  TABLE B AS
-WITH x AS 
-(
-  SELECT 0 n FROM dual
-  union all 
-  SELECT 1 FROM dual
-  union all 
-  SELECT 2 FROM dual
-  union all 
-  SELECT 3 FROM dual
-  union all 
-  SELECT 4 FROM dual
-  union all 
-  SELECT 5 FROM dual
-  union all 
-  SELECT 6 FROM dual
-  union all 
-  SELECT 7 FROM dual
-  union all 
-  SELECT 8 FROM dual
-  union all 
-  SELECT 9 FROM dual  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands       
-)
-SELECT  cast(id as int) id,
-        cast(mod(id + floor(100000 / (id+1)) , 100) as int) groupby,
-        cast (mod(id, 901) as int) search, 
-        RPAD(concat('Value ', id), 1000, '*') as padding  
-FROM t1;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>--insert of some outlier data
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000000, null, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000001, 100, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000002, 99, 10000, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000003, 101, 10000, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000004, null, null, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000005, null, null, 500, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000006, null, null, 1, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null, null, null, 1, '*');
-</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10001, null, 1, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10002, 1, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10003, 1, 1, null);
-</command_text>
-          </statement>
-          <statement>
-            <command_text>--Set id of both tables as a primary key
-alter table A modify id int not null;</command_text>
-          </statement>
-          <statement>
-            <command_text>alter table B modify id int not null;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>alter table A add constraint pk_a_id primary key (id);</command_text>
-          </statement>
-          <statement>
-            <command_text>alter table B add constraint pk_b_id primary key (id);
-</command_text>
-          </statement>
-        </statements>
-      </specific_statement_list>
-      <specific_statement_list>
-        <provider_name>PostgreSQL</provider_name>
-        <statements>
-          <statement>
-            <command_text>DROP TABLE IF EXISTS A CASCADE;
-DROP TABLE IF EXISTS B CASCADE;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>CREATE TABLE A (
-    id int,
-    groupby int,
-    orderby int,
-    fkb int,
-    search int,
-    padding varchar(1000)
-);
-
-
-CREATE TABLE B (
-    id int,
-    groupby int,
-    search int,
-    padding varchar(1000)
-);
-</command_text>
-          </statement>
-          <statement>
-            <command_text>INSERT
-INTO    A
-WITH t1 AS
-(
-  SELECT id
-  FROM generate_series(0, 999999) id
-), t2 AS
-(
-    SELECT  id,
-            id % 100 groupby
-    FROM t1
-), t3 AS
-(
-    SELECT  b.id,
-            b.groupby,
-            row_number() over (partition by groupby order by id) orderby
-    FROM t2 b
-)
-SELECT  id,
-        groupby,
-        orderby orderby,
-        cast(orderby % 9173 as int) fkb,
-        cast (id % 911 as int) lsearch,
-        RPAD('Value ' || id || ' ' , 1000, '*') as padding
-FROM t3;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>INSERT
-INTO    B
-SELECT  cast(id as int) id,
-        cast((id + floor(100000 / (id+1))) as int) % 100 groupby,
-        cast (id % 901 as int) lsearch,
-        RPAD('Value ' || id || ' ' , 1000, '*') as padding
-FROM generate_series(0, 9999) id;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>--insert of some outlier data
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000000, null, null, null, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000001, 100, null, null, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000002, 99, 10000, null, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000003, 101, 10000, 1, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000004, null, null, 1, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000005, null, null, 500, null, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000006, null, null, 1, 1, '*');
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null, null, null, 1, '*');
-</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);
-insert into B(id, groupby, search, padding) values (10001, null, 1, null);
-insert into B(id, groupby, search, padding) values (10002, 1, null, null);
-insert into B(id, groupby, search, padding) values (10003, 1, 1, null);
-</command_text>
-          </statement>
-          <statement>
-            <command_text>--Set id of both tables as a primary key
-alter table A alter column id set not null;
-alter table B alter column id set not null;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>alter table A add constraint pk_a_id primary key (id);
-alter table B add constraint pk_b_id primary key (id);</command_text>
-          </statement>
-        </statements>
-      </specific_statement_list>
-      <specific_statement_list>
-        <provider_name>MySQL</provider_name>
-        <statements>
-          <statement>
-            <command_text>DROP TABLE IF EXISTS A;
-</command_text>
-          </statement>
-          <statement>
-            <command_text> 
-DROP TABLE IF EXISTS B;
- </command_text>
-          </statement>
-          <statement>
-            <command_text> 
-/*Create table A (id int, groupby int, orderby int, fkb int, search int, padding varchar())*/
-CREATE  TABLE A(id int not null primary key, groupby int null, orderby int null, fkb int null, search int null, padding varchar(1000) null)  AS
-WITH x AS 
-(
-  SELECT 0 n FROM dual
-  union all 
-  SELECT 1 FROM dual
-  union all 
-  SELECT 2 FROM dual
-  union all 
-  SELECT 3 FROM dual
-  union all 
-  SELECT 4 FROM dual
-  union all 
-  SELECT 5 FROM dual
-  union all 
-  SELECT 6 FROM dual
-  union all 
-  SELECT 7 FROM dual
-  union all 
-  SELECT 8 FROM dual
-  union all 
-  SELECT 9 FROM dual  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands,       x tenthousands,       x hundredthousands
-), t2 AS
-(
-    SELECT  id,
-            mod(id, 100) groupby
-    FROM t1
-), t3 AS
-(
-    SELECT  b.id, b.groupby, row_number() over (partition by b.groupby order by b.id) orderby
-    FROM t2 b
-)
-SELECT  cast(id as unsigned) id, 
-        cast(groupby as unsigned) groupby, 
-        cast(orderby as unsigned) orderby,
-        cast(mod(orderby, 9173) as unsigned) fkb, 
-        cast(mod(id, 911) as unsigned) search, 
-        RPAD(concat('Value ', id), 1000, '*') as padding   
-FROM t3;
-
-
-
-</command_text>
-          </statement>
-          <statement>
-            <command_text>/*Create table B (id int, groupby int, search int, padding varchar())*/
-CREATE  TABLE B(id int not null primary key, groupby int null, search int null, padding varchar(1000) null) AS
-WITH x AS 
-(
-  SELECT 0 n FROM dual
-  union all 
-  SELECT 1 FROM dual
-  union all 
-  SELECT 2 FROM dual
-  union all 
-  SELECT 3 FROM dual
-  union all 
-  SELECT 4 FROM dual
-  union all 
-  SELECT 5 FROM dual
-  union all 
-  SELECT 6 FROM dual
-  union all 
-  SELECT 7 FROM dual
-  union all 
-  SELECT 8 FROM dual
-  union all 
-  SELECT 9 FROM dual  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands       
-)
-SELECT  cast(id as unsigned) id,
-        cast(mod(id + floor(100000 / (id+1)) , 100) as unsigned) groupby,
-        cast(mod(id, 901) as unsigned) search, 
-        RPAD(concat('Value ', id), 1000, '*') as padding
-FROM t1;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>/*insert of some outlier data*/
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000000, null, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000001, 100, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000002, 99, 10000, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000003, 101, 10000, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000004, null, null, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000005, null, null, 500, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000006, null, null, 1, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null, null, null, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10001, null, 1, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10002, 1, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10003, 1, 1, null);</command_text>
-          </statement>
-        </statements>
-      </specific_statement_list>
-      <specific_statement_list>
-        <provider_name>H2</provider_name>
-        <statements>
-          <statement>
-            <command_text>DROP TABLE IF EXISTS a;</command_text>
-          </statement>
-          <statement>
-            <command_text>DROP TABLE IF EXISTS b;</command_text>
-          </statement>
-          <statement>
-            <command_text>CREATE  TABLE A(id int not null primary key, groupby int null, orderby int null, fkb int null, search int null, padding varchar(1000) null)  AS
-WITH x AS
-(
-  SELECT 0 n FROM dual
-  union all
-  SELECT 1 FROM dual
-  union all
-  SELECT 2 FROM dual
-  union all
-  SELECT 3 FROM dual
-  union all
-  SELECT 4 FROM dual
-  union all
-  SELECT 5 FROM dual
-  union all
-  SELECT 6 FROM dual
-  union all
-  SELECT 7 FROM dual
-  union all
-  SELECT 8 FROM dual
-  union all
-  SELECT 9 FROM dual
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n as id
-  FROM x ones,     x tens,      x hundreds,       x thousands,       x tenthousands,       x hundredthousands
-), t2 AS
-(
-    SELECT  id,
-            mod(id, 100) groupby
-    FROM t1
-), t3 AS
-(
-    SELECT  b.id, b.groupby, row_number() over (partition by b.groupby order by b.id) orderby
-    FROM t2 b
-)
-SELECT  cast(id as int) id,
-        cast(groupby as int) groupby,
-        cast(orderby as int) orderby,
-        cast(mod(orderby, 9173) as int) fkb,
-        cast(mod(id, 911) as int) search,
-        RPAD(concat('Value ', id), 1000, '*') as padding
-FROM t3;</command_text>
-          </statement>
-          <statement>
-            <command_text>CREATE  TABLE B(id int not null primary key, groupby int null, search int null, padding varchar(1000) null) AS
-WITH x AS 
-(
-  SELECT 0 n FROM dual
-  union all 
-  SELECT 1 FROM dual
-  union all 
-  SELECT 2 FROM dual
-  union all 
-  SELECT 3 FROM dual
-  union all 
-  SELECT 4 FROM dual
-  union all 
-  SELECT 5 FROM dual
-  union all 
-  SELECT 6 FROM dual
-  union all 
-  SELECT 7 FROM dual
-  union all 
-  SELECT 8 FROM dual
-  union all 
-  SELECT 9 FROM dual  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands       
-)
-SELECT  cast(id as int) id,
-        cast(mod(id + floor(100000 / (id+1)) , 100) as int) groupby,
-        cast(mod(id, 901) as int) search, 
-        RPAD(concat('Value ', id), 1000, '*') as padding
-FROM t1;</command_text>
-          </statement>
-          <statement>
-            <command_text>/*insert of some outlier data*/
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000000, null, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000001, 100, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000002, 99, 10000, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000003, 101, 10000, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000004, null, null, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000005, null, null, 500, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000006, null, null, 1, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null, null, null, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10001, null, 1, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10002, 1, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10003, 1, 1, null);</command_text>
-          </statement>
-        </statements>
-      </specific_statement_list>
-      <specific_statement_list>
-        <provider_name>Firebird</provider_name>
-        <statements>
-          <statement>
-            <command_text>CREATE TABLE A (
-    id int primary key,
-    groupby int,
-    orderby int,
-    fkb int,
-    search int,
-    padding varchar(1000)
-);
-</command_text>
-          </statement>
-          <statement>
-            <command_text>CREATE TABLE B (
-    id int primary key,
-    groupby int,
-    search int,
-    padding varchar(1000)
-);
-</command_text>
-          </statement>
-          <statement>
-            <command_text>INSERT INTO A 
-WITH x AS 
-(
-  SELECT 0 n FROM RDB$DATABASE
-  union all 
-  SELECT 1 FROM RDB$DATABASE
-  union all 
-  SELECT 2 FROM RDB$DATABASE
-  union all 
-  SELECT 3 FROM RDB$DATABASE
-  union all 
-  SELECT 4 FROM RDB$DATABASE
-  union all 
-  SELECT 5 FROM RDB$DATABASE
-  union all 
-  SELECT 6 FROM RDB$DATABASE
-  union all 
-  SELECT 7 FROM RDB$DATABASE
-  union all 
-  SELECT 8 FROM RDB$DATABASE
-  union all 
-  SELECT 9 FROM RDB$DATABASE  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands,       x tenthousands,       x hundredthousands
-), t2 AS
-(
-    SELECT  id,
-            mod(id, 100) groupby
-    FROM t1
-), t3 AS
-(
-    SELECT  b.id, b.groupby, row_number() over (partition by b.groupby order by b.id) orderby
-    FROM t2 b
-)
-SELECT  cast(id as int) id, 
-        cast(groupby as int) groupby, 
-        cast(orderby as int) orderby,
-        cast(mod(orderby, 9173) as int) fkb, 
-        cast(mod(id, 911) as int) search, 
-        RPAD('Value ' || id, 1000, '*') as padding   
-FROM t3;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>INSERT INTO B
-WITH x AS 
-(
-  SELECT 0 n FROM  RDB$DATABASE
-  union all 
-  SELECT 1 FROM  RDB$DATABASE
-  union all 
-  SELECT 2 FROM  RDB$DATABASE
-  union all 
-  SELECT 3 FROM  RDB$DATABASE
-  union all 
-  SELECT 4 FROM  RDB$DATABASE
-  union all 
-  SELECT 5 FROM  RDB$DATABASE
-  union all 
-  SELECT 6 FROM  RDB$DATABASE
-  union all 
-  SELECT 7 FROM  RDB$DATABASE
-  union all 
-  SELECT 8 FROM  RDB$DATABASE
-  union all 
-  SELECT 9 FROM  RDB$DATABASE  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands       
-)
-SELECT  cast(id as int) id,
-        cast(mod(id + floor(100000 / (id+1)) , 100) as int) groupby,
-        cast(mod(id, 901) as int) search, 
-        RPAD('Value ' || id, 1000, '*') as padding
-FROM t1;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>/*insert of some outlier data*/
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000000, null, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000001, 100, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000002, 99, 10000, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000003, 101, 10000, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000004, null, null, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000005, null, null, 500, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000006, null, null, 1, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null, null, null, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10001, null, 1, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10002, 1, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10003, 1, 1, null);
-</command_text>
-          </statement>
-        </statements>
-      </specific_statement_list>
-      <specific_statement_list>
-        <provider_name>SQLite</provider_name>
-        <statements>
-          <statement>
-            <command_text>DROP TABLE IF EXISTS A;
-</command_text>
-          </statement>
-          <statement>
-            <command_text> 
-DROP TABLE IF EXISTS B;
- </command_text>
-          </statement>
-          <statement>
-            <command_text>PRAGMA cache_size = 2000000
-</command_text>
-          </statement>
-          <statement>
-            <command_text> 
-/*Create table A (id int, groupby int, orderby int, fkb int, search int, padding varchar())*/
-CREATE  TABLE A AS
-WITH x AS 
-(
-  SELECT 0 AS n
-  union all 
-  SELECT 1
-  union all 
-  SELECT 2
-  union all 
-  SELECT 3
-  union all 
-  SELECT 4
-  union all 
-  SELECT 5
-  union all 
-  SELECT 6
-  union all 
-  SELECT 7
-  union all 
-  SELECT 8
-  union all 
-  SELECT 9 
-)
-, t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n + 10000 * tenthousands.n + 100000 * hundredthousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands,       x tenthousands,       x hundredthousands
-)
-, t2 AS
-(
-    SELECT  id,
-    id % 100 groupby
-    FROM t1
-), t3 AS
-(
-    SELECT  b.id, b.groupby, row_number() over (partition by b.groupby order by b.id) orderby
-    FROM t2 b
-)
-SELECT  cast(id as unsigned) id, 
-        cast(groupby as unsigned) groupby, 
-        cast(orderby as unsigned) orderby,
-        cast(orderby % 9173 as unsigned) fkb, 
-        cast(id % 911 as unsigned) search, 
-        SUBSTR('Value ' || id || printf('%.' || 1000 || 'c', '*'), 1, 1000) as padding   
-FROM t3;
-
-
-</command_text>
-          </statement>
-          <statement>
-            <command_text>/*Create table B (id int, groupby int, search int, padding varchar())*/
-CREATE  TABLE B AS
-WITH x AS 
-(
-  SELECT 0 n
-  union all 
-  SELECT 1
-  union all 
-  SELECT 2
-  union all 
-  SELECT 3
-  union all 
-  SELECT 4
-  union all 
-  SELECT 5
-  union all 
-  SELECT 6
-  union all 
-  SELECT 7
-  union all 
-  SELECT 8
-  union all 
-  SELECT 9  
-), t1 AS
-(
-  SELECT ones.n + 10 * tens.n + 100 * hundreds.n + 1000 * thousands.n as id  
-  FROM x ones,     x tens,      x hundreds,       x thousands       
-)
-SELECT  cast(id as unsigned) id,
-        cast(((id + floor(100000 / (id+1))) % 100) as unsigned) groupby,
-        cast((id % 901) as unsigned) search, 
-        SUBSTR('Value ' || id || printf('%.' || 1000 || 'c', '*'), 1, 1000) as padding
-FROM t1;
-</command_text>
-          </statement>
-          <statement>
-            <command_text>/*insert of some outlier data*/
-insert into A(id, groupby, orderby, fkb, search, padding) values (1000000, null, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000001, 100, null, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000002, 99, 10000, null, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000003, 101, 10000, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000004, null, null, 1, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000005, null, null, 500, null, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000006, null, null, 1, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into A(id, groupby, orderby, fkb, search, padding) values (1000007, null, null, null, 1, '*');</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10000, null, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10001, null, 1, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10002, 1, null, null);</command_text>
-          </statement>
-          <statement>
-            <command_text>insert into B(id, groupby, search, padding) values (10003, 1, 1, null);</command_text>
-          </statement>
-        </statements>
-      </specific_statement_list>
-    </specific_statement_lists>
-  </init_script>
-  <clean_up_script>
-    <default_statement_list>
-      <statements>
-        <statement>
-          <command_text>DROP TABLE IF EXISTS A;
-</command_text>
-        </statement>
-        <statement>
-          <command_text> 
-DROP TABLE IF EXISTS B;
- </command_text>
-        </statement>
-      </statements>
-    </default_statement_list>
-    <specific_statement_lists>
-      <specific_statement_list>
-        <provider_name>Microsoft SQL Server</provider_name>
-        <statements>
-          <statement>
-            <command_text>IF OBJECT_ID('dbo.TestTable', 'U') IS NOT NULL DROP TABLE dbo.TestTable</command_text>
-          </statement>
-        </statements>
-      </specific_statement_list>
-      <specific_statement_list>
-        <provider_name>Oracle Database</provider_name>
-        <statements>
-          <statement>
-            <command_text>BEGIN
-   EXECUTE IMMEDIATE 'DROP TABLE TestTable';
-EXCEPTION
-   WHEN OTHERS THEN
-      IF SQLCODE != -942 THEN
-         RAISE;
-      END IF;
-END;
-</command_text>
+END;</command_text>
           </statement>
         </statements>
       </specific_statement_list>
@@ -983,8 +1281,7 @@ END;
 </command_text>
           </statement>
           <statement>
-            <command_text> 
-DROP TABLE IF EXISTS B;
+            <command_text>DROP TABLE IF EXISTS B;
  </command_text>
           </statement>
         </statements>
@@ -993,10 +1290,23 @@ DROP TABLE IF EXISTS B;
         <provider_name>H2</provider_name>
         <statements>
           <statement>
-            <command_text>DROP TABLE IF EXISTS a;</command_text>
+            <command_text>DROP TABLE IF EXISTS A;
+</command_text>
           </statement>
           <statement>
-            <command_text>DROP TABLE IF EXISTS b;</command_text>
+            <command_text>DROP TABLE IF EXISTS B;</command_text>
+          </statement>
+        </statements>
+      </specific_statement_list>
+      <specific_statement_list>
+        <provider_name>SQLite</provider_name>
+        <statements>
+          <statement>
+            <command_text>DROP TABLE IF EXISTS A;
+</command_text>
+          </statement>
+          <statement>
+            <command_text>DROP TABLE IF EXISTS B;</command_text>
           </statement>
         </statements>
       </specific_statement_list>
@@ -4258,39 +4568,13 @@ GROUP BY B.id, B.groupby, B.search, B.padding</command_text>
             <default_statement_list>
               <statements />
             </default_statement_list>
-            <specific_statement_lists>
-              <specific_statement_list>
-                <provider_name>Microsoft SQL Server</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>Oracle Database</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>PostgreSQL</provider_name>
-                <statements />
-              </specific_statement_list>
-            </specific_statement_lists>
+            <specific_statement_lists />
           </init_script>
           <clean_up_script>
             <default_statement_list>
               <statements />
             </default_statement_list>
-            <specific_statement_lists>
-              <specific_statement_list>
-                <provider_name>Microsoft SQL Server</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>Oracle Database</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>PostgreSQL</provider_name>
-                <statements />
-              </specific_statement_list>
-            </specific_statement_lists>
+            <specific_statement_lists />
           </clean_up_script>
         </configuration>
         <configuration>
@@ -4356,19 +4640,19 @@ ON A (search, fkb)
             <default_statement_list>
               <statements>
                 <statement>
-                  <command_text>drop index ix_A_fkb
+                  <command_text>DROP INDEX ix_A_fkb;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_search
+                  <command_text>DROP INDEX ix_A_search;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_B_search
+                  <command_text>DROP INDEX ix_B_search;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_search_fkb
+                  <command_text>DROP INDEX ix_A_search_fkb;
 </command_text>
                 </statement>
               </statements>
@@ -4378,20 +4662,19 @@ ON A (search, fkb)
                 <provider_name>Microsoft SQL Server</provider_name>
                 <statements>
                   <statement>
-                    <command_text>-- drop the indexes
-drop index A.ix_A_fkb
+                    <command_text>DROP INDEX A.ix_A_fkb;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_search
+                    <command_text>DROP INDEX A.ix_A_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index B.ix_B_search
+                    <command_text>DROP INDEX B.ix_B_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_search_fkb
+                    <command_text>DROP INDEX A.ix_A_search_fkb;
 
 </command_text>
                   </statement>
@@ -4401,19 +4684,19 @@ drop index A.ix_A_fkb
                 <provider_name>MySQL</provider_name>
                 <statements>
                   <statement>
-                    <command_text>alter table A drop index ix_A_fkb
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_fkb;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A  drop index ix_A_search
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table B drop index ix_B_search
+                    <command_text>ALTER TABLE B DROP INDEX ix_B_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A drop index ix_A_search_fkb</command_text>
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_search_fkb;</command_text>
                   </statement>
                 </statements>
               </specific_statement_list>
@@ -5234,8 +5517,7 @@ WHERE
 FROM B
 WHERE
     $PBsearch AND
-    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
-$Orderby</command_text>
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)</command_text>
               </default_statement>
               <specific_statements>
                 <specific_statement>
@@ -5252,8 +5534,7 @@ $Orderby</command_text>
 FROM B
 WHERE
     $PBsearch AND
-    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)
-$Orderby</command_text>
+    EXISTS (SELECT 1 FROM A WHERE A.fkb = B.id)</command_text>
                 </specific_statement>
                 <specific_statement>
                   <provider_name>MySQL</provider_name>
@@ -5586,20 +5867,7 @@ WHERE
             <default_statement_list>
               <statements />
             </default_statement_list>
-            <specific_statement_lists>
-              <specific_statement_list>
-                <provider_name>Microsoft SQL Server</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>Oracle Database</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>PostgreSQL</provider_name>
-                <statements />
-              </specific_statement_list>
-            </specific_statement_lists>
+            <specific_statement_lists />
           </init_script>
           <clean_up_script>
             <default_statement_list>
@@ -5660,15 +5928,15 @@ ON B (search)
             <default_statement_list>
               <statements>
                 <statement>
-                  <command_text>drop index ix_A_fkb
+                  <command_text>DROP INDEX ix_A_fkb;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_fkb_groupby
+                  <command_text>DROP INDEX ix_A_fkb_groupby;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_B_search
+                  <command_text>DROP INDEX ix_B_search;
 </command_text>
                 </statement>
               </statements>
@@ -5678,15 +5946,15 @@ ON B (search)
                 <provider_name>Microsoft SQL Server</provider_name>
                 <statements>
                   <statement>
-                    <command_text>drop index A.ix_A_fkb
+                    <command_text>DROP INDEX A.ix_A_fkb;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_fkb_groupby
+                    <command_text>DROP INDEX A.ix_A_fkb_groupby;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index B.ix_B_search
+                    <command_text>DROP INDEX B.ix_B_search;
 </command_text>
                   </statement>
                 </statements>
@@ -5695,15 +5963,15 @@ ON B (search)
                 <provider_name>MySQL</provider_name>
                 <statements>
                   <statement>
-                    <command_text>alter table A drop index ix_A_fkb
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_fkb;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A drop index ix_A_fkb_groupby
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_fkb_groupby;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table B drop index ix_B_search
+                    <command_text>ALTER TABLE B DROP INDEX ix_B_search;
 </command_text>
                   </statement>
                 </statements>
@@ -7553,39 +7821,13 @@ GROUP BY a1.groupby, t.cnt</command_text>
             <default_statement_list>
               <statements />
             </default_statement_list>
-            <specific_statement_lists>
-              <specific_statement_list>
-                <provider_name>Microsoft SQL Server</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>Oracle Database</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>PostgreSQL</provider_name>
-                <statements />
-              </specific_statement_list>
-            </specific_statement_lists>
+            <specific_statement_lists />
           </init_script>
           <clean_up_script>
             <default_statement_list>
               <statements />
             </default_statement_list>
-            <specific_statement_lists>
-              <specific_statement_list>
-                <provider_name>Microsoft SQL Server</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>Oracle Database</provider_name>
-                <statements />
-              </specific_statement_list>
-              <specific_statement_list>
-                <provider_name>PostgreSQL</provider_name>
-                <statements />
-              </specific_statement_list>
-            </specific_statement_lists>
+            <specific_statement_lists />
           </clean_up_script>
         </configuration>
         <configuration>
@@ -7633,32 +7875,32 @@ ON A (search, groupby, orderby)</command_text>
                 <statements>
                   <statement>
                     <command_text>CREATE NONCLUSTERED INDEX ix_A_fkb
-ON [dbo].[A] (fkb)
+ON A (fkb)
 </command_text>
                   </statement>
                   <statement>
                     <command_text>CREATE NONCLUSTERED INDEX ix_A_fkb_groupby
-ON [dbo].[A] (fkb, groupby)
+ON A (fkb, groupby)
 </command_text>
                   </statement>
                   <statement>
                     <command_text>CREATE NONCLUSTERED INDEX ix_A_search
-ON [dbo].[A] (search)
+ON A (search)
 </command_text>
                   </statement>
                   <statement>
                     <command_text>CREATE NONCLUSTERED INDEX ix_A_groupby_search
-ON [dbo].[A] (groupby, search)
+ON A (groupby, search)
 </command_text>
                   </statement>
                   <statement>
                     <command_text>CREATE NONCLUSTERED INDEX ix_A_search_groupby
-ON [dbo].[A] (search, groupby)
+ON A (search, groupby)
 </command_text>
                   </statement>
                   <statement>
                     <command_text>CREATE NONCLUSTERED INDEX ix_A_search_groupby_orderby
-ON [dbo].[A] (search, groupby, orderby)</command_text>
+ON A (search, groupby, orderby)</command_text>
                   </statement>
                 </statements>
               </specific_statement_list>
@@ -7668,27 +7910,27 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
             <default_statement_list>
               <statements>
                 <statement>
-                  <command_text>drop index ix_A_fkb
+                  <command_text>DROP INDEX ix_A_fkb;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_fkb_groupby
+                  <command_text>DROP INDEX ix_A_fkb_groupby;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_search
+                  <command_text>DROP INDEX ix_A_search;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_groupby_search
+                  <command_text>DROP INDEX ix_A_groupby_search;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_search_groupby
+                  <command_text>DROP INDEX ix_A_search_groupby;
 </command_text>
                 </statement>
                 <statement>
-                  <command_text>drop index ix_A_search_groupby_orderby
+                  <command_text>DROP INDEX ix_A_search_groupby_orderby;
 </command_text>
                 </statement>
               </statements>
@@ -7698,27 +7940,27 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
                 <provider_name>Microsoft SQL Server</provider_name>
                 <statements>
                   <statement>
-                    <command_text>drop index A.ix_A_fkb
+                    <command_text>DROP INDEX A.ix_A_fkb;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_fkb_groupby
+                    <command_text>DROP INDEX A.ix_A_fkb_groupby;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_search
+                    <command_text>DROP INDEX A.ix_A_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_groupby_search
+                    <command_text>DROP INDEX A.ix_A_groupby_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_search_groupby
+                    <command_text>DROP INDEX A.ix_A_search_groupby;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>drop index A.ix_A_search_groupby_orderby
+                    <command_text>DROP INDEX A.ix_A_search_groupby_orderby;
 </command_text>
                   </statement>
                 </statements>
@@ -7727,27 +7969,27 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
                 <provider_name>MySQL</provider_name>
                 <statements>
                   <statement>
-                    <command_text>alter table A drop index ix_A_fkb
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_fkb;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A drop index ix_A_fkb_groupby
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_fkb_groupby;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A drop index ix_A_search
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A drop index ix_A_groupby_search
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_groupby_search;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A drop index ix_A_search_groupby
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_search_groupby;
 </command_text>
                   </statement>
                   <statement>
-                    <command_text>alter table A drop index ix_A_search_groupby_orderby
+                    <command_text>ALTER TABLE A DROP INDEX ix_A_search_groupby_orderby;
 </command_text>
                   </statement>
                 </statements>
@@ -7759,9 +8001,9 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
     </test_group>
   </test_groups>
   <connection_settings>
-    <current_provider>SQLite</current_provider>
+    <current_provider>Microsoft SQL Server</current_provider>
     <providers>
-      <provider name="Microsoft SQL Server" use_connection_string="true" data_source="" initial_catalog="" integrated_security="true" user_id="" password="" connection_string="Server=bayer.cs.vsb.cz\SQLDB;Database=sqlbench;User Id=sqlbench;Password=n3cUmubsbo;timeout=300" disable_parallel_query_processing="true" />
+      <provider name="Microsoft SQL Server" use_connection_string="false" data_source="(local)" initial_catalog="Test" integrated_security="true" user_id="" password="" connection_string="Server=bayer.cs.vsb.cz\SQLDB;Database=sqlbench;User Id=sqlbench;Password=n3cUmubsbo;timeout=300" disable_parallel_query_processing="true" />
       <provider name="Oracle Database" use_connection_string="false" user_name="bac027" password="viy0QWuyCz" host_name="bayer.cs.vsb.cz" port="1521" s_id="oracle" connection_string="" command_timeout="300" disable_parallel_query_processing="true" />
       <provider name="PostgreSQL" use_connection_string="false" host="bayer.cs.vsb.cz" user_name="sqlbench" password="n3cUmubsbo" database="sqlbench" command_timeout="300" connection_string="" disable_parallel_query_processing="true" />
       <provider name="MySQL" use_connection_string="false" host_name="bayer.cs.vsb.cz" user_name="sqlbench" password="n3cUmubsbo" default_schema="sqlbench" connection_string="jdbc:mysql://bayer.cs.vsb.cz:3306/sqlbench" command_timeout="300" />
@@ -7900,14 +8142,14 @@ ON [dbo].[A] (search, groupby, orderby)</command_text>
     </annotation>
   </annotations>
   <test_run_settings>
-    <run_init_script>False</run_init_script>
-    <run_clean_up_script>False</run_clean_up_script>
-    <check_result_sizes>False</check_result_sizes>
-    <compare_results>False</compare_results>
-    <query_runs>3</query_runs>
-    <test_loops>3</test_loops>
+    <run_init_script>True</run_init_script>
+    <run_clean_up_script>True</run_clean_up_script>
+    <check_result_sizes>True</check_result_sizes>
+    <compare_results>True</compare_results>
+    <query_runs>1</query_runs>
+    <test_loops>1</test_loops>
     <close_on_complete>False</close_on_complete>
     <ignore_annotations />
   </test_run_settings>
-  <last_id>1025</last_id>
+  <last_id>1028</last_id>
 </sql_benchmark>
