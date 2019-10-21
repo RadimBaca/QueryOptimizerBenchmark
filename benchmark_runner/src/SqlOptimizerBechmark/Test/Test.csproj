@@ -66,9 +66,9 @@
       <Project>{c10d5c23-0122-4173-9033-7e491dda9e74}</Project>
       <Name>H2Sharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SqlOptimizerBechmark\SqlOptimizerBechmark.csproj">
+    <ProjectReference Include="..\SqlOptimizerBenchmark\SqlOptimizerBenchmark.csproj">
       <Project>{08d2fbc2-0d63-4510-87ef-fffc9323c15f}</Project>
-      <Name>SqlOptimizerBechmark</Name>
+      <Name>SqlOptimizerBenchmark</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

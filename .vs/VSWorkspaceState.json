@@ -5,11 +5,10 @@
     "\\benchmark_runner\\src",
     "\\benchmark_runner\\src\\SqlOptimizerBechmark",
     "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark",
-    "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\DbProviders",
-    "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\DbProviders\\MySql",
-    "\\benchmark_runner\\xml",
-    "\\mssql"
+    "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\Controls",
+    "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark\\Controls\\BenchmarkListView",
+    "\\benchmark_runner\\xml"
   ],
-  "SelectedNode": "\\benchmark_runner\\xml\\rewriting.xml",
+  "SelectedNode": "\\benchmark_runner\\src\\SqlOptimizerBechmark\\SqlOptimizerBechmark",
   "PreviewInSolutionExplorer": false
 }

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using SqlOptimizerBechmark.DbProviders;
+using SqlOptimizerBenchmark.DbProviders;
 
 namespace Test
 {
